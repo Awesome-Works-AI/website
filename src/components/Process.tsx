@@ -54,8 +54,8 @@ export function Process() {
 
         {/* Mobile Timeline View */}
         <div className="sm:hidden relative" style={{ marginRight: '1.5rem' }}>
-          {/* Vertical line */}
-          <div style={{ position: 'absolute', left: '1.75rem', top: '1.5rem', bottom: '1.5rem', width: '2px', background: 'linear-gradient(to bottom, var(--color-primary), var(--color-secondary))' }} />
+          {/* Vertical line - stops at last item center */}
+          <div style={{ position: 'absolute', left: '1.75rem', top: '1.75rem', height: 'calc(100% - 3.5rem)', width: '2px', background: 'linear-gradient(to bottom, var(--color-primary), var(--color-secondary))' }} />
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
             {steps.map((step, index) => (

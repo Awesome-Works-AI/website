@@ -2,6 +2,8 @@ import { Box, Button, Card, Flex, Text, TextArea, TextField, Theme } from '@radi
 import { AtSign, Building2, CheckCircle, Mail, Send, User } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { PhoneInput } from 'react-international-phone';
+import 'react-international-phone/style.css';
 
 export function Contact() {
   const { t } = useTranslation();
@@ -10,12 +12,20 @@ export function Contact() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    phone: '',
     company: '',
     message: '',
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Validate phone (PhoneInput doesn't support required natively)
+    if (!formData.phone || formData.phone.length < 8) {
+      alert('Proszę podać prawidłowy numer telefonu');
+      return;
+    }
+    
     setIsLoading(true);
 
     try {
@@ -29,7 +39,8 @@ export function Contact() {
           subject: `Nowa wiadomość od ${formData.name} - Awesome Works`,
           from_name: formData.name,
           email: formData.email,
-          company: formData.company || 'Nie podano',
+          company: formData.company,
+          phone: formData.phone,
           message: formData.message,
         }),
       });
@@ -38,7 +49,7 @@ export function Contact() {
         setIsSubmitted(true);
         setTimeout(() => {
           setIsSubmitted(false);
-          setFormData({ name: '', email: '', company: '', message: '' });
+          setFormData({ name: '', email: '', phone: '', company: '', message: '' });
         }, 3000);
       }
     } catch (error) {
@@ -53,7 +64,7 @@ export function Contact() {
   };
 
   return (
-    <section id="contact" style={{ minHeight: '100vh', overflow: 'auto' }} className="relative">
+    <section id="contact" style={{ minHeight: '100vh', overflow: 'auto', paddingBottom: '3rem' }} className="relative">
       <div style={{ maxWidth: '80rem', width: '100%', marginLeft: 'auto', marginRight: 'auto', paddingLeft: '2rem', paddingRight: '2rem' }}>
         <Theme appearance="dark" accentColor="iris" radius="large" style={{ background: 'transparent', paddingTop: '8rem' }}>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16">
@@ -141,10 +152,47 @@ export function Contact() {
                       </TextField.Root>
                     </Box>
 
+                    {/* Phone field */}
+                    <Box>
+                      <Text as="label" size="2" weight="medium" style={{ display: 'block', marginBottom: '0.5rem', color: 'white' }}>
+                        {t('contact.form.phone')} *
+                      </Text>
+                      <PhoneInput
+                        defaultCountry="pl"
+                        value={formData.phone}
+                        onChange={(phone) => setFormData({ ...formData, phone })}
+                        inputStyle={{
+                          background: 'var(--color-background)',
+                          border: '1px solid rgba(99, 102, 241, 0.3)',
+                          borderRadius: '0 8px 8px 0',
+                          color: 'white',
+                          fontSize: '0.95rem',
+                          height: '40px',
+                          width: '100%',
+                        }}
+                        countrySelectorStyleProps={{
+                          buttonStyle: {
+                            background: 'var(--color-background)',
+                            border: '1px solid rgba(99, 102, 241, 0.3)',
+                            borderRadius: '8px 0 0 8px',
+                            height: '40px',
+                            padding: '0 8px',
+                          },
+                          dropdownStyleProps: {
+                            style: {
+                              background: 'var(--color-background)',
+                              border: '1px solid rgba(99, 102, 241, 0.3)',
+                              color: 'white',
+                            },
+                          },
+                        }}
+                      />
+                    </Box>
+
                     {/* Company field */}
                     <Box>
                       <Text as="label" size="2" weight="medium" style={{ display: 'block', marginBottom: '0.5rem', color: 'white' }}>
-                        {t('contact.form.company')}
+                        {t('contact.form.company')} *
                       </Text>
                       <TextField.Root
                         size="3"
@@ -152,6 +200,7 @@ export function Contact() {
                         name="company"
                         value={formData.company}
                         onChange={handleChange}
+                        required
                         style={{ background: 'var(--color-background)' }}
                       >
                         <TextField.Slot>
@@ -163,7 +212,7 @@ export function Contact() {
                     {/* Message field */}
                     <Box>
                       <Text as="label" size="2" weight="medium" style={{ display: 'block', marginBottom: '0.5rem', color: 'white' }}>
-                        {t('contact.form.message')} *
+                        {t('contact.form.message')} * <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>(min. 10 znaków)</span>
                       </Text>
                       <TextArea
                         size="3"
@@ -172,6 +221,7 @@ export function Contact() {
                         value={formData.message}
                         onChange={handleChange}
                         required
+                        minLength={10}
                         rows={4}
                         style={{ background: 'var(--color-background)' }}
                       />
@@ -191,7 +241,6 @@ export function Contact() {
                     >
                       <Send size={18} />
                       {isLoading ? 'Wysyłanie...' : t('contact.form.submit')}
-                    </Button>
                     </Button>
                   </Flex>
                 </form>

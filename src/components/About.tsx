@@ -8,8 +8,8 @@ export function About() {
       <div style={{ maxWidth: '80rem', marginLeft: 'auto', marginRight: 'auto', paddingLeft: '1.5rem', paddingRight: '1.5rem' }}>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           {/* Left side - Photos */}
-          <div className="relative mb-8 lg:mb-0 order-2 lg:order-1 flex justify-center lg:block">
-            <div className="grid grid-cols-2 gap-4 sm:gap-6 max-w-md">
+          <div className="relative mb-8 lg:mb-0 order-2 lg:order-1 flex justify-center">
+            <div className="grid grid-cols-2 gap-4 sm:gap-6 max-w-lg mx-auto">
               <div style={{ position: 'relative', borderRadius: '1.5rem', overflow: 'hidden', aspectRatio: '3/4' }}>
                 <img
                   src="/20241017_142110.jpg"
