@@ -1,4 +1,9 @@
 {
+  "seo": {
+    "title": "Awesome Works AI - Rozwiązania AI dla Biznesu | Chatboty, Automatyzacja, Agenci AI",
+    "description": "Budujemy AI, które pracuje za Ciebie. Chatboty, agenci AI i automatyzacja procesów dla firm, które chcą oszczędzać czas i pieniądze. Bezpłatna konsultacja.",
+    "keywords": "AI, sztuczna inteligencja, chatboty, automatyzacja, agenci AI, automatyzacja biznesu, konsulting AI, uczenie maszynowe, optymalizacja procesów"
+  },
   "nav": {
     "home": "Start",
     "services": "Usługi",
@@ -73,7 +78,7 @@
   "about": {
     "title": "O nas",
     "heading": "Founder",
-    "intro": "Cześć! Jestem założycielem Awesome Works.",
+    "intro": "Cześć! Jestem założycielem Awesome Works AI.",
     "experience": "Od 6 lat działam w branży technologicznej, a od ponad 3 lat specjalizuję się w",
     "description": "Tworzę systemy, które usprawniają pracę firm — automatyzują rutynowe zadania, zwiększają efektywność i redukują koszty operacyjne."
   },

@@ -1,4 +1,9 @@
 {
+  "seo": {
+    "title": "Awesome Works AI - AI Solutions for Business | Chatbots, Automation, AI Agents",
+    "description": "We build AI that works for you. Chatbots, AI agents, and process automation for companies that want to save time and money. Free consultation.",
+    "keywords": "AI, artificial intelligence, chatbots, automation, AI agents, business automation, AI consulting, machine learning, process optimization"
+  },
   "nav": {
     "home": "Home",
     "services": "Services",
@@ -73,7 +78,7 @@
   "about": {
     "title": "About",
     "heading": "Founder",
-    "intro": "Hi! I'm the founder of Awesome Works.",
+    "intro": "Hi! I'm the founder of Awesome Works AI.",
     "experience": "I have 6 years of experience in the tech industry, with over 3 years specializing in",
     "description": "I create systems that streamline business operations — automating routine tasks, increasing efficiency, and reducing operational costs."
   },

@@ -36,7 +36,7 @@ export function Contact() {
         },
         body: JSON.stringify({
           access_key: '96db43d4-48ed-482a-9186-a1527a1b7833',
-          subject: `Nowa wiadomość od ${formData.name} - Awesome Works`,
+          subject: `Nowa wiadomość od ${formData.name} - Awesome Works AI`,
           from_name: formData.name,
           email: formData.email,
           company: formData.company,

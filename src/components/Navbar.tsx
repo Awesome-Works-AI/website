@@ -1,9 +1,11 @@
 import { ChevronDown, Globe, Menu, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 
 export function Navbar() {
   const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
@@ -17,7 +19,8 @@ export function Navbar() {
   }, []);
 
   const toggleLanguage = () => {
-    i18n.changeLanguage(i18n.language === 'pl' ? 'en' : 'pl');
+    const newLang = i18n.language === 'pl' ? 'en' : 'pl';
+    navigate(`/${newLang}`);
   };
 
   const scrollTo = (id: string) => {

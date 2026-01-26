@@ -12,14 +12,14 @@ export function About() {
             <div className="grid grid-cols-2 gap-4 sm:gap-6 max-w-lg mx-auto">
               <div style={{ position: 'relative', borderRadius: '1.5rem', overflow: 'hidden', aspectRatio: '3/4' }}>
                 <img
-                  src="/20241017_142110.jpg"
+                  src="/rlazicki_pic_2.jpg"
                   alt="Rafał - founder"
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
               </div>
               <div style={{ position: 'relative', borderRadius: '1.5rem', overflow: 'hidden', aspectRatio: '3/4', marginTop: '2rem' }}>
                 <img
-                  src="/IMG_0768.jpg"
+                  src="/rlazicki_pic_1.jpg"
                   alt="Rafał - AI consultant"
                   style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 15%', transform: 'scale(1.2)' }}
                 />
