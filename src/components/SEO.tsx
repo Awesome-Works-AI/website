@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 
 interface SEOProps {
@@ -14,147 +13,147 @@ export function SEO({ titleKey = 'seo.title', descriptionKey = 'seo.description'
   
   const title = t(titleKey);
   const description = t(descriptionKey);
-  const canonicalUrl = `${baseUrl}/${currentLang}`;
-  const alternateLanguages = ['pl', 'en'];
+  const keywords = t('seo.keywords');
 
-  // Fallback: directly update document title and lang (in case Helmet doesn't work with React 19)
   useEffect(() => {
+    // Update document title and lang
     document.title = title;
     document.documentElement.lang = currentLang;
     
-    // Update meta description
-    const metaDescription = document.querySelector('meta[name="description"]');
-    if (metaDescription) {
-      metaDescription.setAttribute('content', description);
-    }
-  }, [title, description, currentLang]);
+    // Helper to update or create meta tag
+    const updateMeta = (selector: string, content: string, attr = 'content') => {
+      let meta = document.querySelector(selector) as HTMLMetaElement | null;
+      if (meta) {
+        meta.setAttribute(attr, content);
+      } else {
+        meta = document.createElement('meta');
+        const [attrName, attrValue] = selector.replace(/[\[\]'"]/g, '').split('=');
+        if (attrName.startsWith('property')) {
+          meta.setAttribute('property', attrValue);
+        } else {
+          meta.setAttribute('name', attrValue);
+        }
+        meta.setAttribute(attr, content);
+        document.head.appendChild(meta);
+      }
+    };
 
-  return (
-    <Helmet>
-      {/* Basic meta tags */}
-      <html lang={currentLang} />
-      <title>{title}</title>
-      <meta name="description" content={description} />
-      <link rel="canonical" href={canonicalUrl} />
+    // Helper to update or create link tag
+    const updateLink = (rel: string, href: string, hreflang?: string) => {
+      const selector = hreflang 
+        ? `link[rel="${rel}"][hreflang="${hreflang}"]`
+        : `link[rel="${rel}"]:not([hreflang])`;
+      let link = document.querySelector(selector) as HTMLLinkElement | null;
+      if (link) {
+        link.href = href;
+      } else {
+        link = document.createElement('link');
+        link.rel = rel;
+        link.href = href;
+        if (hreflang) link.hreflang = hreflang;
+        document.head.appendChild(link);
+      }
+    };
 
-      {/* Hreflang tags for language alternatives */}
-      {alternateLanguages.map((lang) => (
-        <link
-          key={lang}
-          rel="alternate"
-          hrefLang={lang}
-          href={`${baseUrl}/${lang}`}
-        />
-      ))}
-      <link rel="alternate" hrefLang="x-default" href={`${baseUrl}/pl`} />
+    // Basic meta tags
+    updateMeta('meta[name="description"]', description);
+    updateMeta('meta[name="keywords"]', keywords);
+    updateMeta('meta[name="author"]', 'Awesome Works AI');
+    updateMeta('meta[name="robots"]', 'index, follow');
 
-      {/* Open Graph / Facebook */}
-      <meta property="og:type" content="website" />
-      <meta property="og:url" content={canonicalUrl} />
-      <meta property="og:title" content={title} />
-      <meta property="og:description" content={description} />
-      <meta property="og:image" content={`${baseUrl}/og-image.png`} />
-      <meta property="og:locale" content={currentLang === 'pl' ? 'pl_PL' : 'en_US'} />
-      <meta property="og:site_name" content="Awesome Works AI" />
+    // Canonical URL
+    updateLink('canonical', `${baseUrl}/${currentLang}`);
 
-      {/* Twitter */}
-      <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:url" content={canonicalUrl} />
-      <meta name="twitter:title" content={title} />
-      <meta name="twitter:description" content={description} />
-      <meta name="twitter:image" content={`${baseUrl}/og-image.png`} />
+    // Open Graph
+    updateMeta('meta[property="og:type"]', 'website');
+    updateMeta('meta[property="og:url"]', `${baseUrl}/${currentLang}`);
+    updateMeta('meta[property="og:title"]', title);
+    updateMeta('meta[property="og:description"]', description);
+    updateMeta('meta[property="og:image"]', `${baseUrl}/og-image.png`);
+    updateMeta('meta[property="og:locale"]', currentLang === 'pl' ? 'pl_PL' : 'en_US');
+    updateMeta('meta[property="og:site_name"]', 'Awesome Works AI');
 
-      {/* Additional SEO */}
-      <meta name="robots" content="index, follow" />
-      <meta name="author" content="Awesome Works AI" />
-      <meta name="keywords" content={t('seo.keywords')} />
+    // Twitter
+    updateMeta('meta[name="twitter:card"]', 'summary_large_image');
+    updateMeta('meta[name="twitter:url"]', `${baseUrl}/${currentLang}`);
+    updateMeta('meta[name="twitter:title"]', title);
+    updateMeta('meta[name="twitter:description"]', description);
+    updateMeta('meta[name="twitter:image"]', `${baseUrl}/og-image.png`);
 
-      {/* Structured Data - Organization */}
-      <script type="application/ld+json">
-        {JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "Organization",
-          "name": "Awesome Works AI",
-          "url": baseUrl,
-          "logo": `${baseUrl}/logo.png`,
-          "image": `${baseUrl}/og-image.png`,
-          "description": description,
-          "email": "hello@awesomeworks.ai",
-          "sameAs": [],
-          "address": {
-            "@type": "PostalAddress",
-            "addressCountry": "PL"
-          },
-          "contactPoint": {
-            "@type": "ContactPoint",
-            "email": "hello@awesomeworks.ai",
-            "contactType": "customer service",
-            "availableLanguage": ["Polish", "English"]
-          }
-        })}
-      </script>
+    // Structured Data - Organization
+    const orgSchema = {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Awesome Works AI",
+      "url": baseUrl,
+      "logo": `${baseUrl}/logo.png`,
+      "image": `${baseUrl}/og-image.png`,
+      "description": description,
+      "email": "hello@awesomeworks.ai",
+      "sameAs": [],
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "PL"
+      },
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "email": "hello@awesomeworks.ai",
+        "contactType": "customer service",
+        "availableLanguage": ["Polish", "English"]
+      }
+    };
 
-      {/* Structured Data - WebSite with SearchAction */}
-      <script type="application/ld+json">
-        {JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "WebSite",
-          "name": "Awesome Works AI",
-          "url": baseUrl,
-          "inLanguage": ["pl", "en"]
-        })}
-      </script>
+    // Structured Data - WebSite
+    const websiteSchema = {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Awesome Works AI",
+      "url": baseUrl,
+      "inLanguage": ["pl", "en"]
+    };
 
-      {/* Structured Data - Service */}
-      <script type="application/ld+json">
-        {JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "Service",
-          "serviceType": "AI Consulting & Automation",
-          "provider": {
-            "@type": "Organization",
-            "name": "Awesome Works AI"
-          },
-          "areaServed": {
-            "@type": "Country",
-            "name": "Poland"
-          },
-          "hasOfferCatalog": {
-            "@type": "OfferCatalog",
-            "name": "AI Services",
-            "itemListElement": [
-              {
-                "@type": "Offer",
-                "itemOffered": {
-                  "@type": "Service",
-                  "name": "AI Consulting"
-                }
-              },
-              {
-                "@type": "Offer",
-                "itemOffered": {
-                  "@type": "Service",
-                  "name": "Chatbots"
-                }
-              },
-              {
-                "@type": "Offer",
-                "itemOffered": {
-                  "@type": "Service",
-                  "name": "AI Agents"
-                }
-              },
-              {
-                "@type": "Offer",
-                "itemOffered": {
-                  "@type": "Service",
-                  "name": "Process Automation"
-                }
-              }
-            ]
-          }
-        })}
-      </script>
-    </Helmet>
-  );
+    // Structured Data - Service
+    const serviceSchema = {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "serviceType": "AI Consulting & Automation",
+      "provider": {
+        "@type": "Organization",
+        "name": "Awesome Works AI"
+      },
+      "areaServed": {
+        "@type": "Country",
+        "name": "Poland"
+      },
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "AI Services",
+        "itemListElement": [
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "AI Consulting" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Chatbots" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "AI Agents" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Process Automation" } }
+        ]
+      }
+    };
+
+    // Helper to add/update JSON-LD script
+    const updateJsonLd = (id: string, data: object) => {
+      let script = document.getElementById(id) as HTMLScriptElement | null;
+      if (!script) {
+        script = document.createElement('script');
+        script.id = id;
+        script.type = 'application/ld+json';
+        document.head.appendChild(script);
+      }
+      script.textContent = JSON.stringify(data);
+    };
+
+    updateJsonLd('schema-org', orgSchema);
+    updateJsonLd('schema-website', websiteSchema);
+    updateJsonLd('schema-service', serviceSchema);
+
+  }, [title, description, keywords, currentLang, baseUrl]);
+
+  return null;
 }
