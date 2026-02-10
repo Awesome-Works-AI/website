@@ -51,20 +51,21 @@ src/
 
 ## Color Palette
 
-| Color | Hex | Usage |
-|-------|-----|-------|
-| Primary | `#6366F1` | Indigo/purple accent |
-| Secondary | `#10B981` | Emerald/green accent |
-| Background | `#0F0F1A` | Dark background |
-| Surface | `#1A1A2E` | Cards, sections |
-| Text | `#F8FAFC` | Main text |
-| Text Muted | `#94A3B8` | Secondary text |
+| Color      | Hex       | Usage                |
+| ---------- | --------- | -------------------- |
+| Primary    | `#6366F1` | Indigo/purple accent |
+| Secondary  | `#10B981` | Emerald/green accent |
+| Background | `#0F0F1A` | Dark background      |
+| Surface    | `#1A1A2E` | Cards, sections      |
+| Text       | `#F8FAFC` | Main text            |
+| Text Muted | `#94A3B8` | Secondary text       |
 
-## Author
+## Authors
 
 **Rafał Łazicki** - Founder @ Awesome Works
+**Tymoteusz Tymendorf** - Worker @ Awesome Works
+**Filip Karpiński** - Worker @ Awesome Works
 
 ---
 
 Built with 💜 and AI
-

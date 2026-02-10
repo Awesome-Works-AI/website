@@ -80,7 +80,20 @@
     "heading": "Founder",
     "intro": "Cześć! Jestem założycielem Awesome Works AI.",
     "experience": "Od 6 lat działam w branży technologicznej, a od ponad 3 lat specjalizuję się w",
-    "description": "Tworzę systemy, które usprawniają pracę firm — automatyzują rutynowe zadania, zwiększają efektywność i redukują koszty operacyjne."
+    "description": "Tworzę systemy, które usprawniają pracę firm — automatyzują rutynowe zadania, zwiększają efektywność i redukują koszty operacyjne.",
+    "team": "Nasz zespół",
+    "employees": [
+      {
+        "name": "Tymoteusz Tymendorf",
+        "role": "Gen AI Engineer, Fullstack Developer",
+        "description": "Next.js, backend, integracje i automatyzacje."
+      },
+      {
+        "name": "Filip Karpiński",
+        "role": "Gen AI Engineer",
+        "description": "Wsparcie wdrożeń AI."
+      }
+    ]
   },
   "cta": {
     "title": "Gotowy na automatyzację?",
