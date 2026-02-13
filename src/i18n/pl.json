@@ -64,28 +64,25 @@
     "title": "Nasz zespół",
     "members": [
       {
-        "name": "Rafał Łazicki",
+        "name": "Rafał",
         "role": "Founder",
-        "photo": "/rafal.jpeg",
-        "description": "6 lat w branży technologicznej, ponad 3 lata specjalizacji w Generative AI. Tworzę systemy usprawniające pracę firm."
+        "photo": "/rafal.jpeg"
       },
       {
         "name": "Filip",
         "role": "Software Engineer",
-        "photo": "/filip.jpeg",
-        "description": "Software Engineer"
+        "photo": "/filip.jpeg"
       },
       {
         "name": "Tymoteusz",
         "role": "Software Engineer",
-        "photo": "/tymek.jpg",
-        "description": "Software Engineer"
+        "photo": "/tymek.jpg"
       }
     ]
   },
   "products": {
     "title": "Nasze produkty",
-    "subtitle": "Gotowe rozwiązania, które możesz wdrożyć od razu",
+    "subtitle": "Rozwiązania stworzone i utrzymywane przez nasz zespół",
     "callwise": {
       "tagline": "Każda rozmowa oceniona. Każdy handlowiec lepszy.",
       "description": "AI analizuje 100% rozmów sprzedażowych i pokazuje, co odróżnia najlepszych od reszty. Twój zespół uczy się szybciej, zamyka więcej deali.",

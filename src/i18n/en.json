@@ -64,28 +64,25 @@
     "title": "Our Team",
     "members": [
       {
-        "name": "Rafał Łazicki",
+        "name": "Rafał",
         "role": "Founder",
-        "photo": "/rafal.jpeg",
-        "description": "6 years in the tech industry, over 3 years specializing in Generative AI. I create systems that streamline business operations."
+        "photo": "/rafal.jpeg"
       },
       {
         "name": "Filip",
         "role": "Software Engineer",
-        "photo": "/filip.jpeg",
-        "description": "Software Engineer"
+        "photo": "/filip.jpeg"
       },
       {
         "name": "Tymoteusz",
         "role": "Software Engineer",
-        "photo": "/tymek.jpg",
-        "description": "Software Engineer"
+        "photo": "/tymek.jpg"
       }
     ]
   },
   "products": {
     "title": "Our Products",
-    "subtitle": "Ready-to-deploy solutions you can implement right away",
+    "subtitle": "Solutions built and maintained by our team",
     "callwise": {
       "tagline": "Every call scored. Every rep better. Automatically.",
       "description": "AI analyzes 100% of sales calls and shows what separates top performers from the rest. Your team learns faster, closes more deals.",
