@@ -5,7 +5,6 @@
   },
   "nav": {
     "services": "Korzyści",
-    "why": "Dlaczego AI",
     "process": "Jak działamy",
     "about": "Zespół",
     "products": "Produkty",
@@ -40,15 +39,6 @@
         "title": "Koniec z powtarzalną pracą",
         "description": "Dokumenty, maile, wprowadzanie danych — wszystko dzieje się automatycznie. Zero błędów, zero nudnych zadań, więcej czasu na to, co ważne."
       }
-    ]
-  },
-  "why_ai": {
-    "title": "Dlaczego AI?",
-    "items": [
-      { "emoji": "⏱️", "title": "Oszczędność czasu", "description": "Automatyzuj powtarzalne zadania i skup się na tym, co naprawdę ważne." },
-      { "emoji": "💰", "title": "Redukcja kosztów", "description": "AI pracuje 24/7 bez urlopów, zwolnień i nadgodzin." },
-      { "emoji": "📈", "title": "Skalowalność", "description": "Obsłuż 10x więcej klientów bez zatrudniania 10x więcej ludzi." },
-      { "emoji": "✅", "title": "Jakość", "description": "AI nie ma gorszych dni. Stała, przewidywalna jakość." }
     ]
   },
   "process": {

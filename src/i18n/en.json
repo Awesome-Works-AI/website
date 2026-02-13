@@ -5,7 +5,6 @@
   },
   "nav": {
     "services": "Benefits",
-    "why": "Why AI",
     "process": "How We Work",
     "about": "Team",
     "products": "Products",
@@ -40,15 +39,6 @@
         "title": "End repetitive work",
         "description": "Documents, emails, data entry — all automated. Zero errors, zero boring tasks, more time for what matters."
       }
-    ]
-  },
-  "why_ai": {
-    "title": "Why AI?",
-    "items": [
-      { "emoji": "⏱️", "title": "Save time", "description": "Automate repetitive tasks and focus on what really matters." },
-      { "emoji": "💰", "title": "Reduce costs", "description": "AI works 24/7 without vacations, sick days, or overtime." },
-      { "emoji": "📈", "title": "Scale up", "description": "Handle 10x more customers without hiring 10x more people." },
-      { "emoji": "✅", "title": "Quality", "description": "AI doesn't have bad days. Consistent, predictable quality." }
     ]
   },
   "process": {
