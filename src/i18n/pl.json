@@ -124,6 +124,9 @@
     "form_title": "Zostaw do siebie kontakt – odezwiemy się w 24h!",
     "form_name": "Imię",
     "form_email": "Email",
+    "form_phone": "Telefon",
+    "form_phone_placeholder": "123 123 123",
+    "form_phone_search": "Szukaj kraju...",
     "form_message": "Wiadomość",
     "form_submit": "Wyślij wiadomość",
     "form_success": "Dzięki! Odezwiemy się wkrótce."

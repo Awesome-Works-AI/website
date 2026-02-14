@@ -1,5 +1,6 @@
 ---
 import { t, type Locale } from "@/i18n/utils";
+import { countries } from "@/data/countries";
 
 interface Props {
   locale: Locale;
@@ -7,6 +8,7 @@ interface Props {
 
 const { locale } = Astro.props;
 const i = t(locale);
+const countriesJson = JSON.stringify(countries);
 ---
 
 <section id="contact" class="relative border-t border-white/[0.06] py-20 sm:py-28">
@@ -112,6 +114,51 @@ const i = t(locale);
               />
             </div>
 
+            <!-- Phone -->
+            <div>
+              <label for="phone-input" class="mb-1.5 block text-sm font-medium text-foreground">
+                {i.contact.form_phone}
+              </label>
+              <div class="relative flex">
+                <button
+                  type="button"
+                  id="country-selector"
+                  class="flex items-center gap-1.5 rounded-l-lg border border-r-0 border-white/[0.08] bg-white/[0.06] px-3 py-2.5 text-sm text-foreground transition-colors hover:bg-white/[0.08] focus:border-indigo-500/40 focus:ring-1 focus:ring-indigo-500/20 focus:outline-none shrink-0"
+                  aria-expanded="false"
+                  aria-haspopup="listbox"
+                >
+                  <span id="selected-flag" class="text-lg leading-none">🇵🇱</span>
+                  <span id="selected-dial" class="text-xs text-muted-foreground">+48</span>
+                  <svg class="h-3 w-3 text-muted-foreground" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 5l3 3 3-3"/></svg>
+                </button>
+                <input
+                  type="tel"
+                  id="phone-input"
+                  autocomplete="tel-national"
+                  inputmode="numeric"
+                  required
+                  class="w-full min-w-0 rounded-r-lg border border-white/[0.08] bg-white/[0.04] px-4 py-2.5 text-sm text-foreground placeholder-muted-foreground/50 outline-none transition-colors focus:border-indigo-500/40 focus:ring-1 focus:ring-indigo-500/20"
+                  placeholder={i.contact.form_phone_placeholder}
+                />
+                <input type="hidden" id="phone-hidden" name="phone" value="" />
+                <div
+                  id="country-dropdown"
+                  class="absolute left-0 top-full z-50 mt-1 hidden w-72 overflow-hidden rounded-xl border border-white/[0.08] bg-background/95 shadow-xl backdrop-blur-xl"
+                  role="listbox"
+                >
+                  <div class="border-b border-white/[0.06] p-2">
+                    <input
+                      type="text"
+                      id="country-search"
+                      class="w-full rounded-lg border border-white/[0.06] bg-white/[0.04] px-3 py-2 text-sm text-foreground placeholder-muted-foreground/50 outline-none focus:border-indigo-500/40"
+                      placeholder={i.contact.form_phone_search}
+                    />
+                  </div>
+                  <div id="country-list" class="max-h-48 overflow-y-auto overscroll-contain"></div>
+                </div>
+              </div>
+            </div>
+
             <div>
               <label for="message" class="mb-1.5 block text-sm font-medium text-foreground">
                 {i.contact.form_message}
@@ -138,3 +185,183 @@ const i = t(locale);
     </div>
   </div>
 </section>
+
+<script define:vars={{ countriesJson }}>
+  (function () {
+    const countries = JSON.parse(countriesJson);
+    const selectorBtn = document.getElementById("country-selector");
+    const flagEl = document.getElementById("selected-flag");
+    const dialEl = document.getElementById("selected-dial");
+    const phoneInput = document.getElementById("phone-input");
+    const hiddenInput = document.getElementById("phone-hidden");
+    const dropdown = document.getElementById("country-dropdown");
+    const searchInput = document.getElementById("country-search");
+    const listEl = document.getElementById("country-list");
+
+    let currentDial = "48";
+    let isOpen = false;
+
+    // --- Format phone: space every 3 digits, max 15 ---
+    function formatPhone(digits) {
+      const d = digits.slice(0, 15);
+      let out = "";
+      for (let i = 0; i < d.length; i++) {
+        if (i > 0 && i % 3 === 0) out += " ";
+        out += d[i];
+      }
+      return out;
+    }
+
+    // --- Sync hidden input ---
+    function syncHidden() {
+      const digits = phoneInput.value.replace(/\D/g, "");
+      hiddenInput.value = digits ? "+" + currentDial + " " + formatPhone(digits) : "";
+    }
+
+    // --- Render country list ---
+    function renderList(filter) {
+      const q = (filter || "").toLowerCase();
+      const filtered = q
+        ? countries.filter(
+            (c) =>
+              c.name.toLowerCase().includes(q) ||
+              c.dial.includes(q) ||
+              c.code.toLowerCase().includes(q)
+          )
+        : countries;
+
+      listEl.innerHTML = filtered
+        .map(
+          (c) =>
+            '<button type="button" class="flex w-full items-center gap-3 px-3 py-2 text-sm text-foreground transition-colors hover:bg-white/[0.06]" data-dial="' +
+            c.dial +
+            '" data-flag="' +
+            c.flag +
+            '" data-code="' +
+            c.code +
+            '"><span class="text-lg leading-none">' +
+            c.flag +
+            '</span><span class="flex-1 text-left">' +
+            c.name +
+            '</span><span class="text-xs text-muted-foreground">+' +
+            c.dial +
+            "</span></button>"
+        )
+        .join("");
+    }
+
+    // --- Toggle dropdown ---
+    function openDropdown() {
+      dropdown.classList.remove("hidden");
+      selectorBtn.setAttribute("aria-expanded", "true");
+      isOpen = true;
+      searchInput.value = "";
+      renderList("");
+      requestAnimationFrame(() => searchInput.focus());
+    }
+
+    function closeDropdown() {
+      dropdown.classList.add("hidden");
+      selectorBtn.setAttribute("aria-expanded", "false");
+      isOpen = false;
+    }
+
+    // --- Select country ---
+    function selectCountry(dial, flag) {
+      currentDial = dial;
+      flagEl.textContent = flag;
+      dialEl.textContent = "+" + dial;
+      closeDropdown();
+      phoneInput.focus();
+      syncHidden();
+    }
+
+    // --- Event: toggle selector ---
+    selectorBtn.addEventListener("click", function (e) {
+      e.preventDefault();
+      isOpen ? closeDropdown() : openDropdown();
+    });
+
+    // --- Event: country list click ---
+    listEl.addEventListener("click", function (e) {
+      const btn = e.target.closest("[data-dial]");
+      if (btn) selectCountry(btn.dataset.dial, btn.dataset.flag);
+    });
+
+    // --- Event: search ---
+    searchInput.addEventListener("input", function () {
+      renderList(searchInput.value);
+    });
+
+    // --- Event: close on outside click ---
+    document.addEventListener("click", function (e) {
+      if (isOpen && !dropdown.contains(e.target) && !selectorBtn.contains(e.target)) {
+        closeDropdown();
+      }
+    });
+
+    // --- Event: close on Escape ---
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && isOpen) closeDropdown();
+    });
+
+    // --- Event: phone input (format live) ---
+    phoneInput.addEventListener("input", function () {
+      const raw = phoneInput.value.replace(/\D/g, "").slice(0, 15);
+      const formatted = formatPhone(raw);
+
+      // Preserve cursor position
+      const sel = phoneInput.selectionStart;
+      const prevLen = phoneInput.value.length;
+      phoneInput.value = formatted;
+      const diff = phoneInput.value.length - prevLen;
+      phoneInput.setSelectionRange(sel + diff, sel + diff);
+
+      syncHidden();
+    });
+
+    // --- Event: paste handling ---
+    phoneInput.addEventListener("paste", function (e) {
+      e.preventDefault();
+      let text = (e.clipboardData || window.clipboardData).getData("text");
+      let digits = text.replace(/\D/g, "");
+
+      // Try to detect country code from pasted number
+      if (text.trim().startsWith("+") || digits.length > 12) {
+        for (let i = 0; i < countries.length; i++) {
+          const c = countries[i];
+          const dialClean = c.dial.replace(/-/g, "");
+          if (digits.startsWith(dialClean)) {
+            selectCountry(c.dial, c.flag);
+            digits = digits.slice(dialClean.length);
+            break;
+          }
+        }
+      }
+
+      digits = digits.slice(0, 15);
+      phoneInput.value = formatPhone(digits);
+      syncHidden();
+    });
+
+    // --- Event: prevent non-numeric keys ---
+    phoneInput.addEventListener("keydown", function (e) {
+      // Allow: backspace, delete, tab, escape, enter, arrows, home, end
+      if (
+        [8, 9, 13, 27, 46].includes(e.keyCode) ||
+        (e.keyCode >= 35 && e.keyCode <= 40) ||
+        ((e.ctrlKey || e.metaKey) && [65, 67, 86, 88, 90].includes(e.keyCode))
+      ) {
+        return;
+      }
+      // Block non-digit
+      if (e.key.length === 1 && !/\d/.test(e.key)) {
+        e.preventDefault();
+      }
+    });
+
+    // Init
+    renderList("");
+    syncHidden();
+  })();
+</script>

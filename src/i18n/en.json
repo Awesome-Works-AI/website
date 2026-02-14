@@ -124,6 +124,9 @@
     "form_title": "Leave us your contact — we'll get back within 24h!",
     "form_name": "Name",
     "form_email": "Email",
+    "form_phone": "Phone",
+    "form_phone_placeholder": "123 123 123",
+    "form_phone_search": "Search country...",
     "form_message": "Message",
     "form_submit": "Send message",
     "form_success": "Thanks! We'll get back to you soon."
