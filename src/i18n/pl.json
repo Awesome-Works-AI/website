@@ -8,6 +8,7 @@
     "process": "Jak działamy",
     "about": "Zespół",
     "products": "Produkty",
+    "reviews": "Opinie",
     "contact": "Kontakt",
     "cta": "Porozmawiajmy"
   },
@@ -80,6 +81,14 @@
       "microcopy": "5 rozmów za darmo · Bez karty"
     }
   },
+  "reviews": {
+    "title": "Co mówią nasi klienci",
+    "subtitle": "Sprawdź opinie klientów, którzy już korzystają z naszych rozwiązań AI",
+    "reviews_count": "opinii",
+    "leave_review": "Zostaw opinię na Google",
+    "see_on_google": "Zobacz opinie na Google",
+    "fallback_text": "Sprawdź nasze opinie na Google i przekonaj się, jak pomagamy firmom oszczędzać czas i pieniądze dzięki AI."
+  },
   "faq": {
     "title": "Najczęstsze pytania",
     "items": [
@@ -140,6 +149,7 @@
       "Jak działamy": "#process",
       "Zespół": "#team",
       "Produkty": "#products",
+      "Opinie": "#reviews",
       "Kontakt": "#contact"
     },
     "legal_links": {

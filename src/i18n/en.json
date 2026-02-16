@@ -8,6 +8,7 @@
     "process": "How We Work",
     "about": "Team",
     "products": "Products",
+    "reviews": "Reviews",
     "contact": "Contact",
     "cta": "Let's Talk"
   },
@@ -80,6 +81,14 @@
       "microcopy": "5 calls free · No credit card"
     }
   },
+  "reviews": {
+    "title": "What our clients say",
+    "subtitle": "See reviews from clients already using our AI solutions",
+    "reviews_count": "reviews",
+    "leave_review": "Leave a review on Google",
+    "see_on_google": "See reviews on Google",
+    "fallback_text": "Check our reviews on Google and see how we help businesses save time and money with AI."
+  },
   "faq": {
     "title": "Frequently asked questions",
     "items": [
@@ -140,6 +149,7 @@
       "How We Work": "#process",
       "Team": "#team",
       "Products": "#products",
+      "Reviews": "#reviews",
       "Contact": "#contact"
     },
     "legal_links": {
