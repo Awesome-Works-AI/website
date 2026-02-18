@@ -79,6 +79,18 @@
       "description": "AI analyzes 100% of sales calls and shows what separates top performers from the rest. Your team learns faster, closes more deals.",
       "cta": "Try for free",
       "microcopy": "5 calls free · No credit card"
+    },
+    "goose": {
+      "tagline": "Test your AI agents like a pro.",
+      "description": "Python library for comprehensive LLM agent testing. Define expectations in natural language, verify tool calls, analyze results in a web dashboard.",
+      "cta": "View on GitHub",
+      "microcopy": "Open source · MIT License"
+    },
+    "ask": {
+      "tagline": "AI-powered accounting. Faster, simpler, error-free.",
+      "description": "AI that automates accounting — from invoices to reconciliations. Less manual work, zero mistakes, full control over your company's finances.",
+      "cta": "Learn more",
+      "microcopy": "For businesses & accounting firms · Early Access"
     }
   },
   "reviews": {

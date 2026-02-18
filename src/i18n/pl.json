@@ -79,6 +79,18 @@
       "description": "AI analizuje 100% rozmów sprzedażowych i pokazuje, co odróżnia najlepszych od reszty. Twój zespół uczy się szybciej, zamyka więcej deali.",
       "cta": "Wypróbuj za darmo",
       "microcopy": "5 rozmów za darmo · Bez karty"
+    },
+    "goose": {
+      "tagline": "Testuj agentów AI jak profesjonalista.",
+      "description": "Biblioteka Python do kompleksowego testowania agentów LLM. Definiuj oczekiwania w naturalnym języku, weryfikuj wywołania narzędzi, analizuj wyniki w dashboardzie.",
+      "cta": "Zobacz na GitHub",
+      "microcopy": "Open source · MIT License"
+    },
+    "ask": {
+      "tagline": "Księgowość z AI. Szybciej, prościej, bezbłędnie.",
+      "description": "AI, które automatyzuje księgowość — od faktur po rozliczenia. Mniej ręcznej pracy, zero pomyłek, pełna kontrola nad finansami firmy.",
+      "cta": "Dowiedz się więcej",
+      "microcopy": "Dla firm i biur rachunkowych · Early Access"
     }
   },
   "reviews": {
