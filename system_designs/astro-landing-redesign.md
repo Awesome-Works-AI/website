@@ -416,7 +416,7 @@ Copy CallWise pattern — gradient mesh strong background, centered.
     <p class="mt-4 text-lg text-muted-foreground">{i.final_cta.subtitle}</p>
     <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
       <a href="#contact" class="...gradient-button...">{i.final_cta.cta_primary}</a>
-      <a href="https://calendly.com/awesome-works-ai/discovery-call"
+      <a href="https://calendly.com/hello-awesomeworks/30min"
          class="...ghost-button...">{i.final_cta.cta_secondary}</a>
     </div>
   </div>
@@ -451,7 +451,7 @@ Copy CallWise pattern — gradient mesh strong background, centered.
   - Submit button: gradient, full-width
 - **Zero JavaScript** — form submits via standard POST, web3forms handles redirect
 - **Email:** `hello@awesomeworks.ai` — `<a href="mailto:...">`
-- **Calendly:** `https://calendly.com/awesome-works-ai/discovery-call` — external link
+- **Calendly:** `https://calendly.com/hello-awesomeworks/30min` — external link
 
 ### 5.11 Footer (`footer.astro`)
 
