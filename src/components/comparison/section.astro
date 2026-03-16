@@ -1,0 +1,33 @@
+---
+interface Props {
+  title?: string;
+  id?: string;
+  variant?: "default" | "highlight" | "honesty";
+}
+
+const { title, id, variant = "default" } = Astro.props;
+
+const bgClass = {
+  default: "",
+  highlight: "bg-white/[0.02]",
+  honesty: "border-t border-b border-amber-500/10 bg-amber-500/[0.02]",
+}[variant];
+---
+
+<section id={id} class:list={["relative py-16 sm:py-20", bgClass]}>
+  <div class="relative mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+    {title && (
+      <h2
+        class="animate-on-scroll mb-8 text-2xl font-bold tracking-tight sm:text-3xl"
+      >
+        {variant === "honesty" && (
+          <span class="mr-2 inline-block text-amber-400">⚖️</span>
+        )}
+        {title}
+      </h2>
+    )}
+    <div class="animate-on-scroll prose-invert max-w-none text-muted-foreground leading-relaxed [&_strong]:text-foreground [&_p]:mb-4 [&_ul]:mb-4 [&_ul]:list-disc [&_ul]:pl-6 [&_li]:mb-2">
+      <slot />
+    </div>
+  </div>
+</section>
