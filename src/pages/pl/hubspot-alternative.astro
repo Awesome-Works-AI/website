@@ -1,0 +1,126 @@
+---
+import Base from "@/layouts/base.astro";
+import ComparisonNav from "@/components/comparison/nav.astro";
+import ComparisonHero from "@/components/comparison/hero.astro";
+import FeatureTable from "@/components/comparison/feature-table.astro";
+import Section from "@/components/comparison/section.astro";
+import ComparisonCta from "@/components/comparison/cta.astro";
+import Disclaimer from "@/components/comparison/disclaimer.astro";
+import Footer from "@/components/footer.astro";
+
+const locale = "pl";
+
+const featureRows = [
+  { feature: "Scoring rozmów AI", callwise: "✅ 28 metryk", competitor: "❌ Podstawowe nagrywanie" },
+  { feature: "Wyjaśnialna AI (SHAP)", callwise: "✅ Dlaczego taki wynik", competitor: "❌ Niedostępne" },
+  { feature: "Micro-coaching co 45s", callwise: "✅", competitor: "❌" },
+  { feature: "Wbudowany VoIP", callwise: "✅ Natywny", competitor: "❌ Wymaga Vonage" },
+  { feature: "CRM z pipeline sprzedażowym", callwise: "✅", competitor: "✅ Lider rynku" },
+  { feature: "Auto-wypełnianie CRM z rozmów", callwise: "✅", competitor: "❌ Ręczne" },
+  { feature: "SMS przypomnienia o spotkaniach", callwise: "✅ Auto multi-kadencja", competitor: "❌ Tylko email" },
+  { feature: "Ekstrakcja formularza discovery", callwise: "✅", competitor: "❌" },
+  { feature: "Agent AI (21 narzędzi)", callwise: "✅", competitor: "Breeze (ograniczony)" },
+  { feature: "Prognozowanie przychodów", callwise: "❌", competitor: "✅" },
+  { feature: "Ekosystem integracji", callwise: "~5 integracji", competitor: "1 500+" },
+  { feature: "Cena (10 użytkowników/mies.)", callwise: "~$520", competitor: "~$1 000" },
+];
+---
+
+<Base
+  title="CallWise vs HubSpot — Lepsza analiza rozmów, niższy koszt"
+  description="CallWise ocenia każdą rozmowę sprzedażową w 28 metrykach AI z wbudowanym VoIP i CRM. Alternatywa dla HubSpot od ~$52/użytkownika. 14 dni za darmo."
+  locale={locale}
+>
+  <ComparisonNav locale={locale} competitorName="HubSpot" />
+
+  <main>
+    <ComparisonHero
+      title="Alternatywa dla HubSpot,"
+      titleGradient="Która Naprawdę Szkoli Twoich Handlowców"
+      subtitle="HubSpot loguje rozmowy. CallWise je ocenia."
+      ctaText="Wypróbuj za darmo"
+      ctaUrl="https://app.callwise.ai"
+      microCopy="14 dni za darmo · Bez karty kredytowej · Bez migracji"
+    />
+
+    <Section title="Problem z analizą rozmów w HubSpot" id="problem">
+      <p>
+        HubSpot to najpopularniejszy CRM na świecie — i do zarządzania pipeline'em, sekwencji
+        emailowych i automatyzacji marketingu jest doskonały. Ale kiedy Twój handlowiec kończy
+        rozmowę, HubSpot zapisuje <strong>„Rozmowa — 18 minut"</strong> i idzie dalej.
+      </p>
+      <p>
+        Nagrywa i transkrybuje, ale nie ocenia, nie wyjaśnia, nie coachuje na poziomie
+        poszczególnych momentów rozmowy. Conversation intelligence w HubSpot to funkcja ukryta
+        w planie <strong>Professional za $100/stanowisko</strong> — nie dedykowany produkt.
+      </p>
+    </Section>
+
+    <FeatureTable
+      title="Porównanie funkcji"
+      competitorLabel="HubSpot"
+      rows={featureRows}
+    />
+
+    <Section title="Jak działa scoring rozmów w CallWise" id="how-it-works" variant="highlight">
+      <p>
+        Każda rozmowa przechodzi przez 4-etapowy pipeline: <strong>Nagrywanie → Transkrypcja →
+        Analiza AI w 28 metrykach z wyjaśnieniami SHAP → Okna coachingowe co 45 sekund</strong>.
+      </p>
+      <p>
+        Po zakończeniu rozmowy CallWise automatycznie wypełnia CRM danymi o harmonogramie
+        prospekta, budżecie i decydencie — wyekstrahowanymi bezpośrednio z rozmowy. Następnie
+        tworzy szkic follow-upu z dokładnym kontekstem z rozmowy.
+      </p>
+    </Section>
+
+    <Section title="Ale już używam HubSpot" id="integration">
+      <p>
+        Nie musisz rezygnować z HubSpot. CallWise synchronizuje się dwukierunkowo z HubSpot,
+        więc Twoje dane pozostają spójne. Pipeline, kontakty i etapy deali zostają w HubSpot —
+        CallWise dodaje warstwę inteligencji, która mówi Ci <strong>DLACZEGO deale umierają
+        na rozmowach</strong>.
+      </p>
+      <p>
+        Pomyśl o tym jak o silniku coachingu rozmów, którego HubSpot nie ma.
+      </p>
+    </Section>
+
+    <Section title="Porównanie cen" id="pricing">
+      <p>
+        Transparentne ceny: <strong>CallWise Professional od ~$52/użytkownik/mies.</strong> vs
+        <strong>HubSpot Sales Hub Professional za $100/stanowisko/mies.</strong>
+      </p>
+      <p>
+        Dla 5-osobowego zespołu to <strong>$260/mies. vs $500/mies.</strong> Dla 10 osób
+        <strong>$520/mies. vs $1 000/mies.</strong> A z CallWise VoIP jest w cenie — bez
+        osobnej subskrypcji Vonage.
+      </p>
+    </Section>
+
+    <Section title="Co HubSpot robi lepiej (I to jest OK)" id="honesty" variant="honesty">
+      <p>
+        HubSpot ma <strong>ponad 1 500 integracji</strong>, światowej klasy automatyzację
+        marketingu, CPQ, prognozowanie przychodów i ogromny ekosystem. Jest dominującym CRM
+        nie bez powodu.
+      </p>
+      <p>
+        CallWise nie zastępuje HubSpot — wypełnia lukę w analizie rozmów, której HubSpot nie
+        adresuje. Jeśli Twój zespół potrzebuje zaawansowanej automatyzacji marketingu, HubSpot
+        to właściwy wybór. Jeśli Twój zespół musi wiedzieć <strong>dlaczego deale umierają
+        na rozmowach</strong>, dodaj CallWise.
+      </p>
+    </Section>
+
+    <ComparisonCta
+      title="Zacznij oceniać swoje rozmowy sprzedażowe"
+      subtitle="Zobacz to, czego HubSpot Ci nie pokaże — dlaczego Twoi handlowcy wygrywają i przegrywają deale przez telefon."
+      ctaText="Wypróbuj 14 dni za darmo"
+      ctaUrl="https://app.callwise.ai"
+      features={["Bez karty kredytowej", "Bez migracji", "Synchronizacja z HubSpot w cenie"]}
+    />
+  </main>
+
+  <Disclaimer competitors={["HubSpot"]} locale={locale} />
+  <Footer locale={locale} />
+</Base>

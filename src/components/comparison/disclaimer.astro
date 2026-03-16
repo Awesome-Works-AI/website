@@ -1,0 +1,35 @@
+---
+interface Props {
+  competitors: string[];
+  locale: "en" | "pl";
+}
+
+const { competitors, locale } = Astro.props;
+
+const trademarks: Record<string, string> = {
+  "Gong": "Gong® is a registered trademark of Gong.io, Inc.",
+  "HubSpot": "HubSpot® is a registered trademark of HubSpot, Inc.",
+  "Read.ai": "Read.ai™ is a trademark of Read AI, Inc.",
+};
+
+const disclaimerParts = competitors.map((c) => trademarks[c] || c);
+
+const suffix = locale === "pl"
+  ? "Wszystkie znaki towarowe należą do ich właścicieli. CallWise nie jest powiązany, wspierany ani sponsorowany przez żadną z wymienionych firm. Porównania funkcji i cen oparte są na publicznie dostępnych informacjach z marca 2026."
+  : "All trademarks are the property of their respective owners. CallWise is not affiliated with, endorsed by, or sponsored by any of these companies. Feature and pricing comparisons are based on publicly available information as of March 2026.";
+
+const verified = locale === "pl"
+  ? "Dane o konkurencji zweryfikowane: marzec 2026"
+  : "Competitor data verified: March 2026";
+---
+
+<div class="border-t border-white/[0.06] bg-white/[0.01] px-4 py-8 sm:px-6 lg:px-8">
+  <div class="mx-auto max-w-4xl">
+    <p class="text-xs leading-relaxed text-muted-foreground/40">
+      {disclaimerParts.join(" ")} {suffix}
+    </p>
+    <p class="mt-2 text-xs text-muted-foreground/30">
+      {verified}
+    </p>
+  </div>
+</div>
