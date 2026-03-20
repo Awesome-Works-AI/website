@@ -30,13 +30,13 @@ const i = t(locale);
         </h4>
         <ul class="space-y-2.5">
           {
-            Object.entries(i.footer.nav_links).map(([label, href]) => (
+            i.footer.nav_links.map((link) => (
               <li>
                 <a
-                  href={href}
+                  href={link.href}
                   class="text-sm text-muted-foreground transition-colors hover:text-foreground"
                 >
-                  {label}
+                  {link.label}
                 </a>
               </li>
             ))
@@ -51,13 +51,13 @@ const i = t(locale);
         </h4>
         <ul class="space-y-2.5">
           {
-            Object.entries(i.footer.legal_links).map(([label, href]) => (
+            i.footer.legal_links.map((link) => (
               <li>
                 <a
-                  href={href}
+                  href={link.href}
                   class="text-sm text-muted-foreground transition-colors hover:text-foreground"
                 >
-                  {label}
+                  {link.label}
                 </a>
               </li>
             ))

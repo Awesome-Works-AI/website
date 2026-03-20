@@ -6,7 +6,7 @@
   "nav": {
     "services": "Benefits",
     "process": "How We Work",
-    "about": "Team",
+    "about": "Meet Rafał",
     "products": "Products",
     "reviews": "Reviews",
     "contact": "Contact",
@@ -18,7 +18,8 @@
     "subtitle": "Automate routine tasks, serve customers 24/7, and scale your business without hiring. Real results in weeks, not months.",
     "cta_primary": "Free consultation",
     "cta_secondary": "See benefits",
-    "cta_micro": "Response within 24h · No commitment"
+    "cta_micro": "Response within 24h · No commitment",
+    "founderMicro": "Founder-led delivery. Fewer handoffs, clearer accountability."
   },
   "services": {
     "title": "What benefits will you gain?",
@@ -70,6 +71,19 @@
         "photo": "/tymek.jpg"
       }
     ]
+  },
+  "founder": {
+    "sectionTitle": "The person accountable for your project",
+    "eyebrow": "Founder-led delivery",
+    "role": "Founder & Technical Partner",
+    "bio": "No sales layer. No guesswork. Rafał stays close to the key decisions from the first call to delivery, working with a small senior team.",
+    "supportingPoints": [
+      "Direct contact from the first call to delivery",
+      "Faster product and technical decisions without extra layers",
+      "A small senior team that ships instead of passing work on"
+    ],
+    "teamLabel": "Backed by a senior delivery team at AwesomeWorks.",
+    "cta": "Talk to Rafał"
   },
   "products": {
     "title": "Our Products",
@@ -141,6 +155,8 @@
     "subtitle": "Write to us or schedule a call",
     "email_label": "Email",
     "calendly_label": "Book a meeting",
+    "founderCue": "Your first call is with Rafał — founder of AwesomeWorks and the person accountable for delivery.",
+    "founderCta": "Book 30 minutes with Rafał",
     "testimonial": "First consultation is free. Let's talk about your needs without commitment.",
     "form_title": "Leave us your contact — we'll get back within 24h!",
     "form_name": "Name",
@@ -156,18 +172,18 @@
     "tagline": "More time, less costs, better results",
     "navigation": "Navigation",
     "legal": "Legal",
-    "nav_links": {
-      "Benefits": "#services",
-      "How We Work": "#process",
-      "Team": "#team",
-      "Products": "#products",
-      "Reviews": "#reviews",
-      "Contact": "#contact"
-    },
-    "legal_links": {
-      "Privacy Policy": "/en/privacy",
-      "Terms of Service": "/en/terms"
-    },
+    "nav_links": [
+      { "label": "Benefits", "href": "#services" },
+      { "label": "How We Work", "href": "#process" },
+      { "label": "Meet Rafał", "href": "#founder" },
+      { "label": "Products", "href": "#products" },
+      { "label": "Reviews", "href": "#reviews" },
+      { "label": "Contact", "href": "#contact" }
+    ],
+    "legal_links": [
+      { "label": "Privacy Policy", "href": "/en/privacy" },
+      { "label": "Terms of Service", "href": "/en/terms" }
+    ],
     "copyright": "© 2026 Awesome Works AI. All rights reserved."
   }
 }
