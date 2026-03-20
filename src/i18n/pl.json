@@ -6,7 +6,7 @@
   "nav": {
     "services": "Korzyści",
     "process": "Jak działamy",
-    "about": "Zespół",
+    "about": "Poznaj Rafała",
     "products": "Produkty",
     "reviews": "Opinie",
     "contact": "Kontakt",
@@ -18,7 +18,8 @@
     "subtitle": "Zautomatyzuj rutynowe zadania, obsługuj klientów 24/7 i skaluj biznes bez zatrudniania. Konkretne wyniki w tygodniach, nie miesiącach.",
     "cta_primary": "Bezpłatna konsultacja",
     "cta_secondary": "Zobacz korzyści",
-    "cta_micro": "Odpowiedź w 24h · Bez zobowiązań"
+    "cta_micro": "Odpowiedź w 24h · Bez zobowiązań",
+    "founderMicro": "Projekt prowadzony przez założyciela. Mniej pośredników, większa odpowiedzialność."
   },
   "services": {
     "title": "Jakie korzyści zyskasz?",
@@ -70,6 +71,19 @@
         "photo": "/tymek.jpg"
       }
     ]
+  },
+  "founder": {
+    "sectionTitle": "Osoba odpowiedzialna za Twój projekt",
+    "eyebrow": "Projekt prowadzony przez założyciela",
+    "role": "Założyciel i partner techniczny",
+    "bio": "Bez warstwy sprzedażowej i bez zgadywania. Rafał prowadzi kluczowe decyzje od pierwszej rozmowy po realizację, współpracując z małym zespołem seniorów.",
+    "supportingPoints": [
+      "Bezpośredni kontakt od pierwszej rozmowy do realizacji",
+      "Szybsze decyzje produktowe i techniczne bez zbędnych warstw",
+      "Mały zespół seniorów, który dowozi zamiast przekazywać projekt dalej"
+    ],
+    "teamLabel": "W realizacji wspiera go mały zespół seniorów AwesomeWorks.",
+    "cta": "Porozmawiaj z Rafałem"
   },
   "products": {
     "title": "Nasze produkty",
@@ -141,6 +155,8 @@
     "subtitle": "Napisz do nas lub umów się na rozmowę",
     "email_label": "Email",
     "calendly_label": "Umów spotkanie w kalendarzu",
+    "founderCue": "Pierwszą rozmowę prowadzi Rafał — założyciel AwesomeWorks i osoba odpowiedzialna za realizację.",
+    "founderCta": "Umów 30 minut z Rafałem",
     "testimonial": "Pierwsza konsultacja jest bezpłatna. Porozmawiajmy o Twoich potrzebach bez zobowiązań.",
     "form_title": "Zostaw do siebie kontakt – odezwiemy się w 24h!",
     "form_name": "Imię",
@@ -156,18 +172,18 @@
     "tagline": "Więcej czasu, mniej kosztów, lepsze wyniki",
     "navigation": "Nawigacja",
     "legal": "Prawne",
-    "nav_links": {
-      "Korzyści": "#services",
-      "Jak działamy": "#process",
-      "Zespół": "#team",
-      "Produkty": "#products",
-      "Opinie": "#reviews",
-      "Kontakt": "#contact"
-    },
-    "legal_links": {
-      "Polityka prywatności": "/pl/privacy",
-      "Regulamin": "/pl/terms"
-    },
+    "nav_links": [
+      { "label": "Korzyści", "href": "#services" },
+      { "label": "Jak działamy", "href": "#process" },
+      { "label": "Poznaj Rafała", "href": "#founder" },
+      { "label": "Produkty", "href": "#products" },
+      { "label": "Opinie", "href": "#reviews" },
+      { "label": "Kontakt", "href": "#contact" }
+    ],
+    "legal_links": [
+      { "label": "Polityka prywatności", "href": "/pl/privacy" },
+      { "label": "Regulamin", "href": "/pl/terms" }
+    ],
     "copyright": "© 2026 Awesome Works AI. Wszelkie prawa zastrzeżone."
   }
 }
