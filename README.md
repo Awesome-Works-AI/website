@@ -6,9 +6,9 @@ Landing page for **Awesome Works** - an AI consulting company specializing in Ge
 
 ## Tech Stack
 
-- **Framework:** React 19 + TypeScript + Vite 5
-- **Styling:** Tailwind CSS 4 + Radix UI Themes
-- **Internationalization:** i18next (Polish 🇵🇱 / English 🇬🇧)
+- **Framework:** Astro 5 + TypeScript
+- **Styling:** Tailwind CSS 3
+- **Internationalization:** Custom i18n JSON (Polish 🇵🇱 / English 🇬🇧)
 - **Animations:** Custom CSS animations (particles, gradients, glassmorphism)
 
 ## Features
@@ -41,12 +41,10 @@ npm run preview
 
 ```
 src/
-├── components/       # React components (Hero, Services, About, etc.)
-├── i18n/
-│   └── locales/      # Translation files (pl.json, en.json)
-├── index.css         # Global styles, animations, CSS variables
-├── App.tsx           # Main app component
-└── main.tsx          # Entry point
+├── components/       # Astro components (Hero, Services, Founder, etc.)
+├── i18n/             # Translation files (pl.json, en.json)
+├── layouts/          # Page layouts
+└── pages/            # Astro pages (PL/EN routes)
 ```
 
 ## Color Palette

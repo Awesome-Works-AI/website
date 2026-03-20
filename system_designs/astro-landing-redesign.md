@@ -587,11 +587,17 @@ public/
     ]
   },
   "founder": {
-    "title": "Founder",
-    "intro": "Cześć! Jestem założycielem Awesome Works AI.",
-    "experience": "Od 6 lat działam w branży technologicznej, a od ponad 3 lat specjalizuję się w Generative AI.",
-    "description": "Tworzę systemy, które usprawniają pracę firm — automatyzują rutynowe zadania, zwiększają efektywność i redukują koszty operacyjne.",
-    "signature": "~ Rafał Łazicki"
+    "sectionTitle": "Osoba odpowiedzialna za Twój projekt",
+    "eyebrow": "Founder-led delivery",
+    "role": "Founder & Technical Partner",
+    "bio": "Bez warstwy sprzedażowej. Bez zgadywania. Rafał jest blisko kluczowych decyzji od pierwszej rozmowy do wdrożenia, pracując z małym senior teamem.",
+    "supportingPoints": [
+      "Bezpośredni kontakt od pierwszej rozmowy do wdrożenia",
+      "Szybsze decyzje produktowe i techniczne bez dodatkowych warstw",
+      "Mały senior team, który dostarcza zamiast przekazywać pracę dalej"
+    ],
+    "teamLabel": "Wspierany przez senior delivery team w AwesomeWorks.",
+    "cta": "Porozmawiaj z Rafałem"
   },
   "products": {
     "title": "Nasze produkty",
@@ -653,17 +659,17 @@ public/
   },
   "footer": {
     "tagline": "Więcej czasu, mniej kosztów, lepsze wyniki",
-    "nav_links": {
-      "services": "Korzyści",
-      "process": "Jak działamy",
-      "about": "O nas",
-      "products": "Produkty",
-      "contact": "Kontakt"
-    },
-    "legal_links": {
-      "privacy": "Polityka prywatności",
-      "terms": "Regulamin"
-    },
+    "nav_links": [
+      { "label": "Korzyści", "href": "#services" },
+      { "label": "Jak działamy", "href": "#process" },
+      { "label": "Poznaj Rafała", "href": "#founder" },
+      { "label": "Produkty", "href": "#products" },
+      { "label": "Kontakt", "href": "#contact" }
+    ],
+    "legal_links": [
+      { "label": "Polityka prywatności", "href": "/privacy" },
+      { "label": "Regulamin", "href": "/terms" }
+    ],
     "copyright": "© 2026 Awesome Works AI. Wszelkie prawa zastrzeżone."
   }
 }
