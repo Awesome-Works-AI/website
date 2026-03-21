@@ -315,15 +315,16 @@ Split layout — replaces the generic "Team" section with a personal founder sec
 ```
 ┌──────────────────────────────────────────────────┐
 │  ┌──────────┐  ┌───────────────────────────────┐ │
-│  │          │  │ H2: Founder                   │ │
-│  │  Photo   │  │                               │ │
-│  │  (round) │  │ "Cześć! Jestem założycielem   │ │
-│  │          │  │  Awesome Works AI."            │ │
+│  │          │  │ Eyebrow: Founder-led delivery  │ │
+│  │  Photo   │  │ H2: Osoba odpowiedzialna za    │ │
+│  │  (round) │  │     Twój projekt               │ │
+│  │          │  │ Role: Founder & Technical      │ │
+│  │          │  │       Partner                  │ │
 │  │          │  │                               │ │
-│  │          │  │ Experience paragraph           │ │
-│  │          │  │ Description paragraph          │ │
-│  │          │  │                               │ │
-│  │          │  │ ~ Rafał Łazicki               │ │
+│  │          │  │ Bio paragraph                  │ │
+│  │          │  │ • Bullet points (3)            │ │
+│  │          │  │ Team label                     │ │
+│  │          │  │ [CTA: Porozmawiaj z Rafałem]   │ │
 │  └──────────┘  └───────────────────────────────┘ │
 └──────────────────────────────────────────────────┘
 ```
@@ -331,7 +332,6 @@ Split layout — replaces the generic "Team" section with a personal founder sec
 - Photo: `public/filip.jpeg` (existing asset, rename to `rafal.jpeg` or keep)
 - Layout: `grid md:grid-cols-[280px_1fr] gap-8 items-center`
 - Photo styling: `rounded-2xl border-2 border-white/[0.06] object-cover`
-- Signature: `text-muted-foreground italic`
 
 ### 5.7 Products (`products.astro`)
 
