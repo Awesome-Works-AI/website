@@ -86,15 +86,22 @@ Po wdrożeniu nie zostawiamy Cię samego.
 
 ### O nas (Founder)
 
-**Tytuł sekcji:** Founder
+**Tytuł sekcji:** Osoba odpowiedzialna za Twój projekt
 
-**Intro:** Cześć! Jestem założycielem Awesome Works AI.
+**Eyebrow:** Founder-led delivery
 
-**Doświadczenie:** Od 6 lat działam w branży technologicznej, a od ponad 3 lat specjalizuję się w **Generative AI**.
+**Rola:** Founder & Technical Partner
 
-**Opis:** Tworzę systemy, które usprawniają pracę firm — automatyzują rutynowe zadania, zwiększają efektywność i redukują koszty operacyjne.
+**Bio:** Bez warstwy sprzedażowej. Bez zgadywania. Rafał jest blisko kluczowych decyzji od pierwszej rozmowy do wdrożenia, pracując z małym senior teamem.
 
-**Podpis:** ~ Rafał Łazicki
+**Punkty:**
+- Bezpośredni kontakt od pierwszej rozmowy do wdrożenia
+- Szybsze decyzje produktowe i techniczne bez dodatkowych warstw
+- Mały senior team, który dostarcza zamiast przekazywać pracę dalej
+
+**Team label:** Wspierany przez senior delivery team w AwesomeWorks.
+
+**CTA:** Porozmawiaj z Rafałem
 
 ---
 
@@ -234,15 +241,22 @@ We don't leave you alone after deployment.
 
 ### About (Founder)
 
-**Section title:** Founder
+**Section title:** The person responsible for your project
 
-**Intro:** Hi! I'm the founder of Awesome Works AI.
+**Eyebrow:** Founder-led delivery
 
-**Experience:** I have 6 years of experience in the tech industry, with over 3 years specializing in **Generative AI**.
+**Role:** Founder & Technical Partner
 
-**Description:** I create systems that streamline business operations — automating routine tasks, increasing efficiency, and reducing operational costs.
+**Bio:** No sales layer. No guessing. Rafał is close to key decisions from the first conversation to deployment, working with a small senior team.
 
-**Signature:** ~ Rafał Łazicki
+**Points:**
+- Direct contact from first conversation to deployment
+- Faster product and technical decisions without additional layers
+- Small senior team that delivers instead of passing work along
+
+**Team label:** Backed by the senior delivery team at AwesomeWorks.
+
+**CTA:** Talk to Rafał
 
 ---
 
