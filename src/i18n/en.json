@@ -238,13 +238,13 @@
   "products": {
     "eyebrow": "Pick your starting point",
     "title": "Start with the product or workflow that solves today's bottleneck",
-    "subtitle": "Some teams want us to build. Some want to improve an existing system. Others want to learn the exact AI workflow behind faster delivery. These examples help you choose the right path.",
+    "subtitle": "If a ready path gets you there faster, start there: CallWise for sales coaching and call review, CourseAI for founders and teams building faster with AI.",
     "callwise": {
       "label": "For sales teams",
-      "tagline": "Review every sales call and coach the team with real data.",
-      "description": "CallWise shows your team what top performers do differently, so coaching becomes faster, more consistent, and tied to real conversations.",
-      "cta": "See CallWise",
-      "microcopy": "Live product · 5 calls free"
+      "tagline": "Coach every rep from real calls, not guesswork.",
+      "description": "Review 100% of calls, spot coaching gaps fast, and improve the sales workflow without adding more admin. Built for sales teams that want better call quality and immediate workflow value.",
+      "cta": "Try CallWise free",
+      "microcopy": "14-day trial · no credit card"
     },
     "goose": {
       "label": "For AI builders",
@@ -262,10 +262,10 @@
     },
     "courseai": {
       "label": "For founders and developers",
-      "tagline": "Build SaaS faster with AI agents that actually help.",
-      "description": "CourseAI teaches the real workflow behind shipping with agents: from idea and spec to code, review, and deploy, without hiring too early.",
+      "tagline": "Build faster with an AI workflow your team can repeat.",
+      "description": "Learn the founder-tested system Rafał uses to turn issues into specs, PRs, and production releases. Built for founders, developers, and teams that want AI to speed up delivery without chaos.",
       "cta": "See CourseAI",
-      "microcopy": "Polish course · Free Chapter 1"
+      "microcopy": "Free Chapter 1 · founder-built workflow"
     }
   },
   "reviews": {
@@ -317,7 +317,13 @@
       "No sales deck — just an honest working conversation.",
       "If there is a fit, Rafał stays close to the important decisions.",
       "If there is no fit yet, you still leave with a clearer next move."
-    ]
+    ],
+    "path_label": "Need a ready path instead?",
+    "path_hint": "Start with CallWise if you want stronger sales coaching, or CourseAI if you want your team to build faster with AI.",
+    "path_links": {
+      "callwise": "Try CallWise free",
+      "courseai": "See CourseAI"
+    }
   },
   "contact": {
     "title": "Talk to Rafał or send context async",
@@ -327,11 +333,11 @@
     "founderCue": "Your first conversation is with Rafał — founder of AwesomeWorks and the person accountable for the work.",
     "founderCta": "Book 30 minutes with Rafał",
     "call_title": "What the first call is for",
-    "call_summary": "This is not a generic agency intro. The goal is to understand the pressure point, sharpen the decision, and see whether the right next step is a build, a prototype, or CourseAI for your internal team.",
+    "call_summary": "This is not a generic agency intro. The goal is to understand the pressure point, sharpen the decision, and see whether the right next step is a custom build, CallWise for the sales team, or CourseAI for your internal workflow.",
     "call_points": [
       "Clarify the business problem and current workflow",
       "Define the most sensible next step",
-      "Decide whether you need a build partner, a prototype, or CourseAI"
+      "Decide whether you need a custom build, CallWise, or CourseAI"
     ],
     "async_body": "Send context, screenshots, or a short brief if you prefer to start asynchronously.",
     "response_label": "Response time",

@@ -238,13 +238,13 @@
   "products": {
     "eyebrow": "Wybierz swój punkt startu",
     "title": "Zacznij od produktu albo workflow, które rozwiązuje dzisiejsze wąskie gardło",
-    "subtitle": "Niektóre zespoły chcą, żebyśmy zbudowali rozwiązanie za nich. Inne chcą usprawnić istniejący system. Jeszcze inne chcą poznać sposób pracy z AI stojący za szybszym dowożeniem. Te przykłady pomagają wybrać właściwą ścieżkę.",
+    "subtitle": "Jeśli gotowa ścieżka dowiezie wynik szybciej, zacznij od niej: CallWise dla lepszego coachingu i review rozmów, CourseAI dla founderów i zespołów budujących szybciej z AI.",
     "callwise": {
       "label": "Dla zespołów sprzedaży",
-      "tagline": "Analizuj każdą rozmowę sprzedażową i coachuj zespół na podstawie realnych danych.",
-      "description": "CallWise pokazuje Twojemu zespołowi, co najlepsi handlowcy robią inaczej, dzięki czemu coaching staje się szybszy, bardziej spójny i oparty na prawdziwych rozmowach.",
-      "cta": "Zobacz CallWise",
-      "microcopy": "Działający produkt · 5 rozmów za darmo"
+      "tagline": "Rozwijaj handlowców na podstawie rozmów, nie domysłów.",
+      "description": "Przeglądaj 100% rozmów, szybko wyłapuj luki coachingowe i usprawniaj codzienną pracę sprzedaży bez dokładania administracji. Dla zespołów sprzedaży, które chcą lepszych rozmów i szybkiej wartości w codziennym workflow.",
+      "cta": "Wypróbuj CallWise za darmo",
+      "microcopy": "14 dni za darmo · bez karty"
     },
     "goose": {
       "label": "Dla builderów AI",
@@ -262,10 +262,10 @@
     },
     "courseai": {
       "label": "Dla founderów i developerów",
-      "tagline": "Buduj SaaS szybciej z agentami AI, które naprawdę pomagają.",
-      "description": "CourseAI uczy realnego sposobu budowania z agentami: od pomysłu i specyfikacji po kod, review i wdrożenie — bez zbyt wczesnego dokładania ludzi.",
+      "tagline": "Buduj szybciej dzięki workflow AI, które da się powtarzać.",
+      "description": "Poznaj system, którego Rafał używa, żeby zamieniać issue w specyfikacje, PR-y i wdrożenia na produkcję. Dla founderów, developerów i zespołów, które chcą przyspieszyć delivery z AI bez chaosu.",
       "cta": "Zobacz CourseAI",
-      "microcopy": "Kurs po polsku · Darmowy rozdział 1"
+      "microcopy": "Darmowy rozdział 1 · workflow zbudowany przez foundera"
     }
   },
   "reviews": {
@@ -317,7 +317,13 @@
       "Bez sales decka — tylko uczciwa robocza rozmowa.",
       "Jeśli jest fit, Rafał zostaje blisko ważnych decyzji.",
       "Jeśli fitu jeszcze nie ma, i tak wychodzisz z jaśniejszym następnym ruchem."
-    ]
+    ],
+    "path_label": "Wolisz gotową ścieżkę?",
+    "path_hint": "Zacznij od CallWise, jeśli chcesz mocniejszego coachingu sprzedaży, albo od CourseAI, jeśli chcesz budować szybciej z AI we własnym zespole.",
+    "path_links": {
+      "callwise": "Wypróbuj CallWise za darmo",
+      "courseai": "Zobacz CourseAI"
+    }
   },
   "contact": {
     "title": "Porozmawiaj z Rafałem albo wyślij kontekst asynchronicznie",
@@ -327,11 +333,11 @@
     "founderCue": "Pierwszą rozmowę prowadzisz z Rafałem — founderem AwesomeWorks i osobą odpowiedzialną za pracę.",
     "founderCta": "Umów 30 minut z Rafałem",
     "call_title": "Po co jest ta pierwsza rozmowa",
-    "call_summary": "To nie jest generyczna rozmowa agencyjna. Celem jest zrozumienie punktu nacisku, wyostrzenie decyzji i sprawdzenie, czy kolejnym krokiem powinno być wdrożenie, prototyp czy CourseAI dla Twojego zespołu.",
+    "call_summary": "To nie jest generyczna rozmowa agencyjna. Celem jest zrozumienie punktu nacisku, wyostrzenie decyzji i sprawdzenie, czy kolejnym krokiem powinno być customowe wdrożenie, CallWise dla zespołu sprzedaży czy CourseAI dla wewnętrznego workflow.",
     "call_points": [
       "Doprecyzowanie problemu biznesowego i obecnego workflow",
       "Ustalenie najbardziej sensownego następnego kroku",
-      "Decyzja, czy potrzebujesz partnera do wdrożenia, prototypu czy CourseAI"
+      "Decyzja, czy potrzebujesz customowego wdrożenia, CallWise czy CourseAI"
     ],
     "async_body": "Wyślij kontekst, zrzuty ekranu albo krótki brief, jeśli wolisz zacząć asynchronicznie.",
     "response_label": "Czas odpowiedzi",
