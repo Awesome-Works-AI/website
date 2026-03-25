@@ -1,14 +1,14 @@
 {
   "meta": {
     "title": "AwesomeWorks — Founder-led AI systems for teams that need clarity and execution",
-    "description": "Work directly with Rafał to design, build, and implement AI systems without agency handoffs. Products, client proof, and a clear first call."
+    "description": "Work directly with Rafał to design, build, and implement AI systems without agency handoffs. Shipped products, client trust, and a clear first call."
   },
   "nav": {
     "services": "Proof",
     "process": "Problems",
     "about": "How it works",
     "products": "Rafał",
-    "reviews": "Builds",
+    "reviews": "Examples",
     "contact": "Contact",
     "cta": "Talk to Rafał"
   },
@@ -47,43 +47,43 @@
     ]
   },
   "social_proof": {
-    "eyebrow": "Proof before pitch",
-    "title": "Proof shows up early because the promise is simple",
-    "subtitle": "You see shipped products, direct founder access, and outside trust before the page asks for anything else.",
+    "eyebrow": "Why teams reach out",
+    "title": "The quickest way to judge us is to look at what is already working",
+    "subtitle": "Before you book time, you can see shipped products, outside reviews, and the founder you would actually work with.",
     "stats": [
       {
         "value": "Rafał",
-        "label": "Visible founder",
-        "detail": "Only one public point of contact — the founder accountable for the work."
+        "label": "Direct founder contact",
+        "detail": "The person you meet first is the one shaping scope and staying close to delivery."
       },
       {
-        "value": "3 products",
-        "label": "Built in production",
-        "detail": "CallWise, Ask, and LLM Goose show range: product, workflow, and tooling execution."
+        "value": "4 examples",
+        "label": "Live and public",
+        "detail": "CallWise, Ask, LLM Goose, and CourseAI show shipped products, tooling depth, and a faster way to build."
       },
       {
         "value": "Google reviews",
-        "label": "External trust",
-        "detail": "Client reviews remain visible, but now support the story instead of carrying the whole page."
+        "label": "Outside trust",
+        "detail": "You can check how clients describe the work before we ever speak."
       }
     ],
     "featured": {
-      "label": "Why this matters",
-      "title": "This is not a polished AI-agency pitch. It is a direct way to assess whether Rafał should help shape and ship your system.",
-      "description": "The proof is upfront, the path is clear, and the natural next step is a working conversation — not a sales sequence."
+      "label": "Start with the work",
+      "title": "If you want to know whether AwesomeWorks can help, start with the work, not the promise.",
+      "description": "Browse the shipped products, see the range, and decide whether you want help building a system, improving one, or learning the workflow inside your own team."
     },
     "items": [
       {
-        "title": "Products support the pitch instead of replacing it",
-        "description": "CallWise, Ask, and LLM Goose stay on the page as evidence that AwesomeWorks builds, launches, and maintains AI products."
+        "title": "CallWise shows what strong sales execution looks like",
+        "description": "You can see how AI becomes a repeatable coaching system inside a real sales process."
       },
       {
-        "title": "Trust appears earlier in the story",
-        "description": "Social proof moves above the fold narrative, so visitors see real signals of competence before reading feature-style sections."
+        "title": "CourseAI shows how teams build faster in-house",
+        "description": "If you want the workflow behind this kind of execution, CourseAI turns it into a practical system you can apply inside your own team."
       },
       {
-        "title": "Calendly becomes the primary conversion path",
-        "description": "The main action is a conversation with Rafał, making the page feel like a direct founder engagement rather than a lead form for an agency sales process."
+        "title": "Ask and LLM Goose show operations and engineering depth",
+        "description": "From finance workflows to agent testing, the work goes beyond demos and into the systems teams actually depend on."
       }
     ]
   },
@@ -236,36 +236,43 @@
     "cta": "Book time with Rafał"
   },
   "products": {
-    "eyebrow": "Built products as proof",
-    "title": "Products stay on the page — as evidence that execution is real",
-    "subtitle": "AwesomeWorks is not selling a product catalog. These products show that the team behind Rafał knows how to turn AI into shipped software, workflows, and measurable outcomes.",
+    "eyebrow": "Pick your starting point",
+    "title": "Start with the product or workflow that solves today's bottleneck",
+    "subtitle": "Some teams want us to build. Some want to improve an existing system. Others want to learn the exact AI workflow behind faster delivery. These examples help you choose the right path.",
     "callwise": {
-      "label": "Featured proof",
-      "tagline": "AI that reviews every sales call and turns coaching into a repeatable system.",
-      "description": "CallWise shows the kind of work AwesomeWorks does well: workflow clarity, applied AI, and a product that sits inside a real business process instead of living as a one-off demo.",
+      "label": "For sales teams",
+      "tagline": "Review every sales call and coach the team with real data.",
+      "description": "CallWise shows your team what top performers do differently, so coaching becomes faster, more consistent, and tied to real conversations.",
       "cta": "See CallWise",
-      "microcopy": "Live product · Sales workflow intelligence"
+      "microcopy": "Live product · 5 calls free"
     },
     "goose": {
-      "label": "Open-source proof",
-      "tagline": "A testing toolkit for teams building serious LLM agents.",
-      "description": "LLM Goose proves depth on agent quality, evaluation, and developer workflows — the kind of technical foundation that matters once AI moves into production.",
+      "label": "For AI builders",
+      "tagline": "Catch broken AI workflows before your users do.",
+      "description": "LLM Goose helps teams test prompts, tool calls, and agent behavior before those failures hit production.",
       "cta": "View on GitHub",
       "microcopy": "Open source · Agent testing and evaluation"
     },
     "ask": {
-      "label": "Product proof",
-      "tagline": "AI-assisted accounting workflows built around real operational pain.",
-      "description": "Ask demonstrates the product side of the work: taking a process-heavy domain and turning it into a cleaner, more useful system with AI in the loop.",
+      "label": "For finance and ops",
+      "tagline": "Accounting that keeps up with the pace of the business.",
+      "description": "Ask reduces manual finance work around invoices and reconciliations, so the team spends less time fixing admin and more time moving.",
       "cta": "Explore Ask",
       "microcopy": "Early access · Finance workflow automation"
+    },
+    "courseai": {
+      "label": "For founders and developers",
+      "tagline": "Build SaaS faster with AI agents that actually help.",
+      "description": "CourseAI teaches the real workflow behind shipping with agents: from idea and spec to code, review, and deploy, without hiring too early.",
+      "cta": "See CourseAI",
+      "microcopy": "Polish course · Free Chapter 1"
     }
   },
   "reviews": {
-    "eyebrow": "Client trust",
-    "title": "Reviews still matter — they just no longer have to do all the selling",
-    "subtitle": "External trust remains part of the story, but it now supports a stronger narrative built on proof of execution, founder access, and clearer positioning.",
-    "summary": "External validation from clients who already worked with AwesomeWorks.",
+    "eyebrow": "Client feedback",
+    "title": "See how clients describe working with AwesomeWorks",
+    "subtitle": "If you want an outside view, the reviews show how the collaboration feels once strategy turns into real delivery.",
+    "summary": "Feedback from clients who already worked with Rafał and AwesomeWorks.",
     "reviews_count": "reviews",
     "leave_review": "Leave a Google review",
     "see_on_google": "See Google reviews",
@@ -320,11 +327,11 @@
     "founderCue": "Your first conversation is with Rafał — founder of AwesomeWorks and the person accountable for the work.",
     "founderCta": "Book 30 minutes with Rafał",
     "call_title": "What the first call is for",
-    "call_summary": "This is not a generic agency intro. The goal is to understand the pressure point, sharpen the decision, and see whether the right next step is strategy, a prototype, or full implementation.",
+    "call_summary": "This is not a generic agency intro. The goal is to understand the pressure point, sharpen the decision, and see whether the right next step is a build, a prototype, or CourseAI for your internal team.",
     "call_points": [
       "Clarify the business problem and current workflow",
       "Define the most sensible next step",
-      "See whether AwesomeWorks is the right builder for it"
+      "Decide whether you need a build partner, a prototype, or CourseAI"
     ],
     "async_body": "Send context, screenshots, or a short brief if you prefer to start asynchronously.",
     "response_label": "Response time",
@@ -366,7 +373,7 @@
         "href": "#founder"
       },
       {
-        "label": "Builds",
+        "label": "Examples",
         "href": "#products"
       },
       {
