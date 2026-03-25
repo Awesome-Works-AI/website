@@ -1,25 +1,168 @@
 {
   "meta": {
-    "title": "Awesome Works AI — Więcej czasu, mniej kosztów | Automatyzacja AI",
-    "description": "Oszczędź 20+ godzin tygodniowo i zredukuj koszty operacyjne o 40%. AI, które przejmuje rutynowe zadania, żebyś Ty mógł skupić się na rozwoju. Bezpłatna konsultacja."
+    "title": "AwesomeWorks — AI prowadzone przez założyciela dla zespołów, które potrzebują jasności i dowiezienia",
+    "description": "Współpracuj bezpośrednio z Rafałem, aby zaprojektować, zbudować i wdrożyć system AI bez agencyjnych handoffów. Produkty, proof i konkretna pierwsza rozmowa."
   },
   "nav": {
-    "services": "Korzyści",
-    "process": "Jak działamy",
-    "about": "Poznaj Rafała",
-    "products": "Produkty",
-    "reviews": "Opinie",
+    "services": "Dowody",
+    "process": "Problemy",
+    "about": "Jak pracujemy",
+    "products": "Rafał",
+    "reviews": "Produkty",
     "contact": "Kontakt",
-    "cta": "Porozmawiajmy"
+    "cta": "Porozmawiaj z Rafałem"
   },
   "hero": {
-    "title_line1": "Oszczędź czas i pieniądze",
-    "title_line2": "dzięki AI",
-    "subtitle": "Zautomatyzuj rutynowe zadania, obsługuj klientów 24/7 i skaluj biznes bez zatrudniania. Konkretne wyniki w tygodniach, nie miesiącach.",
-    "cta_primary": "Bezpłatna konsultacja",
-    "cta_secondary": "Zobacz korzyści",
-    "cta_micro": "Odpowiedź w 24h · Bez zobowiązań",
-    "founderMicro": "Projekt prowadzony przez założyciela. Mniej pośredników, większa odpowiedzialność."
+    "eyebrow": "Partner AI prowadzony przez założyciela",
+    "title_line1": "Projektujemy i wdrażamy systemy AI",
+    "title_line2": "bez agencyjnego chaosu",
+    "subtitle": "AwesomeWorks pomaga zespołom zamieniać pomysły na AI w działające systemy — z Rafałem obecnym od pierwszej rozmowy, przez strategię, build i wdrożenie.",
+    "cta_primary": "Umów rozmowę z Rafałem",
+    "cta_secondary": "Zobacz jak pracujemy",
+    "cta_micro": "30 minut konkretu · Bez sales decka · Bezpośredni kontakt z founderem",
+    "founderMicro": "Najpierw rozmawiasz z Rafałem. Mniej pośredników, szybsze decyzje, większa odpowiedzialność.",
+    "card_label": "Co dostajesz na pierwszej rozmowie",
+    "card_title": "Najpierw klarowność. Potem konkretny plan działania.",
+    "card_points": [
+      "Mapujemy wąskie gardło, które naprawdę warto rozwiązać teraz — nie abstrakcyjną listę życzeń wokół AI.",
+      "Wychodzisz z lepszą decyzją: co automatyzować, co prototypować i czego jeszcze nie budować.",
+      "Jeśli jest fit, Rafał zostaje osobą odpowiedzialną od pierwszego scope'u do delivery."
+    ],
+    "stats": [
+      {
+        "value": "Bezpośrednio",
+        "label": "Kontakt z founderem",
+        "detail": "Osoba, z którą rozmawiasz na starcie, zostaje blisko kluczowych decyzji produktowych i technicznych."
+      },
+      {
+        "value": "3 w 1",
+        "label": "Strategia + build + wdrożenie",
+        "detail": "Jeden przepływ od discovery do delivery zamiast slajdów przekazanych dalej."
+      },
+      {
+        "value": "Dowód",
+        "label": "Produkty i historia dowożenia",
+        "detail": "Nie tylko doradzamy w AI — sami budujemy i rozwijamy produkty AI."
+      }
+    ]
+  },
+  "social_proof": {
+    "eyebrow": "Najpierw dowód",
+    "title": "Dowód pojawia się wcześnie, bo obietnica jest prosta",
+    "subtitle": "Najpierw widzisz produkty, bezpośredni dostęp do Rafała i zewnętrzne zaufanie — zanim strona poprosi o cokolwiek więcej.",
+    "stats": [
+      {
+        "value": "Rafał",
+        "label": "Jeden publiczny kontakt",
+        "detail": "Widoczna jest tylko osoba odpowiedzialna za pracę — founder."
+      },
+      {
+        "value": "3 produkty",
+        "label": "Zbudowane i działające",
+        "detail": "CallWise, Ask i LLM Goose pokazują zakres: produkt, workflow i tooling."
+      },
+      {
+        "value": "Opinie Google",
+        "label": "Zewnętrzne zaufanie",
+        "detail": "Opinie klientów nadal są na stronie, ale wspierają historię zamiast ją dźwigać w pojedynkę."
+      }
+    ],
+    "featured": {
+      "label": "Dlaczego to działa",
+      "title": "To nie jest wypolerowany pitch “agencji AI”. To prosty sposób, żeby ocenić, czy Rafał powinien pomóc ukształtować i dowieźć Twój system.",
+      "description": "Dowód jest z przodu, ścieżka jest jasna, a naturalnym kolejnym krokiem staje się robocza rozmowa — nie sekwencja sprzedażowa."
+    },
+    "items": [
+      {
+        "title": "Produkty wspierają pitch zamiast go zastępować",
+        "description": "CallWise, Ask i LLM Goose zostają na stronie jako dowód, że AwesomeWorks buduje, uruchamia i utrzymuje produkty AI."
+      },
+      {
+        "title": "Zaufanie pojawia się wcześniej",
+        "description": "Social proof trafia wyżej, więc odwiedzający widzi realne sygnały kompetencji zanim dotrze do kolejnych sekcji."
+      },
+      {
+        "title": "Calendly staje się główną konwersją",
+        "description": "Najważniejszą akcją jest rozmowa z Rafałem, więc strona przypomina bezpośrednią współpracę z założycielem, a nie formularz leadowy dla sprzedaży agencyjnej."
+      }
+    ]
+  },
+  "problems": {
+    "eyebrow": "Gdzie zespoły się blokują",
+    "title": "Większość projektów AI nie wykłada się na modelach. Wykłada się na przekazywaniu kontekstu, rozmytym zakresie i braku właściciela decyzji.",
+    "subtitle": "Firmy, które trafiają do AwesomeWorks, zwykle nie potrzebują więcej inspiracji. Potrzebują ostrzejszych decyzji, mniej warstw i kogoś, kto zamieni niejasność w dowieziony system.",
+    "items": [
+      {
+        "title": "Za dużo rozmów, za mało ruchu",
+        "description": "Strategia powstaje w jednym miejscu, techniczna rzeczywistość w drugim, a wdrożenie grzęźnie między agencją, freelancerami i zespołem wewnętrznym."
+      },
+      {
+        "title": "AI bywa traktowane jak demo, a nie jak element operacyjny",
+        "description": "Zespół robi coś efektownego, ale to nigdy nie staje się częścią workflow, revenue motion ani codziennej pracy."
+      },
+      {
+        "title": "Nikt nie prowadzi decyzji od pierwszej rozmowy do launchu",
+        "description": "Gdy scope trafia do delivery, kontekst jest już rozcieńczony. To tworzy rework, gorsze priorytety i niepotrzebne niespodzianki."
+      },
+      {
+        "title": "Kupujący chcą najpierw klarowności, dopiero potem oferty",
+        "description": "Pierwsza rozmowa powinna pomóc zrozumieć, co warto budować teraz, co może poczekać i jaki rezultat jest realny."
+      }
+    ]
+  },
+  "workflow": {
+    "eyebrow": "Od strategii do wdrożenia",
+    "title": "Jeden sposób pracy dla klarowności, dowiezienia i adopcji",
+    "subtitle": "AwesomeWorks łączy framing strategiczny, product thinking i praktyczne wdrożenie, żeby praca nie rozmywała się między zewnętrznymi wykonawcami i dodatkowymi warstwami obsługi klienta.",
+    "steps": [
+      {
+        "number": "1",
+        "title": "Rozmowa z Rafałem, która porządkuje kierunek",
+        "description": "Rozpakowujemy problem biznesowy, obecny workflow i presję decyzyjną. Celem nie jest sprzedaż pakietu, tylko zrozumienie, co naprawdę warto rozwiązać."
+      },
+      {
+        "number": "2",
+        "title": "Precyzyjny projekt systemu",
+        "description": "Definiujemy docelowy przepływ, granice scope'u, kryteria sukcesu i miejsce, w którym AI daje leverage zamiast komplikacji."
+      },
+      {
+        "number": "3",
+        "title": "Budowa i wdrożenie",
+        "description": "Dowozimy system, integrujemy go z realnym workflow i trzymamy pętlę na tyle krótką, żeby decyzje produktowe i techniczne zapadały szybko."
+      },
+      {
+        "number": "4",
+        "title": "Iteracja z odpowiedzialnością",
+        "description": "Po starcie praca trwa dalej przez kolejne usprawnienia, wsparcie i bezpośrednią komunikację, a nie znika w generycznej kolejce maintenance."
+      }
+    ],
+    "first_call": {
+      "label": "Po rozmowie masz",
+      "title": "Ostrzejszy punkt widzenia na następny ruch",
+      "items": [
+        {
+          "title": "Właściwy problem do rozwiązania jako pierwszy",
+          "description": "Wskazujemy workflow, bottleneck zespołu lub szansę revenue, która zasługuje na uwagę teraz."
+        },
+        {
+          "title": "Realistyczną ścieżkę budowy",
+          "description": "Wiesz, czy kolejnym krokiem powinien być audit, prototyp, narzędzie wewnętrzne czy system produkcyjny."
+        },
+        {
+          "title": "Mniej szumu wokół AI",
+          "description": "Bez teatru i bez nadmuchanej roadmapy — tylko konkretny kierunek oparty o Twoją obecną rzeczywistość operacyjną."
+        }
+      ]
+    },
+    "rhythm": {
+      "label": "Rytm współpracy",
+      "title": "Jak to powinno wyglądać w praktyce",
+      "items": [
+        "Jasna odpowiedzialność od pierwszej rozmowy do release'u",
+        "Szybkie decyzje bez agencyjnego ping-ponga",
+        "Produkty, prototypy i wdrożenie w jednej pętli"
+      ]
+    }
   },
   "services": {
     "title": "Jakie korzyści zyskasz?",
@@ -46,143 +189,208 @@
   "process": {
     "title": "Jak działamy",
     "steps": [
-      { "number": "1", "title": "Rozmowa", "description": "Poznajemy Twój biznes i wyzwania. Bez zobowiązań." },
-      { "number": "2", "title": "Propozycja", "description": "Przygotowujemy rozwiązanie szyte na miarę z jasną wyceną." },
-      { "number": "3", "title": "Realizacja", "description": "Budujemy, testujemy, wdrażamy. Jesteś na bieżąco." },
-      { "number": "4", "title": "Wsparcie", "description": "Po wdrożeniu nie zostawiamy Cię samego." }
+      {
+        "number": "1",
+        "title": "Rozmowa",
+        "description": "Poznajemy Twój biznes i wyzwania. Bez zobowiązań."
+      },
+      {
+        "number": "2",
+        "title": "Propozycja",
+        "description": "Przygotowujemy rozwiązanie szyte na miarę z jasną wyceną."
+      },
+      {
+        "number": "3",
+        "title": "Realizacja",
+        "description": "Budujemy, testujemy, wdrażamy. Jesteś na bieżąco."
+      },
+      {
+        "number": "4",
+        "title": "Wsparcie",
+        "description": "Po wdrożeniu nie zostawiamy Cię samego."
+      }
     ]
   },
   "team": {
-    "title": "Nasz zespół",
+    "title": "Założyciel",
     "members": [
       {
         "name": "Rafał",
         "role": "Founder",
         "photo": "/rafal.jpeg"
-      },
-      {
-        "name": "Filip",
-        "role": "Software Engineer",
-        "photo": "/filip.jpeg"
-      },
-      {
-        "name": "Tymoteusz",
-        "role": "Software Engineer",
-        "photo": "/tymek.jpg"
       }
     ]
   },
   "founder": {
-    "sectionTitle": "Osoba odpowiedzialna za Twój projekt",
+    "sectionTitle": "Pracujesz bezpośrednio z założycielem, który pomaga ukształtować i dowieźć system",
     "eyebrow": "Projekt prowadzony przez założyciela",
     "role": "Założyciel i partner techniczny",
-    "bio": "Bez warstwy sprzedażowej i bez zgadywania. Rafał prowadzi kluczowe decyzje od pierwszej rozmowy po realizację, współpracując z małym zespołem seniorów.",
+    "bio": "Bez warstwy sprzedażowej. Bez generycznego handoffu. Rafał zostaje blisko decyzji, które definiują scope, jakość delivery i to, jak system naprawdę ląduje w zespole.",
     "supportingPoints": [
-      "Bezpośredni kontakt od pierwszej rozmowy do realizacji",
-      "Szybsze decyzje produktowe i techniczne bez zbędnych warstw",
-      "Mały zespół seniorów, który dowozi zamiast przekazywać projekt dalej"
+      "Od pierwszej rozmowy rozmawiasz bezpośrednio z Rafałem.",
+      "Trade-offy produktowe i techniczne zapadają szybko, bez utraty kontekstu.",
+      "Praca pozostaje osadzona w delivery, a nie w broszurowej wersji transformacji AI."
     ],
-    "teamLabel": "W realizacji wspiera go mały zespół seniorów AwesomeWorks.",
-    "cta": "Porozmawiaj z Rafałem"
+    "availability": "Jeśli zaczynamy współpracę, relacja od początku ma formę bezpośredniej rozmowy z założycielem — nie kwalifikacyjnego lejka.",
+    "quote": "Cel pierwszej rozmowy jest prosty: pomóc Ci zobaczyć właściwy następny ruch, niezależnie od tego, czy finalnie będziemy to budować razem.",
+    "cta": "Zarezerwuj czas z Rafałem"
   },
   "products": {
-    "title": "Nasze produkty",
-    "subtitle": "Rozwiązania stworzone i utrzymywane przez nasz zespół",
+    "eyebrow": "Produkty jako proof",
+    "title": "Produkty zostają na stronie — jako dowód, że dowożenie jest realne",
+    "subtitle": "AwesomeWorks nie sprzedaje katalogu produktów. Te produkty pokazują, że zespół Rafała potrafi zamienić AI w działające oprogramowanie, sprawniejsze procesy i mierzalny efekt.",
     "callwise": {
-      "tagline": "Każda rozmowa oceniona. Każdy handlowiec lepszy.",
-      "description": "AI analizuje 100% rozmów sprzedażowych i pokazuje, co odróżnia najlepszych od reszty. Twój zespół uczy się szybciej, zamyka więcej deali.",
-      "cta": "Wypróbuj za darmo",
-      "microcopy": "5 rozmów za darmo · Bez karty"
+      "label": "Główny proof",
+      "tagline": "AI, które analizuje każdą rozmowę sprzedażową i zamienia coaching w powtarzalny system.",
+      "description": "CallWise pokazuje typ pracy, w której AwesomeWorks jest mocne: klarowny workflow, praktyczne użycie AI i produkt osadzony w realnym procesie biznesowym, a nie w jednorazowym demo.",
+      "cta": "Zobacz CallWise",
+      "microcopy": "Działający produkt · Intelligence dla workflow sprzedaży"
     },
     "goose": {
-      "tagline": "Testuj agentów AI jak profesjonalista.",
-      "description": "Biblioteka Python do kompleksowego testowania agentów LLM. Definiuj oczekiwania w naturalnym języku, weryfikuj wywołania narzędzi, analizuj wyniki w dashboardzie.",
+      "label": "Dowód open source",
+      "tagline": "Toolkit testowy dla zespołów budujących poważne agenty LLM.",
+      "description": "LLM Goose pokazuje głębię w obszarze quality, evaluation i workflow developerskiego — czyli fundamentach, które mają znaczenie, gdy AI trafia do produkcji.",
       "cta": "Zobacz na GitHub",
-      "microcopy": "Open source · MIT License"
+      "microcopy": "Open source · Testowanie i ocena agentów"
     },
     "ask": {
-      "tagline": "Księgowość z AI. Szybciej, prościej, bezbłędnie.",
-      "description": "AI, które automatyzuje księgowość — od faktur po rozliczenia. Mniej ręcznej pracy, zero pomyłek, pełna kontrola nad finansami firmy.",
-      "cta": "Dowiedz się więcej",
-      "microcopy": "Dla firm i biur rachunkowych · Early Access"
+      "label": "Dowód produktowy",
+      "tagline": "Workflow księgowy wspierany przez AI, zbudowany wokół realnego bólu operacyjnego.",
+      "description": "Ask pokazuje produktową stronę pracy: wzięcie procesu pełnego tarcia i zamienienie go w czystszy, bardziej użyteczny system z AI w środku.",
+      "cta": "Poznaj Ask",
+      "microcopy": "Early access · Automatyzacja workflow finansowego"
     }
   },
   "reviews": {
-    "title": "Co mówią nasi klienci",
-    "subtitle": "Sprawdź opinie klientów, którzy już korzystają z naszych rozwiązań AI",
+    "eyebrow": "Zaufanie klientów",
+    "title": "Opinie nadal są ważne — ale nie muszą już sprzedawać całej strony",
+    "subtitle": "Zewnętrzne zaufanie pozostaje częścią historii, ale teraz wspiera mocniejszy przekaz zbudowany na dowodach wykonania, bezpośrednim dostępie do Rafała i lepszym pozycjonowaniu.",
+    "summary": "Zewnętrzna walidacja od klientów, którzy już współpracowali z AwesomeWorks.",
     "reviews_count": "opinii",
-    "leave_review": "Zostaw opinię na Google",
-    "see_on_google": "Zobacz opinie na Google",
-    "fallback_text": "Sprawdź nasze opinie na Google i przekonaj się, jak pomagamy firmom oszczędzać czas i pieniądze dzięki AI."
+    "leave_review": "Zostaw opinię w Google",
+    "see_on_google": "Zobacz opinie Google",
+    "fallback_text": "Sprawdź opinie Google i zobacz, jak klienci opisują współpracę z AwesomeWorks."
   },
   "faq": {
     "title": "Najczęstsze pytania",
     "items": [
       {
-        "q": "Na jakie projekty się specjalizujecie?",
-        "a": "Specjalizujemy się w rozwiązaniach AI i automatyzacji: chatboty, analiza rozmów, automatyzacja procesów, systemy rekomendacji. Jeśli Twój problem można rozwiązać z AI — porozmawiajmy."
+        "q": "Dla jakich projektów AwesomeWorks sprawdza się najlepiej?",
+        "a": "Najlepiej sprawdzamy się tam, gdzie potrzeba czegoś więcej niż prototypu. Pracujemy nad systemami AI, narzędziami wewnętrznymi, automatyzacją procesów i doświadczeniami produktowymi, w których strategia i wdrożenie muszą być połączone."
       },
       {
-        "q": "Ile kosztuje projekt?",
-        "a": "Każdy projekt wyceniamy indywidualnie, w zależności od Twoich potrzeb i oczekiwań. Po bezpłatnej konsultacji discovery przygotowujemy spersonalizowaną wycenę — zwykle w ciągu 5 dni roboczych."
+        "q": "Z kim rozmawiamy w trakcie współpracy?",
+        "a": "Rafał jest Twoim bezpośrednim kontaktem od pierwszej rozmowy i pozostaje zaangażowany w ważne decyzje produktowe i techniczne przez cały proces."
       },
       {
-        "q": "Jak długo trwa realizacja?",
-        "a": "MVP w 4–6 tygodni, pełny produkt w 2–4 miesiące. Zależy od złożoności — konkretny harmonogram ustalamy po discovery call."
+        "q": "Co dzieje się na pierwszej rozmowie?",
+        "a": "Pierwsza rozmowa służy klarowności. Patrzymy na problem, obecny workflow, ograniczenia i to, jaki następny krok ma największy sens. Ma być użyteczna nawet wtedy, gdy finalnie nie zaczniemy współpracy."
       },
       {
-        "q": "Czy oferujecie wsparcie po wdrożeniu?",
-        "a": "Tak. Po launchu oferujemy pakiety maintenance i rozwoju. Nie zostawiamy klientów po wdrożeniu."
+        "q": "Jak wyceniacie projekty?",
+        "a": "Każdy projekt wyceniamy indywidualnie. Po pierwszej rozmowie określamy właściwy kształt pracy — audyt, prototyp, wdrożenie albo budowę produktu — a potem przygotowujemy dopasowaną propozycję."
       },
       {
-        "q": "Jakie technologie używacie?",
-        "a": "Python, TypeScript, React, Astro, OpenAI, Anthropic, LangChain, RAG pipelines, cloud-native (AWS/GCP). Dobieramy stack do potrzeb projektu."
+        "q": "Czy zostajecie po wdrożeniu?",
+        "a": "Tak. Celem nie jest tylko wypuścić coś na produkcję, ale sprawić, żeby to działało w zespole. Zwykle oznacza to iterację, wsparcie i dalsze ulepszenia po starcie."
       },
       {
-        "q": "Jak zacząć współpracę?",
-        "a": "Umów bezpłatną konsultację przez formularz lub Calendly. Na 30-minutowej rozmowie poznamy Twoje potrzeby i zaproponujemy kierunek. Bez zobowiązań."
+        "q": "Jakich technologii używacie?",
+        "a": "Python, TypeScript, Astro, React, API modeli językowych, automatyzacja procesów, warstwy oceny jakości i infrastruktura chmurowa. Stack wynika z problemu, nie odwrotnie."
       }
     ]
   },
   "final_cta": {
-    "title": "Ile możesz zaoszczędzić?",
-    "subtitle": "Porozmawiajmy o Twoich procesach. Pokażemy konkretne liczby — ile czasu i pieniędzy możesz odzyskać. Bez zobowiązań.",
-    "cta_primary": "Sprawdź za darmo",
-    "cta_secondary": "Umów spotkanie"
+    "eyebrow": "Następny krok",
+    "title": "Jeśli problem jest realny, najlepszym następnym krokiem jest bezpośrednia rozmowa z Rafałem.",
+    "subtitle": "Przynieś nawet nieuporządkowaną wersję. Pierwsza rozmowa ma wyostrzyć decyzję, a nie wepchnąć Cię w pakiet.",
+    "cta_primary": "Umów rozmowę z Rafałem",
+    "cta_secondary": "Wolisz formularz kontaktowy?",
+    "points": [
+      "Bez sales decka — tylko uczciwa robocza rozmowa.",
+      "Jeśli jest fit, Rafał zostaje blisko ważnych decyzji.",
+      "Jeśli fitu jeszcze nie ma, i tak wychodzisz z jaśniejszym następnym ruchem."
+    ]
   },
   "contact": {
-    "title": "Kontakt",
-    "subtitle": "Napisz do nas lub umów się na rozmowę",
+    "title": "Porozmawiaj z Rafałem albo wyślij kontekst asynchronicznie",
+    "subtitle": "Calendly to najszybsza droga, jeśli chcesz szybko odzyskać klarowność. Jeśli wygodniej, wyślij krótki brief przez formularz, a wrócimy z konkretnym następnym krokiem.",
     "email_label": "Email",
-    "calendly_label": "Umów spotkanie w kalendarzu",
-    "founderCue": "Pierwszą rozmowę prowadzi Rafał — założyciel AwesomeWorks i osoba odpowiedzialna za realizację.",
+    "calendly_label": "Umów rozmowę",
+    "founderCue": "Pierwszą rozmowę prowadzisz z Rafałem — founderem AwesomeWorks i osobą odpowiedzialną za pracę.",
     "founderCta": "Umów 30 minut z Rafałem",
-    "testimonial": "Pierwsza konsultacja jest bezpłatna. Porozmawiajmy o Twoich potrzebach bez zobowiązań.",
-    "form_title": "Zostaw do siebie kontakt – odezwiemy się w 24h!",
+    "call_title": "Po co jest ta pierwsza rozmowa",
+    "call_summary": "To nie jest generyczna rozmowa wprowadzająca. Celem jest zrozumienie punktu nacisku, wyostrzenie decyzji i sprawdzenie, czy kolejnym krokiem powinna być strategia, prototyp czy pełne wdrożenie.",
+    "call_points": [
+      "Doprecyzowanie problemu biznesowego i obecnego workflow",
+      "Ustalenie najbardziej sensownego następnego kroku",
+      "Sprawdzenie, czy AwesomeWorks jest właściwym partnerem do tego zadania"
+    ],
+    "async_body": "Wyślij kontekst, zrzuty ekranu albo krótki brief, jeśli wolisz zacząć asynchronicznie.",
+    "response_label": "Czas odpowiedzi",
+    "response_title": "Przemyślana odpowiedź w 24 godziny",
+    "response_body": "Jeśli napiszesz przez formularz, spodziewaj się odpowiedzi, która realnie pcha rozmowę do przodu, a nie generycznego potwierdzenia odbioru.",
+    "form_title": "Wyślij krótki brief",
     "form_name": "Imię",
     "form_email": "Email",
-    "form_phone": "Telefon",
+    "form_phone": "Telefon (opcjonalnie)",
     "form_phone_placeholder": "123 123 123",
     "form_phone_search": "Szukaj kraju...",
-    "form_message": "Wiadomość",
+    "form_message": "Opisz, co próbujesz rozwiązać",
     "form_submit": "Wyślij wiadomość",
     "form_success": "Dzięki! Odezwiemy się wkrótce."
   },
   "footer": {
-    "tagline": "Więcej czasu, mniej kosztów, lepsze wyniki",
+    "tagline": "Systemy AI prowadzone przez założyciela — strategia, budowa i wdrożenie w jednym przepływie.",
     "navigation": "Nawigacja",
     "legal": "Prawne",
     "nav_links": [
-      { "label": "Korzyści", "href": "#services" },
-      { "label": "Jak działamy", "href": "#process" },
-      { "label": "Poznaj Rafała", "href": "#founder" },
-      { "label": "Produkty", "href": "#products" },
-      { "label": "Opinie", "href": "#reviews" },
-      { "label": "Kontakt", "href": "#contact" }
+      {
+        "label": "Start",
+        "href": "#top"
+      },
+      {
+        "label": "Dowody",
+        "href": "#proof"
+      },
+      {
+        "label": "Problemy",
+        "href": "#problems"
+      },
+      {
+        "label": "Jak pracujemy",
+        "href": "#workflow"
+      },
+      {
+        "label": "Rafał",
+        "href": "#founder"
+      },
+      {
+        "label": "Produkty",
+        "href": "#products"
+      },
+      {
+        "label": "Opinie",
+        "href": "#reviews"
+      },
+      {
+        "label": "FAQ",
+        "href": "#faq"
+      },
+      {
+        "label": "Kontakt",
+        "href": "#contact"
+      }
     ],
     "legal_links": [
-      { "label": "Polityka prywatności", "href": "/pl/privacy" },
-      { "label": "Regulamin", "href": "/pl/terms" }
+      {
+        "label": "Polityka prywatności",
+        "href": "/pl/privacy"
+      },
+      {
+        "label": "Regulamin",
+        "href": "/pl/terms"
+      }
     ],
     "copyright": "© 2026 Awesome Works AI. Wszelkie prawa zastrzeżone."
   }

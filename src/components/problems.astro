@@ -1,0 +1,52 @@
+---
+import { t, type Locale } from "@/i18n/utils";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const i = t(locale);
+---
+
+<section id="problems" class="relative py-20 sm:py-32">
+  <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+    <div class="animate-on-scroll max-w-3xl">
+      <div class="text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground/60">
+        {i.problems.eyebrow}
+      </div>
+      <h2 class="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+        {i.problems.title}
+      </h2>
+      <p class="mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+        {i.problems.subtitle}
+      </p>
+    </div>
+
+    <div class="mt-14 grid grid-cols-12 gap-x-8 gap-y-10 md:gap-y-14">
+      {
+        i.problems.items.map((problem, idx) => (
+          <div
+            class:list={[
+              "animate-on-scroll border-l-[3px] pl-5",
+              idx === 0
+                ? "border-l-amber-500 md:col-span-12 md:max-w-2xl"
+                : idx === 1
+                  ? "border-l-amber-500/75 md:col-span-7"
+                  : idx === 2
+                    ? "border-l-amber-400/55 md:col-span-5"
+                    : "border-l-amber-300/35 md:col-span-6 md:col-start-4",
+            ]}
+            style={`transition-delay: ${idx * 90}ms`}
+          >
+            <span class="text-sm font-mono text-muted-foreground/50">
+              {String(idx + 1).padStart(2, "0")}
+            </span>
+            <h3 class="mt-1 text-xl font-semibold text-foreground">{problem.title}</h3>
+            <p class="mt-2 leading-relaxed text-muted-foreground">{problem.description}</p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
