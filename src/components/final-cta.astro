@@ -7,65 +7,62 @@ interface Props {
 
 const { locale } = Astro.props;
 const i = t(locale);
+const founder = i.team.members[0];
 ---
 
-<section class="relative py-20 sm:py-28">
-  <div class="pointer-events-none absolute inset-0 gradient-mesh-strong"></div>
+<section class="relative overflow-hidden bg-gray-950 py-20 sm:py-24">
+  <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(99,102,241,0.12),transparent_35%),radial-gradient(circle_at_bottom_right,rgba(16,185,129,0.08),transparent_28%)]"></div>
 
-  <div class="relative mx-auto max-w-3xl px-4 text-center sm:px-6 lg:px-8">
-    <h2
-      class="animate-on-scroll mb-6 text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl"
-    >
-      {i.final_cta.title}
-    </h2>
-    <p
-      class="animate-on-scroll mx-auto mb-10 max-w-xl text-lg leading-relaxed text-muted-foreground"
-    >
-      {i.final_cta.subtitle}
-    </p>
-    <div
-      class="animate-on-scroll flex flex-col items-center justify-center gap-4 sm:flex-row"
-    >
-      <a
-        href="#contact"
-        class="group inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-600 to-indigo-400 px-8 py-3.5 text-base font-semibold text-white shadow-lg shadow-indigo-500/25 transition-all hover:shadow-xl hover:shadow-indigo-500/30 hover:brightness-110"
-      >
-        {i.final_cta.cta_primary}
-        <svg
-          class="h-4 w-4 transition-transform group-hover:translate-x-0.5"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <path d="M5 12h14"></path>
-          <path d="m12 5 7 7-7 7"></path>
-        </svg>
-      </a>
-      <a
-        href="https://calendly.com/hello-awesomeworks/30min"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="inline-flex items-center gap-2 rounded-xl border border-white/[0.1] bg-white/[0.04] px-8 py-3.5 text-base font-semibold text-foreground transition-all hover:bg-white/[0.08]"
-      >
-        {i.final_cta.cta_secondary}
-        <svg
-          class="h-4 w-4"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <rect width="18" height="18" x="3" y="4" rx="2" ry="2"></rect>
-          <line x1="16" x2="16" y1="2" y2="6"></line>
-          <line x1="8" x2="8" y1="2" y2="6"></line>
-          <line x1="3" x2="21" y1="10" y2="10"></line>
-        </svg>
-      </a>
+  <div class="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+    <div class="grid gap-10 lg:grid-cols-12 lg:items-start">
+      <div class="animate-on-scroll lg:col-span-7">
+        <div class="text-xs font-medium uppercase tracking-[0.2em] text-white/45">
+          {i.final_cta.eyebrow}
+        </div>
+        <h2 class="mt-4 max-w-3xl text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-5xl">
+          {i.final_cta.title}
+        </h2>
+        <p class="mt-6 max-w-2xl text-lg leading-relaxed text-white/68">
+          {i.final_cta.subtitle}
+        </p>
+
+        <div class="mt-8 border-t border-white/10 pt-5">
+          <div class="text-sm font-medium text-white">{founder.name}</div>
+          <div class="mt-1 text-sm text-white/55">{i.founder.role}</div>
+        </div>
+      </div>
+
+      <div class="animate-on-scroll lg:col-span-5">
+        <div class="rounded-[1.5rem] bg-white/95 p-6 text-gray-900 sm:p-7">
+          <div class="text-xs font-medium uppercase tracking-[0.2em] text-gray-500">
+            {i.hero.card_label}
+          </div>
+          <div class="mt-5 divide-y divide-gray-200/80 border-t border-gray-200/80">
+            {
+              i.final_cta.points.map((point) => (
+                <p class="py-4 text-sm leading-relaxed text-gray-600 first:pt-0 last:pb-0">{point}</p>
+              ))
+            }
+          </div>
+
+          <div class="mt-8 flex flex-col items-start gap-3">
+            <a
+              href="https://calendly.com/hello-awesomeworks/30min"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center rounded-full bg-gray-950 px-8 py-3.5 text-base font-semibold text-white transition-colors hover:bg-gray-800"
+            >
+              {i.final_cta.cta_primary}
+            </a>
+            <a
+              href="#contact"
+              class="text-sm font-medium text-gray-500 underline underline-offset-4 decoration-gray-300 transition-colors hover:text-gray-700 hover:decoration-emerald-500"
+            >
+              {i.final_cta.cta_secondary}
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
