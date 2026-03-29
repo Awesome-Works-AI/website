@@ -15,7 +15,9 @@ const personalHome = {
     meta: {
       title: "Rafał Łazicki — systemy AI, agenci i produkty budowane przez foundera",
       description:
-        "Personal landing Rafała Łazickiego. Od backendu i dużych danych do RAG-ów, agentów i harnessów. Zobacz produkty, sociale i umów rozmowę.",
+        "Systemy AI, które robią robotę, nie prezentację. Rafał Łazicki buduje agentów i produkty dla founderów i zespołów, które chcą szybciej dowozić.",
+      socialDescription:
+        "Rafał Łazicki buduje AI, które wykonuje realną pracę — nie demo.",
     },
     nav: {
       brand: "Rafał Łazicki",
@@ -205,7 +207,9 @@ const personalHome = {
     meta: {
       title: "Rafał Łazicki — AI systems, agents, and founder-built products",
       description:
-        "Personal landing for Rafał Łazicki. From backend and large datasets to early RAG systems, agents, and harnesses. See the work, socials, and get in touch.",
+        "Founder and AI engineer turning AI into working systems, agents, and products. Less demo theater, more delivery, automation, and leverage.",
+      socialDescription:
+        "Rafał Łazicki builds AI that does real work — not demo theater.",
     },
     nav: {
       brand: "Rafał Łazicki",

@@ -15,7 +15,12 @@ const locale = "en";
 const home = getPersonalHome(locale);
 ---
 
-<Base title={home.meta.title} description={home.meta.description} locale={locale}>
+<Base
+  title={home.meta.title}
+  description={home.meta.description}
+  socialDescription={home.meta.socialDescription}
+  locale={locale}
+>
   <Nav locale={locale} />
   <main>
     <Hero locale={locale} />
