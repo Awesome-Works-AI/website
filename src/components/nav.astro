@@ -12,8 +12,11 @@ const home = getPersonalHome(locale);
 const currentPath = Astro.url.pathname;
 const homeHref = `/${locale}/`;
 const isStoryPage = new RegExp(`^/${locale}/story/?$`).test(currentPath);
+const isHomePage = currentPath === "/" || new RegExp(`^/${locale}/?$`).test(currentPath);
 const resolvedLinks = home.nav.links.map((link) => {
-  const base = { id: link.id, label: link.label, active: false };
+  const base = { id: link.id, label: link.label, active: false, sectionId: link.id };
+
+  if (isHomePage) return { ...base, href: `#${link.id}` };
 
   if (link.id === "story") return { ...base, href: `/${locale}/story`, active: isStoryPage };
   if (link.id === "work") return { ...base, href: `${homeHref}#work` };
@@ -25,33 +28,21 @@ const resolvedLinks = home.nav.links.map((link) => {
 
 <nav
   aria-label="Section navigation"
+  data-scrollspy={isHomePage ? "true" : "false"}
   class="pointer-events-none fixed left-6 top-1/2 z-50 hidden -translate-y-1/2 lg:flex"
 >
   <div class="pointer-events-auto flex flex-col items-start gap-6">
-    <a
-      href={`/${locale}/`}
-      class="text-[10px] font-semibold uppercase tracking-[0.34em] text-muted-foreground/45 transition-colors hover:text-foreground"
-    >
-      {home.nav.brand}
-    </a>
-
     <div class="flex flex-col gap-3">
       {
         resolvedLinks.map((link) => (
           <a
             href={link.href}
+            data-rail-link
+            data-section-id={link.sectionId}
             aria-current={link.active ? "page" : undefined}
-            class:list={[
-              "group flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.26em] transition-colors",
-              link.active ? "text-foreground" : "text-muted-foreground/62 hover:text-foreground",
-            ]}
+            class:list={["group rail-link", link.active && "is-active"]}
           >
-            <span
-              class:list={[
-                "h-px transition-all duration-200",
-                link.active ? "w-10 bg-foreground" : "w-6 bg-white/18 group-hover:w-8 group-hover:bg-white/40",
-              ]}
-            ></span>
+            <span class="rail-link-line"></span>
             <span>{link.label}</span>
           </a>
         ))
@@ -67,3 +58,70 @@ const resolvedLinks = home.nav.links.map((link) => {
 <div class="fixed right-4 top-5 z-50 lg:hidden">
   <LanguagePicker currentLocale={locale} />
 </div>
+
+<script>
+  const rail = document.querySelector<HTMLElement>("nav[data-scrollspy]");
+  const railLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>("[data-rail-link]"));
+
+  if (rail && rail.dataset.scrollspy === "true" && railLinks.length > 0) {
+    const sections = railLinks
+      .map((link) => {
+        const sectionId = link.getAttribute("data-section-id");
+        if (!sectionId) return null;
+        const section = document.getElementById(sectionId) as HTMLElement | null;
+        return section ? { id: sectionId, element: section } : null;
+      })
+      .filter((section): section is { id: string; element: HTMLElement } => section !== null);
+
+    const setActiveLink = (activeId: string) => {
+      railLinks.forEach((link) => {
+        const isActive = link.getAttribute("data-section-id") === activeId;
+        link.classList.toggle("is-active", isActive);
+        if (isActive) {
+          link.setAttribute("aria-current", "location");
+        } else {
+          link.removeAttribute("aria-current");
+        }
+      });
+    };
+
+    const resolveActiveSection = () => {
+      if (sections.length === 0) return;
+
+      const targetLine = window.innerHeight * 0.35;
+      let activeSection = sections[0].id;
+      let closestDistance = Number.POSITIVE_INFINITY;
+
+      sections.forEach((section) => {
+        const rect = section.element.getBoundingClientRect();
+        const distance = Math.abs(rect.top - targetLine);
+
+        if (rect.top <= targetLine && distance < closestDistance) {
+          activeSection = section.id;
+          closestDistance = distance;
+        }
+      });
+
+      if (closestDistance === Number.POSITIVE_INFINITY) {
+        activeSection = sections[0].id;
+      }
+
+      setActiveLink(activeSection);
+    };
+
+    resolveActiveSection();
+
+    let ticking = false;
+    const handleScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(() => {
+        resolveActiveSection();
+        ticking = false;
+      });
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("resize", handleScroll);
+  }
+</script>
