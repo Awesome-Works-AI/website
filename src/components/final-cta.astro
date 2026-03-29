@@ -8,6 +8,7 @@ interface Props {
 const { locale } = Astro.props;
 const i = t(locale);
 const founder = i.team.members[0];
+const localizedProductUrl = (baseUrl: string) => `${baseUrl}/${locale}/`;
 ---
 
 <section class="relative overflow-hidden bg-gray-950 py-20 sm:py-24">
@@ -54,7 +55,7 @@ const founder = i.team.members[0];
             </p>
             <div class="mt-4 flex flex-wrap gap-3">
               <a
-                href="https://callwise.awesomeworks.ai"
+                href={localizedProductUrl("https://callwise.awesomeworks.ai")}
                 target="_blank"
                 rel="noopener noreferrer"
                 class="inline-flex items-center rounded-full border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-700 transition-colors hover:border-indigo-300 hover:text-gray-900"
@@ -62,7 +63,7 @@ const founder = i.team.members[0];
                 {i.final_cta.path_links.callwise}
               </a>
               <a
-                href="https://course.awesomeworks.ai"
+                href={localizedProductUrl("https://course.awesomeworks.ai")}
                 target="_blank"
                 rel="noopener noreferrer"
                 class="inline-flex items-center rounded-full border border-amber-300/60 bg-amber-50 px-4 py-2 text-sm font-semibold text-amber-900 transition-colors hover:border-amber-400 hover:bg-amber-100"

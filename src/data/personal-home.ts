@@ -2,7 +2,7 @@ import type { Locale } from "@/i18n/utils";
 
 const calendlyUrl = "https://calendly.com/hello-awesomeworks/30min";
 const emailUrl = "mailto:hello@awesomeworks.ai";
-const courseAiUrl = "https://course.awesomeworks.ai";
+const localizedProductUrl = (baseUrl: string, locale: Locale) => `${baseUrl}/${locale}/`;
 const githubUrl = "https://github.com/Raff-dev";
 const gooseUrl = "https://raff-dev.github.io/goose/";
 const gooseRepoUrl = "https://github.com/Raff-dev/goose";
@@ -95,14 +95,14 @@ const personalHome = {
         {
           id: "callwise",
           name: "CallWise",
-          label: "AI dla sprzedaży",
-          title: "Coaching rozmów sprzedażowych oparty na realnych callach.",
+          label: "Kontekst po rozmowie",
+          title: "Nie gub ustaleń z rozmowy, od których potem zależy delivery.",
           description:
-            "CallWise pomaga zespołom reviewować rozmowy, wyłapywać luki coachingowe i trenować handlowców na prawdziwych danych zamiast domysłach.",
-          href: "https://callwise.awesomeworks.ai",
+            "CallWise przechwytuje rozmowy discovery, notatki, action items i kluczowe ustalenia, żeby founder, PM i tech lead nie odbudowywali scope'u z fragmentów.",
+          href: localizedProductUrl("https://callwise.awesomeworks.ai", "pl"),
           cta: "Otwórz CallWise",
           note: "Produkt live",
-          aside: "Review rozmów, feedback coachingowy i sygnały z prawdziwej pracy sprzedaży.",
+          aside: "Jedna rozmowa staje się pierwszym artefaktem delivery, zamiast kolejnym taskiem na recap.",
         },
         {
           id: "courseai",
@@ -111,7 +111,7 @@ const personalHome = {
           title: "System pracy z agentami AI dla builderów, którzy chcą szybciej dowozić SaaS.",
           description:
             "CourseAI pokazuje workflow: pomysł → specyfikacja → kod → review → deploy, żeby budować szybciej bez dokładania headcountu zbyt wcześnie.",
-          href: courseAiUrl,
+          href: localizedProductUrl("https://course.awesomeworks.ai", "pl"),
           cta: "Otwórz CourseAI",
           note: "Aplikacja live",
           aside: "To nie katalog promptów. To system pracy dla builderów, którzy chcą domykać delivery częściej i spokojniej.",
@@ -287,14 +287,14 @@ const personalHome = {
         {
           id: "callwise",
           name: "CallWise",
-          label: "AI for sales",
-          title: "Sales coaching built on real calls.",
+          label: "Post-call context",
+          title: "Keep the client-call context that delivery will need later.",
           description:
-            "CallWise helps teams review conversations, find coaching gaps, and improve reps using real call data instead of guesswork.",
-          href: "https://callwise.awesomeworks.ai",
+            "CallWise captures discovery calls, notes, action items, and key decisions so founders, PMs, and tech leads stop rebuilding scope from fragments.",
+          href: localizedProductUrl("https://callwise.awesomeworks.ai", "en"),
           cta: "Open CallWise",
           note: "Live product",
-          aside: "Call reviews, coaching feedback, and signals taken from real sales work.",
+          aside: "One call becomes the first delivery artifact instead of another recap task.",
         },
         {
           id: "courseai",
@@ -303,7 +303,7 @@ const personalHome = {
           title: "A working system for builders who want to ship SaaS faster with AI agents.",
           description:
             "CourseAI teaches the workflow: idea → spec → code → review → deploy, so you can move faster without solving slow execution by hiring too early.",
-          href: courseAiUrl,
+          href: localizedProductUrl("https://course.awesomeworks.ai", "en"),
           cta: "Open CourseAI",
           note: "Live app",
           aside: "It is not a prompt catalog. It is a working system for builders who want more leverage and calmer delivery.",
