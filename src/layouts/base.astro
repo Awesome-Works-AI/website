@@ -8,10 +8,12 @@ interface Props {
   description: string;
   locale: Locale;
   ogImage?: string;
+  socialDescription?: string;
   includeFaqSchema?: boolean;
 }
 
-const { title, description, locale, ogImage, includeFaqSchema = false } = Astro.props;
+const { title, description, locale, ogImage, socialDescription, includeFaqSchema = false } =
+  Astro.props;
 const altLocale = locale === "en" ? "pl" : "en";
 const siteBase = Astro.site?.href ?? "https://awesomeworks.ai";
 const canonicalUrl = new URL(Astro.url.pathname, siteBase);
@@ -20,10 +22,12 @@ const altPath = localizedPath.replace(/^\/(pl|en)(?=\/|$)/, `/${altLocale}`);
 const defaultPath = localizedPath.replace(/^\/(pl|en)(?=\/|$)/, "/en");
 const altUrl = new URL(altPath, siteBase);
 const defaultUrl = new URL(defaultPath, siteBase);
-const ogImageAbsolute = new URL(
-  ogImage ?? (locale === "pl" ? "/og-image-pl.png" : "/og-image-en.png"),
-  siteBase
-).href;
+const ogImageAbsolute = new URL(ogImage ?? "/og-image.png", siteBase).href;
+const resolvedSocialDescription = socialDescription ?? description;
+const ogImageAlt =
+  locale === "pl"
+    ? "Rafał Łazicki — systemy AI, agenci i produkty budowane przez foundera"
+    : "Rafał Łazicki — AI systems, agents, and founder-built products";
 
 const i = t(locale);
 
@@ -33,7 +37,7 @@ const organizationJsonLd = {
   name: "AwesomeWorks",
   url: siteBase,
   logo: new URL("/logo.png", siteBase).href,
-  image: new URL("/og-image-en.png", siteBase).href,
+  image: ogImageAbsolute,
   description: description,
   foundingDate: "2021",
   address: {
@@ -84,10 +88,14 @@ const faqJsonLd = includeFaqSchema
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="AwesomeWorks" />
     <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
+    <meta property="og:description" content={resolvedSocialDescription} />
     <meta property="og:image" content={ogImageAbsolute} />
+    <meta property="og:image:url" content={ogImageAbsolute} />
+    <meta property="og:image:secure_url" content={ogImageAbsolute} />
+    <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={ogImageAlt} />
     <meta property="og:url" content={canonicalUrl.href} />
     <meta property="og:locale" content={locale === "en" ? "en_US" : "pl_PL"} />
     <meta
@@ -97,8 +105,11 @@ const faqJsonLd = includeFaqSchema
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
-    <meta name="twitter:description" content={description} />
+    <meta name="twitter:description" content={resolvedSocialDescription} />
     <meta name="twitter:image" content={ogImageAbsolute} />
+    <meta name="twitter:image:alt" content={ogImageAlt} />
+
+    <link rel="image_src" href={ogImageAbsolute} />
 
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
