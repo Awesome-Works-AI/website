@@ -8,7 +8,6 @@ interface Props {
 const { currentLocale } = Astro.props;
 const otherLocale = currentLocale === "en" ? "pl" : "en";
 const otherLabel = currentLocale === "en" ? "PL" : "EN";
-const otherFlag = currentLocale === "en" ? "🇵🇱" : "🇬🇧";
 const currentPath = Astro.url.pathname;
 const localizedPath = /^\/(pl|en)(?=\/|$)/.test(currentPath) ? currentPath : `/${currentLocale}/`;
 const alternatePath = localizedPath.replace(/^\/(pl|en)(?=\/|$)/, `/${otherLocale}`);
@@ -16,8 +15,8 @@ const alternatePath = localizedPath.replace(/^\/(pl|en)(?=\/|$)/, `/${otherLocal
 
 <a
   href={alternatePath}
-  class="inline-flex items-center gap-1.5 rounded-lg border border-white/[0.08] bg-white/[0.04] px-3 py-1.5 text-sm font-medium text-muted-foreground transition-all hover:bg-white/[0.08] hover:text-foreground"
+  class="inline-flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.28em] text-muted-foreground/60 transition-colors hover:text-foreground"
 >
-  <span>{otherFlag}</span>
+  <span class="text-muted-foreground/35">Lang</span>
   <span>{otherLabel}</span>
 </a>
