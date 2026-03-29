@@ -1,82 +1,66 @@
 ---
-import { t, type Locale } from "@/i18n/utils";
+import { getPersonalHome } from "@/data/personal-home";
+import type { Locale } from "@/i18n/utils";
 
 interface Props {
   locale: Locale;
 }
 
 const { locale } = Astro.props;
-const i = t(locale);
+const { hero } = getPersonalHome(locale);
 ---
 
-<section id="top" class="relative overflow-hidden pt-32 pb-16 sm:pt-40 sm:pb-24">
+<section id="top" class="presentation-slide pt-28 sm:pt-32">
   <div class="pointer-events-none absolute inset-0 gradient-mesh-strong"></div>
+  <div class="pointer-events-none absolute inset-x-0 top-20 h-64 bg-[radial-gradient(circle_at_top,rgba(99,102,241,0.16),transparent_55%)]"></div>
 
-  <div
-    class="pointer-events-none absolute top-20 left-1/4 h-72 w-72 rounded-full bg-indigo-500/8 blur-3xl"
-  >
-  </div>
+  <div class="presentation-shell">
+    <div class="presentation-panel animate-on-scroll">
+      <div class="grid gap-12 lg:grid-cols-[minmax(0,1.25fr)_minmax(18rem,0.65fr)] lg:items-end">
+        <div class="max-w-3xl">
+          <div class="section-kicker">{hero.eyebrow}</div>
+          <p class="mt-6 text-base font-medium uppercase tracking-[0.32em] text-muted-foreground/55">
+            {hero.name}
+          </p>
+          <h1 class="mt-4 max-w-4xl text-4xl font-semibold tracking-tight text-foreground sm:text-6xl lg:text-7xl">
+            {hero.title}
+          </h1>
+          <p class="mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground sm:text-xl">
+            {hero.subtitle}
+          </p>
 
-  <div class="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-    <div class="grid gap-12 lg:grid-cols-12 lg:gap-10">
-      <div class="lg:col-span-8">
-        <div class="text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground/60">
-          {i.hero.eyebrow}
-        </div>
-        <h1 class="mt-5 text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
-          <span class="block text-foreground">{i.hero.title_line1}</span>
-          <span class="mt-2 block text-foreground/78 sm:pl-10">{i.hero.title_line2}</span>
-        </h1>
-
-        <p class="mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground sm:text-xl">
-          {i.hero.subtitle}
-        </p>
-
-        <div class="mt-10 flex flex-col items-start gap-4 sm:flex-row">
-          <a
-            href="https://calendly.com/hello-awesomeworks/30min"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="inline-flex items-center rounded-full bg-indigo-500 px-8 py-3.5 text-base font-semibold text-white shadow-lg shadow-indigo-500/20 transition-colors hover:bg-indigo-400"
-          >
-            {i.hero.cta_primary}
-          </a>
-          <a
-            href="#workflow"
-            class="text-base font-semibold text-foreground/80 underline underline-offset-4 decoration-border transition-colors hover:text-foreground hover:decoration-emerald-500"
-          >
-            {i.hero.cta_secondary}
-          </a>
-        </div>
-
-        <p class="mt-4 text-sm text-muted-foreground/70">{i.hero.cta_micro}</p>
-        <p class="mt-8 max-w-2xl border-t border-white/[0.08] pt-4 text-sm leading-relaxed text-muted-foreground/80">
-          {i.hero.founderMicro}
-        </p>
-      </div>
-
-      <div class="lg:col-span-4 lg:pt-20">
-        <div class="border-t border-white/[0.08] pt-6 lg:ml-6">
-          <div class="text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground/55">
-            {i.hero.card_label}
+          <div class="mt-10 flex flex-col items-start gap-4 sm:flex-row sm:flex-wrap">
+            <a
+              href={hero.primaryHref}
+              class="inline-flex items-center rounded-full bg-foreground px-6 py-3 text-sm font-semibold text-background transition-opacity hover:opacity-90"
+            >
+              {hero.primaryCta}
+            </a>
+            <a
+              href={hero.secondaryHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center rounded-full border border-white/[0.12] bg-white/[0.04] px-6 py-3 text-sm font-semibold text-foreground transition-colors hover:bg-white/[0.08]"
+            >
+              {hero.secondaryCta}
+            </a>
+            <a
+              href={hero.storyHref}
+              class="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+            >
+              <span>{hero.storyCta}</span>
+            </a>
           </div>
-          <h2 class="mt-4 max-w-sm text-2xl font-semibold tracking-tight text-foreground">
-            {i.hero.card_title}
-          </h2>
-          <div class="mt-6 divide-y divide-white/[0.08]">
-            {
-              i.hero.card_points.map((point, idx) => (
-                <div class="py-4 first:pt-0 last:pb-0">
-                  <div class="text-sm font-mono text-muted-foreground/45">
-                    {String(idx + 1).padStart(2, "0")}
-                  </div>
-                  <p class="mt-1 text-sm leading-relaxed text-muted-foreground sm:text-base">
-                    {point}
-                  </p>
-                </div>
-              ))
-            }
-          </div>
+        </div>
+
+        <div class="grid gap-3">
+          {
+            hero.facts.map((fact) => (
+              <div class="rounded-[1.5rem] border border-white/[0.08] bg-white/[0.03] px-5 py-4 text-sm leading-relaxed text-muted-foreground">
+                {fact}
+              </div>
+            ))
+          }
         </div>
       </div>
     </div>

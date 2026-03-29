@@ -1,86 +1,41 @@
 ---
-import { t, type Locale } from "@/i18n/utils";
+import { getPersonalHome } from "@/data/personal-home";
+import type { Locale } from "@/i18n/utils";
 
 interface Props {
   locale: Locale;
 }
 
 const { locale } = Astro.props;
-const i = t(locale);
+const { footer } = getPersonalHome(locale);
 ---
 
-<footer class="border-t border-white/[0.06] bg-white/[0.02] py-14">
-  <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-    <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
-      <!-- Brand -->
-      <div>
-        <a href={`/${locale}/`} class="mb-4 inline-flex items-center gap-2.5">
-          <img src="/icon.png" alt="AwesomeWorks" class="h-8 w-8 rounded-md" width="32" height="32" />
-          <span class="text-lg font-bold text-foreground">AwesomeWorks</span>
-        </a>
-        <p class="mt-3 max-w-xs text-sm leading-relaxed text-muted-foreground">
-          {i.footer.tagline}
-        </p>
-        <a
-          href="https://calendly.com/hello-awesomeworks/30min"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="mt-5 inline-flex text-sm font-semibold text-foreground/80 underline underline-offset-4 decoration-border transition-colors hover:text-foreground hover:decoration-emerald-500"
-        >
-          {i.nav.cta}
-        </a>
-      </div>
-
-      <!-- Navigation -->
-      <div>
-        <h4 class="mb-4 text-sm font-semibold text-foreground">
-          {i.footer.navigation}
-        </h4>
-        <ul class="space-y-2.5">
-          {
-            i.footer.nav_links.map((link) => (
-              <li>
-                <a
-                  href={link.href}
-                  class="text-sm text-muted-foreground transition-colors hover:text-foreground"
-                >
-                  {link.label}
-                </a>
-              </li>
-            ))
-          }
-        </ul>
-      </div>
-
-      <!-- Legal -->
-      <div>
-        <h4 class="mb-4 text-sm font-semibold text-foreground">
-          {i.footer.legal}
-        </h4>
-        <ul class="space-y-2.5">
-          {
-            i.footer.legal_links.map((link) => (
-              <li>
-                <a
-                  href={link.href}
-                  class="text-sm text-muted-foreground transition-colors hover:text-foreground"
-                >
-                  {link.label}
-                </a>
-              </li>
-            ))
-          }
-        </ul>
-      </div>
+<footer class="border-t border-white/[0.06] bg-white/[0.02] py-8">
+  <div class="mx-auto flex max-w-6xl flex-col gap-6 px-4 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
+    <div>
+      <div class="text-sm font-semibold text-foreground">Rafał Łazicki / AwesomeWorks</div>
+      <p class="mt-2 max-w-xl text-sm leading-relaxed text-muted-foreground">{footer.tagline}</p>
     </div>
 
-    <!-- Bottom bar -->
-    <div
-      class="mt-12 flex flex-col items-center justify-between border-t border-white/[0.06] pt-8 sm:flex-row"
-    >
-      <p class="text-sm text-muted-foreground/50">
-        {i.footer.copyright}
-      </p>
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-8">
+      <div>
+        <div class="text-[11px] font-semibold uppercase tracking-[0.22em] text-muted-foreground/70">
+          {footer.legal}
+        </div>
+        <div class="mt-2 flex flex-wrap gap-4">
+          {
+            footer.legalLinks.map((link) => (
+              <a
+                href={link.href}
+                class="text-sm text-muted-foreground transition-colors hover:text-foreground"
+              >
+                {link.label}
+              </a>
+            ))
+          }
+        </div>
+      </div>
+      <p class="text-sm text-muted-foreground/70">{footer.copyright}</p>
     </div>
   </div>
 </footer>

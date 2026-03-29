@@ -1,217 +1,118 @@
 ---
-import { t, type Locale } from "@/i18n/utils";
+import { getPersonalHome } from "@/data/personal-home";
+import type { Locale } from "@/i18n/utils";
 
 interface Props {
   locale: Locale;
 }
 
 const { locale } = Astro.props;
-const i = t(locale);
+const { products } = getPersonalHome(locale);
 
-const products = [
-  {
-    name: "CallWise",
-    href: "https://callwise.awesomeworks.ai",
-    logo: "/callwise-logo.png",
-    featured: true,
-    ...i.products.callwise,
+const productThemes = {
+  callwise: {
+    panelClass: "bg-[linear-gradient(135deg,rgba(99,102,241,0.12),rgba(255,255,255,0.03))]",
+    badgeClass: "border-indigo-400/20 bg-indigo-400/10 text-indigo-200",
+    buttonClass: "bg-foreground text-background hover:opacity-90",
   },
-  {
-    name: "CourseAI",
-    href: "https://course.awesomeworks.ai",
-    logo: null,
-    featured: false,
-    ...i.products.courseai,
+  courseai: {
+    panelClass: "bg-[linear-gradient(135deg,rgba(59,130,246,0.14),rgba(34,197,94,0.06))]",
+    badgeClass: "border-sky-400/20 bg-sky-400/10 text-sky-100",
+    buttonClass: "bg-foreground text-background hover:opacity-90",
   },
-  {
-    name: "Ask",
-    href: "https://ask.awesomeworks.ai",
-    logo: "/ask-logo.png",
-    featured: false,
-    ...i.products.ask,
+  ask: {
+    panelClass: "bg-[linear-gradient(135deg,rgba(16,185,129,0.10),rgba(255,255,255,0.02))]",
+    badgeClass: "border-emerald-400/20 bg-emerald-400/10 text-emerald-200",
+    buttonClass: "border border-white/[0.12] bg-white/[0.04] text-foreground hover:bg-white/[0.08]",
   },
-  {
-    name: "LLM Goose",
-    href: "https://github.com/Raff-dev/goose",
-    logo: null,
-    featured: false,
-    ...i.products.goose,
+  goose: {
+    panelClass: "bg-[linear-gradient(135deg,rgba(255,255,255,0.07),rgba(2,6,23,0.7))]",
+    badgeClass: "border-white/10 bg-white/[0.04] text-white/80",
+    buttonClass: "border border-white/[0.14] bg-white/[0.06] text-white hover:bg-white/[0.12]",
   },
-];
-
-const [featuredProduct, courseProduct, askProduct, gooseProduct] = products;
+} as const;
 ---
 
-<section id="products" class="relative py-20 sm:py-28">
-  <div class="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-    <div class="grid items-end gap-8 lg:grid-cols-12">
-      <div class="animate-on-scroll lg:col-span-7">
-        <div class="text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground/60">
-          {i.products.eyebrow}
-        </div>
-        <h2 class="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-          {i.products.title}
-        </h2>
-      </div>
-      <div class="animate-on-scroll lg:col-span-5">
-        <p class="max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-          {i.products.subtitle}
-        </p>
-      </div>
-    </div>
+{
+  products.items.map((item, index) => {
+    const theme = productThemes[item.id as keyof typeof productThemes];
 
-    <div class="mt-12 grid gap-6 lg:grid-cols-12">
-      <article class="animate-on-scroll lg:col-span-7">
-        <div class="group rounded-[1.75rem] border border-white/[0.08] bg-white/[0.02] p-8 transition-colors hover:border-white/[0.14] sm:p-10">
-          <div class="flex items-center gap-4">
-            <img
-              src={featuredProduct.logo!}
-              alt={featuredProduct.name}
-              class="h-14 w-auto"
-              width="62"
-              height="63"
-            />
-            <div class="min-w-0">
-              <div class="text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground/55">
-                {featuredProduct.label}
-              </div>
-              <h3 class="mt-2 text-2xl font-bold text-foreground sm:text-3xl">
-                {featuredProduct.name}
-              </h3>
-            </div>
-          </div>
-
-          <p class="mt-6 text-xl font-semibold leading-snug text-foreground">
-            {featuredProduct.tagline}
-          </p>
-          <p class="mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground">
-            {featuredProduct.description}
-          </p>
-
-          <div class="mt-8 grid gap-5 border-t border-white/[0.08] pt-5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-end">
-            <p class="text-sm leading-relaxed text-muted-foreground">{featuredProduct.microcopy}</p>
-            <a
-              href={featuredProduct.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="inline-flex items-center gap-2 rounded-full bg-indigo-500 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/15 transition-all hover:bg-indigo-400 hover:shadow-indigo-500/25"
-            >
-              {featuredProduct.cta}
-              <span aria-hidden="true" class="transition-transform group-hover:translate-x-0.5">→</span>
-            </a>
-          </div>
-        </div>
-      </article>
-
-      <div class="lg:col-span-5">
-        <div class="space-y-8">
-          <article
-            class="animate-on-scroll group rounded-[1.5rem] border border-amber-500/20 bg-amber-500/[0.06] px-6 py-6 transition-colors hover:border-amber-400/35 hover:bg-amber-500/[0.09]"
-            style="transition-delay: 80ms"
-          >
-            <div class="flex items-center justify-between gap-4">
-              <div>
-                <div class="text-xs font-medium uppercase tracking-[0.2em] text-amber-200/75">
-                  {courseProduct.label}
+    return (
+      <section
+        id={index === 0 ? "work" : undefined}
+        class="presentation-slide border-t border-white/[0.06]"
+      >
+        <div class="presentation-shell">
+          <article class={`presentation-panel animate-on-scroll ${theme.panelClass}`}>
+            <div class="grid gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(18rem,0.7fr)] lg:items-end">
+              <div class="max-w-3xl">
+                <div class="section-kicker">{products.eyebrow}</div>
+                {
+                  index === 0 && (
+                    <p class="mt-4 max-w-2xl text-lg leading-relaxed text-muted-foreground">
+                      {products.title} {products.subtitle}
+                    </p>
+                  )
+                }
+                <div class={`mt-6 inline-flex items-center rounded-full border px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.22em] ${theme.badgeClass}`}>
+                  <span>{item.label}</span>
                 </div>
-                <h3 class="mt-2 text-xl font-semibold text-foreground">{courseProduct.name}</h3>
-              </div>
-              <div class="inline-flex items-center rounded-full border border-amber-400/20 px-3 py-1 text-[11px] font-medium uppercase tracking-[0.18em] text-amber-100/80">
-                CourseAI
-              </div>
-            </div>
+                <h2 class="mt-5 text-4xl font-semibold tracking-tight text-foreground sm:text-6xl">
+                  {item.name}
+                </h2>
+                <p class="mt-5 max-w-2xl text-2xl font-medium leading-tight text-foreground/92 sm:text-3xl">
+                  {item.title}
+                </p>
+                <p class="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+                  {item.description}
+                </p>
 
-            <p class="mt-5 text-lg font-semibold leading-snug text-foreground">
-              {courseProduct.tagline}
-            </p>
-            <p class="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
-              {courseProduct.description}
-            </p>
-            <div class="mt-4 text-sm text-muted-foreground/80">{courseProduct.microcopy}</div>
-
-            <a
-              href={courseProduct.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="mt-6 inline-flex items-center gap-2 rounded-full border border-amber-300/60 bg-amber-100 px-5 py-2.5 text-sm font-semibold text-amber-950 shadow-sm shadow-amber-950/5 transition-all hover:border-amber-200 hover:bg-amber-50 hover:text-amber-950"
-            >
-              {courseProduct.cta}
-              <span aria-hidden="true" class="transition-transform group-hover:translate-x-0.5">→</span>
-            </a>
-          </article>
-
-          <article class="animate-on-scroll group rounded-[1.5rem] border border-white/[0.08] bg-white/[0.02] px-6 py-6 transition-colors hover:border-white/[0.14]">
-            <div class="flex items-center gap-4">
-              <img
-                src={askProduct.logo!}
-                alt={askProduct.name}
-                class="h-12 w-auto"
-                width="56"
-                height="56"
-              />
-              <div>
-                <div class="text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground/55">
-                  {askProduct.label}
+                <div class="mt-8 flex flex-col items-start gap-4 sm:flex-row sm:flex-wrap">
+                  <a
+                    href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class={`inline-flex items-center rounded-full px-6 py-3 text-sm font-semibold transition-colors ${theme.buttonClass}`}
+                  >
+                    {item.cta}
+                  </a>
+                  {
+                    "secondaryHref" in item &&
+                      "secondaryCta" in item &&
+                      item.secondaryHref &&
+                      item.secondaryCta && (
+                        <a
+                          href={item.secondaryHref}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          class="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+                        >
+                          {item.secondaryCta}
+                        </a>
+                      )
+                  }
+                  <div class="rounded-full border border-white/[0.08] px-4 py-3 text-sm text-muted-foreground">
+                    {item.note}
+                  </div>
                 </div>
-                <h3 class="mt-2 text-xl font-semibold text-foreground">{askProduct.name}</h3>
               </div>
-            </div>
 
-            <p class="mt-5 text-lg font-semibold leading-snug text-foreground">
-              {askProduct.tagline}
-            </p>
-            <p class="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
-              {askProduct.description}
-            </p>
-            <div class="mt-5 flex flex-col gap-4 border-t border-white/[0.08] pt-4 sm:flex-row sm:items-center sm:justify-between">
-              <div class="text-sm text-muted-foreground/80">{askProduct.microcopy}</div>
-              <a
-                href={askProduct.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="inline-flex items-center gap-2 self-start rounded-full border border-white/[0.14] bg-white/[0.04] px-4 py-2.5 text-sm font-semibold text-foreground/90 transition-all hover:border-emerald-500/35 hover:bg-white/[0.07] hover:text-foreground"
-              >
-                {askProduct.cta}
-                <span aria-hidden="true" class="transition-transform group-hover:translate-x-0.5">→</span>
-              </a>
-            </div>
-          </article>
-
-          <article class="animate-on-scroll group rounded-[1.5rem] border border-white/[0.08] bg-gray-950 px-6 py-6 text-white/80 transition-colors hover:border-white/[0.16]" style="transition-delay: 120ms">
-            <div class="flex items-center justify-between gap-4">
-              <div>
-                <div class="text-xs font-medium uppercase tracking-[0.2em] text-white/40">
-                  {gooseProduct.label}
+              <div class="grid gap-4">
+                <div class="rounded-[1.5rem] border border-white/[0.08] bg-background/55 px-5 py-4 text-sm leading-relaxed text-muted-foreground">
+                  {item.aside}
                 </div>
-                <h3 class="mt-2 text-xl font-semibold text-white">{gooseProduct.name}</h3>
+                {
+                  index === products.items.length - 1 && (
+                    <div class="rounded-[1.5rem] border border-white/[0.08] bg-background/55 px-5 py-4 text-sm leading-relaxed text-muted-foreground">
+                      {products.extra}
+                    </div>
+                  )
+                }
               </div>
-              <div class="inline-flex items-center rounded-full border border-white/10 px-3 py-1 text-[11px] font-medium uppercase tracking-[0.18em] text-emerald-300/80">
-                OSS
-              </div>
-            </div>
-
-            <p class="mt-5 text-lg font-semibold leading-snug text-white">
-              {gooseProduct.tagline}
-            </p>
-            <p class="mt-3 text-sm leading-relaxed text-white/60">
-              {gooseProduct.description}
-            </p>
-
-            <div class="mt-5 flex flex-col gap-4 border-t border-white/10 pt-4 sm:flex-row sm:items-center sm:justify-between">
-              <div class="text-sm text-white/55">{gooseProduct.microcopy}</div>
-              <a
-                href={gooseProduct.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="inline-flex items-center gap-2 self-start rounded-full border border-white/12 bg-white/[0.05] px-4 py-2.5 text-sm font-semibold text-white transition-all hover:border-emerald-300/35 hover:bg-white/[0.09]"
-              >
-                {gooseProduct.cta}
-                <span aria-hidden="true" class="transition-transform group-hover:translate-x-0.5">→</span>
-              </a>
             </div>
           </article>
         </div>
-      </div>
-    </div>
-  </div>
-</section>
+      </section>
+    );
+  })
+}

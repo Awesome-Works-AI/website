@@ -1,0 +1,51 @@
+---
+import { getPersonalHome } from "@/data/personal-home";
+import type { Locale } from "@/i18n/utils";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const { closing } = getPersonalHome(locale);
+---
+
+<section id="contact" class="presentation-slide border-t border-white/[0.06]">
+  <div class="pointer-events-none absolute inset-0 gradient-mesh"></div>
+  <div class="presentation-shell">
+    <div class="presentation-panel animate-on-scroll">
+      <div class="max-w-3xl">
+        <div class="section-kicker">{closing.eyebrow}</div>
+        <h2 class="section-title mt-4">{closing.title}</h2>
+        <p class="section-copy mt-6">{closing.description}</p>
+
+        <div class="mt-10 flex flex-col items-start gap-4 sm:flex-row sm:flex-wrap">
+          <a
+            href={closing.primaryHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center rounded-full bg-foreground px-6 py-3 text-sm font-semibold text-background transition-opacity hover:opacity-90"
+          >
+            {closing.primaryCta}
+          </a>
+          <a
+            href={closing.secondaryHref}
+            class="inline-flex items-center rounded-full border border-white/[0.12] bg-white/[0.04] px-6 py-3 text-sm font-semibold text-foreground transition-colors hover:bg-white/[0.08]"
+          >
+            {closing.secondaryCta}
+          </a>
+          <a
+            href={closing.storyHref}
+            class="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+          >
+            <span>{closing.storyCta}</span>
+          </a>
+        </div>
+
+        <p class="mt-8 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+          {closing.microcopy}
+        </p>
+      </div>
+    </div>
+  </div>
+</section>

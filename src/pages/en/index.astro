@@ -1,36 +1,30 @@
 ---
-import Base from "@/layouts/base.astro";
-import Nav from "@/components/nav.astro";
-import Hero from "@/components/hero.astro";
-import SocialProof from "@/components/social-proof.astro";
-import Problems from "@/components/problems.astro";
-import WorkflowProof from "@/components/workflow-proof.astro";
-import Founder from "@/components/founder.astro";
-import Products from "@/components/products.astro";
-import Reviews from "@/components/reviews.astro";
-import Faq from "@/components/faq.astro";
-import FinalCta from "@/components/final-cta.astro";
-import Contact from "@/components/contact.astro";
+import Closing from "@/components/closing.astro";
 import Footer from "@/components/footer.astro";
-import { t } from "@/i18n/utils";
+import Founder from "@/components/founder.astro";
+import Focus from "@/components/focus.astro";
+import Hero from "@/components/hero.astro";
+import Nav from "@/components/nav.astro";
+import Pivot from "@/components/pivot.astro";
+import Products from "@/components/products.astro";
+import Socials from "@/components/socials.astro";
+import { getPersonalHome } from "@/data/personal-home";
+import Base from "@/layouts/base.astro";
 
 const locale = "en";
-const i = t(locale);
+const home = getPersonalHome(locale);
 ---
 
-<Base title={i.meta.title} description={i.meta.description} locale={locale}>
+<Base title={home.meta.title} description={home.meta.description} locale={locale}>
   <Nav locale={locale} />
   <main>
     <Hero locale={locale} />
-    <SocialProof locale={locale} />
-    <Problems locale={locale} />
-    <WorkflowProof locale={locale} />
     <Founder locale={locale} />
+    <Pivot locale={locale} />
+    <Focus locale={locale} />
     <Products locale={locale} />
-    <Reviews locale={locale} />
-    <Faq locale={locale} />
-    <FinalCta locale={locale} />
-    <Contact locale={locale} />
+    <Socials locale={locale} />
+    <Closing locale={locale} />
   </main>
   <Footer locale={locale} />
 </Base>

@@ -8,14 +8,18 @@ interface Props {
   description: string;
   locale: Locale;
   ogImage?: string;
+  includeFaqSchema?: boolean;
 }
 
-const { title, description, locale, ogImage } = Astro.props;
+const { title, description, locale, ogImage, includeFaqSchema = false } = Astro.props;
 const altLocale = locale === "en" ? "pl" : "en";
 const siteBase = Astro.site?.href ?? "https://awesomeworks.ai";
 const canonicalUrl = new URL(Astro.url.pathname, siteBase);
-const altUrl = new URL(`/${altLocale}/`, siteBase);
-const defaultUrl = new URL("/en/", siteBase);
+const localizedPath = /^\/(pl|en)(?=\/|$)/.test(Astro.url.pathname) ? Astro.url.pathname : `/${locale}/`;
+const altPath = localizedPath.replace(/^\/(pl|en)(?=\/|$)/, `/${altLocale}`);
+const defaultPath = localizedPath.replace(/^\/(pl|en)(?=\/|$)/, "/en");
+const altUrl = new URL(altPath, siteBase);
+const defaultUrl = new URL(defaultPath, siteBase);
 const ogImageAbsolute = new URL(
   ogImage ?? (locale === "pl" ? "/og-image-pl.png" : "/og-image-en.png"),
   siteBase
@@ -45,18 +49,20 @@ const organizationJsonLd = {
   },
 };
 
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: i.faq.items.map((item) => ({
-    "@type": "Question",
-    name: item.q,
-    acceptedAnswer: {
-      "@type": "Answer",
-      text: item.a,
-    },
-  })),
-};
+const faqJsonLd = includeFaqSchema
+  ? {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: i.faq.items.map((item) => ({
+        "@type": "Question",
+        name: item.q,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: item.a,
+        },
+      })),
+    }
+  : null;
 ---
 
 <!doctype html>
@@ -99,7 +105,9 @@ const faqJsonLd = {
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 
     <script type="application/ld+json" set:html={JSON.stringify(organizationJsonLd)} />
-    <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
+    {
+      faqJsonLd && <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
+    }
   </head>
   <body class="min-h-screen overflow-x-hidden">
     <slot />
