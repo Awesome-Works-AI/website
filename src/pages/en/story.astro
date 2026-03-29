@@ -1,0 +1,232 @@
+---
+import Footer from "@/components/footer.astro";
+import Nav from "@/components/nav.astro";
+import Base from "@/layouts/base.astro";
+
+const locale = "en";
+---
+
+<Base
+  title="Rafał Łazicki's story — from backend and data to agent systems"
+  description="A calm founder note from Rafał Łazicki: Military University of Technology, backend, large datasets, DevOps, early RAG systems, and today's focus on agent systems and harnesses."
+  locale={locale}
+>
+  <Nav locale={locale} />
+
+  <main class="pb-24">
+    <section class="relative overflow-hidden px-4 pb-10 pt-28 sm:px-6 sm:pt-32 lg:px-8">
+      <div class="pointer-events-none absolute inset-0 gradient-mesh-strong"></div>
+      <div class="relative mx-auto grid max-w-6xl gap-10 lg:grid-cols-[minmax(0,1.1fr)_minmax(18rem,0.72fr)] lg:items-start">
+        <div class="presentation-panel animate-on-scroll">
+          <div class="section-kicker">Founder story</div>
+          <h1 class="mt-4 max-w-4xl text-4xl font-semibold tracking-tight text-foreground sm:text-6xl">
+            I did not move into AI because of hype. It was more about the moment when it stopped
+            feeling like a promise and started feeling buildable.
+          </h1>
+          <div class="mt-8 max-w-3xl space-y-5 text-lg leading-relaxed text-muted-foreground">
+            <p>
+              I have been drawn to technology for a long time. AI too — well before it became the
+              mandatory topic of every internet conversation. For most of that time, I was less
+              interested in the talk around it and more interested in whether the system actually
+              worked.
+            </p>
+            <p>
+              This page is the short and quiet version of that path: from university and backend
+              work, through large datasets, DevOps, and internal tools, to the point where I moved
+              fully into AI and stayed with agent systems and harnesses.
+            </p>
+          </div>
+        </div>
+
+        <aside class="animate-on-scroll space-y-4">
+          <div class="relative overflow-hidden rounded-[2rem] border border-white/[0.08] bg-white/[0.03] p-3 shadow-2xl shadow-black/20">
+            <img
+              src="/rafal.jpeg"
+              alt="Rafał Łazicki"
+              class="aspect-[4/5] w-full rounded-[1.5rem] object-cover object-center"
+              width="720"
+              height="900"
+            />
+          </div>
+          <div class="presentation-panel space-y-3 p-6">
+            <div class="text-[11px] font-semibold uppercase tracking-[0.24em] text-muted-foreground/70">
+              Quick context
+            </div>
+            <p class="text-sm leading-relaxed text-muted-foreground">
+              Military University of Technology · Machine Data Science
+            </p>
+            <p class="text-sm leading-relaxed text-muted-foreground">
+              backend engineer · large datasets
+            </p>
+            <p class="text-sm leading-relaxed text-muted-foreground">
+              today: agent systems + harnesses
+            </p>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="px-4 sm:px-6 lg:px-8">
+      <article class="mx-auto max-w-4xl space-y-6">
+        <section class="presentation-panel animate-on-scroll">
+          <div class="section-kicker">01 · The beginning</div>
+          <h2 class="mt-4 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+            First there was curiosity. Then came the foundation.
+          </h2>
+          <div class="mt-6 max-w-3xl space-y-5 text-base leading-relaxed text-muted-foreground sm:text-lg">
+            <p>
+              I graduated from the Military University of Technology in Warsaw, majoring in Machine
+              Data Science. That mattered because it gave structure to something I had already felt
+              for a long time: technology and AI were never a temporary interest for me. They were
+              the area I kept returning to naturally.
+            </p>
+            <p>
+              I was never especially interested in the narrative about the future. I was more
+              interested in whether something could actually be built, whether it could survive real
+              usage, and whether it would still hold together once it left the demo stage.
+            </p>
+          </div>
+        </section>
+
+        <section class="presentation-panel animate-on-scroll">
+          <div class="section-kicker">02 · Backend</div>
+          <h2 class="mt-4 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+            Backend taught me precision faster than any theory could.
+          </h2>
+          <div class="mt-6 max-w-3xl space-y-5 text-base leading-relaxed text-muted-foreground sm:text-lg">
+            <p>
+              I worked as a backend engineer and handled large datasets. That is a good way to
+              learn humility. In that kind of environment, a system cannot be “almost right.” It
+              has to be predictable, stable, and understandable at the moment something actually
+              depends on it.
+            </p>
+            <p>
+              That stayed with me. Even when I think about AI now, I still look at it through
+              workflow, reliability, and execution quality — not only through the model layer.
+            </p>
+          </div>
+        </section>
+
+        <section class="presentation-panel animate-on-scroll">
+          <div class="section-kicker">03 · The wider system</div>
+          <h2 class="mt-4 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+            Later I moved into DevOps and internal tools. That changed the lens.
+          </h2>
+          <div class="mt-6 grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(16rem,0.55fr)]">
+            <div class="space-y-5 text-base leading-relaxed text-muted-foreground sm:text-lg">
+              <p>
+                From backend, I also moved toward DevOps and internal tool making. That made me
+                think less about a single service and more about the whole system — the workflow,
+                the constraints, the friction points, and how people actually use the technology in
+                practice.
+              </p>
+              <p>
+                That stage mattered because it was when AI stopped looking like only an interesting
+                field. It started to look like something that could be wired into real processes —
+                as long as it was approached seriously.
+              </p>
+            </div>
+
+            <div class="rounded-[1.5rem] border border-white/[0.08] bg-background/50 px-5 py-5">
+              <div class="text-[11px] font-semibold uppercase tracking-[0.24em] text-muted-foreground/70">
+                What changed here
+              </div>
+              <ul class="mt-4 space-y-3 text-sm leading-relaxed text-muted-foreground">
+                <li>• less thinking about a single service</li>
+                <li>• more thinking about the full workflow</li>
+                <li>• more focus on operations, not only code</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section class="presentation-slide min-h-0 border-y border-white/[0.06] py-16 text-center">
+          <div class="presentation-shell items-center justify-center">
+            <div class="animate-on-scroll max-w-3xl">
+              <div class="text-[11px] font-semibold uppercase tracking-[0.28em] text-muted-foreground/70">
+                Turning point
+              </div>
+              <p class="mt-4 text-4xl font-semibold tracking-tight text-foreground sm:text-6xl">
+                2022. GPT-3.5.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section class="presentation-panel animate-on-scroll">
+          <div class="section-kicker">04 · Moving into AI</div>
+          <h2 class="mt-4 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+            That was the moment I stopped standing next to it.
+          </h2>
+          <div class="mt-6 max-w-3xl space-y-5 text-base leading-relaxed text-muted-foreground sm:text-lg">
+            <p>
+              I started experimenting with different tools and began building my own RAG systems
+              early. What interested me was not only what the model could say, but how the whole
+              setup behaved: context, retrieval, limitations, failure modes, answer quality, and
+              whether you could actually control it.
+            </p>
+            <p>
+              At some point it became clear that I no longer wanted to stay adjacent to AI. I
+              wanted to move fully into it — and I did. Not as a reaction to a trend, but as the
+              natural continuation of what had already been giving me direction: building systems
+              that have to work inside real workflows.
+            </p>
+          </div>
+        </section>
+
+        <section class="presentation-panel animate-on-scroll">
+          <div class="section-kicker">05 · Today</div>
+          <h2 class="mt-4 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+            Today I focus on agent systems and harnesses.
+          </h2>
+          <div class="mt-6 max-w-3xl space-y-5 text-base leading-relaxed text-muted-foreground sm:text-lg">
+            <p>
+              I am most interested in the part of AI where intelligence alone is not enough. You
+              also need control, evaluation, testing, quality discipline, and a clean connection to
+              workflow. That is why I naturally ended up working on agent systems and harnesses.
+            </p>
+            <p>
+              If you want to see how that turns into products,{" "}
+              <a href="/en/#work" class="font-medium text-foreground underline underline-offset-4">
+                see my work here
+              </a>
+              . If you want to follow how I think and what I build day to day,{" "}
+              <a
+                href="/en/#socials"
+                class="font-medium text-foreground underline underline-offset-4"
+              >
+                see my socials here
+              </a>
+              .
+            </p>
+          </div>
+
+          <div class="mt-10 flex flex-col items-start gap-4 sm:flex-row sm:flex-wrap">
+            <a
+              href="/en/#work"
+              class="inline-flex items-center rounded-full bg-foreground px-6 py-3 text-sm font-semibold text-background transition-opacity hover:opacity-90"
+            >
+              See my work
+            </a>
+            <a
+              href="/en/#socials"
+              class="inline-flex items-center rounded-full border border-white/[0.12] bg-white/[0.04] px-6 py-3 text-sm font-semibold text-foreground transition-colors hover:bg-white/[0.08]"
+            >
+              See socials
+            </a>
+            <a
+              href="https://calendly.com/hello-awesomeworks/30min"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+            >
+              Book a call
+            </a>
+          </div>
+        </section>
+      </article>
+    </section>
+  </main>
+
+  <Footer locale={locale} />
+</Base>

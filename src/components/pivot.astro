@@ -1,0 +1,22 @@
+---
+import { getPersonalHome } from "@/data/personal-home";
+import type { Locale } from "@/i18n/utils";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const { pivot } = getPersonalHome(locale);
+---
+
+<section class="presentation-slide border-t border-white/[0.06]">
+  <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.05),transparent_55%)]"></div>
+  <div class="presentation-shell items-center justify-center text-center">
+    <div class="animate-on-scroll">
+      <p class="text-4xl font-semibold tracking-tight text-foreground sm:text-6xl lg:text-7xl">
+        {pivot.line}
+      </p>
+    </div>
+  </div>
+</section>
