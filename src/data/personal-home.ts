@@ -43,16 +43,16 @@ const personalHome = {
       storyCta: "Przeczytaj pełną historię",
       storyHref: "/pl/story",
       facts: [
-        "WAT Warszawa · Machine Data Science",
+        "Wojskowa Akademia Techniczna · Data Science",
         "backend engineer · duże zbiory danych",
         "dziś: agent systems + harnesses",
       ],
     },
     story: {
       eyebrow: "Historia",
-      title: "WAT. Backend. DevOps. Zawsze bliżej technologii niż opowieści o niej.",
+      title: "Backend. DevOps. Zawsze bliżej technologii niż opowieści o niej.",
       intro:
-        "Ukończyłem Wojskową Akademię Techniczną w Warszawie na kierunku Machine Data Science. Zanim wszedłem w AI na full-time, pracowałem przy danych, backendzie, DevOpsie i narzędziach wewnętrznych.",
+        "Ukończyłem Wojskową Akademię Techniczną w Warszawie na kierunku Data Science. Zanim wszedłem w AI na full-time, pracowałem przy danych, backendzie, DevOpsie i narzędziach wewnętrznych.",
       points: [
         {
           label: "Fascynacja",
@@ -235,16 +235,16 @@ const personalHome = {
       storyCta: "Read the full story",
       storyHref: "/en/story",
       facts: [
-        "Military University of Technology · Machine Data Science",
+        "Military University of Technology · Data Science",
         "backend engineer · large datasets",
         "today: agent systems + harnesses",
       ],
     },
     story: {
       eyebrow: "Story",
-      title: "WAT. Backend. DevOps. Always closer to the technology than the talk around it.",
+      title: "Backend. DevOps. Always closer to the technology than the talk around it.",
       intro:
-        "I graduated from the Military University of Technology in Warsaw in Machine Data Science. Before moving into AI full-time, I worked across data-heavy backend systems, DevOps, and internal tooling.",
+        "I graduated from the Military University of Technology in Warsaw in Data Science. Before moving into AI full-time, I worked across data-heavy backend systems, DevOps, and internal tooling.",
       points: [
         {
           label: "Fascination",
