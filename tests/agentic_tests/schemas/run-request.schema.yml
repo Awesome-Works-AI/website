@@ -1,0 +1,25 @@
+kind: agentic_run_request_schema
+version: 0.2-draft
+required:
+  - id
+  - product
+  - environment
+  - requested_by
+  - contract
+  - execution
+  - selection
+  - reporting
+fields:
+  execution:
+    type: object
+    required:
+      - mode
+      - runner
+    fields:
+      runner:
+        type: string
+        allowed:
+          - playwright-mcp
+  contract:
+    type: object
+    rule: Must match the testcase contract boundary and keep YAML acceptance contracts separate from classic Playwright regression specs.

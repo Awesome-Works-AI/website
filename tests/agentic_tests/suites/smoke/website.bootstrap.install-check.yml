@@ -1,0 +1,52 @@
+id: website.bootstrap.install-check
+version: 1
+product: website
+suite: smoke
+flow_key: bootstrap_install_check
+criticality: high
+contract:
+  kind: functional_acceptance
+  source_of_truth: repo-local-agentic-tests
+  execution_backend: playwright-mcp
+  deterministic_regression_suite: e2e
+  deterministic_regression_role: separate_deterministic_regression
+write_safe: false
+auth:
+  mode: none
+environment_targets:
+- production
+source_refs:
+- type: route
+  value: /en
+- type: code
+  value: src/pages/en/index.astro
+- type: content
+  value: src/i18n/en.json
+- type: config
+  value: astro.config.mjs
+steps:
+- id: open-public-route
+  action: navigate
+  url: https://awesomeworks.ai/en
+  expect:
+    final_url_contains: /en
+    visible_fields_any:
+    - role: link
+      name: Book a call
+observability:
+  fail_on_console:
+  - error
+  allow_console_patterns: []
+  fail_on_network_status:
+  - 5xx
+  allow_network_patterns: []
+artifacts:
+  screenshot_on_pass: false
+  screenshot_on_fail: true
+  capture_console: per_step
+  capture_network: per_step
+  capture_snapshot: on_fail
+  artifact_name_template: '{testcase_id}__{step_id}'
+reporting:
+  emit_step_events: true
+  emit_flow_summary: true

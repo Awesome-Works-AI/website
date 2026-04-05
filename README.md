@@ -40,12 +40,20 @@ npm run preview
 ## Project Structure
 
 ```
+tests/
+└── agentic_tests/     # Repo-local browser install-check for the shared software-factory runtime
 src/
 ├── components/       # Astro components (Hero, Services, Founder, etc.)
 ├── i18n/             # Translation files (pl.json, en.json)
 ├── layouts/          # Page layouts
 └── pages/            # Astro pages (PL/EN routes)
 ```
+
+## Agentic browser install-check
+
+- Repo-local contract pack lives in `tests/agentic_tests/`
+- Shared runtime owner is `software-factory/backend/app/modules/agentic_browser/`
+- Operator runbook for scaffold / verify / plan / run / evaluate lives in `tests/agentic_tests/README.md`
 
 ## Color Palette
 
@@ -65,4 +73,3 @@ src/
 ---
 
 Built with 💜 and AI
-

@@ -1,0 +1,50 @@
+name: Agentic browser install-check
+
+on:
+    pull_request:
+        paths:
+            - "tests/agentic_tests/**"
+            - ".github/workflows/agentic-browser-install-check.yml"
+    push:
+        branches: ["main"]
+        paths:
+            - "tests/agentic_tests/**"
+            - ".github/workflows/agentic-browser-install-check.yml"
+    workflow_dispatch:
+
+jobs:
+    install-check:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout website
+              uses: actions/checkout@v6
+
+            - name: Checkout software-factory runtime
+              uses: actions/checkout@v6
+              with:
+                  repository: Awesome-Works-AI/software-factory
+                  ref: main
+                  path: software-factory
+
+            - name: Setup Python
+              uses: actions/setup-python@v5
+              with:
+                  python-version: "3.13"
+
+            - name: Setup uv
+              uses: astral-sh/setup-uv@v6
+
+            - name: Install software-factory backend dependencies
+              working-directory: software-factory/backend
+              run: uv sync --extra dev --locked
+
+            - name: Verify scaffold contract
+              working-directory: software-factory/backend
+              run: uv run sf-agentic-bootstrap verify --repo-root "$GITHUB_WORKSPACE" --product-slug website
+
+            - name: Render execution plan
+              working-directory: software-factory/backend
+              run: >
+                  uv run sf-agentic-browser plan
+                  --case-file "$GITHUB_WORKSPACE/tests/agentic_tests/suites/smoke/website.bootstrap.install-check.yml"
+                  --run-request "$GITHUB_WORKSPACE/tests/agentic_tests/run_requests/bootstrap-public-install-check.example.yml"

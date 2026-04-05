@@ -1,0 +1,28 @@
+id: runreq.website.production.bootstrap.install-check
+product: website
+environment: production
+requested_by:
+  actor: copilot
+  reason: Bootstrap installation verification
+contract:
+  kind: functional_acceptance
+  source_of_truth: repo-local-agentic-tests
+  execution_backend: playwright-mcp
+  deterministic_regression_suite: e2e
+  deterministic_regression_role: separate_deterministic_regression
+execution:
+  mode: manual
+  runner: playwright-mcp
+  vm_pool: website-production
+selection:
+  suites:
+  - smoke
+  case_ids:
+  - website.bootstrap.install-check
+reporting:
+  target: software-factory
+  config_ref: adapters/software-factory.yml
+  emit_progress: true
+  emit_success: true
+  emit_failures: true
+  attach_artifacts: true

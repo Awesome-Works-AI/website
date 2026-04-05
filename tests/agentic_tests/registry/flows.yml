@@ -1,0 +1,15 @@
+version: 1
+product: website
+flows:
+- key: bootstrap_install_check
+  name: Bootstrap installation verification for the first public route
+  criticality: high
+  business_area: bootstrap
+  default_severity_floor: medium
+  default_priority_floor: p2
+  production_blocking: false
+  source_refs:
+  - route:/en
+  - src/pages/en/index.astro
+  - src/i18n/en.json
+  - astro.config.mjs

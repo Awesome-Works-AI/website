@@ -1,0 +1,11 @@
+target: software-factory
+transport: mcp
+project_id_env: WEBSITE_AGENTIC_REPORTING_PROJECT_ID
+actor_type: agent
+actor_id: website-agentic-executor
+mcp_server_command_env: WEBSITE_AGENTIC_MCP_SERVER_COMMAND
+mcp_server_args_env: WEBSITE_AGENTIC_MCP_SERVER_ARGS
+mcp_server_cwd_env: WEBSITE_AGENTIC_MCP_SERVER_CWD
+base_url_env: WEBSITE_AGENTIC_REPORTING_BASE_URL
+auth_token_env: WEBSITE_AGENTIC_REPORTING_TOKEN
+timeout_seconds: 10
