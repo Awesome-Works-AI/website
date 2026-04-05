@@ -25,6 +25,7 @@ jobs:
                   repository: Awesome-Works-AI/software-factory
                   ref: main
                   path: software-factory
+                  token: ${{ secrets.AWESOMEWORKS_CI_TOKEN }}
 
             - name: Setup Python
               uses: actions/setup-python@v5
