@@ -49,9 +49,9 @@ jobs:
                   grep -Fqx 'target: software-factory' tests/agentic_tests/adapters/software-factory.yml
                   grep -Fqx 'project_id_env: WEBSITE_AGENTIC_REPORTING_PROJECT_ID' tests/agentic_tests/adapters/software-factory.yml
                   grep -Fqx 'id: runreq.website.production.bootstrap.install-check' tests/agentic_tests/run_requests/bootstrap-public-install-check.example.yml
-                  grep -Fqx '  environment: production' <(sed 's/^/  /' tests/agentic_tests/run_requests/bootstrap-public-install-check.example.yml)
+                  grep -Fqx 'environment: production' tests/agentic_tests/run_requests/bootstrap-public-install-check.example.yml
                   grep -Fqx 'id: website.bootstrap.install-check' tests/agentic_tests/suites/smoke/website.bootstrap.install-check.yml
-                  grep -Fqx '  mode: none' <(sed 's/^/  /' tests/agentic_tests/suites/smoke/website.bootstrap.install-check.yml)
+                  grep -Fqx '  mode: none' tests/agentic_tests/suites/smoke/website.bootstrap.install-check.yml
                   grep -Fq 'url: https://awesomeworks.ai/en' tests/agentic_tests/suites/smoke/website.bootstrap.install-check.yml
                   grep -Fq 'name: Book a call' tests/agentic_tests/suites/smoke/website.bootstrap.install-check.yml
 
