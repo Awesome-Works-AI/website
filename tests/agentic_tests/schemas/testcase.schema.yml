@@ -1,0 +1,49 @@
+kind: agentic_testcase_schema
+version: 0.3-draft
+required:
+  - id
+  - version
+  - product
+  - suite
+  - flow_key
+  - criticality
+  - contract
+  - write_safe
+  - auth
+  - source_refs
+  - steps
+  - observability
+  - artifacts
+  - reporting
+fields:
+  id:
+    type: string
+    rule: Stable identifier in the form product.domain.case.
+    example: callwise.auth.signin-smoke
+  contract:
+    type: object
+    rule: Encodes that YAML is the functional acceptance source of truth and Playwright MCP is the only execution backend.
+  flow_key:
+    type: string
+    rule: Must exist in tests/agentic_tests/registry/flows.yml.
+  write_safe:
+    type: boolean
+    rule: Default false. Any write flow must opt in explicitly.
+  auth:
+    type: object
+    rule: Supports `mode: none` for public flows and `mode: direct_grant` with explicit token bootstrap for authenticated proofs.
+  source_refs:
+    type: list
+    rule: At least one route/spec/design source must be present.
+  steps:
+    type: list
+    rule: Ordered browser actions with explicit expectations.
+  observability:
+    type: object
+    rule: Console and network policy must be explicit.
+  artifacts:
+    type: object
+    rule: Artifact policy must define pass/fail capture behavior.
+  reporting:
+    type: object
+    rule: Controls step-level and flow-level event emission.

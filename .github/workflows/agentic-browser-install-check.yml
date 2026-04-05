@@ -1,0 +1,71 @@
+name: Agentic browser install-check
+
+on:
+    pull_request:
+        paths:
+            - "tests/agentic_tests/**"
+            - ".github/workflows/agentic-browser-install-check.yml"
+    push:
+        branches: ["main"]
+        paths:
+            - "tests/agentic_tests/**"
+            - ".github/workflows/agentic-browser-install-check.yml"
+    workflow_dispatch:
+
+jobs:
+    install-check:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout website
+              uses: actions/checkout@v6
+
+            - name: Verify scaffold contract
+              shell: bash
+              run: |
+                  set -euo pipefail
+
+                  required_files=(
+                    tests/agentic_tests/README.md
+                    tests/agentic_tests/.gitignore
+                    tests/agentic_tests/catalog.yml
+                    tests/agentic_tests/registry/flows.yml
+                    tests/agentic_tests/schemas/run-request.schema.yml
+                    tests/agentic_tests/schemas/testcase.schema.yml
+                    tests/agentic_tests/adapters/software-factory.yml
+                    tests/agentic_tests/run_requests/bootstrap-public-install-check.example.yml
+                    tests/agentic_tests/suites/smoke/website.bootstrap.install-check.yml
+                  )
+
+                  for file in "${required_files[@]}"; do
+                    test -f "$file" || {
+                      echo "Missing required scaffold file: $file" >&2
+                      exit 1
+                    }
+                  done
+
+                  grep -Fqx '*.observation.json' tests/agentic_tests/.gitignore
+                  grep -Fqx 'product: website' tests/agentic_tests/catalog.yml
+                  grep -Fqx 'default_reporting_target: software-factory' tests/agentic_tests/catalog.yml
+                  grep -Fqx 'target: software-factory' tests/agentic_tests/adapters/software-factory.yml
+                  grep -Fqx 'project_id_env: WEBSITE_AGENTIC_REPORTING_PROJECT_ID' tests/agentic_tests/adapters/software-factory.yml
+                  grep -Fqx 'id: runreq.website.production.bootstrap.install-check' tests/agentic_tests/run_requests/bootstrap-public-install-check.example.yml
+                  grep -Fqx 'environment: production' tests/agentic_tests/run_requests/bootstrap-public-install-check.example.yml
+                  grep -Fqx 'id: website.bootstrap.install-check' tests/agentic_tests/suites/smoke/website.bootstrap.install-check.yml
+                  grep -Fqx '  mode: none' tests/agentic_tests/suites/smoke/website.bootstrap.install-check.yml
+                  grep -Fq 'url: https://awesomeworks.ai/en' tests/agentic_tests/suites/smoke/website.bootstrap.install-check.yml
+                  grep -Fq 'name: Book a call' tests/agentic_tests/suites/smoke/website.bootstrap.install-check.yml
+
+            - name: Render operator command matrix
+              shell: bash
+              run: |
+                  set -euo pipefail
+                  repo_root="$GITHUB_WORKSPACE"
+                  case_file="$repo_root/tests/agentic_tests/suites/smoke/website.bootstrap.install-check.yml"
+                  run_request="$repo_root/tests/agentic_tests/run_requests/bootstrap-public-install-check.example.yml"
+
+                  {
+                    echo "sf-agentic-bootstrap verify --repo-root \"$repo_root\" --product-slug website"
+                    echo "sf-agentic-browser plan --case-file \"$case_file\" --run-request \"$run_request\""
+                    echo "sf-agentic-browser run --case-file \"$case_file\" --run-request \"$run_request\""
+                    echo "sf-agentic-browser evaluate --case-file \"$case_file\" --run-request \"$run_request\" --observation-file \"$repo_root/tests/agentic_tests/website.bootstrap.install-check.observation.json\""
+                  } | tee "$RUNNER_TEMP/agentic-command-matrix.txt"

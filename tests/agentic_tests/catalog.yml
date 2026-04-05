@@ -1,0 +1,28 @@
+version: 1
+product: website
+root: tests/agentic_tests
+default_runner: playwright-mcp
+contract:
+  kind: functional_acceptance
+  source_of_truth: repo-local-agentic-tests
+  execution_backend: playwright-mcp
+  deterministic_regression_suite: e2e
+  deterministic_regression_role: separate_deterministic_regression
+default_reporting_target: software-factory
+reporting_adapters:
+- adapters/software-factory.yml
+registry: registry/flows.yml
+schemas:
+  testcase: schemas/testcase.schema.yml
+  run_request: schemas/run-request.schema.yml
+source_refs:
+- route:/en
+- src/pages/en/index.astro
+- src/i18n/en.json
+- astro.config.mjs
+suites:
+- key: smoke
+  description: Bootstrap install-check smoke case for Awesome Works Website public
+    route /en.
+  cases:
+  - suites/smoke/website.bootstrap.install-check.yml
