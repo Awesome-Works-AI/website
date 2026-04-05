@@ -19,33 +19,53 @@ jobs:
             - name: Checkout website
               uses: actions/checkout@v6
 
-            - name: Checkout software-factory runtime
-              uses: actions/checkout@v6
-              with:
-                  repository: Awesome-Works-AI/software-factory
-                  ref: main
-                  path: software-factory
-                  token: ${{ secrets.AWESOMEWORKS_CI_TOKEN }}
-
-            - name: Setup Python
-              uses: actions/setup-python@v5
-              with:
-                  python-version: "3.13"
-
-            - name: Setup uv
-              uses: astral-sh/setup-uv@v6
-
-            - name: Install software-factory backend dependencies
-              working-directory: software-factory/backend
-              run: uv sync --extra dev --locked
-
             - name: Verify scaffold contract
-              working-directory: software-factory/backend
-              run: uv run sf-agentic-bootstrap verify --repo-root "$GITHUB_WORKSPACE" --product-slug website
+              shell: bash
+              run: |
+                  set -euo pipefail
 
-            - name: Render execution plan
-              working-directory: software-factory/backend
-              run: >
-                  uv run sf-agentic-browser plan
-                  --case-file "$GITHUB_WORKSPACE/tests/agentic_tests/suites/smoke/website.bootstrap.install-check.yml"
-                  --run-request "$GITHUB_WORKSPACE/tests/agentic_tests/run_requests/bootstrap-public-install-check.example.yml"
+                  required_files=(
+                    tests/agentic_tests/README.md
+                    tests/agentic_tests/.gitignore
+                    tests/agentic_tests/catalog.yml
+                    tests/agentic_tests/registry/flows.yml
+                    tests/agentic_tests/schemas/run-request.schema.yml
+                    tests/agentic_tests/schemas/testcase.schema.yml
+                    tests/agentic_tests/adapters/software-factory.yml
+                    tests/agentic_tests/run_requests/bootstrap-public-install-check.example.yml
+                    tests/agentic_tests/suites/smoke/website.bootstrap.install-check.yml
+                  )
+
+                  for file in "${required_files[@]}"; do
+                    test -f "$file" || {
+                      echo "Missing required scaffold file: $file" >&2
+                      exit 1
+                    }
+                  done
+
+                  grep -Fqx '*.observation.json' tests/agentic_tests/.gitignore
+                  grep -Fqx 'product: website' tests/agentic_tests/catalog.yml
+                  grep -Fqx 'default_reporting_target: software-factory' tests/agentic_tests/catalog.yml
+                  grep -Fqx 'target: software-factory' tests/agentic_tests/adapters/software-factory.yml
+                  grep -Fqx 'project_id_env: WEBSITE_AGENTIC_REPORTING_PROJECT_ID' tests/agentic_tests/adapters/software-factory.yml
+                  grep -Fqx 'id: runreq.website.production.bootstrap.install-check' tests/agentic_tests/run_requests/bootstrap-public-install-check.example.yml
+                  grep -Fqx '  environment: production' <(sed 's/^/  /' tests/agentic_tests/run_requests/bootstrap-public-install-check.example.yml)
+                  grep -Fqx 'id: website.bootstrap.install-check' tests/agentic_tests/suites/smoke/website.bootstrap.install-check.yml
+                  grep -Fqx '  mode: none' <(sed 's/^/  /' tests/agentic_tests/suites/smoke/website.bootstrap.install-check.yml)
+                  grep -Fq 'url: https://awesomeworks.ai/en' tests/agentic_tests/suites/smoke/website.bootstrap.install-check.yml
+                  grep -Fq 'name: Book a call' tests/agentic_tests/suites/smoke/website.bootstrap.install-check.yml
+
+            - name: Render operator command matrix
+              shell: bash
+              run: |
+                  set -euo pipefail
+                  repo_root="$GITHUB_WORKSPACE"
+                  case_file="$repo_root/tests/agentic_tests/suites/smoke/website.bootstrap.install-check.yml"
+                  run_request="$repo_root/tests/agentic_tests/run_requests/bootstrap-public-install-check.example.yml"
+
+                  {
+                    echo "sf-agentic-bootstrap verify --repo-root \"$repo_root\" --product-slug website"
+                    echo "sf-agentic-browser plan --case-file \"$case_file\" --run-request \"$run_request\""
+                    echo "sf-agentic-browser run --case-file \"$case_file\" --run-request \"$run_request\""
+                    echo "sf-agentic-browser evaluate --case-file \"$case_file\" --run-request \"$run_request\" --observation-file \"$repo_root/tests/agentic_tests/website.bootstrap.install-check.observation.json\""
+                  } | tee "$RUNNER_TEMP/agentic-command-matrix.txt"
