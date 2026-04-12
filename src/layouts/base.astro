@@ -1,6 +1,7 @@
 ---
 import "@fontsource-variable/inter";
 import "@/styles/globals.css";
+import { organizationSameAs, personSameAs } from "@/data/personal-home";
 import { t, type Locale } from "@/i18n/utils";
 
 interface Props {
@@ -23,7 +24,30 @@ const defaultPath = localizedPath.replace(/^\/(pl|en)(?=\/|$)/, "/en");
 const altUrl = new URL(altPath, siteBase);
 const defaultUrl = new URL(defaultPath, siteBase);
 const ogImageAbsolute = new URL(ogImage ?? "/og-image.png", siteBase).href;
+const organizationId = new URL("#organization", siteBase).href;
+const personId = new URL("#rafal-lazicki", siteBase).href;
 const resolvedSocialDescription = socialDescription ?? description;
+const alumniOfName = locale === "pl" ? "Wojskowa Akademia Techniczna" : "Military University of Technology";
+const knowsAbout =
+  locale === "pl"
+    ? [
+        "AI delivery systems",
+        "workflow design",
+        "handoffy",
+        "internal tooling",
+        "backend engineering",
+        "DevOps",
+        "systemy RAG",
+      ]
+    : [
+        "AI delivery systems",
+        "workflow design",
+        "handoffs",
+        "internal tooling",
+        "backend engineering",
+        "DevOps",
+        "RAG systems",
+      ];
 const ogImageAlt =
   locale === "pl"
     ? "Rafał Łazicki — workflow, handoffy i software delivery"
@@ -34,12 +58,17 @@ const i = t(locale);
 const organizationJsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
+  "@id": organizationId,
   name: "AwesomeWorks",
   url: siteBase,
   logo: new URL("/logo.png", siteBase).href,
   image: ogImageAbsolute,
   description: description,
   foundingDate: "2021",
+  sameAs: organizationSameAs,
+  founder: {
+    "@id": personId,
+  },
   address: {
     "@type": "PostalAddress",
     addressLocality: "Warsaw",
@@ -51,6 +80,30 @@ const organizationJsonLd = {
     email: "hello@awesomeworks.ai",
     availableLanguage: ["English", "Polish"],
   },
+};
+
+const personJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "@id": personId,
+  name: "Rafał Łazicki",
+  url: canonicalUrl.href,
+  image: new URL("/rafal.jpeg", siteBase).href,
+  jobTitle: "Founder",
+  sameAs: personSameAs,
+  worksFor: {
+    "@id": organizationId,
+  },
+  alumniOf: {
+    "@type": "CollegeOrUniversity",
+    name: alumniOfName,
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "Warsaw",
+      addressCountry: "PL",
+    },
+  },
+  knowsAbout,
 };
 
 const faqJsonLd = includeFaqSchema
@@ -116,6 +169,7 @@ const faqJsonLd = includeFaqSchema
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 
     <script type="application/ld+json" set:html={JSON.stringify(organizationJsonLd)} />
+    <script type="application/ld+json" set:html={JSON.stringify(personJsonLd)} />
     {
       faqJsonLd && <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
     }

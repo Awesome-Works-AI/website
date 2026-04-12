@@ -2,29 +2,31 @@
 
 Dokument zawiera wszystkie treści strony awesomeworks.ai w dwóch wersjach językowych.
 
+> **Status:** dokument jest częściowo legacy. Aktualnym source of truth dla live copy jest `src/data/personal-home.ts`; poniżej zaktualizowano sekcje SEO i Hero pod obecne pozycjonowanie founder-led AI delivery systems.
+
 ---
 
 ## 🇵🇱 Polski
 
 ### SEO
 
-**Tytuł:** Awesome Works AI - Więcej czasu, mniej kosztów | Automatyzacja AI dla Biznesu
+**Tytuł:** Rafał Łazicki — AI delivery systems dla zespołów produktowych
 
-**Opis:** Oszczędź 20+ godzin tygodniowo i zredukuj koszty operacyjne o 40%. AI, które przejmuje rutynowe zadania, żebyś Ty mógł skupić się na rozwoju. Bezpłatna konsultacja.
+**Opis:** Pomagam zespołom produktowym skrócić drogę od decyzji i scope'u do wdrożenia. Projektuję workflow, handoffy i internal tooling dla AI-native execution.
 
-**Słowa kluczowe:** oszczędność czasu, redukcja kosztów, automatyzacja procesów, AI dla biznesu, zwiększenie efektywności, skalowanie firmy, obsługa klienta 24/7
+**Słowa kluczowe:** AI delivery systems, workflow, handoffy, internal tooling, AI-native execution, scope, delivery dla zespołów produktowych
 
 ---
 
 ### Hero
 
-**Nagłówek:** Oszczędź czas i pieniądze **dzięki AI**
+**Nagłówek:** Skróć drogę od decyzji do wdrożenia.
 
-**Podtytuł:** Zautomatyzuj rutynowe zadania, obsługuj klientów 24/7 i skaluj biznes bez zatrudniania. Konkretne wyniki w tygodniach, nie miesiącach.
+**Podtytuł:** Rafał Łazicki projektuje AI-native workflow i handoffy, które skracają drogę od decyzji do wdrożenia. Pomaga usuwać bottlenecki w scope'owaniu, handoffach i workflow, żeby zespół dowoził szybciej i spokojniej.
 
-**CTA główne:** Bezpłatna konsultacja
+**CTA główne:** Umów rozmowę o delivery
 
-**CTA drugorzędne:** Zobacz korzyści
+**CTA drugorzędne:** —
 
 ---
 
@@ -163,23 +165,23 @@ Po wdrożeniu nie zostawiamy Cię samego.
 
 ### SEO
 
-**Title:** Awesome Works AI - More Time, Less Costs | AI Automation for Business
+**Title:** Rafał Łazicki — AI delivery systems for product teams
 
-**Description:** Save 20+ hours weekly and cut operational costs by 40%. AI that takes over routine tasks so you can focus on growth. Free consultation.
+**Description:** I help product teams shorten the path from decisions and scope to deployment. I design workflows, handoffs, and internal tooling for AI-native execution.
 
-**Keywords:** time savings, cost reduction, process automation, AI for business, efficiency increase, business scaling, 24/7 customer support
+**Keywords:** AI delivery systems, workflows, handoffs, internal tooling, AI-native execution, scope, product team delivery
 
 ---
 
 ### Hero
 
-**Headline:** Save time and money **with AI**
+**Headline:** Shorten the path from decision to deployment.
 
-**Subtitle:** Automate routine tasks, serve customers 24/7, and scale your business without hiring. Real results in weeks, not months.
+**Subtitle:** Rafał Łazicki designs AI-native workflows and handoffs that shorten the path from decisions to deployment. He removes bottlenecks in scoping, handoffs, and workflow so the team ships faster with less chaos.
 
-**Primary CTA:** Free consultation
+**Primary CTA:** Book a delivery call
 
-**Secondary CTA:** See benefits
+**Secondary CTA:** —
 
 ---
 
