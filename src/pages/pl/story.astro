@@ -1,0 +1,29 @@
+---
+import Footer from "@/components/footer.astro";
+import Nav from "@/components/nav.astro";
+import StoryContent from "@/components/story-content.astro";
+import Base from "@/layouts/base.astro";
+
+const locale = "pl";
+
+const meta = {
+  title: "Historia Rafała Łazickiego — backend, DevOps, AI",
+  description:
+    "Jak Rafał Łazicki przeszedł od backendu, danych i DevOpsu do AI delivery systems, systemów agentowych i harnessów.",
+  socialDescription:
+    "Od backendu i DevOpsu do AI delivery systems, systemów agentowych i harnessów.",
+};
+---
+
+<Base
+  title={meta.title}
+  description={meta.description}
+  socialDescription={meta.socialDescription}
+  locale={locale}
+>
+  <Nav locale={locale} />
+  <main>
+    <StoryContent locale={locale} standalone={true} />
+    <Footer locale={locale} />
+  </main>
+</Base>
