@@ -1,11 +1,9 @@
 import type { Locale } from "@/i18n/utils";
 
 const calendlyUrl = "https://calendly.com/hello-awesomeworks/30min";
-const emailUrl = "mailto:hello@awesomeworks.ai";
 const localizedProductUrl = (baseUrl: string, locale: Locale) => `${baseUrl}/${locale}/`;
 const githubUrl = "https://github.com/Raff-dev";
 const gooseUrl = "https://raff-dev.github.io/goose/";
-const gooseRepoUrl = "https://github.com/Raff-dev/goose";
 const xUrl = "https://x.com/awesomeworksai";
 const linkedinUrl = "https://linkedin.com/in/rlazicki";
 const instagramUrl = "https://instagram.com/awesomeworksai";
@@ -13,39 +11,55 @@ const instagramUrl = "https://instagram.com/awesomeworksai";
 const personalHome = {
   pl: {
     meta: {
-      title: "Rafał Łazicki — systemy AI, agenci i produkty budowane przez foundera",
+      title: "Rafał Łazicki — workflow, handoffy i software delivery",
       description:
-        "Systemy AI, które robią robotę, nie prezentację. Rafał Łazicki buduje agentów i produkty dla founderów i zespołów, które chcą szybciej dowozić.",
+        "Pomagam zespołom produktowym skrócić drogę od decyzji i scope'u do wdrożenia. Workflow, handoffy, internal tooling i AI-native execution.",
       socialDescription:
-        "Rafał Łazicki buduje AI, które wykonuje realną pracę — nie demo.",
+        "Workflow, handoffy i internal tooling, które skracają drogę od decyzji do wdrożenia.",
     },
     nav: {
       brand: "Rafał Łazicki",
-      brandSubline: "AI systems · founder",
+      brandSubline: "delivery systems",
       links: [
-        { id: "story", label: "Historia", href: "/pl/story" },
         { id: "work", label: "Praca", href: "#work" },
+        { id: "process", label: "Proces", href: "#process" },
+        { id: "faq", label: "FAQ", href: "#faq" },
         { id: "socials", label: "Sociale", href: "#socials" },
-        { id: "contact", label: "Kontakt", href: "#contact" },
+        { id: "story", label: "Historia", href: "#story" },
+        { id: "contact", label: "Start", href: "#contact" },
       ],
-      cta: "Umów rozmowę",
+      cta: "Umów rozmowę o delivery",
     },
     hero: {
-      eyebrow: "Rafał Łazicki · AI engineer · founder",
+      eyebrow: "Rafał Łazicki · delivery systems",
       name: "Rafał Łazicki",
-      title: "Buduję systemy AI, które wykonują pracę — nie demonstracje.",
+      title: "Skróć drogę od decyzji do wdrożenia.",
       subtitle:
-        "Od backendu i dużych danych przeszedłem do własnych RAG-ów, agentów i harnessów. Dziś pracuję wyłącznie nad AI.",
-      primaryCta: "Zobacz moją pracę",
-      primaryHref: "#work",
-      secondaryCta: "Umów rozmowę",
-      secondaryHref: calendlyUrl,
-      storyCta: "Przeczytaj pełną historię",
-      storyHref: "/pl/story",
-      facts: [
-        "Wojskowa Akademia Techniczna · Data Science",
-        "backend engineer · duże zbiory danych",
-        "dziś: agent systems + harnesses",
+        "Pomagam usuwać bottlenecki w scope'owaniu, handoffach i workflow, żeby zespół dowoził szybciej i spokojniej.",
+      primaryCta: "Umów rozmowę o delivery",
+      primaryHref: calendlyUrl,
+      secondaryCta: "",
+      secondaryHref: "",
+      storyCta: "",
+      storyHref: "",
+      facts: [],
+    },
+    bottlenecks: {
+      title: "To zwykle nie jest problem tempa.",
+      intro: "",
+      items: [
+        {
+          title: "Kontekst nie trafia do delivery",
+          text: "Ustalenia zostają w callach, notatkach i wątkach zamiast zamieniać się w scope i kolejne kroki.",
+        },
+        {
+          title: "Workflow nadal jest ręczny",
+          text: "Bez narzędzi wewnętrznych, guardrailów i sensownej automatyzacji zespół przepycha pracę zamiast ją przyspieszać.",
+        },
+        {
+          title: "Nikt nie trzyma ręki na pulsie",
+          text: "Potrzebujesz osoby, która śledzi narzędzia i metody, wybiera to, co warto wdrożyć, i podnosi tempo zespołu bez resetowania jego sposobu pracy.",
+        },
       ],
     },
     story: {
@@ -88,59 +102,131 @@ const personalHome = {
     },
     products: {
       eyebrow: "Praca",
-      title: "Zobacz moją pracę tutaj.",
-      subtitle: "Cztery różne produkty. Cztery różne typy problemu. Jedna linia: systemy AI, które wchodzą do realnej pracy.",
-      extra: "Od SaaS-ów po workflow dla builderów i open source: każdy z tych produktów wyrósł z realnego bottlenecku w pracy.",
+      title: "Proof, nie obietnice.",
+      subtitle: "",
+      extra: "",
       items: [
         {
           id: "callwise",
           name: "CallWise",
-          label: "Kontekst po rozmowie",
-          title: "Nie gub ustaleń z rozmowy, od których potem zależy delivery.",
-          description:
-            "CallWise przechwytuje rozmowy discovery, notatki, action items i kluczowe ustalenia, żeby founder, PM i tech lead nie odbudowywali scope'u z fragmentów.",
+          label: "Lead proof",
+          title: "Rozmowy z klientem zamieniają się w pierwszy scope, zamiast ginąć w notatkach.",
+          bullets: [
+            "Łączy rozmowy, maile i notatki w jeden kontekst klienta.",
+            "Wyciąga ustalenia, ryzyka i pytania do dalszego delivery.",
+          ],
+          logoSrc: "/callwise-logo.png",
+          logoAlt: "CallWise logo",
           href: localizedProductUrl("https://callwise.awesomeworks.ai", "pl"),
-          cta: "Otwórz CallWise",
-          note: "Produkt live",
-          aside: "Jedna rozmowa staje się pierwszym artefaktem delivery, zamiast kolejnym taskiem na recap.",
+          cta: "Zobacz proof w CallWise",
+          note: "B2B · zamknięty dostęp",
         },
         {
           id: "courseai",
           name: "CourseAI",
-          label: "AI coding workflow",
-          title: "System pracy z agentami AI dla builderów, którzy chcą szybciej dowozić SaaS.",
+          label: "Orkiestracja workflow",
+          title: "",
           description:
-            "CourseAI pokazuje workflow: pomysł → specyfikacja → kod → review → deploy, żeby budować szybciej bez dokładania headcountu zbyt wcześnie.",
+            "Warstwa pracy od pomysłu i specyfikacji do kodu, review i deployu.",
+          logoSrc: "/courseai-logo.png",
+          logoAlt: "CourseAI logo",
           href: localizedProductUrl("https://course.awesomeworks.ai", "pl"),
-          cta: "Otwórz CourseAI",
-          note: "Aplikacja live",
-          aside: "To nie katalog promptów. To system pracy dla builderów, którzy chcą domykać delivery częściej i spokojniej.",
+          cta: "Zobacz workflow",
         },
         {
           id: "ask",
           name: "Ask",
-          label: "Finanse i operacje",
-          title: "Workflow finansowy bez ręcznego chaosu.",
+          label: "Ops automation",
+          title: "",
           description:
-            "Ask porządkuje obieg faktur i administrację operacyjną tam, gdzie manualna praca zaczyna spowalniać zespół.",
+            "Zmniejsza ręczny ciężar w operacjach tam, gdzie admin zaczyna blokować delivery.",
+          logoSrc: "/ask-logo.png",
+          logoAlt: "Ask logo",
           href: "https://ask.awesomeworks.ai",
-          cta: "Otwórz Ask",
-          note: "Early access",
-          aside: "Mniej ręcznego obiegu faktur i mniej tarcia tam, gdzie finanse spowalniają operacje.",
+          cta: "Zobacz ops flow",
         },
         {
           id: "goose",
           name: "Goose",
-          label: "Open source",
-          title: "Harness do testowania workflow AI i zachowania agentów.",
+          label: "Ewaluacja i reliability",
+          title: "",
           description:
-            "Goose pomaga testować prompty, tool-calle i zachowanie agentów, zanim błąd trafi do użytkownika albo na produkcję.",
+            "Harness do testowania promptów, tool-calli i zachowania agentów przed produkcją.",
+          logoSrc: "/goose-logo.png",
+          logoAlt: "Goose logo",
           href: gooseUrl,
-          cta: "Otwórz Goose",
-          secondaryHref: gooseRepoUrl,
-          secondaryCta: "Repo na GitHubie",
-          note: "Repo publiczne",
-          aside: "Prompty, tool-calle i agenci można złamać wcześniej — właśnie po to jest ten harness.",
+          cta: "Zobacz harness",
+        },
+      ],
+    },
+    process: {
+      title: "Jak to działa",
+      bridge: {
+        kicker: "AI enablement w delivery",
+        title: "Jeśli bottleneckiem jest brak obycia z AI, domykamy to w trakcie wdrożenia.",
+        bullets: [
+          "Budujemy w realnym workflow zespołu, nie obok niego.",
+          "Pokazujemy wzorce, guardraile i decyzje na żywym projekcie.",
+          "Po wdrożeniu zespół ma lepszy sposób pracy, nie tylko gotowy feature.",
+        ],
+        note: "To embedded enablement osadzone w delivery, nie osobna usługa szkoleniowa.",
+        storyLabel: "",
+        storyHref: "",
+      },
+      steps: [
+        {
+          title: "Mapujemy bottleneck",
+          text: "Patrzymy, gdzie ginie kontekst między decyzją, scope'em i wykonaniem.",
+        },
+        {
+          title: "Układamy workflow",
+          text: "Porządkujemy handoffy, narzędzia i zasady pracy wokół realnego wąskiego gardła.",
+        },
+        {
+          title: "Domykamy delivery",
+          text: "Wdrażamy, testujemy i skracamy drogę od ustalenia do działającego efektu.",
+        },
+      ],
+    },
+    fit: {
+      title: "Dla kogo to działa",
+      good: [
+        "Dla CTO i technical founderów, którzy widzą tarcie między rozmową, specyfikacją i implementacją.",
+        "Dla zespołów produktowych, które mają klientów i za dużo ręcznych handoffów.",
+        "Dla firm, które chcą spokojniejszego delivery bez dokładania kolejnej warstwy chaosu.",
+      ],
+      bad: [
+        "Nie dla zespołów szukających tylko promptów albo warsztatu o AI.",
+        "Nie dla organizacji, które wolą długi proces niż szybkie usunięcie konkretnego bottlenecku.",
+        "Nie dla projektów bez właściciela decyzji po stronie produktu lub engineeringu.",
+      ],
+    },
+    faq: {
+      title: "Pytania, które padają najczęściej",
+      items: [
+        {
+          q: "Co dokładnie robisz?",
+          a: "Pomagam uporządkować to, co dzieje się między decyzją a wdrożeniem: scope, handoffy, workflow i narzędzia wewnętrzne.",
+        },
+        {
+          q: "Czy to konsulting, czy wdrożenie?",
+          a: "Jedno i drugie. Zaczynamy od znalezienia bottlenecku, ale celem jest działająca zmiana, nie slajd.",
+        },
+        {
+          q: "Czy musimy już używać AI lub agentów?",
+          a: "Nie. Pomogę wam zaplanować, gdzie AI ma sens, jak wdrożyć je mądrze i jak podnieść kompetencje zespołu w pracy z odpowiednimi narzędziami.",
+        },
+        {
+          q: "Co przygotować na spotkanie?",
+          a: "Zbierz informacje, z jakich narzędzi AI korzystają dziś wasi programiści, jakie mają kompetencje w obszarze AI i jak wygląda ich praktyczna wiedza o LLM-ach.",
+        },
+        {
+          q: "Czy pomagacie też zespołowi nauczyć się tego sposobu pracy?",
+          a: "Tak, ale w ramach wspólnego delivery. Celem nie jest warsztat o AI, tylko to, żeby po wdrożeniu zespół lepiej rozumiał decyzje, guardraile i kolejne kroki.",
+        },
+        {
+          q: "Kiedy to nie ma sensu?",
+          a: "Gdy problemem nie jest execution, tylko brak decyzji i ownershipu po stronie biznesu.",
         },
       ],
     },
@@ -181,63 +267,77 @@ const personalHome = {
       ],
     },
     closing: {
-      eyebrow: "Kontakt",
-      title: "Jeśli budujesz coś z AI, porozmawiajmy.",
+      eyebrow: "Start",
+      title: "Pokaż, gdzie dziś zacina się delivery.",
       description:
-        "Najchętniej rozmawiam z founderami i zespołami, które chcą przejść od pomysłu do działającego systemu.",
-      primaryCta: "Umów rozmowę",
+        "Przejdziemy scope, handoffy i workflow. Bez ogólników.",
+      primaryCta: "Umów rozmowę o delivery",
       primaryHref: calendlyUrl,
-      secondaryCta: "Napisz maila",
-      secondaryHref: emailUrl,
-      storyCta: "Przeczytaj historię foundera",
-      storyHref: "/pl/story",
-      microcopy: "Możesz też zacząć od produktów albo sociali, jeśli chcesz najpierw zobaczyć pracę.",
+      secondaryCta: "",
+      secondaryHref: "",
+      storyCta: "",
+      storyHref: "",
+      microcopy: "Najlepiej działa, gdy masz konkretny feature, klienta albo workflow do przejścia.",
     },
     footer: {
-      tagline: "Personal landing Rafała Łazickiego. Systemy AI, agenci i produkty budowane przez foundera.",
-      legal: "Prawne",
-      legalLinks: [
-        { label: "Polityka prywatności", href: "/pl/privacy" },
-        { label: "Regulamin", href: "/pl/terms" },
-      ],
+      name: "Rafał Łazicki",
+      companyInfo: "Awesome Works AI · NIP: 5223202536 · Warszawa",
+      storyLabel: "",
+      storyHref: "",
       copyright: "© 2026 Rafał Łazicki / AwesomeWorks",
     },
   },
   en: {
     meta: {
-      title: "Rafał Łazicki — AI systems, agents, and founder-built products",
+      title: "Rafał Łazicki — workflow, handoffs, and software delivery",
       description:
-        "Founder and AI engineer turning AI into working systems, agents, and products. Less demo theater, more delivery, automation, and leverage.",
+        "I help product teams shorten the path from decisions and scope to deployment. Workflow design, handoffs, internal tooling, and AI-native execution.",
       socialDescription:
-        "Rafał Łazicki builds AI that does real work — not demo theater.",
+        "Workflow, handoffs, and internal tooling that shorten the path from decisions to deployment.",
     },
     nav: {
       brand: "Rafał Łazicki",
-      brandSubline: "AI systems · founder",
+      brandSubline: "delivery systems",
       links: [
-        { id: "story", label: "Story", href: "/en/story" },
-        { id: "work", label: "Work", href: "#work" },
+        { id: "work", label: "Proof", href: "#work" },
+        { id: "process", label: "Flow", href: "#process" },
+        { id: "faq", label: "FAQ", href: "#faq" },
         { id: "socials", label: "Socials", href: "#socials" },
-        { id: "contact", label: "Contact", href: "#contact" },
+        { id: "story", label: "Story", href: "#story" },
+        { id: "contact", label: "Start", href: "#contact" },
       ],
-      cta: "Book a call",
+      cta: "Book a delivery call",
     },
     hero: {
-      eyebrow: "Rafał Łazicki · AI engineer · founder",
+      eyebrow: "Rafał Łazicki · delivery systems",
       name: "Rafał Łazicki",
-      title: "I build AI systems that do work — not demos.",
+      title: "Shorten the path from decision to deployment.",
       subtitle:
-        "I moved from backend and large datasets into early RAG systems, agents, and harnesses. Today I work entirely on AI.",
-      primaryCta: "See my work",
-      primaryHref: "#work",
-      secondaryCta: "Book a call",
-      secondaryHref: calendlyUrl,
-      storyCta: "Read the full story",
-      storyHref: "/en/story",
-      facts: [
-        "Military University of Technology · Data Science",
-        "backend engineer · large datasets",
-        "today: agent systems + harnesses",
+        "I remove bottlenecks in scoping, handoffs, and workflow so the team ships faster and with less chaos.",
+      primaryCta: "Book a delivery call",
+      primaryHref: calendlyUrl,
+      secondaryCta: "",
+      secondaryHref: "",
+      storyCta: "",
+      storyHref: "",
+      facts: [],
+    },
+    bottlenecks: {
+      title: "This is usually not a speed problem.",
+      intro: "",
+      items: [
+        {
+          title: "Context never reaches delivery",
+          text: "Decisions stay in calls, notes, and threads instead of turning into scope and next steps.",
+        },
+        {
+          title: "The workflow stays manual",
+          text: "Without internal tools, guardrails, and smart automation, the team keeps pushing work around instead of speeding it up.",
+        },
+        {
+          title: "No one stays in the loop",
+          text: "You need someone who tracks tools and methods, picks what is worth adopting, and raises team speed without resetting how the team already works.",
+        },
       ],
     },
     story: {
@@ -279,60 +379,132 @@ const personalHome = {
       storyHref: "/en/story",
     },
     products: {
-      eyebrow: "Work",
-      title: "See my work here.",
-      subtitle: "Four different products. Four different problems. One line through all of them: AI systems that enter real workflows.",
-      extra: "From SaaS products to builder workflows and open source, each of these started from a real bottleneck in day-to-day work.",
+      eyebrow: "Proof",
+      title: "Proof, not promises.",
+      subtitle: "",
+      extra: "",
       items: [
         {
           id: "callwise",
           name: "CallWise",
-          label: "Post-call context",
-          title: "Keep the client-call context that delivery will need later.",
-          description:
-            "CallWise captures discovery calls, notes, action items, and key decisions so founders, PMs, and tech leads stop rebuilding scope from fragments.",
+          label: "Lead proof",
+          title: "Client conversations become the first scope instead of getting lost in notes.",
+          bullets: [
+            "Calls, emails, and notes become one client context layer.",
+            "Agreements, risks, and questions move into delivery faster.",
+          ],
+          logoSrc: "/callwise-logo.png",
+          logoAlt: "CallWise logo",
           href: localizedProductUrl("https://callwise.awesomeworks.ai", "en"),
-          cta: "Open CallWise",
-          note: "Live product",
-          aside: "One call becomes the first delivery artifact instead of another recap task.",
+          cta: "See the proof in CallWise",
+          note: "B2B · closed access",
         },
         {
           id: "courseai",
           name: "CourseAI",
-          label: "AI coding workflow",
-          title: "A working system for builders who want to ship SaaS faster with AI agents.",
+          label: "Workflow orchestration",
+          title: "",
           description:
-            "CourseAI teaches the workflow: idea → spec → code → review → deploy, so you can move faster without solving slow execution by hiring too early.",
+            "The working layer from idea and spec to code, review, and deploy.",
+          logoSrc: "/courseai-logo.png",
+          logoAlt: "CourseAI logo",
           href: localizedProductUrl("https://course.awesomeworks.ai", "en"),
-          cta: "Open CourseAI",
-          note: "Live app",
-          aside: "It is not a prompt catalog. It is a working system for builders who want more leverage and calmer delivery.",
+          cta: "See the workflow",
         },
         {
           id: "ask",
           name: "Ask",
-          label: "Finance and ops",
-          title: "Finance workflow without manual drag.",
+          label: "Ops automation",
+          title: "",
           description:
-            "Ask brings order to invoices and operational admin where manual finance work starts slowing the team down.",
+            "Cuts manual admin load where internal ops starts slowing delivery down.",
+          logoSrc: "/ask-logo.png",
+          logoAlt: "Ask logo",
           href: "https://ask.awesomeworks.ai",
-          cta: "Open Ask",
-          note: "Early access",
-          aside: "Less invoice admin and less drag where finance starts slowing operations down.",
+          cta: "See the ops flow",
         },
         {
           id: "goose",
           name: "Goose",
-          label: "Open source",
-          title: "A harness for testing AI workflows and agent behavior.",
+          label: "Evaluation and reliability",
+          title: "",
           description:
-            "Goose helps test prompts, tool calls, and agent behavior before failures reach users or production.",
+            "Harness for testing prompts, tool calls, and agent behavior before rollout.",
+          logoSrc: "/goose-logo.png",
+          logoAlt: "Goose logo",
           href: gooseUrl,
-          cta: "Open Goose",
-          secondaryHref: gooseRepoUrl,
-          secondaryCta: "View the GitHub repo",
-          note: "Public repo",
-          aside: "Prompts, tool calls, and agents can fail early — this harness is there to catch that first.",
+          cta: "See the harness",
+        },
+      ],
+    },
+    process: {
+      title: "How it works",
+      bridge: {
+        kicker: "AI enablement in delivery",
+        title: "If the bottleneck is missing AI fluency, we close that gap while shipping.",
+        bullets: [
+          "We build inside the team's real workflow, not beside it.",
+          "We explain patterns, guardrails, and trade-offs on live work.",
+          "After launch, the team keeps a better operating model, not just a finished feature.",
+        ],
+        note: "This is embedded enablement inside delivery, not a standalone training offer.",
+        storyLabel: "",
+        storyHref: "",
+      },
+      steps: [
+        {
+          title: "Map the bottleneck",
+          text: "We find where context gets lost between decision, scope, and execution.",
+        },
+        {
+          title: "Shape the workflow",
+          text: "We tighten handoffs, tools, and rules around the real point of friction.",
+        },
+        {
+          title: "Close the loop",
+          text: "We implement, test, and shorten the path from decision to working output.",
+        },
+      ],
+    },
+    fit: {
+      title: "Who this works for",
+      good: [
+        "For CTOs and technical founders who see friction between conversations, scope, and implementation.",
+        "For product teams with clients and too many manual handoffs.",
+        "For companies that want calmer delivery without adding another layer of chaos.",
+      ],
+      bad: [
+        "Not for teams looking only for prompts or an AI workshop.",
+        "Not for organizations that prefer a long process over removing one real bottleneck.",
+        "Not for projects without product or engineering ownership on the client side.",
+      ],
+    },
+    faq: {
+      title: "Questions that come up most often",
+      items: [
+        {
+          q: "What exactly do you do?",
+          a: "I help structure what happens between the decision and the deployment: scope, handoffs, workflow, and internal tooling.",
+        },
+        {
+          q: "Is this consulting or implementation?",
+          a: "Both. We start by finding the bottleneck, but the goal is an operating change, not a slide deck.",
+        },
+        {
+          q: "Do we need to already use AI or agents?",
+          a: "No. I can help you plan where AI makes sense, how to introduce it well, and how to raise the team's confidence with the right AI tools in day-to-day work.",
+        },
+        {
+          q: "What should we prepare for the call?",
+          a: "Bring a clear view of which AI tools your developers already use for coding, what their current AI competence looks like, and how practical their LLM knowledge really is.",
+        },
+        {
+          q: "Do you also help the team learn this way of working?",
+          a: "Yes, but inside the delivery work. The goal is not an AI workshop. The goal is for your team to leave with better judgment, clearer guardrails, and a system they can keep operating.",
+        },
+        {
+          q: "When does this not make sense?",
+          a: "When the real problem is not execution but missing decisions and missing ownership on the business side.",
         },
       ],
     },
@@ -372,25 +544,23 @@ const personalHome = {
       ],
     },
     closing: {
-      eyebrow: "Contact",
-      title: "If you're building something with AI, let's talk.",
+      eyebrow: "Start",
+      title: "Show where delivery is getting stuck today.",
       description:
-        "I most like speaking with founders and teams who want to move from an idea to a working system.",
-      primaryCta: "Book a call",
+        "We will review scope, handoffs, and workflow. No vague talk.",
+      primaryCta: "Book a delivery call",
       primaryHref: calendlyUrl,
-      secondaryCta: "Send an email",
-      secondaryHref: emailUrl,
-      storyCta: "Read the founder story",
-      storyHref: "/en/story",
-      microcopy: "You can also start with the products or socials if you want to see the work first.",
+      secondaryCta: "",
+      secondaryHref: "",
+      storyCta: "",
+      storyHref: "",
+      microcopy: "This works best when you already have a feature, client flow, or internal process to review.",
     },
     footer: {
-      tagline: "Personal landing for Rafał Łazicki. AI systems, agents, and founder-built products.",
-      legal: "Legal",
-      legalLinks: [
-        { label: "Privacy Policy", href: "/en/privacy" },
-        { label: "Terms of Service", href: "/en/terms" },
-      ],
+      name: "Rafał Łazicki",
+      companyInfo: "Awesome Works AI · VAT ID: PL5223202536 · Warsaw, Poland",
+      storyLabel: "",
+      storyHref: "",
       copyright: "© 2026 Rafał Łazicki / AwesomeWorks",
     },
   },

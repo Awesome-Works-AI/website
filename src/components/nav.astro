@@ -11,19 +11,14 @@ const { locale } = Astro.props;
 const home = getPersonalHome(locale);
 const currentPath = Astro.url.pathname;
 const homeHref = `/${locale}/`;
-const isStoryPage = new RegExp(`^/${locale}/story/?$`).test(currentPath);
 const isHomePage = currentPath === "/" || new RegExp(`^/${locale}/?$`).test(currentPath);
-const resolvedLinks = home.nav.links.map((link) => {
-  const base = { id: link.id, label: link.label, active: false, sectionId: link.id };
-
-  if (isHomePage) return { ...base, href: `#${link.id}` };
-
-  if (link.id === "story") return { ...base, href: `/${locale}/story`, active: isStoryPage };
-  if (link.id === "work") return { ...base, href: `${homeHref}#work` };
-  if (link.id === "socials") return { ...base, href: `${homeHref}#socials` };
-
-  return { ...base, href: `${homeHref}#contact` };
-});
+const resolvedLinks = home.nav.links.map((link) => ({
+  id: link.id,
+  label: link.label,
+  active: false,
+  sectionId: link.id,
+  href: isHomePage ? `#${link.id}` : `${homeHref}#${link.id}`,
+}));
 ---
 
 <nav

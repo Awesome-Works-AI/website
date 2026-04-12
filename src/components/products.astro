@@ -8,111 +8,122 @@ interface Props {
 
 const { locale } = Astro.props;
 const { products } = getPersonalHome(locale);
+const [featuredProduct, ...supportingProducts] = products.items;
 
-const productThemes = {
-  callwise: {
-    panelClass: "bg-[linear-gradient(135deg,rgba(99,102,241,0.12),rgba(255,255,255,0.03))]",
-    badgeClass: "border-indigo-400/20 bg-indigo-400/10 text-indigo-200",
-    buttonClass: "bg-foreground text-background hover:opacity-90",
-  },
-  courseai: {
-    panelClass: "bg-[linear-gradient(135deg,rgba(59,130,246,0.14),rgba(34,197,94,0.06))]",
-    badgeClass: "border-sky-400/20 bg-sky-400/10 text-sky-100",
-    buttonClass: "bg-foreground text-background hover:opacity-90",
-  },
-  ask: {
-    panelClass: "bg-[linear-gradient(135deg,rgba(16,185,129,0.10),rgba(255,255,255,0.02))]",
-    badgeClass: "border-emerald-400/20 bg-emerald-400/10 text-emerald-200",
-    buttonClass: "border border-white/[0.12] bg-white/[0.04] text-foreground hover:bg-white/[0.08]",
-  },
-  goose: {
-    panelClass: "bg-[linear-gradient(135deg,rgba(255,255,255,0.07),rgba(2,6,23,0.7))]",
-    badgeClass: "border-white/10 bg-white/[0.04] text-white/80",
-    buttonClass: "border border-white/[0.14] bg-white/[0.06] text-white hover:bg-white/[0.12]",
-  },
+const supportThemes = {
+  courseai: "border-sky-400/20 bg-sky-400/[0.05]",
+  goose: "border-white/[0.12] bg-white/[0.03]",
+  ask: "border-emerald-400/20 bg-emerald-400/[0.05]",
+} as const;
+
+const supportLogoTreatments = {
+  courseai: "absolute -right-6 -bottom-6 h-28 w-28 object-contain opacity-[0.16] sm:h-32 sm:w-32",
+  goose: "absolute -right-6 -bottom-6 h-28 w-28 object-contain opacity-[0.14] sm:h-32 sm:w-32",
+  ask: "absolute -right-8 -bottom-8 h-32 w-32 object-contain opacity-[0.14] sm:h-36 sm:w-36",
 } as const;
 ---
 
-{
-  products.items.map((item, index) => {
-    const theme = productThemes[item.id as keyof typeof productThemes];
+<section id="work" class="relative flex min-h-[100svh] items-center border-t border-white/[0.06] px-5 py-20 sm:px-6 sm:py-24 lg:px-8">
+  <div class="presentation-shell">
+    <div class="grid gap-8 lg:grid-cols-12">
+      <div class="animate-on-scroll lg:col-span-4">
+        <div class="section-kicker">{products.eyebrow}</div>
+        <h2 class="section-title mt-4">{products.title}</h2>
+        {products.subtitle && <p class="section-copy mt-4 max-w-xl">{products.subtitle}</p>}
+      </div>
 
-    return (
-      <section
-        id={index === 0 ? "work" : undefined}
-        class="presentation-slide border-t border-white/[0.06]"
-      >
-        <div class="presentation-shell">
-          <article class={`presentation-panel animate-on-scroll ${theme.panelClass}`}>
-            <div class="grid gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(18rem,0.7fr)] lg:items-end">
-              <div class="max-w-3xl">
-                <div class="section-kicker">{products.eyebrow}</div>
-                {
-                  index === 0 && (
-                    <p class="mt-4 max-w-2xl text-lg leading-relaxed text-muted-foreground">
-                      {products.title} {products.subtitle}
-                    </p>
-                  )
-                }
-                <div class={`mt-6 inline-flex items-center rounded-full border px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.22em] ${theme.badgeClass}`}>
-                  <span>{item.label}</span>
-                </div>
-                <h2 class="mt-5 text-4xl font-semibold tracking-tight text-foreground sm:text-6xl">
-                  {item.name}
-                </h2>
-                <p class="mt-5 max-w-2xl text-2xl font-medium leading-tight text-foreground/92 sm:text-3xl">
-                  {item.title}
-                </p>
-                <p class="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-                  {item.description}
-                </p>
+      <article class="presentation-panel animate-on-scroll flex h-full flex-col lg:col-span-8 bg-[linear-gradient(135deg,rgba(99,102,241,0.12),rgba(255,255,255,0.03))]">
+        <img
+          src={featuredProduct.logoSrc}
+          alt=""
+          aria-hidden="true"
+          class="pointer-events-none absolute -right-8 top-1/2 h-48 w-48 -translate-y-1/2 object-contain opacity-[0.12] sm:h-64 sm:w-64"
+          loading="lazy"
+        />
 
-                <div class="mt-8 flex flex-col items-start gap-4 sm:flex-row sm:flex-wrap">
-                  <a
-                    href={item.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class={`inline-flex items-center rounded-full px-6 py-3 text-sm font-semibold transition-colors ${theme.buttonClass}`}
-                  >
-                    {item.cta}
-                  </a>
-                  {
-                    "secondaryHref" in item &&
-                      "secondaryCta" in item &&
-                      item.secondaryHref &&
-                      item.secondaryCta && (
-                        <a
-                          href={item.secondaryHref}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          class="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-                        >
-                          {item.secondaryCta}
-                        </a>
-                      )
-                  }
-                  <div class="rounded-full border border-white/[0.08] px-4 py-3 text-sm text-muted-foreground">
-                    {item.note}
-                  </div>
+        <div class="relative z-10 flex h-full flex-col">
+          <div class="inline-flex items-center rounded-full border border-white/[0.08] bg-background/55 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">
+            {featuredProduct.note}
+          </div>
+
+          <div class="mt-5 flex flex-wrap items-center gap-4">
+            <h3 class="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+              {featuredProduct.name}
+            </h3>
+          </div>
+          <p class="mt-5 max-w-3xl text-xl font-medium leading-tight text-foreground sm:text-2xl">
+            {featuredProduct.title}
+          </p>
+
+          <div class="mt-6 grid gap-3 sm:grid-cols-2">
+            {
+              ("bullets" in featuredProduct ? featuredProduct.bullets : []).map((bullet) => (
+                <div class="rounded-[1.25rem] border border-white/[0.08] bg-background/55 px-5 py-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
+                  {bullet}
                 </div>
+              ))
+            }
+          </div>
+
+          <div class="mt-auto pt-8">
+            <a
+              href={featuredProduct.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-3 text-sm font-semibold text-background transition-opacity hover:opacity-90"
+            >
+              <span>{featuredProduct.cta}</span>
+              <span aria-hidden="true">→</span>
+            </a>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <div class="mt-6 grid gap-4 lg:grid-cols-3">
+      {
+        supportingProducts.map((item, index) => (
+          <article
+            class:list={[
+              "animate-on-scroll relative flex h-full flex-col overflow-hidden rounded-[1.75rem] border px-6 py-6 shadow-xl shadow-black/10",
+              supportThemes[item.id as keyof typeof supportThemes],
+            ]}
+            style={`transition-delay: ${80 + index * 70}ms`}
+          >
+            <img
+              src={item.logoSrc}
+              alt=""
+              aria-hidden="true"
+              class:list={[
+                "pointer-events-none",
+                supportLogoTreatments[item.id as keyof typeof supportLogoTreatments],
+              ]}
+              loading="lazy"
+            />
+
+            <div class="relative z-10 flex h-full flex-col">
+              <div class="text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground/65">
+                {item.label}
               </div>
-
-              <div class="grid gap-4">
-                <div class="rounded-[1.5rem] border border-white/[0.08] bg-background/55 px-5 py-4 text-sm leading-relaxed text-muted-foreground">
-                  {item.aside}
-                </div>
-                {
-                  index === products.items.length - 1 && (
-                    <div class="rounded-[1.5rem] border border-white/[0.08] bg-background/55 px-5 py-4 text-sm leading-relaxed text-muted-foreground">
-                      {products.extra}
-                    </div>
-                  )
-                }
+              <h3 class="mt-4 text-2xl font-semibold tracking-tight text-foreground">{item.name}</h3>
+              <p class="mt-3 max-w-[18rem] text-sm leading-relaxed text-muted-foreground sm:text-base">
+                {item.description}
+              </p>
+              <div class="mt-auto pt-6">
+                <a
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-flex items-center gap-2 rounded-full bg-foreground px-5 py-2.5 text-sm font-semibold text-background transition-opacity hover:opacity-90"
+                >
+                  <span>{item.cta}</span>
+                  <span aria-hidden="true">→</span>
+                </a>
               </div>
             </div>
           </article>
-        </div>
-      </section>
-    );
-  })
-}
+        ))
+      }
+    </div>
+  </div>
+</section>
