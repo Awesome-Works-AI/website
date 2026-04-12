@@ -1,0 +1,29 @@
+---
+import Footer from "@/components/footer.astro";
+import Nav from "@/components/nav.astro";
+import StoryContent from "@/components/story-content.astro";
+import Base from "@/layouts/base.astro";
+
+const locale = "en";
+
+const meta = {
+  title: "Founder story — Rafał Łazicki",
+  description:
+    "How Rafał Łazicki moved from backend, data, and DevOps into AI delivery systems, agent systems, and harnesses.",
+  socialDescription:
+    "From backend and DevOps into AI delivery systems, agent systems, and harnesses.",
+};
+---
+
+<Base
+  title={meta.title}
+  description={meta.description}
+  socialDescription={meta.socialDescription}
+  locale={locale}
+>
+  <Nav locale={locale} />
+  <main>
+    <StoryContent locale={locale} standalone={true} />
+    <Footer locale={locale} />
+  </main>
+</Base>
