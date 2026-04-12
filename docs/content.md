@@ -22,7 +22,7 @@ Dokument zawiera wszystkie treści strony awesomeworks.ai w dwóch wersjach jęz
 
 **Nagłówek:** Skróć drogę od decyzji do wdrożenia.
 
-**Podtytuł:** Rafał Łazicki projektuje AI-native workflow i handoffy, które skracają drogę od decyzji do wdrożenia. Pomaga usuwać bottlenecki w scope'owaniu, handoffach i workflow, żeby zespół dowoził szybciej i spokojniej.
+**Podtytuł:** Pomagam usuwać bottlenecki w scope'owaniu, handoffach i workflow, żeby zespół dowoził szybciej i spokojniej.
 
 **CTA główne:** Umów rozmowę o delivery
 
@@ -177,7 +177,7 @@ Po wdrożeniu nie zostawiamy Cię samego.
 
 **Headline:** Shorten the path from decision to deployment.
 
-**Subtitle:** Rafał Łazicki designs AI-native workflows and handoffs that shorten the path from decisions to deployment. He removes bottlenecks in scoping, handoffs, and workflow so the team ships faster with less chaos.
+**Subtitle:** I remove bottlenecks in scoping, handoffs, and workflow so the team ships faster and with less chaos.
 
 **Primary CTA:** Book a delivery call
 
