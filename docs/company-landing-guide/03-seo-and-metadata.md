@@ -1,6 +1,6 @@
 # 03 — SEO & Metadata for Company Landing Page
 
-Praktyki SEO techniczne, structured data, meta tagi, i18n — wzorowane na sprawdzonym setupie CallWise, ale z JSON-LD odpowiednim dla firmy (Organization zamiast SoftwareApplication).
+Praktyki SEO techniczne, structured data, meta tagi, i18n — wzorowane na sprawdzonym setupie CallWise, ale z JSON-LD odpowiednim dla firmy i founder-led homepage (`Organization` + `Person` zamiast `SoftwareApplication`).
 
 ---
 
@@ -14,6 +14,7 @@ const canonicalUrl = new URL(Astro.url.pathname, siteBase);
 const altUrl = new URL(`/${altLocale}/`, siteBase);
 const defaultUrl = new URL("/en/", siteBase);
 const ogImage = new URL("/og-image.png", siteBase).href;
+const resolvedSocialDescription = socialDescription ?? description;
 ---
 
 <head>
@@ -37,7 +38,7 @@ const ogImage = new URL("/og-image.png", siteBase).href;
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="AwesomeWorks" />
   <meta property="og:title" content={title} />
-  <meta property="og:description" content={description} />
+  <meta property="og:description" content={resolvedSocialDescription} />
   <meta property="og:image" content={ogImage} />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
@@ -48,17 +49,17 @@ const ogImage = new URL("/og-image.png", siteBase).href;
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content={title} />
-  <meta name="twitter:description" content={description} />
+  <meta name="twitter:description" content={resolvedSocialDescription} />
   <meta name="twitter:image" content={ogImage} />
 
   <!-- Favicon -->
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-  <link rel="manifest" href="/site.webmanifest" />
 
   <!-- Structured Data -->
   <script type="application/ld+json" set:html={JSON.stringify(organizationJsonLd)} />
+  <script type="application/ld+json" set:html={JSON.stringify(personJsonLd)} />
   <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
 </head>
 ```
@@ -87,12 +88,16 @@ const organizationJsonLd = {
     addressLocality: "Warsaw",
     addressCountry: "PL",
   },
-  // Social profiles
+  "@id": new URL("#organization", siteBase).href,
   sameAs: [
-    "https://linkedin.com/company/awesomeworks",
-    "https://github.com/awesomeworks",
-    "https://twitter.com/awesomeworks",
+    "https://linkedin.com/in/rlazicki",
+    "https://github.com/Raff-dev",
+    "https://x.com/awesomeworksai",
+    "https://instagram.com/awesomeworksai",
   ],
+  founder: {
+    "@id": new URL("#rafal-lazicki", siteBase).href,
+  },
   // Contact
   contactPoint: {
     "@type": "ContactPoint",
@@ -100,31 +105,44 @@ const organizationJsonLd = {
     email: "hello@awesomeworks.ai",
     availableLanguage: ["English", "Polish"],
   },
-  // Jeśli macie publiczne oferty usług
-  hasOfferCatalog: {
-    "@type": "OfferCatalog",
-    name: "Software Development Services",
-    itemListElement: [
-      {
-        "@type": "Offer",
-        itemOffered: {
-          "@type": "Service",
-          name: "Custom Software Development",
-        },
-      },
-      {
-        "@type": "Offer",
-        itemOffered: {
-          "@type": "Service",
-          name: "AI & Machine Learning Solutions",
-        },
-      },
-    ],
-  },
 };
 ```
 
-### 2.2 FAQPage — Identyczny pattern jak CallWise
+### 2.2 Person — Founder entity
+
+```typescript
+const personJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "@id": new URL("#rafal-lazicki", siteBase).href,
+  name: "Rafał Łazicki",
+  url: canonicalUrl.href,
+  image: new URL("/rafal.jpeg", siteBase).href,
+  jobTitle: "Founder",
+  sameAs: [
+    "https://linkedin.com/in/rlazicki",
+    "https://github.com/Raff-dev",
+  ],
+  worksFor: {
+    "@id": new URL("#organization", siteBase).href,
+  },
+  alumniOf: {
+    "@type": "CollegeOrUniversity",
+    name: "Military University of Technology",
+  },
+  knowsAbout: [
+    "AI delivery systems",
+    "workflow design",
+    "handoffs",
+    "internal tooling",
+    "backend engineering",
+    "DevOps",
+    "RAG systems",
+  ],
+};
+```
+
+### 2.3 FAQPage — Identyczny pattern jak CallWise
 
 ```typescript
 const faqJsonLd = {
@@ -141,7 +159,7 @@ const faqJsonLd = {
 };
 ```
 
-### 2.3 WebSite (opcjonalnie — dla sitelink searchbox)
+### 2.4 WebSite (opcjonalnie — dla sitelink searchbox)
 
 ```typescript
 const websiteJsonLd = {
@@ -153,7 +171,7 @@ const websiteJsonLd = {
 };
 ```
 
-### 2.4 BreadcrumbList (na podstronach)
+### 2.5 BreadcrumbList (na podstronach)
 
 ```typescript
 const breadcrumbJsonLd = {
@@ -173,19 +191,19 @@ const breadcrumbJsonLd = {
 ### Title format
 
 ```
-Primary Keyword — Brand Name | Short Value Prop
+Primary intent — Person/Brand name
 ```
 
 **Przykłady:**
-- **Homepage EN:** `AwesomeWorks — AI-Powered Software Development`
-- **Homepage PL:** `AwesomeWorks — Tworzenie Oprogramowania z AI`
+- **Homepage EN:** `Rafał Łazicki — AI delivery systems for product teams`
+- **Homepage PL:** `Rafał Łazicki — AI delivery systems dla zespołów produktowych`
 - **Privacy EN:** `Privacy Policy — AwesomeWorks`
 - **Blog post:** `How We Built X in 3 Weeks — AwesomeWorks`
 
 **Reguły:**
 - Max 60 znaków (cięcie w SERP)
-- Brand name zawsze na końcu (po `—`)
-- Primary keyword na początku title
+- Dla founder-led homepage najpierw osoba, potem definicja oferty
+- Unikaj ogólników typu "AI automation for business"
 
 ### Meta description
 
@@ -196,9 +214,9 @@ Primary Keyword — Brand Name | Short Value Prop
 **Przykłady:**
 
 ```
-EN: "We build AI-powered software for ambitious businesses. Custom apps, data platforms, ML solutions. Let's talk — free consultation."
+EN: "I help product teams shorten the path from decisions and scope to deployment. I design workflows, handoffs, and internal tooling for AI-native execution."
 
-PL: "Tworzymy oprogramowanie z AI dla ambitnych firm. Aplikacje na miarę, platformy danych, rozwiązania ML. Porozmawiajmy — bezpłatna konsultacja."
+PL: "Pomagam zespołom produktowym skrócić drogę od decyzji i scope'u do wdrożenia. Projektuję workflow, handoffy i internal tooling dla AI-native execution."
 ```
 
 ---
@@ -217,8 +235,9 @@ PL: "Tworzymy oprogramowanie z AI dla ambitnych firm. Aplikacje na miarę, platf
 **Reguły:**
 - Każda strona ma canonical + oba hreflang + x-default
 - `x-default` = EN (domyślny język)
-- Root `/` → 302 redirect do `/en/`
-- **Nigdy** 301 redirect na root (psuje x-default)
+- Root `/` nie powinien być indeksowalną kopią EN homepage
+- Na obecnym deployu GitHub Pages użyj HTML redirect (`meta refresh` + canonical do `/en/` + `noindex`) i wyklucz `/` z sitemap
+- Jeśli hosting przejdzie na SSR/edge, preferuj prawdziwy `302` do `/en/`
 
 ### 4.2 Astro i18n config
 
@@ -237,6 +256,7 @@ export default defineConfig({
         defaultLocale: "en",
         locales: { en: "en", pl: "pl" },
       },
+      filter: (page) => page !== "https://awesomeworks.ai/",
     }),
   ],
 });
@@ -244,7 +264,7 @@ export default defineConfig({
 
 ### 4.3 Sitemap
 
-`@astrojs/sitemap` automatycznie generuje `/sitemap-index.xml` z hreflang alternates.
+`@astrojs/sitemap` automatycznie generuje `/sitemap-index.xml` z hreflang alternates. Jeśli root `/` jest tylko redirect page, wyklucz go przez `filter()`.
 
 **Weryfikacja:** Po buildzie sprawdź `dist/sitemap-index.xml` czy zawiera obie wersje językowe z poprawnym `hreflang`.
 

@@ -37,6 +37,8 @@ const supportLogoTreatments = {
           src={featuredProduct.logoSrc}
           alt=""
           aria-hidden="true"
+          width="385"
+          height="392"
           class="pointer-events-none absolute -right-8 top-1/2 h-48 w-48 -translate-y-1/2 object-contain opacity-[0.12] sm:h-64 sm:w-64"
           loading="lazy"
         />
@@ -94,6 +96,8 @@ const supportLogoTreatments = {
               src={item.logoSrc}
               alt=""
               aria-hidden="true"
+              width={item.id === "goose" ? "840" : "1024"}
+              height={item.id === "goose" ? "867" : "1024"}
               class:list={[
                 "pointer-events-none",
                 supportLogoTreatments[item.id as keyof typeof supportLogoTreatments],

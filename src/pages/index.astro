@@ -1,39 +1,22 @@
 ---
-import Bottlenecks from "@/components/bottlenecks.astro";
-import Closing from "@/components/closing.astro";
-import Footer from "@/components/footer.astro";
-import Hero from "@/components/hero.astro";
-import HowItWorks from "@/components/how-it-works.astro";
-import Nav from "@/components/nav.astro";
-import Products from "@/components/products.astro";
-import Questions from "@/components/questions.astro";
-import Socials from "@/components/socials.astro";
-import StoryContent from "@/components/story-content.astro";
-import WhoItsFor from "@/components/who-its-for.astro";
-import { getPersonalHome } from "@/data/personal-home";
-import Base from "@/layouts/base.astro";
-
-const locale = "en";
-const home = getPersonalHome(locale);
+const redirectPath = "/en/";
+const siteBase = Astro.site?.href ?? "https://awesomeworks.ai";
+const redirectUrl = new URL(redirectPath, siteBase);
 ---
 
-<Base
-  title={home.meta.title}
-  description={home.meta.description}
-  socialDescription={home.meta.socialDescription}
-  locale={locale}
->
-  <Nav locale={locale} />
-  <main>
-    <Hero locale={locale} />
-    <Bottlenecks locale={locale} />
-    <Products locale={locale} />
-    <HowItWorks locale={locale} />
-    <WhoItsFor locale={locale} />
-    <Questions locale={locale} />
-    <Socials locale={locale} />
-    <StoryContent locale={locale} />
-    <Closing locale={locale} />
-    <Footer locale={locale} />
-  </main>
-</Base>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="robots" content="noindex" />
+    <meta http-equiv="refresh" content={`0;url=${redirectPath}`} />
+    <title>Redirecting...</title>
+    <link rel="canonical" href={redirectUrl.href} />
+  </head>
+  <body>
+    <p>Redirecting to <a href={redirectPath}>the English homepage</a>.</p>
+    <script>
+      window.location.replace("/en/");
+    </script>
+  </body>
+</html>

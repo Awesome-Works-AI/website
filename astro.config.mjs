@@ -16,6 +16,7 @@ export default defineConfig({
         defaultLocale: "en",
         locales: { en: "en", pl: "pl" },
       },
+      filter: (page) => page !== "https://awesomeworks.ai/",
     }),
   ],
   i18n: {

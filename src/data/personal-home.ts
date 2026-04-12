@@ -8,14 +8,17 @@ const xUrl = "https://x.com/awesomeworksai";
 const linkedinUrl = "https://linkedin.com/in/rlazicki";
 const instagramUrl = "https://instagram.com/awesomeworksai";
 
+export const organizationSameAs = [linkedinUrl, githubUrl, xUrl, instagramUrl] as const;
+export const personSameAs = [linkedinUrl, githubUrl] as const;
+
 const personalHome = {
   pl: {
     meta: {
-      title: "Rafał Łazicki — workflow, handoffy i software delivery",
+      title: "Rafał Łazicki — AI delivery systems dla zespołów produktowych",
       description:
-        "Pomagam zespołom produktowym skrócić drogę od decyzji i scope'u do wdrożenia. Workflow, handoffy, internal tooling i AI-native execution.",
+        "Pomagam zespołom produktowym skrócić drogę od decyzji i scope'u do wdrożenia. Projektuję workflow, handoffy i internal tooling dla AI-native execution.",
       socialDescription:
-        "Workflow, handoffy i internal tooling, które skracają drogę od decyzji do wdrożenia.",
+        "AI delivery systems: workflow, handoffy i internal tooling dla zespołów produktowych.",
     },
     nav: {
       brand: "Rafał Łazicki",
@@ -35,7 +38,7 @@ const personalHome = {
       name: "Rafał Łazicki",
       title: "Skróć drogę od decyzji do wdrożenia.",
       subtitle:
-        "Pomagam usuwać bottlenecki w scope'owaniu, handoffach i workflow, żeby zespół dowoził szybciej i spokojniej.",
+        "Rafał Łazicki projektuje AI-native workflow i handoffy, które skracają drogę od decyzji do wdrożenia. Pomaga usuwać bottlenecki w scope'owaniu, handoffach i workflow, żeby zespół dowoził szybciej i spokojniej.",
       primaryCta: "Umów rozmowę o delivery",
       primaryHref: calendlyUrl,
       secondaryCta: "",
@@ -289,11 +292,11 @@ const personalHome = {
   },
   en: {
     meta: {
-      title: "Rafał Łazicki — workflow, handoffs, and software delivery",
+      title: "Rafał Łazicki — AI delivery systems for product teams",
       description:
-        "I help product teams shorten the path from decisions and scope to deployment. Workflow design, handoffs, internal tooling, and AI-native execution.",
+        "I help product teams shorten the path from decisions and scope to deployment. I design workflows, handoffs, and internal tooling for AI-native execution.",
       socialDescription:
-        "Workflow, handoffs, and internal tooling that shorten the path from decisions to deployment.",
+        "AI delivery systems: workflows, handoffs, and internal tooling for product teams.",
     },
     nav: {
       brand: "Rafał Łazicki",
@@ -313,7 +316,7 @@ const personalHome = {
       name: "Rafał Łazicki",
       title: "Shorten the path from decision to deployment.",
       subtitle:
-        "I remove bottlenecks in scoping, handoffs, and workflow so the team ships faster and with less chaos.",
+        "Rafał Łazicki designs AI-native workflows and handoffs that shorten the path from decisions to deployment. He removes bottlenecks in scoping, handoffs, and workflow so the team ships faster with less chaos.",
       primaryCta: "Book a delivery call",
       primaryHref: calendlyUrl,
       secondaryCta: "",
