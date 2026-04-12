@@ -38,7 +38,7 @@ const personalHome = {
       name: "Rafał Łazicki",
       title: "Skróć drogę od decyzji do wdrożenia.",
       subtitle:
-        "Rafał Łazicki projektuje AI-native workflow i handoffy, które skracają drogę od decyzji do wdrożenia. Pomaga usuwać bottlenecki w scope'owaniu, handoffach i workflow, żeby zespół dowoził szybciej i spokojniej.",
+        "Pomagam usuwać bottlenecki w scope'owaniu, handoffach i workflow, żeby zespół dowoził szybciej i spokojniej.",
       primaryCta: "Umów rozmowę o delivery",
       primaryHref: calendlyUrl,
       secondaryCta: "",
@@ -316,7 +316,7 @@ const personalHome = {
       name: "Rafał Łazicki",
       title: "Shorten the path from decision to deployment.",
       subtitle:
-        "Rafał Łazicki designs AI-native workflows and handoffs that shorten the path from decisions to deployment. He removes bottlenecks in scoping, handoffs, and workflow so the team ships faster with less chaos.",
+        "I remove bottlenecks in scoping, handoffs, and workflow so the team ships faster and with less chaos.",
       primaryCta: "Book a delivery call",
       primaryHref: calendlyUrl,
       secondaryCta: "",
