@@ -1,12 +1,15 @@
 ---
+import Bottlenecks from "@/components/bottlenecks.astro";
 import Closing from "@/components/closing.astro";
-import Founder from "@/components/founder.astro";
-import Focus from "@/components/focus.astro";
+import Footer from "@/components/footer.astro";
 import Hero from "@/components/hero.astro";
+import HowItWorks from "@/components/how-it-works.astro";
 import Nav from "@/components/nav.astro";
-import Pivot from "@/components/pivot.astro";
 import Products from "@/components/products.astro";
+import Questions from "@/components/questions.astro";
 import Socials from "@/components/socials.astro";
+import StoryContent from "@/components/story-content.astro";
+import WhoItsFor from "@/components/who-its-for.astro";
 import { getPersonalHome } from "@/data/personal-home";
 import Base from "@/layouts/base.astro";
 
@@ -23,11 +26,14 @@ const home = getPersonalHome(locale);
   <Nav locale={locale} />
   <main>
     <Hero locale={locale} />
-    <Founder locale={locale} />
-    <Pivot locale={locale} />
-    <Focus locale={locale} />
+    <Bottlenecks locale={locale} />
     <Products locale={locale} />
+    <HowItWorks locale={locale} />
+    <WhoItsFor locale={locale} />
+    <Questions locale={locale} />
     <Socials locale={locale} />
+    <StoryContent locale={locale} />
     <Closing locale={locale} />
+    <Footer locale={locale} />
   </main>
 </Base>

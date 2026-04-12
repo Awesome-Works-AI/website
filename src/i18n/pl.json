@@ -236,15 +236,15 @@
     "cta": "Zarezerwuj czas z Rafałem"
   },
   "products": {
-    "eyebrow": "Wybierz swój punkt startu",
-    "title": "Zacznij od produktu albo workflow, które rozwiązuje dzisiejsze wąskie gardło",
-    "subtitle": "Jeśli gotowa ścieżka dowiezie wynik szybciej, zacznij od niej: CallWise dla lepszego coachingu i review rozmów, CourseAI dla founderów i zespołów budujących szybciej z AI.",
+    "eyebrow": "Zobacz CallWise w praktyce",
+    "title": "CallWise zamienia rozmowy z klientem w pakiet gotowy do delivery",
+    "subtitle": "Aktualny produkt zbiera rozmowy, spotkania, maile i notatki w jednym miejscu, buduje pierwszy scope z ryzykami i pytaniami, a potem przekazuje jasny handoff package do zespołu i agentów przez MCP.",
     "callwise": {
-      "label": "Dla zespołów sprzedaży",
-      "tagline": "Rozwijaj handlowców na podstawie rozmów, nie domysłów.",
-      "description": "Przeglądaj 100% rozmów, szybko wyłapuj luki coachingowe i usprawniaj codzienną pracę sprzedaży bez dokładania administracji. Dla zespołów sprzedaży, które chcą lepszych rozmów i szybkiej wartości w codziennym workflow.",
-      "cta": "Wypróbuj CallWise za darmo",
-      "microcopy": "14 dni za darmo · bez karty"
+      "label": "Dla zespołów B2B",
+      "tagline": "Rozmowy, spotkania, maile i notatki stają się jednym źródłem prawdy i planem działania.",
+      "description": "CallWise zbiera kontekst z discovery calli, follow-upów i zmian scope'u, trzyma ustalenia w historii klienta i tworzy pierwszy roboczy scope: funkcje, ryzyka, pytania i poziom złożoności. Na końcu zespół dostaje jeden pakiet do dalszej pracy bez przepisywania ustaleń między narzędziami.",
+      "cta": "Zobacz CallWise",
+      "microcopy": "Zamknięty dostęp · tylko dla partnerów B2B"
     },
     "goose": {
       "label": "Dla builderów AI",

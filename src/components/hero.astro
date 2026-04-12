@@ -8,58 +8,56 @@ interface Props {
 
 const { locale } = Astro.props;
 const { hero } = getPersonalHome(locale);
+const isPrimaryExternal = /^(https?:|mailto:)/.test(hero.primaryHref);
+const isSecondaryExternal = /^(https?:|mailto:)/.test(hero.secondaryHref);
+const hasSecondaryCta = Boolean(hero.secondaryCta && hero.secondaryHref);
 ---
 
-<section id="top" class="presentation-slide pt-0">
+<section id="top" class="relative flex min-h-[100svh] items-center overflow-hidden px-5 pb-16 pt-20 sm:px-6 sm:pt-24 lg:px-8">
   <div class="pointer-events-none absolute inset-0 gradient-mesh-strong"></div>
   <div class="pointer-events-none absolute inset-x-0 top-0 h-64 bg-[radial-gradient(circle_at_top,rgba(99,102,241,0.16),transparent_55%)]"></div>
 
-  <div class="presentation-shell">
-    <div class="presentation-panel animate-on-scroll">
-      <div class="grid gap-12 lg:grid-cols-[minmax(0,1.25fr)_minmax(18rem,0.65fr)] lg:items-end">
-        <div class="max-w-3xl">
-          <div class="section-kicker">{hero.eyebrow}</div>
-          <p class="mt-6 text-base font-medium uppercase tracking-[0.32em] text-muted-foreground/55">
-            {hero.name}
-          </p>
-          <h1 class="mt-4 max-w-4xl text-4xl font-semibold tracking-tight text-foreground sm:text-6xl lg:text-7xl">
-            {hero.title}
-          </h1>
-          <p class="mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground sm:text-xl">
-            {hero.subtitle}
-          </p>
+  <div class="presentation-shell pt-4">
+    <div class="presentation-panel animate-on-scroll max-w-5xl">
+      <div class="max-w-4xl">
+        <div class="section-kicker">{hero.eyebrow}</div>
+        <h1 class="mt-4 max-w-4xl text-[2.125rem] font-semibold tracking-tight text-foreground sm:text-6xl lg:text-7xl">
+          {hero.title}
+        </h1>
+        <p class="mt-6 max-w-3xl text-base leading-relaxed text-muted-foreground sm:text-xl">
+          {hero.subtitle}
+        </p>
 
-          <div class="mt-10 flex flex-col items-start gap-4 sm:flex-row sm:flex-wrap">
-            <a
-              href={hero.primaryHref}
-              class="inline-flex items-center rounded-full bg-foreground px-6 py-3 text-sm font-semibold text-background transition-opacity hover:opacity-90"
-            >
-              {hero.primaryCta}
-            </a>
-            <a
-              href={hero.secondaryHref}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="inline-flex items-center rounded-full border border-white/[0.12] bg-white/[0.04] px-6 py-3 text-sm font-semibold text-foreground transition-colors hover:bg-white/[0.08]"
-            >
-              {hero.secondaryCta}
-            </a>
-            <a
-              href={hero.storyHref}
-              class="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-            >
-              <span>{hero.storyCta}</span>
-            </a>
-          </div>
-        </div>
-
-        <div class="grid gap-3">
+        <div class="mt-8 flex flex-col items-start gap-4 sm:flex-row sm:flex-wrap">
+          <a
+            href={hero.primaryHref}
+            target={isPrimaryExternal ? "_blank" : undefined}
+            rel={isPrimaryExternal ? "noopener noreferrer" : undefined}
+            class="inline-flex items-center rounded-full bg-foreground px-6 py-3 text-sm font-semibold text-background transition-opacity hover:opacity-90"
+          >
+            {hero.primaryCta}
+          </a>
           {
-            hero.facts.map((fact) => (
-              <div class="rounded-[1.5rem] border border-white/[0.08] bg-white/[0.03] px-5 py-4 text-sm leading-relaxed text-muted-foreground">
-                {fact}
-              </div>
-            ))
+            hasSecondaryCta && (
+              <a
+                href={hero.secondaryHref}
+                target={isSecondaryExternal ? "_blank" : undefined}
+                rel={isSecondaryExternal ? "noopener noreferrer" : undefined}
+                class="inline-flex items-center rounded-full border border-white/[0.12] bg-white/[0.04] px-6 py-3 text-sm font-semibold text-foreground transition-colors hover:bg-white/[0.08]"
+              >
+                {hero.secondaryCta}
+              </a>
+            )
+          }
+          {
+            hero.storyCta && hero.storyHref && (
+              <a
+                href={hero.storyHref}
+                class="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+              >
+                <span>{hero.storyCta}</span>
+              </a>
+            )
           }
         </div>
       </div>

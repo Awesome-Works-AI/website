@@ -1,0 +1,47 @@
+---
+import { getPersonalHome } from "@/data/personal-home";
+import type { Locale } from "@/i18n/utils";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const { faq } = getPersonalHome(locale);
+---
+
+<section id="faq" class="relative flex min-h-[100svh] items-center border-t border-white/[0.06] px-5 py-20 sm:px-6 sm:py-24 lg:px-8">
+  <div class="presentation-shell">
+    <div class="animate-on-scroll max-w-3xl">
+      <div class="section-kicker">FAQ</div>
+      <h2 class="section-title mt-4">{faq.title}</h2>
+    </div>
+
+    <div class="animate-on-scroll mt-10 max-w-4xl space-y-3">
+      {
+        faq.items.map((item) => (
+          <details class="group rounded-[1.5rem] border border-white/[0.08] bg-white/[0.03] transition-colors open:border-indigo-400/20 open:bg-white/[0.05]">
+            <summary class="flex cursor-pointer items-center justify-between gap-6 px-6 py-5 text-left [&::-webkit-details-marker]:hidden">
+              <span class="text-base font-semibold text-foreground sm:text-lg">{item.q}</span>
+              <svg
+                class="h-5 w-5 flex-none text-muted-foreground transition-transform group-open:rotate-45"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <line x1="12" y1="5" x2="12" y2="19" />
+                <line x1="5" y1="12" x2="19" y2="12" />
+              </svg>
+            </summary>
+            <div class="px-6 pb-5">
+              <p class="max-w-3xl text-sm leading-relaxed text-muted-foreground sm:text-base">{item.a}</p>
+            </div>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>

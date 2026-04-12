@@ -1,0 +1,21 @@
+---
+import { getPersonalHome } from "@/data/personal-home";
+import type { Locale } from "@/i18n/utils";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const { footer } = getPersonalHome(locale);
+---
+
+<footer class="border-t border-white/[0.06] px-5 py-8 sm:px-6 lg:px-8">
+  <div class="presentation-shell gap-4 lg:flex-row lg:items-center lg:justify-between">
+    <div class="animate-on-scroll space-y-1.5">
+      <p class="text-sm font-semibold text-foreground">{footer.name}</p>
+      <p class="max-w-2xl text-sm leading-relaxed text-muted-foreground">{footer.companyInfo}</p>
+    </div>
+    <p class="animate-on-scroll text-sm text-muted-foreground">{footer.copyright}</p>
+  </div>
+</footer>

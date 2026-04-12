@@ -236,15 +236,15 @@
     "cta": "Book time with Rafał"
   },
   "products": {
-    "eyebrow": "Pick your starting point",
-    "title": "Start with the product or workflow that solves today's bottleneck",
-    "subtitle": "If a ready path gets you there faster, start there: CallWise for sales coaching and call review, CourseAI for founders and teams building faster with AI.",
+    "eyebrow": "See CallWise in practice",
+    "title": "CallWise turns client conversations into a delivery-ready package",
+    "subtitle": "The current product captures calls, meetings, emails, and notes in one place, builds the first scope with risks and open questions, then hands a clear package to the team and coding agents through MCP.",
     "callwise": {
-      "label": "For sales teams",
-      "tagline": "Coach every rep from real calls, not guesswork.",
-      "description": "Review 100% of calls, spot coaching gaps fast, and improve the sales workflow without adding more admin. Built for sales teams that want better call quality and immediate workflow value.",
-      "cta": "Try CallWise free",
-      "microcopy": "14-day trial · no credit card"
+      "label": "For B2B teams",
+      "tagline": "Calls, meetings, emails, and notes become one source of truth and a clear action plan.",
+      "description": "CallWise captures context from discovery calls, follow-ups, and scope changes, keeps the agreements inside the client history, and drafts the first working scope: features, risks, open questions, and complexity. The team gets one package to move delivery forward without retyping context across tools.",
+      "cta": "See CallWise",
+      "microcopy": "Closed access · B2B partners only"
     },
     "goose": {
       "label": "For AI builders",

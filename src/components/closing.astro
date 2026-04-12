@@ -8,43 +8,58 @@ interface Props {
 
 const { locale } = Astro.props;
 const { closing } = getPersonalHome(locale);
+const isPrimaryExternal = /^(https?:|mailto:)/.test(closing.primaryHref);
+const isSecondaryExternal = /^(https?:|mailto:)/.test(closing.secondaryHref);
+const hasSecondaryCta = Boolean(closing.secondaryCta && closing.secondaryHref);
 ---
 
-<section id="contact" class="presentation-slide border-t border-white/[0.06]">
+<section id="contact" class="presentation-slide min-h-[100svh] justify-center border-t border-white/[0.06]">
   <div class="pointer-events-none absolute inset-0 gradient-mesh"></div>
-  <div class="presentation-shell">
-    <div class="presentation-panel animate-on-scroll">
+  <div class="presentation-shell items-center justify-center">
+    <div class="presentation-panel animate-on-scroll max-w-4xl">
       <div class="max-w-3xl">
         <div class="section-kicker">{closing.eyebrow}</div>
         <h2 class="section-title mt-4">{closing.title}</h2>
-        <p class="section-copy mt-6">{closing.description}</p>
+        <p class="section-copy mt-4">{closing.description}</p>
 
-        <div class="mt-10 flex flex-col items-start gap-4 sm:flex-row sm:flex-wrap">
+        <div class="mt-8 flex flex-col items-start gap-4 sm:flex-row sm:flex-wrap">
           <a
             href={closing.primaryHref}
-            target="_blank"
-            rel="noopener noreferrer"
+            target={isPrimaryExternal ? "_blank" : undefined}
+            rel={isPrimaryExternal ? "noopener noreferrer" : undefined}
             class="inline-flex items-center rounded-full bg-foreground px-6 py-3 text-sm font-semibold text-background transition-opacity hover:opacity-90"
           >
             {closing.primaryCta}
           </a>
-          <a
-            href={closing.secondaryHref}
-            class="inline-flex items-center rounded-full border border-white/[0.12] bg-white/[0.04] px-6 py-3 text-sm font-semibold text-foreground transition-colors hover:bg-white/[0.08]"
-          >
-            {closing.secondaryCta}
-          </a>
-          <a
-            href={closing.storyHref}
-            class="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-          >
-            <span>{closing.storyCta}</span>
-          </a>
+          {
+            hasSecondaryCta && (
+              <a
+                href={closing.secondaryHref}
+                target={isSecondaryExternal ? "_blank" : undefined}
+                rel={isSecondaryExternal ? "noopener noreferrer" : undefined}
+                class="inline-flex items-center rounded-full border border-white/[0.12] bg-white/[0.04] px-6 py-3 text-sm font-semibold text-foreground transition-colors hover:bg-white/[0.08]"
+              >
+                {closing.secondaryCta}
+              </a>
+            )
+          }
+          {
+            closing.storyCta && closing.storyHref && (
+              <a
+                href={closing.storyHref}
+                class="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+              >
+                <span>{closing.storyCta}</span>
+              </a>
+            )
+          }
         </div>
 
-        <p class="mt-8 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-          {closing.microcopy}
-        </p>
+        {closing.microcopy && (
+          <p class="mt-6 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+            {closing.microcopy}
+          </p>
+        )}
       </div>
     </div>
   </div>
