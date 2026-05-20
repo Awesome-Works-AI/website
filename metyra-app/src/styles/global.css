@@ -1,0 +1,176 @@
+@import "tailwindcss";
+
+@theme {
+  /* Brand colors — Metyra (Azure-Teal Blue + Emerald + Orange triad)
+   *
+   *   PRIMARY    Azure-Teal Blue → less magenta than indigo, slight emerald undertone
+   *   ACCENT     Emerald         → deeper jewel-green, growth & positive signals
+   *   CTA        Orange          → action — restricted to conversion buttons
+   *   HIGHLIGHT  Amber           → KSeF/VAT warnings only
+   *   NEUTRAL    Ink scale       → backgrounds, text, borders
+   */
+
+  /* Neutral scale */
+  --color-ink-50:  #F8FAFC;
+  --color-ink-100: #F1F5F9;
+  --color-ink-200: #E2E8F0;
+  --color-ink-300: #CBD5E1;
+  --color-ink-400: #94A3B8;
+  --color-ink-500: #64748B;
+  --color-ink-600: #475569;
+  --color-ink-700: #334155;
+  --color-ink-800: #1E293B;
+  --color-ink-900: #0F172A;
+  --color-ink-950: #020617;
+
+  /* Primary — Azure-Teal Blue (custom: hue ~210°, between royal blue and teal) */
+  --color-blue-50:  #ECF4FA;
+  --color-blue-100: #D2E3F2;
+  --color-blue-200: #A6C7E5;
+  --color-blue-300: #6BA1D3;
+  --color-blue-400: #3A7DBE;
+  --color-blue-500: #1F62A7;
+  --color-blue-600: #1B5392;
+  --color-blue-700: #16467D;
+  --color-blue-800: #103961;
+  --color-blue-900: #0B2C4B;
+
+  /* Accent — Emerald (jewel-tone, deeper than standard green) */
+  --color-green-50:  #ECFDF5;
+  --color-green-100: #D1FAE5;
+  --color-green-200: #A7F3D0;
+  --color-green-300: #6EE7B7;
+  --color-green-400: #34D399;
+  --color-green-500: #10B981;
+  --color-green-600: #059669;
+  --color-green-700: #047857;
+  --color-green-800: #065F46;
+
+  /* CTA — Orange */
+  --color-orange-50:  #FFF7ED;
+  --color-orange-100: #FFEDD5;
+  --color-orange-200: #FED7AA;
+  --color-orange-300: #FDBA74;
+  --color-orange-400: #FB923C;
+  --color-orange-500: #F97316;
+  --color-orange-600: #EA580C;
+  --color-orange-700: #C2410C;
+
+  /* Highlight — Amber */
+  --color-amber-50:  #FFFBEB;
+  --color-amber-100: #FEF3C7;
+  --color-amber-400: #FBBF24;
+  --color-amber-500: #F59E0B;
+  --color-amber-600: #D97706;
+  --color-amber-700: #B45309;
+
+  --font-sans: "Space Grotesk", "system-ui", "Segoe UI", "Roboto", sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* ============================================================
+ * Background patterns — geometric, NOT gradient/blur sprays
+ * ============================================================ */
+
+.bg-grid {
+  background-image:
+    linear-gradient(to right, rgb(15 23 42 / 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(15 23 42 / 0.05) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+.bg-dots {
+  background-image: radial-gradient(rgb(22 70 125 / 0.13) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.bg-dots-emerald {
+  background-image: radial-gradient(rgb(5 150 105 / 0.14) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+.bg-hatch {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgb(22 70 125 / 0.04),
+    rgb(22 70 125 / 0.04) 1px,
+    transparent 1px,
+    transparent 14px
+  );
+}
+
+/* Concentric rings — tri-color, no blur */
+.bg-rings {
+  background-image:
+    radial-gradient(circle at center, transparent 38%, rgb(22 70 125 / 0.08) 38%, rgb(22 70 125 / 0.08) 40%, transparent 40%),
+    radial-gradient(circle at center, transparent 56%, rgb(5 150 105 / 0.07) 56%, rgb(5 150 105 / 0.07) 58%, transparent 58%),
+    radial-gradient(circle at center, transparent 76%, rgb(234 88 12 / 0.06) 76%, rgb(234 88 12 / 0.06) 78%, transparent 78%);
+  background-size: 480px 480px;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* ============================================================
+ * Sophisticated solid shapes via clip-path (no outlines, no blur)
+ * ============================================================ */
+
+.shape-plus {
+  clip-path: polygon(40% 0%, 60% 0%, 60% 40%, 100% 40%, 100% 60%, 60% 60%, 60% 100%, 40% 100%, 40% 60%, 0% 60%, 0% 40%, 40% 40%);
+}
+
+.shape-hex {
+  clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+}
+
+.shape-triangle-up {
+  clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+}
+
+.shape-triangle-down {
+  clip-path: polygon(0% 0%, 100% 0%, 50% 100%);
+}
+
+.shape-trapezoid {
+  clip-path: polygon(22% 0%, 78% 0%, 100% 100%, 0% 100%);
+}
+
+.shape-l {
+  clip-path: polygon(0% 0%, 40% 0%, 40% 60%, 100% 60%, 100% 100%, 0% 100%);
+}
+
+.shape-arc {
+  border-radius: 100% 100% 0 0;
+}
+
+.shape-half-pill-r {
+  border-radius: 0 9999px 9999px 0;
+}
+
+.shape-half-pill-l {
+  border-radius: 9999px 0 0 9999px;
+}
+
+.shape-quarter-tl {
+  border-radius: 9999px 0 0 0;
+}
+
+.shape-quarter-tr {
+  border-radius: 0 9999px 0 0;
+}
+
+.shape-quarter-bl {
+  border-radius: 0 0 0 9999px;
+}
+
+.shape-quarter-br {
+  border-radius: 0 0 9999px 0;
+}

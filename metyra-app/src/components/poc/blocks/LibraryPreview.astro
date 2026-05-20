@@ -1,0 +1,336 @@
+---
+/**
+ * Mini-thumbnail of each block type — used in "How it works" modal library.
+ * Sub-100px tall, single-purpose, with fixed dummy data. NOT a full renderer.
+ */
+import { arcPath, PALETTE } from "./chart-utils";
+import { getLangFromUrl } from "~/i18n/utils";
+
+interface Props {
+  type: string;
+}
+const { type } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+const isEn = lang === "en";
+
+const L = {
+  // KPI
+  kpiLabel:     isEn ? "Revenue" : "Revenue",
+  kpiUnit:      isEn ? "M PLN" : "mln",
+  // Report header
+  headerEyebrow: isEn ? "Report" : "Raport",
+  headerCompany: isEn ? "Polmix Distribution" : "Polmix Distribution",
+  headerCols:    ["248.4 M", "14.2%", "312 FTE"],
+  // Line legend
+  lineActual:   isEn ? "Actual" : "Actual",
+  linePeer:     isEn ? "Peer" : "Peer",
+  lineForecast: isEn ? "Forecast" : "Forecast",
+  // Waterfall
+  wfStart:      isEn ? "Start" : "Start",
+  wfEnd:        isEn ? "End" : "End",
+  // Data table
+  dtCompany:    isEn ? "Company" : "Firma",
+  dtRev:        isEn ? "Rev" : "Rev",
+  dtYoY:        isEn ? "YoY" : "YoY",
+  // Variance table
+  varHeader:    isEn ? "Item" : "Pozycja",
+  varBar:       isEn ? "Δ" : "Δ",
+  varRows: isEn
+    ? [{ name: "Domestic", pct: -3.4 }, { name: "Internat.", pct: 5.9 }, { name: "Last-mile", pct: 37.2 }]
+    : [{ name: "Krajowy", pct: -3.4 }, { name: "Międzynar.", pct: 5.9 }, { name: "Last-mile", pct: 37.2 }],
+  // Scenarios
+  scenarios:    [
+    { n: "Bearish", v: "212" },
+    { n: "Base", v: "258" },
+    { n: "Bullish", v: "291" },
+  ],
+  // Drivers
+  drFx:         isEn ? "EUR/PLN" : "EUR/PLN",
+  drFuel:       isEn ? "Fuel" : "Paliwa",
+  drFxImpact:   isEn ? "±8 M" : "±8 mln",
+  drFuelImpact: isEn ? "−12 M" : "−12 mln",
+  // Recommendation
+  recVerdict:   isEn ? "Rec · Conditional" : "Rec · Warunkowo",
+  recTitle:     isEn ? "Spin off last-mile" : "Wydzielić last-mile",
+  recRationale: isEn ? "+34% YoY at 8% share..." : "+34% YoY przy 8% udziale...",
+  // Callouts
+  insightLbl:   isEn ? "Insight" : "Insight",
+  infoLbl:      isEn ? "Info" : "Info",
+  warningLbl:   isEn ? "Warning" : "Uwaga",
+  insightText:  isEn ? "Last-mile +34% — segment in Q1 2027" : "Last-mile +34% — segment Q1 2027",
+  infoText:     isEn ? "From the ERP, consolidated 09-30" : "Dane z ERP, konsolidacja 30.09",
+  warningText:  isEn ? "DSO +4 days — review top-20 debtors" : "DSO +4 dni — review top-20 dłużników",
+};
+
+// --- helpers -------------------------------------------------------------
+
+const C = PALETTE; // primary blue, green, orange…
+
+function sparkPoints(values: number[], w: number, h: number): string {
+  if (values.length < 2) return "";
+  const min = Math.min(...values);
+  const max = Math.max(...values);
+  const range = max - min || 1;
+  const step = w / (values.length - 1);
+  return values
+    .map((v, i) => `${(i * step).toFixed(2)},${(h - ((v - min) / range) * h).toFixed(2)}`)
+    .join(" ");
+}
+---
+
+<div class="poc-lib-preview">
+  {type === "kpi-card" && (
+    <div class="rounded-lg border border-green-200 bg-white p-2.5">
+      <div class="flex items-center justify-between">
+        <span class="text-[8px] font-semibold uppercase tracking-wider text-ink-500">{L.kpiLabel}</span>
+        <span class="h-1.5 w-1.5 rounded-full bg-green-500"></span>
+      </div>
+      <div class="mt-0.5 text-base font-bold text-ink-900">248.4<span class="ml-0.5 text-[9px] font-medium text-ink-500">{L.kpiUnit}</span></div>
+      <div class="mt-1 flex items-center justify-between gap-1.5">
+        <span class="rounded-full bg-green-50 px-1.5 py-0.5 text-[9px] font-semibold text-green-700">↑ +11.8%</span>
+        <svg viewBox="0 0 60 18" class="h-4 w-16" preserveAspectRatio="none">
+          <polyline points={sparkPoints([212,218,222,228,235,240,244,248], 60, 18)} fill="none" stroke="#059669" stroke-width="1.4" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </div>
+  )}
+
+  {type === "metric-cards" && (
+    <div class="grid grid-cols-3 gap-1">
+      {[
+        { v: "212", t: "P25", c: "bg-orange-500" },
+        { v: "258", t: "P50", c: "bg-blue-600" },
+        { v: "291", t: "P75", c: "bg-green-600" },
+      ].map((m) => (
+        <div class="relative overflow-hidden rounded-md border border-ink-200 bg-white p-1.5">
+          <div class={`absolute inset-x-0 top-0 h-0.5 ${m.c}`}></div>
+          <div class="text-[7px] font-semibold uppercase tracking-wider text-ink-500">{m.t}</div>
+          <div class="text-xs font-bold text-ink-900">{m.v}</div>
+        </div>
+      ))}
+    </div>
+  )}
+
+  {type === "report-header" && (
+    <div class="rounded-lg border border-blue-200 bg-gradient-to-br from-blue-50 to-green-50 p-2">
+      <div class="flex items-start justify-between gap-2">
+        <div>
+          <div class="text-[7px] font-bold uppercase tracking-wider text-blue-700">{L.headerEyebrow}</div>
+          <div class="text-xs font-bold text-ink-900">{L.headerCompany}</div>
+        </div>
+        <div class="rounded-full border border-blue-300 bg-white px-1.5 py-0 text-[8px] font-semibold text-blue-800">Q3 2026</div>
+      </div>
+      <div class="mt-1.5 grid grid-cols-3 gap-1">
+        {L.headerCols.map((v) => (
+          <div class="rounded border border-ink-200 bg-white/80 px-1 py-0.5 text-center text-[8px] font-semibold text-ink-900">{v}</div>
+        ))}
+      </div>
+    </div>
+  )}
+
+  {type === "chart:donut" && (
+    <div class="flex items-center justify-center rounded-lg border border-ink-200 bg-white p-2">
+      <svg viewBox="0 0 80 80" class="h-16 w-16">
+        {(() => {
+          const data = [42, 29, 17, 8, 4];
+          let angle = -90;
+          const total = 100;
+          return data.map((v, i) => {
+            const sweep = (v / total) * 360;
+            const end = angle + sweep;
+            const path = arcPath(40, 40, 22, 36, angle, end);
+            angle = end;
+            return <path d={path} fill={C[i % C.length]} stroke="white" stroke-width="1"/>;
+          });
+        })()}
+      </svg>
+    </div>
+  )}
+
+  {type === "chart:line" && (
+    <div class="rounded-lg border border-ink-200 bg-white p-2">
+      <svg viewBox="0 0 100 36" class="h-12 w-full" preserveAspectRatio="none">
+        <polyline points={sparkPoints([68,71,74,76,79,72,75,78,80,82,84,83], 100, 36)} fill="none" stroke={C[0]} stroke-width="1.4"/>
+        <polyline points={sparkPoints([62,63,65,66,68,64,66,68,70,71,72,71], 100, 36)} fill="none" stroke={C[1]} stroke-width="1.2" stroke-dasharray="2 1"/>
+        <polyline points={sparkPoints([70,72,75,77,80,76,78,81,83,84,86,85], 100, 36)} fill="none" stroke={C[2]} stroke-width="1.2" stroke-dasharray="3 1"/>
+      </svg>
+      <div class="mt-1 flex gap-2 text-[8px] text-ink-600">
+        <span class="inline-flex items-center gap-0.5"><span class="h-0.5 w-2.5" style={`background:${C[0]}`}></span>{L.lineActual}</span>
+        <span class="inline-flex items-center gap-0.5"><span class="h-0.5 w-2.5" style={`background:${C[1]}`}></span>{L.linePeer}</span>
+        <span class="inline-flex items-center gap-0.5"><span class="h-0.5 w-2.5" style={`background:${C[2]}`}></span>{L.lineForecast}</span>
+      </div>
+    </div>
+  )}
+
+  {type === "chart:combo" && (
+    <div class="rounded-lg border border-ink-200 bg-white p-2">
+      <svg viewBox="0 0 100 36" class="h-12 w-full" preserveAspectRatio="none">
+        {[79,72,75,78,80,82,84,83].map((v, i) => {
+          const x = i * 12 + 2;
+          const h = (v / 100) * 32;
+          return <rect x={x} y={36 - h} width="9" height={h} fill={C[0]} opacity="0.85" rx="1"/>;
+        })}
+        <polyline points={sparkPoints([15.1,14.3,14.6,14.4,14.5,14.4,14.3,14.2], 96, 30).split(" ").map((p, i) => {
+          const [x, y] = p.split(",").map(Number);
+          return `${(i*12)+6},${y * 0.8 + 4}`;
+        }).join(" ")} fill="none" stroke={C[2]} stroke-width="1.5"/>
+      </svg>
+    </div>
+  )}
+
+  {type === "chart:bar" && (
+    <div class="rounded-lg border border-ink-200 bg-white p-2">
+      <svg viewBox="0 0 100 36" class="h-12 w-full" preserveAspectRatio="none">
+        {[
+          { vals: [222, 248], x: 6 },
+          { vals: [195, 201], x: 28 },
+          { vals: [278, 283], x: 50 },
+          { vals: [168, 174], x: 72 },
+        ].map((g) => (
+          <g>
+            {g.vals.map((v, j) => (
+              <rect x={g.x + j*6} y={36 - (v/300)*32} width="5" height={(v/300)*32} fill={C[j]} rx="1"/>
+            ))}
+          </g>
+        ))}
+      </svg>
+    </div>
+  )}
+
+  {type === "chart:waterfall" && (
+    <div class="rounded-lg border border-ink-200 bg-white p-2">
+      <svg viewBox="0 0 100 40" class="h-14 w-full" preserveAspectRatio="none">
+        {/* start: full bar at 222 */}
+        <rect x="2" y="10" width="14" height="28" fill="#3A7DBE" rx="1"/>
+        {/* +18 above 222 → tops to 240 */}
+        <rect x="22" y="6" width="14" height="4" fill="#059669" rx="1"/>
+        <line x1="16" x2="22" y1="10" y2="10" stroke="#94A3B8" stroke-dasharray="1 1"/>
+        {/* -4: comes down → 236 */}
+        <rect x="42" y="6" width="14" height="2" fill="#DC2626" rx="1"/>
+        <line x1="36" x2="42" y1="6" y2="6" stroke="#94A3B8" stroke-dasharray="1 1"/>
+        {/* +8 */}
+        <rect x="62" y="4" width="14" height="4" fill="#059669" rx="1"/>
+        <line x1="56" x2="62" y1="8" y2="8" stroke="#94A3B8" stroke-dasharray="1 1"/>
+        {/* end at 248 */}
+        <rect x="82" y="3" width="14" height="35" fill="#16467D" rx="1"/>
+        <line x1="76" x2="82" y1="4" y2="4" stroke="#94A3B8" stroke-dasharray="1 1"/>
+      </svg>
+      <div class="mt-1 flex gap-1.5 text-[8px] text-ink-600">
+        <span class="inline-flex items-center gap-0.5"><span class="h-1.5 w-1.5 rounded-sm" style="background:#3A7DBE"></span>{L.wfStart}</span>
+        <span class="inline-flex items-center gap-0.5"><span class="h-1.5 w-1.5 rounded-sm" style="background:#059669"></span>+</span>
+        <span class="inline-flex items-center gap-0.5"><span class="h-1.5 w-1.5 rounded-sm" style="background:#DC2626"></span>−</span>
+        <span class="inline-flex items-center gap-0.5"><span class="h-1.5 w-1.5 rounded-sm" style="background:#16467D"></span>{L.wfEnd}</span>
+      </div>
+    </div>
+  )}
+
+  {type === "data-table" && (
+    <div class="overflow-hidden rounded-lg border border-ink-200 bg-white text-[9px]">
+      <div class="grid grid-cols-3 border-b border-ink-200 bg-ink-50 px-1.5 py-1 font-semibold uppercase tracking-wider text-ink-500">
+        <span>{L.dtCompany}</span><span class="text-right">{L.dtRev}</span><span class="text-right">{L.dtYoY}</span>
+      </div>
+      {[["Polmix","248","+11.8%"],["Acme","201","+6.4%"],["Cargo","283","+4.1%"]].map((r, i) => (
+        <div class={`grid grid-cols-3 px-1.5 py-1 ${i < 2 ? 'border-b border-ink-100' : ''}`}>
+          <span class="text-ink-800">{r[0]}</span>
+          <span class="text-right tabular-nums text-ink-900">{r[1]}</span>
+          <span class="text-right tabular-nums text-green-700">{r[2]}</span>
+        </div>
+      ))}
+    </div>
+  )}
+
+  {type === "variance-table" && (
+    <div class="overflow-hidden rounded-lg border border-ink-200 bg-white text-[9px]">
+      <div class="grid grid-cols-[1fr_auto_auto] gap-1.5 border-b border-ink-200 bg-ink-50 px-1.5 py-1 font-semibold uppercase tracking-wider text-ink-500">
+        <span>{L.varHeader}</span><span>Δ%</span><span class="pl-2">Bar</span>
+      </div>
+      {L.varRows.map((r, i) => (
+        <div class={`grid grid-cols-[1fr_auto_auto] gap-1.5 px-1.5 py-1 items-center ${i < 2 ? 'border-b border-ink-100' : ''}`}>
+          <span class="truncate text-ink-800">{r.name}</span>
+          <span class={`tabular-nums font-semibold ${r.pct >= 0 ? 'text-green-700' : 'text-red-700'}`}>{r.pct >= 0 ? '+' : ''}{r.pct}%</span>
+          <div class="relative h-1 w-12 rounded-full bg-ink-100">
+            <div class={`absolute top-0 h-1 rounded-full ${r.pct >= 0 ? 'left-1/2 bg-green-500' : 'right-1/2 bg-red-500'}`} style={`width:${Math.min(Math.abs(r.pct)/40, 1)*50}%`}></div>
+            <div class="absolute top-0 bottom-0 left-1/2 w-px bg-ink-300"></div>
+          </div>
+        </div>
+      ))}
+    </div>
+  )}
+
+  {type === "scenario-range" && (
+    <div class="grid grid-cols-3 gap-1">
+      {[
+        { n: "Bearish", v: "212", c: "border-l-red-500" },
+        { n: "Base", v: "258", c: "border-l-blue-600" },
+        { n: "Bullish", v: "291", c: "border-l-green-600" },
+      ].map((s) => (
+        <div class={`rounded-md border border-ink-200 ${s.c} border-l-4 bg-ink-50/60 p-1.5`}>
+          <div class="text-[7px] font-semibold uppercase tracking-wider text-ink-500">{s.n}</div>
+          <div class="mt-0.5 text-sm font-bold text-ink-900">{s.v}</div>
+        </div>
+      ))}
+    </div>
+  )}
+
+  {type === "driver-cards" && (
+    <div class="grid grid-cols-2 gap-1">
+      {[
+        { n: L.drFx, i: "↑", c: "bg-green-50 text-green-700", v: L.drFxImpact },
+        { n: L.drFuel, i: "↓", c: "bg-red-50 text-red-700", v: L.drFuelImpact },
+      ].map((d) => (
+        <div class="rounded-md border border-ink-200 bg-ink-50/40 p-1.5">
+          <div class="flex items-center gap-1">
+            <span class={`grid h-4 w-4 place-items-center rounded text-[10px] font-bold ${d.c}`}>{d.i}</span>
+            <span class="text-[9px] font-semibold text-ink-900 truncate">{d.n}</span>
+          </div>
+          <div class="mt-0.5 text-[9px] tabular-nums text-ink-800">{d.v}</div>
+        </div>
+      ))}
+    </div>
+  )}
+
+  {type === "recommendation" && (
+    <div class="rounded-lg border border-amber-200 bg-white p-2 ring-2 ring-amber-300">
+      <div class="flex items-center gap-1.5">
+        <span class="grid h-5 w-5 place-items-center rounded text-[10px] font-bold bg-amber-50 text-amber-800">?</span>
+        <div>
+          <div class="text-[7px] font-bold uppercase tracking-widest text-amber-800">{L.recVerdict}</div>
+          <div class="text-[9px] font-bold text-ink-900 leading-tight">{L.recTitle}</div>
+        </div>
+      </div>
+      <div class="mt-1 rounded border border-ink-200 bg-white/80 px-1.5 py-0.5 text-[8px] text-ink-700 truncate">
+        {L.recRationale}
+      </div>
+    </div>
+  )}
+
+  {type === "callout:insight" && (
+    <div class="flex gap-1.5 rounded-md border border-blue-200 bg-blue-50/70 px-1.5 py-1">
+      <span class="grid h-5 w-5 flex-shrink-0 place-items-center rounded bg-blue-100 text-xs text-blue-700">✦</span>
+      <div>
+        <div class="text-[7px] font-bold uppercase tracking-widest text-ink-500">{L.insightLbl}</div>
+        <div class="text-[9px] text-ink-800 leading-tight">{L.insightText}</div>
+      </div>
+    </div>
+  )}
+
+  {type === "callout:info" && (
+    <div class="flex gap-1.5 rounded-md border border-ink-200 bg-ink-50 px-1.5 py-1">
+      <span class="grid h-5 w-5 flex-shrink-0 place-items-center rounded bg-ink-100 text-xs text-ink-700">ⓘ</span>
+      <div>
+        <div class="text-[7px] font-bold uppercase tracking-widest text-ink-500">{L.infoLbl}</div>
+        <div class="text-[9px] text-ink-800 leading-tight">{L.infoText}</div>
+      </div>
+    </div>
+  )}
+
+  {type === "callout:warning" && (
+    <div class="flex gap-1.5 rounded-md border border-amber-200 bg-amber-50 px-1.5 py-1">
+      <span class="grid h-5 w-5 flex-shrink-0 place-items-center rounded bg-amber-100 text-xs text-amber-700">⚠</span>
+      <div>
+        <div class="text-[7px] font-bold uppercase tracking-widest text-ink-500">{L.warningLbl}</div>
+        <div class="text-[9px] text-ink-800 leading-tight">{L.warningText}</div>
+      </div>
+    </div>
+  )}
+</div>

@@ -1,0 +1,82 @@
+---
+import { getLangFromUrl } from "~/i18n/utils";
+
+interface Action { what: string; owner?: string; by?: string; }
+interface Props {
+  data: {
+    verdict?: string;
+    title?: string;
+    rationale?: string;
+    actions?: Action[];
+  } | null;
+}
+const { data } = Astro.props;
+if (!data) return null;
+
+const isEn = getLangFromUrl(Astro.url) === "en";
+
+const verdictKey = (data.verdict ?? (isEn ? "conditional" : "warunkowo")).toLowerCase();
+const THEME: Record<string, { ring: string; bg: string; text: string; label: string; icon: string }> = {
+  // PL keys
+  tak:         { ring: "ring-green-300", bg: "bg-green-50", text: "text-green-800", label: isEn ? "YES" : "TAK", icon: "✓" },
+  nie:         { ring: "ring-red-300",   bg: "bg-red-50",   text: "text-red-800",   label: isEn ? "NO"  : "NIE", icon: "✕" },
+  warunkowo:   { ring: "ring-amber-300", bg: "bg-amber-50", text: "text-amber-800", label: isEn ? "CONDITIONAL" : "WARUNKOWO", icon: "?" },
+  // EN keys (allow report authors to write `verdict:"yes"|"no"|"conditional"`)
+  yes:         { ring: "ring-green-300", bg: "bg-green-50", text: "text-green-800", label: isEn ? "YES" : "TAK", icon: "✓" },
+  no:          { ring: "ring-red-300",   bg: "bg-red-50",   text: "text-red-800",   label: isEn ? "NO"  : "NIE", icon: "✕" },
+  conditional: { ring: "ring-amber-300", bg: "bg-amber-50", text: "text-amber-800", label: isEn ? "CONDITIONAL" : "WARUNKOWO", icon: "?" },
+};
+const theme = THEME[verdictKey] ?? THEME[isEn ? "conditional" : "warunkowo"];
+const actions = data.actions ?? [];
+
+const L = {
+  eyebrow: isEn ? "Recommendation" : "Rekomendacja",
+  actionItems: "Action items",
+  by: isEn ? "by" : "do",
+};
+---
+
+<div class={`relative overflow-hidden rounded-2xl border border-ink-200 bg-white p-6 shadow-md ring-2 ${theme.ring}`}>
+  <div aria-hidden="true" class="bg-hatch pointer-events-none absolute inset-0 opacity-40"></div>
+  <div class="relative">
+    <div class="flex items-center gap-3">
+      <span class={`grid h-12 w-12 place-items-center rounded-xl text-2xl font-bold ${theme.bg} ${theme.text}`}>
+        {theme.icon}
+      </span>
+      <div>
+        <div class={`text-[10px] font-bold uppercase tracking-widest ${theme.text}`}>{L.eyebrow} · {theme.label}</div>
+        {data.title && <div class="mt-0.5 text-lg font-bold text-ink-900">{data.title}</div>}
+      </div>
+    </div>
+
+    {data.rationale && (
+      <div class="mt-4 rounded-xl border border-ink-200 bg-white/80 p-3 text-sm leading-relaxed text-ink-700 backdrop-blur">
+        {data.rationale}
+      </div>
+    )}
+
+    {actions.length > 0 && (
+      <div class="mt-4">
+        <div class="text-[10px] font-bold uppercase tracking-widest text-ink-500">{L.actionItems}</div>
+        <ol class="mt-2 space-y-2">
+          {actions.map((a, i) => (
+            <li class="flex items-start gap-3 rounded-lg border border-ink-200 bg-white/80 px-3 py-2 backdrop-blur">
+              <span class="mt-0.5 grid h-5 w-5 flex-shrink-0 place-items-center rounded-md bg-blue-100 text-[11px] font-bold text-blue-800">
+                {i + 1}
+              </span>
+              <div class="flex-1 min-w-0">
+                <div class="text-sm font-medium text-ink-900">{a.what}</div>
+                <div class="mt-0.5 flex flex-wrap items-center gap-2 text-[11px] text-ink-500">
+                  {a.owner && (
+                    <span class="rounded-full bg-ink-100 px-2 py-0.5 font-semibold text-ink-700">{a.owner}</span>
+                  )}
+                  {a.by && <span>{L.by}: {a.by}</span>}
+                </div>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+    )}
+  </div>
+</div>

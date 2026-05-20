@@ -1,0 +1,58 @@
+---
+import { getLangFromUrl, useTranslations, getAltLangPath, getLocalizedPath } from "~/i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const altLang = lang === "pl" ? "en" : "pl";
+const altPath = getAltLangPath(Astro.url.pathname, altLang);
+const homePath = getLocalizedPath("/", lang);
+---
+
+<header
+  class="pointer-events-none fixed inset-x-0 top-4 z-50 flex items-center justify-between px-4 md:px-6"
+  aria-label="Primary"
+>
+  {/* Logo pill — top-left floating */}
+  <a
+    href={homePath}
+    class="pointer-events-auto inline-flex items-center gap-2 rounded-full border border-ink-200 bg-white/80 px-3 py-2 shadow-sm backdrop-blur-md transition hover:bg-white"
+  >
+    <span class="grid h-5 w-5 place-items-center rounded-md bg-blue-700 text-[10px] font-black text-white">m</span>
+    <span class="text-sm font-bold tracking-tight text-ink-900">metyra</span>
+  </a>
+
+  {/* Nav pill — top-right floating */}
+  <nav class="pointer-events-auto inline-flex items-center gap-0.5 rounded-full border border-ink-200 bg-white/80 p-1 shadow-sm backdrop-blur-md">
+    <a
+      href="#product"
+      class="hidden md:inline-flex h-8 items-center rounded-full px-3 text-xs font-semibold text-ink-600 transition hover:bg-ink-100 hover:text-ink-900"
+      >{t("nav.product")}</a
+    >
+    <a
+      href="#icp"
+      class="hidden md:inline-flex h-8 items-center rounded-full px-3 text-xs font-semibold text-ink-600 transition hover:bg-ink-100 hover:text-ink-900"
+      >{t("nav.for_whom")}</a
+    >
+    <a
+      href="#pilot"
+      class="hidden md:inline-flex h-8 items-center rounded-full px-3 text-xs font-semibold text-ink-600 transition hover:bg-ink-100 hover:text-ink-900"
+      >{t("nav.pilot")}</a
+    >
+    <a
+      href="#faq"
+      class="hidden md:inline-flex h-8 items-center rounded-full px-3 text-xs font-semibold text-ink-600 transition hover:bg-ink-100 hover:text-ink-900"
+      >{t("nav.faq")}</a
+    >
+    <a
+      href={altPath}
+      class="inline-flex h-8 items-center rounded-full px-2.5 text-[11px] font-bold tracking-wide text-ink-500 transition hover:bg-ink-100 hover:text-ink-900"
+      aria-label={`Switch to ${altLang.toUpperCase()}`}
+      >{altLang.toUpperCase()}</a
+    >
+    <a
+      href="#final-cta"
+      class="ml-0.5 inline-flex h-8 items-center rounded-full bg-orange-600 px-3.5 text-xs font-semibold text-white shadow-sm transition hover:bg-orange-700"
+      >{t("nav.cta")}</a
+    >
+  </nav>
+</header>

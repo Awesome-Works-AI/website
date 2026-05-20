@@ -1,0 +1,44 @@
+---
+import { getLangFromUrl, useTranslations } from "~/i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<footer class="bg-ink-50 py-16">
+  <div class="mx-auto max-w-7xl px-6">
+    <div class="grid grid-cols-1 gap-12 md:grid-cols-4">
+      <div class="md:col-span-2">
+        <div class="flex items-center gap-2 text-lg font-bold">
+          <span class="grid h-8 w-8 place-items-center rounded-md bg-blue-700 text-white font-black">m</span>
+          <span class="text-ink-900">metyra</span>
+        </div>
+        <p class="mt-4 max-w-sm text-sm text-ink-600">{t("footer.tagline")}</p>
+        <div class="mt-6 text-xs text-ink-500">{t("footer.legal")}</div>
+      </div>
+
+      <div>
+        <div class="text-xs font-semibold uppercase tracking-wider text-ink-700">{t("footer.product")}</div>
+        <ul class="mt-4 space-y-2 text-sm text-ink-600">
+          <li><a href="#product" class="hover:text-ink-900 transition">{t("footer.product.boardpack")}</a></li>
+          <li><a href="#product" class="hover:text-ink-900 transition">{t("footer.product.qa")}</a></li>
+          <li><a href="#product" class="hover:text-ink-900 transition">{t("footer.product.ksef")}</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="text-xs font-semibold uppercase tracking-wider text-ink-700">{t("footer.company")}</div>
+        <ul class="mt-4 space-y-2 text-sm text-ink-600">
+          <li><a href="#about" class="hover:text-ink-900 transition">{t("footer.company.about")}</a></li>
+          <li><a href="#pilot" class="hover:text-ink-900 transition">{t("footer.company.pilot")}</a></li>
+          <li><a href="mailto:hello@awesomeworks.ai" class="hover:text-ink-900 transition">{t("footer.company.contact")}</a></li>
+          <li><a href="#" class="hover:text-ink-900 transition">{t("footer.company.privacy")}</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="mt-12 pt-8 text-center text-xs text-ink-500">
+      {t("footer.copyright")}
+    </div>
+  </div>
+</footer>

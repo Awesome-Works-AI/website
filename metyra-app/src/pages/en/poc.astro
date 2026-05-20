@@ -1,0 +1,17 @@
+---
+import BaseLayout from "~/layouts/BaseLayout.astro";
+import PocViewer from "~/components/poc/PocViewer.astro";
+import HowItWorksModal from "~/components/poc/HowItWorksModal.astro";
+import { SAMPLE_REPORT_EN } from "~/components/poc/sample-report";
+---
+
+<BaseLayout
+  title="Ask a question. Get a report. — Metyra"
+  description="Type what you want to know about your business. Metyra builds the full report: KPIs, charts, scenarios, recommendations."
+>
+  <PocViewer
+    markup={SAMPLE_REPORT_EN}
+    initialQuery="Q3 2026 sales report — compare against plan and peer group"
+  />
+  <HowItWorksModal />
+</BaseLayout>

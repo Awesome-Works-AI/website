@@ -1,0 +1,69 @@
+---
+import { PALETTE, arcPath } from "./chart-utils";
+
+interface Props {
+  data: {
+    title?: string;
+    unit?: string;
+    data?: { name: string; value: number }[];
+  } | null;
+}
+const { data } = Astro.props;
+const items = (data?.data ?? []).filter((d) => typeof d.value === "number");
+if (items.length === 0) return null;
+
+const total = items.reduce((a, b) => a + b.value, 0) || 1;
+
+// SVG geometry: 200x200 viewBox, donut centered at (100,100), inner r=58 outer r=92
+const CX = 100;
+const CY = 100;
+const R0 = 58;
+const R1 = 92;
+
+let startAngle = -90; // start at top
+const slices = items.map((d, i) => {
+  const sweep = (d.value / total) * 360;
+  const endAngle = startAngle + sweep;
+  const path = arcPath(CX, CY, R0, R1, startAngle, endAngle);
+  const mid = ((startAngle + endAngle) / 2 * Math.PI) / 180;
+  const labelR = (R0 + R1) / 2;
+  const lx = CX + labelR * Math.cos(mid);
+  const ly = CY + labelR * Math.sin(mid);
+  const color = PALETTE[i % PALETTE.length];
+  const s = { path, color, name: d.name, value: d.value, percent: ((d.value / total) * 100).toFixed(1), lx, ly };
+  startAngle = endAngle;
+  return s;
+});
+---
+
+<div class="rounded-2xl border border-ink-200 bg-white p-5 shadow-sm">
+  {data?.title && <div class="mb-3 text-sm font-semibold text-ink-900">{data.title}</div>}
+  <div class="grid items-center gap-4 md:grid-cols-[220px_minmax(0,1fr)]">
+    <svg viewBox="0 0 200 200" class="mx-auto h-56 w-56" role="img" aria-label={data?.title}>
+      {slices.map((s) => (
+        <g>
+          <path d={s.path} fill={s.color} stroke="white" stroke-width="2">
+            <title>{s.name}: {s.value}{data?.unit ?? ""}</title>
+          </path>
+          {parseFloat(s.percent) >= 6 && (
+            <text x={s.lx} y={s.ly} text-anchor="middle" dominant-baseline="middle"
+                  font-size="11" font-weight="600" fill="white">
+              {s.percent}{data?.unit ?? "%"}
+            </text>
+          )}
+        </g>
+      ))}
+    </svg>
+    <ul class="space-y-1.5">
+      {slices.map((s) => (
+        <li class="flex items-center justify-between gap-3 text-sm">
+          <span class="flex items-center gap-2 truncate">
+            <span class="h-3 w-3 flex-shrink-0 rounded-sm" style={`background:${s.color}`}></span>
+            <span class="truncate text-ink-700">{s.name}</span>
+          </span>
+          <span class="tabular-nums font-medium text-ink-900">{s.value}{data?.unit ?? "%"}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+</div>

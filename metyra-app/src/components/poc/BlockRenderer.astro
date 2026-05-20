@@ -1,0 +1,41 @@
+---
+import type { Block } from "./parser";
+import ReportHeader from "./blocks/ReportHeader.astro";
+import MetricCards from "./blocks/MetricCards.astro";
+import KpiCard from "./blocks/KpiCard.astro";
+import DonutChart from "./blocks/DonutChart.astro";
+import BarChart from "./blocks/BarChart.astro";
+import LineChart from "./blocks/LineChart.astro";
+import ComboChart from "./blocks/ComboChart.astro";
+import Waterfall from "./blocks/Waterfall.astro";
+import DataTable from "./blocks/DataTable.astro";
+import VarianceTable from "./blocks/VarianceTable.astro";
+import ScenarioRange from "./blocks/ScenarioRange.astro";
+import DriverCards from "./blocks/DriverCards.astro";
+import Recommendation from "./blocks/Recommendation.astro";
+import Callout from "./blocks/Callout.astro";
+import MarkdownBlock from "./blocks/MarkdownBlock.astro";
+
+interface Props {
+  block: Block;
+}
+const { block } = Astro.props;
+---
+
+{block.type === "markdown" && <MarkdownBlock source={block.content} />}
+{block.type === "report-header" && <ReportHeader data={block.data} />}
+{block.type === "metric-cards" && <MetricCards data={block.data} />}
+{block.type === "kpi-card" && <KpiCard data={block.data} />}
+{block.type === "chart:donut" && <DonutChart data={block.data} />}
+{block.type === "chart:bar" && <BarChart data={block.data} />}
+{block.type === "chart:line" && <LineChart data={block.data} />}
+{block.type === "chart:combo" && <ComboChart data={block.data} />}
+{block.type === "chart:waterfall" && <Waterfall data={block.data} />}
+{block.type === "data-table" && <DataTable data={block.data} />}
+{block.type === "variance-table" && <VarianceTable data={block.data} />}
+{block.type === "scenario-range" && <ScenarioRange data={block.data} />}
+{block.type === "driver-cards" && <DriverCards data={block.data} />}
+{block.type === "recommendation" && <Recommendation data={block.data} />}
+{block.type === "callout:insight" && <Callout tone="insight" data={block.data} />}
+{block.type === "callout:info" && <Callout tone="info" data={block.data} />}
+{block.type === "callout:warning" && <Callout tone="warning" data={block.data} />}

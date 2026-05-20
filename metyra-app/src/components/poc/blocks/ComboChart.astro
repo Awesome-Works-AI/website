@@ -1,0 +1,114 @@
+---
+import { PALETTE, AXIS_COLOR, GRID_COLOR, niceTicks, fmt } from "./chart-utils";
+
+interface Props {
+  data: {
+    title?: string;
+    x_key?: string;
+    bars?: { key: string; label: string; unit?: string };
+    line?: { key: string; label: string; unit?: string };
+    data?: Array<Record<string, string | number>>;
+  } | null;
+}
+const { data } = Astro.props;
+const rows = data?.data ?? [];
+if (!data?.bars || !data?.line || rows.length === 0) return null;
+// Validate x_key actually exists in data[0]; fall back to common keys / first string key.
+const sample = (rows[0] ?? {}) as Record<string, any>;
+let xKey: string = data.x_key as string;
+if (!xKey || !(xKey in sample)) {
+  if ("period" in sample) xKey = "period";
+  else if ("month" in sample) xKey = "month";
+  else xKey = Object.keys(sample).find((k) => typeof sample[k] === "string") ?? Object.keys(sample)[0];
+}
+const barKey = data.bars.key;
+const lineKey = data.line.key;
+
+const W = 720;
+const H = 320;
+const PADDING = { top: 16, right: 56, bottom: 48, left: 56 };
+const innerW = W - PADDING.left - PADDING.right;
+const innerH = H - PADDING.top - PADDING.bottom;
+
+const barVals = rows.map((r) => Number(r[barKey] ?? 0));
+const lineVals = rows.map((r) => Number(r[lineKey] ?? 0));
+
+const barMin = Math.min(0, ...barVals);
+const barMax = Math.max(...barVals);
+const lineMin = Math.min(...lineVals);
+const lineMax = Math.max(...lineVals);
+
+const barTicks = niceTicks(barMin, barMax, 5);
+const lineTicks = niceTicks(lineMin, lineMax, 4);
+const byMin = barTicks[0];
+const byMax = barTicks[barTicks.length - 1];
+const lyMin = lineTicks[0];
+const lyMax = lineTicks[lineTicks.length - 1];
+
+const step = innerW / rows.length;
+const barW = Math.min(40, step * 0.55);
+const yBar = (v: number) =>
+  PADDING.top + innerH - ((v - byMin) / (byMax - byMin || 1)) * innerH;
+const yLine = (v: number) =>
+  PADDING.top + innerH - ((v - lyMin) / (lyMax - lyMin || 1)) * innerH;
+const xCenter = (i: number) => PADDING.left + i * step + step / 2;
+
+const linePoints = rows.map((_, i) => `${xCenter(i)},${yLine(lineVals[i])}`).join(" ");
+const barColor = PALETTE[0];
+const lineColor = PALETTE[2];
+---
+
+<div class="rounded-2xl border border-ink-200 bg-white p-5 shadow-sm">
+  {data?.title && <div class="mb-3 text-sm font-semibold text-ink-900">{data.title}</div>}
+  <div class="overflow-x-auto">
+    <svg viewBox={`0 0 ${W} ${H}`} class="h-80 w-full min-w-[640px]" role="img" aria-label={data?.title}>
+      {barTicks.map((t) => (
+        <g>
+          <line x1={PADDING.left} x2={W - PADDING.right} y1={yBar(t)} y2={yBar(t)} stroke={GRID_COLOR} stroke-dasharray="3 3" />
+          <text x={PADDING.left - 8} y={yBar(t) + 4} text-anchor="end" font-size="11" fill={barColor}>{fmt(t)}</text>
+        </g>
+      ))}
+      {lineTicks.map((t) => (
+        <text x={W - PADDING.right + 8} y={yLine(t) + 4} text-anchor="start" font-size="11" fill={lineColor}>
+          {fmt(t)}
+        </text>
+      ))}
+      {rows.map((r, i) => (
+        <g>
+          <rect
+            x={xCenter(i) - barW / 2}
+            y={yBar(barVals[i])}
+            width={barW}
+            height={Math.max(0, yBar(0) - yBar(barVals[i]))}
+            rx="3"
+            fill={barColor}
+            opacity="0.85"
+          >
+            <title>{r[xKey]}: {data.bars.label} = {fmt(barVals[i])}{data.bars.unit ? " " + data.bars.unit : ""}</title>
+          </rect>
+          <text x={xCenter(i)} y={H - PADDING.bottom + 18} text-anchor="middle" font-size="10" fill={AXIS_COLOR}>
+            {r[xKey] as string}
+          </text>
+        </g>
+      ))}
+      <polyline points={linePoints} fill="none" stroke={lineColor} stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" />
+      {rows.map((r, i) => (
+        <circle cx={xCenter(i)} cy={yLine(lineVals[i])} r="3" fill={lineColor}>
+          <title>{r[xKey]}: {data.line.label} = {fmt(lineVals[i])}{data.line.unit ? " " + data.line.unit : ""}</title>
+        </circle>
+      ))}
+    </svg>
+  </div>
+  <div class="mt-3 flex flex-wrap gap-4 text-xs text-ink-600">
+    <span class="inline-flex items-center gap-1.5">
+      <span class="h-3 w-3 rounded-sm" style={`background:${barColor}`}></span>
+      <span class="font-medium">{data.bars.label}</span>
+      {data.bars.unit && <span class="text-ink-500">({data.bars.unit})</span>}
+    </span>
+    <span class="inline-flex items-center gap-1.5">
+      <span class="h-0.5 w-4" style={`background:${lineColor}`}></span>
+      <span class="font-medium">{data.line.label}</span>
+      {data.line.unit && <span class="text-ink-500">({data.line.unit})</span>}
+    </span>
+  </div>
+</div>

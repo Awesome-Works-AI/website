@@ -1,0 +1,129 @@
+---
+import { AXIS_COLOR, GRID_COLOR, niceTicks, fmt } from "./chart-utils";
+import { getLangFromUrl, useTranslations } from "~/i18n/utils";
+const t = useTranslations(getLangFromUrl(Astro.url));
+
+interface WfStep { label: string; delta: number; kind?: "positive" | "negative" | "subtotal"; }
+interface Props {
+  data: {
+    title?: string;
+    unit?: string;
+    start?: { label: string; value: number };
+    steps?: WfStep[];
+    end?: { label: string; value: number };
+  } | null;
+}
+const { data } = Astro.props;
+if (!data?.start || !data?.end) return null;
+
+interface Bar {
+  label: string;
+  base: number;
+  top: number;
+  display: number;
+  kind: "start" | "positive" | "negative" | "end";
+}
+
+const bars: Bar[] = [];
+bars.push({ label: data.start.label, base: 0, top: data.start.value, display: data.start.value, kind: "start" });
+let running = data.start.value;
+for (const s of data.steps ?? []) {
+  if (s.delta >= 0) {
+    bars.push({ label: s.label, base: running, top: running + s.delta, display: s.delta, kind: "positive" });
+  } else {
+    bars.push({ label: s.label, base: running + s.delta, top: running, display: s.delta, kind: "negative" });
+  }
+  running += s.delta;
+}
+bars.push({ label: data.end.label, base: 0, top: data.end.value, display: data.end.value, kind: "end" });
+
+// Checksum drift
+const sumDelta = (data.steps ?? []).reduce((a, s) => a + s.delta, 0);
+const expectedEnd = data.start.value + sumDelta;
+const drift = Math.round((expectedEnd - data.end.value) * 100) / 100;
+
+const KIND_COLOR: Record<string, string> = {
+  start: "#3A7DBE",
+  positive: "#059669",
+  negative: "#DC2626",
+  end: "#16467D",
+};
+
+const W = 720;
+const H = 340;
+const PADDING = { top: 24, right: 16, bottom: 64, left: 56 };
+const innerW = W - PADDING.left - PADDING.right;
+const innerH = H - PADDING.top - PADDING.bottom;
+
+const allValues = bars.flatMap((b) => [b.base, b.top]);
+const minV = Math.min(0, ...allValues);
+const maxV = Math.max(...allValues);
+const ticks = niceTicks(minV, maxV, 5);
+const yMin = ticks[0];
+const yMax = ticks[ticks.length - 1];
+const yScale = (v: number) =>
+  PADDING.top + innerH - ((v - yMin) / (yMax - yMin || 1)) * innerH;
+
+const step = innerW / bars.length;
+const barW = Math.min(52, step * 0.6);
+
+// connectors between successive bars
+const connectors: { x1: number; x2: number; y: number }[] = [];
+for (let i = 0; i < bars.length - 1; i++) {
+  const a = bars[i];
+  // running total before the next bar
+  const runningTop = a.kind === "negative" ? a.base : a.top;
+  const x1 = PADDING.left + i * step + step / 2 + barW / 2;
+  const x2 = PADDING.left + (i + 1) * step + step / 2 - barW / 2;
+  connectors.push({ x1, x2, y: yScale(runningTop) });
+}
+---
+
+<div class="rounded-2xl border border-ink-200 bg-white p-5 shadow-sm">
+  {data?.title && <div class="mb-3 text-sm font-semibold text-ink-900">{data.title}</div>}
+  <div class="overflow-x-auto">
+    <svg viewBox={`0 0 ${W} ${H}`} class="h-80 w-full min-w-[640px]" role="img" aria-label={data?.title}>
+      {ticks.map((t) => (
+        <g>
+          <line x1={PADDING.left} x2={W - PADDING.right} y1={yScale(t)} y2={yScale(t)} stroke={GRID_COLOR} stroke-dasharray="3 3" />
+          <text x={PADDING.left - 8} y={yScale(t) + 4} text-anchor="end" font-size="11" fill={AXIS_COLOR}>{fmt(t)}</text>
+        </g>
+      ))}
+      {connectors.map((c) => (
+        <line x1={c.x1} x2={c.x2} y1={c.y} y2={c.y} stroke="#94A3B8" stroke-dasharray="3 3" />
+      ))}
+      {bars.map((b, i) => {
+        const x = PADDING.left + i * step + (step - barW) / 2;
+        const y = yScale(b.top);
+        const h = Math.abs(yScale(b.base) - yScale(b.top));
+        const labelY = yScale(b.top) - 8;
+        const sign = b.kind === "negative" ? "−" : b.kind === "positive" ? "+" : "";
+        const dispText = `${sign}${fmt(Math.abs(b.display))}`;
+        return (
+          <g>
+            <rect x={x} y={y} width={barW} height={h} rx="3" fill={KIND_COLOR[b.kind]}>
+              <title>{b.label}: {dispText}{data?.unit ? " " + data.unit : ""}</title>
+            </rect>
+            <text x={x + barW / 2} y={labelY} text-anchor="middle" font-size="11" font-weight="600" fill="#0F172A">
+              {dispText}
+            </text>
+            <text x={x + barW / 2} y={H - PADDING.bottom + 18} text-anchor="middle" font-size="10" fill={AXIS_COLOR}>
+              {b.label}
+            </text>
+          </g>
+        );
+      })}
+    </svg>
+  </div>
+  <div class="mt-3 flex flex-wrap items-center gap-3 text-[11px] text-ink-600">
+    <span class="inline-flex items-center gap-1.5"><span class="h-2 w-2 rounded-sm" style={`background:${KIND_COLOR.start}`}></span> {t("poc.block.waterfall.start")}</span>
+    <span class="inline-flex items-center gap-1.5"><span class="h-2 w-2 rounded-sm" style={`background:${KIND_COLOR.positive}`}></span> {t("poc.block.waterfall.up")}</span>
+    <span class="inline-flex items-center gap-1.5"><span class="h-2 w-2 rounded-sm" style={`background:${KIND_COLOR.negative}`}></span> {t("poc.block.waterfall.down")}</span>
+    <span class="inline-flex items-center gap-1.5"><span class="h-2 w-2 rounded-sm" style={`background:${KIND_COLOR.end}`}></span> {t("poc.block.waterfall.end")}</span>
+    {Math.abs(drift) > 0.5 && (
+      <span class="ml-auto rounded-md bg-amber-50 px-2 py-0.5 font-medium text-amber-700">
+        ⚠ {t("poc.block.waterfall.checksumDrift")}: {drift > 0 ? "+" : ""}{drift} {data.unit ?? ""}
+      </span>
+    )}
+  </div>
+</div>

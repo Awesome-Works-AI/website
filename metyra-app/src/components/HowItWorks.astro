@@ -1,0 +1,83 @@
+---
+import { getLangFromUrl, useTranslations } from "~/i18n/utils";
+import type { UiKey } from "~/i18n/ui";
+import Kicker from "~/components/Kicker.astro";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+interface Step {
+  no: UiKey;
+  title: UiKey;
+  body: UiKey;
+}
+
+const steps: Step[] = [
+  { no: "how.s1.no", title: "how.s1.title", body: "how.s1.body" },
+  { no: "how.s2.no", title: "how.s2.title", body: "how.s2.body" },
+  { no: "how.s3.no", title: "how.s3.title", body: "how.s3.body" },
+  { no: "how.s4.no", title: "how.s4.title", body: "how.s4.body" },
+];
+---
+
+<section id="how" class="relative overflow-hidden bg-white py-28">
+  {/* Sophisticated solid shapes — anchored at corners, not behind the steps. */}
+  <div aria-hidden="true" class="shape-quarter-tl pointer-events-none absolute top-0 left-0 hidden h-44 w-44 bg-green-400/18 md:block"></div>
+  <div aria-hidden="true" class="shape-quarter-br pointer-events-none absolute bottom-0 right-0 hidden h-44 w-44 bg-orange-300/22 md:block"></div>
+  <div aria-hidden="true" class="shape-hex pointer-events-none absolute top-1/2 right-12 hidden h-12 w-14 -translate-y-1/2 bg-blue-400/22 md:block"></div>
+  <div aria-hidden="true" class="shape-plus pointer-events-none absolute left-12 bottom-1/3 hidden h-10 w-10 bg-green-500/25 md:block"></div>
+
+  <div class="relative mx-auto max-w-7xl px-6">
+    <div class="mx-auto max-w-3xl text-center">
+      <Kicker text={t("how.eyebrow")} tone="blue" accent="green" class="mx-auto" />
+      <h2 class="mt-5 text-balance text-3xl font-bold tracking-tight text-ink-900 md:text-5xl">
+        {t("how.heading")}
+      </h2>
+    </div>
+
+    {/*
+     * Four deliverables on a horizontal flow. On md+: 4-col with a horizontal
+     * "guideline" connecting them (subtle, matches Roadmap timeline language).
+     * On mobile: stacked, no line — vertical numerical reading.
+     */}
+    <div class="relative mt-20">
+      {/* Horizontal connector line — md+ only, behind the step numbers */}
+      <div
+        aria-hidden="true"
+        class="absolute hidden md:block h-px left-[12.5%] right-[12.5%] top-[18px] bg-gradient-to-r from-blue-200 via-blue-500/60 to-blue-200"
+      ></div>
+
+      <div class="grid grid-cols-1 gap-y-14 md:grid-cols-4 md:gap-x-8 md:gap-y-0">
+        {
+          steps.map((step) => (
+            <div class="relative">
+              {/* Number marker on the connector — sharp square, not a pill */}
+              <div class="hidden md:flex justify-center">
+                <span
+                  class="relative z-10 inline-flex h-9 items-center bg-white px-3 font-mono text-sm font-bold tracking-tight text-blue-700 ring-1 ring-blue-700"
+                >
+                  {t(step.no)}
+                </span>
+              </div>
+
+              {/* Mobile: number sits to the left of content */}
+              <div class="flex items-start gap-5 md:mt-7 md:block md:gap-0 md:text-center">
+                <span class="font-mono text-2xl font-bold tracking-tight text-blue-700 md:hidden">
+                  {t(step.no)}
+                </span>
+                <div class="flex-1 md:mt-0">
+                  <h3 class="text-xl font-bold tracking-tight text-ink-900 md:text-[1.35rem]">
+                    {t(step.title)}
+                  </h3>
+                  <p class="mx-auto mt-3 max-w-[18rem] text-sm leading-relaxed text-ink-600">
+                    {t(step.body)}
+                  </p>
+                </div>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>

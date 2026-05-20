@@ -1,0 +1,53 @@
+---
+import { renderInlineMarkdown } from "../parser";
+import { getLangFromUrl } from "~/i18n/utils";
+
+interface Props {
+  tone: "insight" | "info" | "warning";
+  data: { text?: string } | null;
+}
+const { tone, data } = Astro.props;
+const text = data?.text?.trim();
+if (!text) return null;
+
+const isEn = getLangFromUrl(Astro.url) === "en";
+
+const VARIANTS = {
+  insight: {
+    bg: "bg-blue-50/70",
+    border: "border-blue-200",
+    iconBg: "bg-blue-100",
+    iconText: "text-blue-700",
+    label: "Insight",
+    icon: "✦",
+  },
+  info: {
+    bg: "bg-ink-50",
+    border: "border-ink-200",
+    iconBg: "bg-ink-100",
+    iconText: "text-ink-700",
+    label: "Info",
+    icon: "ⓘ",
+  },
+  warning: {
+    bg: "bg-amber-50",
+    border: "border-amber-200",
+    iconBg: "bg-amber-100",
+    iconText: "text-amber-700",
+    label: isEn ? "Warning" : "Uwaga",
+    icon: "⚠",
+  },
+};
+const v = VARIANTS[tone];
+const html = renderInlineMarkdown(text);
+---
+
+<div class={`flex gap-3 rounded-2xl border ${v.border} ${v.bg} px-4 py-3 shadow-sm`}>
+  <div class={`grid h-9 w-9 flex-shrink-0 place-items-center rounded-lg text-lg ${v.iconBg} ${v.iconText}`}>
+    {v.icon}
+  </div>
+  <div class="flex-1 min-w-0">
+    <div class="text-[10px] font-bold uppercase tracking-widest text-ink-500">{v.label}</div>
+    <div class="mt-1 text-sm leading-relaxed text-ink-800" set:html={html}></div>
+  </div>
+</div>
