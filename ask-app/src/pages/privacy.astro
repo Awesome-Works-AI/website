@@ -1,0 +1,236 @@
+---
+import Base from "../layouts/Base.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<Base
+  title="Polityka prywatności — AwesomeWorks Ask"
+  description="Polityka prywatności platformy AwesomeWorks Ask — asystent wiedzy dla biur rachunkowych."
+>
+  <Nav />
+  <main class="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
+    <article class="prose prose-invert prose-sm max-w-none">
+      <h1 class="text-3xl font-bold tracking-tight text-foreground">
+        Polityka prywatności
+      </h1>
+      <p class="text-sm text-muted-foreground">
+        Ostatnia aktualizacja: 17 lutego 2026 r.
+      </p>
+
+      <hr class="border-white/[0.06] my-8" />
+
+      <h2>1. Administrator danych</h2>
+      <p>
+        Administratorem Twoich danych osobowych jest <strong>AwesomeWorks sp. z o.o.</strong> z siedzibą
+        w Warszawie (dalej: „my", „Administrator").
+      </p>
+      <p>
+        Kontakt w sprawach ochrony danych osobowych:
+        <a href="mailto:privacy@awesomeworks.ai" class="text-primary hover:underline">
+          privacy@awesomeworks.ai
+        </a>
+      </p>
+
+      <h2>2. Jakie dane zbieramy</h2>
+      <p>W ramach korzystania z platformy AwesomeWorks Ask przetwarzamy następujące kategorie danych:</p>
+
+      <h3>2.1. Dane użytkowników</h3>
+      <ul>
+        <li>Adres e-mail (login)</li>
+        <li>Imię i nazwisko</li>
+        <li>Rola w systemie (administrator, księgowy, klient)</li>
+        <li>Hasło (przechowywane wyłącznie w formie zaszyfrowanego skrótu bcrypt)</li>
+      </ul>
+
+      <h3>2.2. Dane firmowe</h3>
+      <ul>
+        <li>Nazwa firmy, NIP, REGON, KRS</li>
+        <li>Adres siedziby, adres korespondencyjny</li>
+        <li>Adres zamieszkania właściciela (w przypadku JDG)</li>
+        <li>E-mail i telefon kontaktowy firmy</li>
+        <li>Numer rachunku bankowego</li>
+        <li>Kody PKD, forma opodatkowania</li>
+        <li>PESEL właściciela (w przypadku JDG — przechowywany w formie zaszyfrowanej)</li>
+      </ul>
+
+      <h3>2.3. Dokumenty i faktury</h3>
+      <ul>
+        <li>Pliki dokumentów przesłane przez użytkownika (PDF, DOCX, TXT, MD)</li>
+        <li>Faktury — dane nabywcy/sprzedawcy, kwoty, numery kont</li>
+        <li>Treść dokumentów w formie fragmentów tekstowych (do wyszukiwania)</li>
+      </ul>
+
+      <h3>2.4. Konwersacje</h3>
+      <ul>
+        <li>Historia pytań użytkownika i odpowiedzi systemu</li>
+        <li>Referencje do dokumentów źródłowych</li>
+      </ul>
+
+      <h3>2.5. Dane techniczne</h3>
+      <ul>
+        <li>Adres IP, typ przeglądarki (logi serwera)</li>
+        <li>Pliki cookies funkcjonalne (sesja, rola użytkownika)</li>
+      </ul>
+
+      <h2>3. Cele i podstawy prawne przetwarzania</h2>
+      <table class="w-full text-sm">
+        <thead>
+          <tr>
+            <th class="text-left p-2 border-b border-white/10">Cel</th>
+            <th class="text-left p-2 border-b border-white/10">Podstawa prawna</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="p-2 border-b border-white/5">Świadczenie usługi (konto, czat, dokumenty)</td>
+            <td class="p-2 border-b border-white/5">Art. 6 ust. 1 lit. b RODO — wykonanie umowy</td>
+          </tr>
+          <tr>
+            <td class="p-2 border-b border-white/5">Weryfikacja faktur i dekretacja</td>
+            <td class="p-2 border-b border-white/5">Art. 6 ust. 1 lit. b RODO — wykonanie umowy</td>
+          </tr>
+          <tr>
+            <td class="p-2 border-b border-white/5">Przetwarzanie danych przez AI (OpenAI)</td>
+            <td class="p-2 border-b border-white/5">Art. 6 ust. 1 lit. b RODO — niezbędne do świadczenia usługi + zgoda użytkownika</td>
+          </tr>
+          <tr>
+            <td class="p-2 border-b border-white/5">Poprawa jakości usługi, analityka</td>
+            <td class="p-2 border-b border-white/5">Art. 6 ust. 1 lit. f RODO — uzasadniony interes</td>
+          </tr>
+          <tr>
+            <td class="p-2 border-b border-white/5">Wypełnianie obowiązków prawnych</td>
+            <td class="p-2 border-b border-white/5">Art. 6 ust. 1 lit. c RODO — obowiązek prawny</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>4. Przetwarzanie danych przez sztuczną inteligencję</h2>
+      <p>
+        W celu świadczenia usługi asystenta wiedzy i weryfikacji faktur, platforma wykorzystuje
+        modele językowe dostarczane przez <strong>OpenAI, LLC</strong> (USA) za pośrednictwem API.
+      </p>
+      <p>Do OpenAI mogą być przesyłane:</p>
+      <ul>
+        <li>Fragmenty dokumentów wgranych do systemu</li>
+        <li>Treść pytań użytkownika i historia konwersacji</li>
+        <li>Dane z faktur (dane nabywcy/sprzedawcy, kwoty)</li>
+        <li>Dane firmowe (nazwa, NIP, branża) w kontekście pytania</li>
+      </ul>
+      <p>
+        <strong>OpenAI nie wykorzystuje danych przesyłanych przez API do trenowania swoich modeli.</strong>
+        Przetwarzanie odbywa się na podstawie umowy o powierzeniu przetwarzania danych (Data Processing
+        Agreement) z OpenAI, zgodnej z wymogami RODO, w tym Standard Contractual Clauses (SCC)
+        zapewniającymi odpowiedni poziom ochrony przy transferze do USA.
+      </p>
+
+      <h2>5. Automatyczne podejmowanie decyzji</h2>
+      <p>
+        System może automatycznie klasyfikować faktury (moduł Invoice Judge) i proponować kody
+        dekretacji kosztów. <strong>Żadna decyzja nie jest podejmowana w pełni automatycznie</strong> —
+        każdy wynik wymaga zatwierdzenia przez księgowego.
+      </p>
+
+      <h2>6. Odbiorcy danych (sub-procesorzy)</h2>
+      <table class="w-full text-sm">
+        <thead>
+          <tr>
+            <th class="text-left p-2 border-b border-white/10">Podmiot</th>
+            <th class="text-left p-2 border-b border-white/10">Cel</th>
+            <th class="text-left p-2 border-b border-white/10">Lokalizacja</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="p-2 border-b border-white/5">OpenAI, LLC</td>
+            <td class="p-2 border-b border-white/5">Modele AI (GPT-4o-mini, embeddingi)</td>
+            <td class="p-2 border-b border-white/5">USA (SCC)</td>
+          </tr>
+          <tr>
+            <td class="p-2 border-b border-white/5">Tavily, Inc.</td>
+            <td class="p-2 border-b border-white/5">Wyszukiwanie informacji o firmach</td>
+            <td class="p-2 border-b border-white/5">USA (SCC)</td>
+          </tr>
+          <tr>
+            <td class="p-2 border-b border-white/5">Dostawca hostingu</td>
+            <td class="p-2 border-b border-white/5">Serwery aplikacji i bazy danych</td>
+            <td class="p-2 border-b border-white/5">UE</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+        Ponadto dane mogą być przekazywane do publicznych rejestrów (GUS, KRS, Biała Lista MF)
+        wyłącznie w zakresie publicznie dostępnych danych firmowych (NIP).
+      </p>
+
+      <h2>7. Transfer danych do państw trzecich</h2>
+      <p>
+        Dane mogą być przekazywane do USA (OpenAI, Tavily) na podstawie Standardowych Klauzul
+        Umownych (SCC) zatwierdzonych przez Komisję Europejską, w ramach umów o powierzeniu
+        przetwarzania danych (DPA) z tymi podmiotami.
+      </p>
+
+      <h2>8. Okres przechowywania danych</h2>
+      <ul>
+        <li><strong>Dane konta użytkownika</strong> — do czasu usunięcia konta lub rozwiązania umowy</li>
+        <li><strong>Dokumenty i faktury</strong> — zgodnie z przepisami o rachunkowości (min. 5 lat)</li>
+        <li><strong>Konwersacje</strong> — 12 miesięcy od ostatniej aktywności, potem automatycznie usuwane</li>
+        <li><strong>Logi serwera</strong> — 90 dni</li>
+      </ul>
+
+      <h2>9. Twoje prawa</h2>
+      <p>Na podstawie RODO przysługują Ci następujące prawa:</p>
+      <ul>
+        <li><strong>Prawo dostępu</strong> (Art. 15) — możesz uzyskać informację o przetwarzanych danych</li>
+        <li><strong>Prawo do sprostowania</strong> (Art. 16) — możesz poprawić nieprawidłowe dane</li>
+        <li><strong>Prawo do usunięcia</strong> (Art. 17) — możesz zażądać usunięcia swoich danych</li>
+        <li><strong>Prawo do ograniczenia przetwarzania</strong> (Art. 18)</li>
+        <li><strong>Prawo do przenoszenia danych</strong> (Art. 20) — możesz pobrać swoje dane w formacie maszynowym</li>
+        <li><strong>Prawo do sprzeciwu</strong> (Art. 21) — wobec przetwarzania opartego na uzasadnionym interesie</li>
+        <li><strong>Prawo do cofnięcia zgody</strong> — w dowolnym momencie, bez wpływu na wcześniejsze przetwarzanie</li>
+      </ul>
+      <p>
+        W celu skorzystania z praw skontaktuj się z nami:
+        <a href="mailto:privacy@awesomeworks.ai" class="text-primary hover:underline">
+          privacy@awesomeworks.ai
+        </a>
+      </p>
+
+      <h2>10. Prawo do skargi</h2>
+      <p>
+        Masz prawo złożyć skargę do <strong>Prezesa Urzędu Ochrony Danych Osobowych</strong> (UODO),
+        ul. Stawki 2, 00-193 Warszawa, jeśli uznasz, że przetwarzanie Twoich danych narusza przepisy RODO.
+      </p>
+
+      <h2>11. Pliki cookies</h2>
+      <p>
+        Platforma wykorzystuje wyłącznie <strong>cookies funkcjonalne</strong> (niezbędne do działania):
+      </p>
+      <ul>
+        <li><code>ask_role</code> — przechowuje rolę zalogowanego użytkownika (sesja)</li>
+      </ul>
+      <p>
+        Nie stosujemy cookies marketingowych, analitycznych ani śledzących.
+        Cookies funkcjonalne nie wymagają zgody zgodnie z dyrektywą ePrivacy.
+      </p>
+
+      <h2>12. Bezpieczeństwo danych</h2>
+      <p>Stosujemy następujące środki ochrony:</p>
+      <ul>
+        <li>Szyfrowanie komunikacji (HTTPS/TLS)</li>
+        <li>Haszowanie haseł (bcrypt)</li>
+        <li>Szyfrowanie danych wrażliwych w bazie danych (PESEL)</li>
+        <li>Izolacja danych między tenantami (multi-tenant architecture)</li>
+        <li>Kontrola dostępu oparta na rolach (RBAC)</li>
+        <li>Tokeny JWT z ograniczonym czasem ważności</li>
+      </ul>
+
+      <h2>13. Zmiany w polityce prywatności</h2>
+      <p>
+        O istotnych zmianach w polityce prywatności poinformujemy użytkowników drogą mailową
+        lub poprzez powiadomienie w aplikacji. Aktualna wersja jest zawsze dostępna na tej stronie.
+      </p>
+    </article>
+  </main>
+  <Footer />
+</Base>

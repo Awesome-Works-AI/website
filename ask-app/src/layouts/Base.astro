@@ -1,0 +1,141 @@
+---
+import "@fontsource-variable/inter";
+import "../styles/globals.css";
+import { withBase } from "../utils/url";
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+const siteOrigin = "https://awesomeworks.ai";
+const canonicalUrl = new URL(Astro.url.pathname, siteOrigin);
+const ogImage = new URL(withBase("/og-image.png"), siteOrigin).href;
+
+const faqItems = [
+  {
+    q: "Jak szybko mogę zacząć korzystać?",
+    a: "Wdrożenie trwa jeden dzień. Wgrywasz dokumenty, konfigurujesz dostępy i system jest gotowy.",
+  },
+  {
+    q: "Czy moje dane są bezpieczne?",
+    a: "Tak. Każde biuro rachunkowe ma całkowicie oddzielone dane (multi-tenant). Komunikacja jest szyfrowana, a serwery znajdują się w UE.",
+  },
+  {
+    q: "Czy asystent odpowiada zawsze poprawnie?",
+    a: "Asystent odpowiada wyłącznie na podstawie Twoich dokumentów — nie zmyśla. Każda odpowiedź zawiera odnośniki do źródeł.",
+  },
+  {
+    q: "Jakie formaty dokumentów obsługujecie?",
+    a: "PDF, DOCX, TXT i Markdown. Pracujemy też nad obsługą skanów z OCR.",
+  },
+  {
+    q: "Czy mogę przetestować przed zakupem?",
+    a: "Tak — oferujemy 14 dni bezpłatnego testu na planie Professional. Bez karty kredytowej, bez zobowiązań.",
+  },
+  {
+    q: "Czy system integruje się z moim oprogramowaniem?",
+    a: "Planujemy integracje z KSeF i GUS. API umożliwia też połączenie z dowolnym systemem ERP lub CRM.",
+  },
+];
+
+const askHomeUrl = new URL(withBase("/"), siteOrigin).href;
+const organizationJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: "AwesomeWorks Ask",
+  url: askHomeUrl,
+  logo: new URL(withBase("/logo.png"), siteOrigin).href,
+  image: ogImage,
+  description,
+  applicationCategory: "BusinessApplication",
+  operatingSystem: "Web",
+  offers: {
+    "@type": "AggregateOffer",
+    priceCurrency: "PLN",
+    lowPrice: "0",
+    highPrice: "0",
+    offerCount: "3",
+  },
+};
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqItems.map((item) => ({
+    "@type": "Question",
+    name: item.q,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: item.a,
+    },
+  })),
+};
+---
+
+<!doctype html>
+<html lang="pl" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" content="#0a0a12" />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+
+    <link rel="canonical" href={canonicalUrl.href} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="AwesomeWorks Ask" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:url" content={canonicalUrl.href} />
+    <meta property="og:locale" content="pl_PL" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href={withBase("/favicon.svg")} />
+    <link rel="icon" type="image/png" sizes="32x32" href={withBase("/favicon-32.png")} />
+    <link rel="apple-touch-icon" sizes="180x180" href={withBase("/apple-touch-icon.png")} />
+    <link rel="manifest" href={withBase("/site.webmanifest")} />
+
+    <!-- Structured Data -->
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(organizationJsonLd)}
+    />
+    <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
+  </head>
+  <body class="font-sans antialiased">
+    <slot />
+
+    <!-- Scroll Reveal Observer -->
+    <script>
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }
+      );
+      document
+        .querySelectorAll(".animate-on-scroll")
+        .forEach((el) => observer.observe(el));
+    </script>
+  </body>
+</html>

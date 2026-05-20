@@ -1,0 +1,84 @@
+---
+import { pl } from "../i18n/pl";
+const i = pl.comparison;
+---
+
+<section id="comparison" class="border-y border-white/[0.06] bg-white/[0.01] py-20 sm:py-28">
+  <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+    <!-- Section header -->
+    <div class="mx-auto mb-16 max-w-2xl text-center animate-on-scroll">
+      <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">
+        {i.title}
+      </h2>
+      <p class="mt-4 text-lg text-muted-foreground leading-relaxed">
+        {i.subtitle}
+      </p>
+    </div>
+
+    <!-- Comparison table -->
+    <div class="animate-on-scroll overflow-hidden rounded-2xl border border-white/[0.06]">
+      <!-- Header -->
+      <div class="grid grid-cols-3 border-b border-white/[0.06] bg-white/[0.03]">
+        <div class="p-4 sm:p-5 text-sm font-semibold text-muted-foreground">
+          Krok
+        </div>
+        <div class="p-4 sm:p-5 text-sm font-semibold text-muted-foreground border-l border-white/[0.06]">
+          {i.traditional}
+        </div>
+        <div class="p-4 sm:p-5 text-sm font-semibold text-primary border-l border-white/[0.06]">
+          {i.ai}
+        </div>
+      </div>
+
+      <!-- Rows -->
+      {i.steps.map((step, idx) => (
+        <div class:list={[
+          "grid grid-cols-3",
+          idx < i.steps.length - 1 ? "border-b border-white/[0.06]" : "",
+          idx % 2 === 0 ? "bg-white/[0.01]" : "",
+        ]}>
+          <div class="p-4 sm:p-5">
+            <span class="text-sm font-semibold text-foreground">{step.name}</span>
+          </div>
+          <div class="p-4 sm:p-5 border-l border-white/[0.06]">
+            <p class="text-sm text-muted-foreground leading-relaxed">{step.traditional}</p>
+          </div>
+          <div class="p-4 sm:p-5 border-l border-white/[0.06]">
+            <p class="text-sm text-foreground leading-relaxed">{step.ai}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- Savings callout -->
+    <div class="mt-10 animate-on-scroll">
+      <div class="rounded-2xl border border-primary/20 bg-primary/5 p-6 sm:p-8">
+        <h3 class="mb-6 text-center text-lg font-semibold text-foreground">
+          {i.savings.title}
+        </h3>
+        <div class="grid gap-6 sm:grid-cols-2">
+          <!-- Traditional -->
+          <div class="rounded-xl border border-white/[0.06] bg-white/[0.03] p-5 text-center">
+            <p class="text-sm text-muted-foreground mb-2">{i.savings.traditional.label}</p>
+            <p class="text-3xl font-bold text-red-400">{i.savings.traditional.time}</p>
+            <p class="text-xs text-muted-foreground mt-1">{i.savings.traditional.detail}</p>
+          </div>
+          <!-- AI -->
+          <div class="rounded-xl border border-primary/20 bg-primary/10 p-5 text-center">
+            <p class="text-sm text-muted-foreground mb-2">{i.savings.ai.label}</p>
+            <p class="text-3xl font-bold text-primary">{i.savings.ai.time}</p>
+            <p class="text-xs text-muted-foreground mt-1">{i.savings.ai.detail}</p>
+          </div>
+        </div>
+        <div class="mt-6 text-center">
+          <p class="text-sm font-semibold text-foreground">
+            Oszczędność: <span class="text-primary">{i.savings.saving}</span>
+          </p>
+          <p class="text-xs text-muted-foreground mt-1">
+            {i.savings.scale}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

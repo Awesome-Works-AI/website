@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="AI Daily">
+  <rect width="64" height="64" rx="14" fill="#0F172A"/>
+  <rect x="14" y="16" width="36" height="32" rx="3" fill="none" stroke="#FBBF24" stroke-width="3"/>
+  <line x1="20" y1="24" x2="44" y2="24" stroke="#FBBF24" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="20" y1="30" x2="44" y2="30" stroke="#FBBF24" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="20" y1="36" x2="36" y2="36" stroke="#FBBF24" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="20" y1="42" x2="40" y2="42" stroke="#FBBF24" stroke-width="2.5" stroke-linecap="round"/>
+</svg>

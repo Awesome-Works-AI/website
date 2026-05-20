@@ -11,16 +11,22 @@ const { products } = getPersonalHome(locale);
 const [featuredProduct, ...supportingProducts] = products.items;
 
 const supportThemes = {
+  metyra: "border-blue-400/25 bg-blue-400/[0.05]",
   courseai: "border-sky-400/20 bg-sky-400/[0.05]",
   goose: "border-white/[0.12] bg-white/[0.03]",
   ask: "border-emerald-400/20 bg-emerald-400/[0.05]",
+  "ai-daily": "border-amber-400/20 bg-amber-400/[0.05]",
 } as const;
 
 const supportLogoTreatments = {
+  metyra: "absolute -right-6 -bottom-6 h-28 w-28 object-contain opacity-[0.16] sm:h-32 sm:w-32",
   courseai: "absolute -right-6 -bottom-6 h-28 w-28 object-contain opacity-[0.16] sm:h-32 sm:w-32",
   goose: "absolute -right-6 -bottom-6 h-28 w-28 object-contain opacity-[0.14] sm:h-32 sm:w-32",
   ask: "absolute -right-8 -bottom-8 h-32 w-32 object-contain opacity-[0.14] sm:h-36 sm:w-36",
+  "ai-daily": "absolute -right-6 -bottom-6 h-28 w-28 object-contain opacity-[0.16] sm:h-32 sm:w-32",
 } as const;
+
+const isExternalHref = (href: string) => /^https?:\/\//i.test(href);
 ---
 
 <section id="work" class="relative flex min-h-[100svh] items-center border-t border-white/[0.06] px-5 py-20 sm:px-6 sm:py-24 lg:px-8">
@@ -70,8 +76,8 @@ const supportLogoTreatments = {
           <div class="mt-auto pt-8">
             <a
               href={featuredProduct.href}
-              target="_blank"
-              rel="noopener noreferrer"
+              target={isExternalHref(featuredProduct.href) ? "_blank" : undefined}
+              rel={isExternalHref(featuredProduct.href) ? "noopener noreferrer" : undefined}
               class="inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-3 text-sm font-semibold text-background transition-opacity hover:opacity-90"
             >
               <span>{featuredProduct.cta}</span>
@@ -116,8 +122,8 @@ const supportLogoTreatments = {
               <div class="mt-auto pt-6">
                 <a
                   href={item.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  target={isExternalHref(item.href) ? "_blank" : undefined}
+                  rel={isExternalHref(item.href) ? "noopener noreferrer" : undefined}
                   class="inline-flex items-center gap-2 rounded-full bg-foreground px-5 py-2.5 text-sm font-semibold text-background transition-opacity hover:opacity-90"
                 >
                   <span>{item.cta}</span>

@@ -1,0 +1,82 @@
+---
+import { pl } from "../i18n/pl";
+const i = pl.features;
+
+const iconPaths: Record<string, string> = {
+  Scan:
+    "M3 7V5a2 2 0 012-2h2 M17 3h2a2 2 0 012 2v2 M21 17v2a2 2 0 01-2 2h-2 M7 21H5a2 2 0 01-2-2v-2 M8 12h8 M12 8v8",
+  FileCheck:
+    "M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z M14 2v6h6 M9 15l2 2 4-4",
+  Shield:
+    "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z",
+  Bell:
+    "M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9 M13.73 21a2 2 0 01-3.46 0",
+  Brain:
+    "M12 2a7 7 0 017 7c0 2.38-1.19 4.47-3 5.74V17a2 2 0 01-2 2h-4a2 2 0 01-2-2v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 017-7z M9 22h6 M9 18h6",
+  BarChart3:
+    "M12 20V10 M18 20V4 M6 20v-4",
+};
+---
+
+<section id="features" class="gradient-mesh py-20 sm:py-28">
+  <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+    <!-- Section header -->
+    <div class="mx-auto mb-16 max-w-2xl text-center animate-on-scroll">
+      <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">
+        {i.title}
+      </h2>
+      <p class="mt-4 text-lg text-muted-foreground leading-relaxed">
+        {i.subtitle}
+      </p>
+    </div>
+
+    <!-- Feature cards grid -->
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        i.items.map((item, idx) => (
+          <div
+            class="group animate-on-scroll rounded-xl border border-white/[0.06] bg-white/[0.03] p-6 sm:p-7 transition-all duration-200 hover:border-primary/20 hover:bg-white/[0.05]"
+            style={`transition-delay: ${idx * 80}ms`}
+          >
+            {/* Icon */}
+            <div class="mb-4 inline-flex rounded-xl border border-primary/20 bg-primary/10 p-2.5 text-primary">
+              <svg
+                class="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d={iconPaths[item.icon]} />
+              </svg>
+            </div>
+
+            {/* Badge */}
+            {item.badge && (
+              <span class:list={[
+                "mb-3 inline-block rounded-full px-3 py-0.5 text-xs font-semibold",
+                item.badge === "od Standard"
+                  ? "border border-amber-500/20 bg-amber-500/10 text-amber-400"
+                  : "border border-primary/20 bg-primary/10 text-primary"
+              ]}>
+                {item.badge}
+              </span>
+            )}
+
+            {/* Title */}
+            <h3 class="mb-2 text-lg font-semibold text-foreground">
+              {item.title}
+            </h3>
+
+            {/* Description */}
+            <p class="text-[0.925rem] leading-relaxed text-muted-foreground">
+              {item.description}
+            </p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
