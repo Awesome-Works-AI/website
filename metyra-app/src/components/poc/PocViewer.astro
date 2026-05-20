@@ -705,42 +705,27 @@ const I18N_FOR_JS = {
 
   /** Per-stream state — reset on each submit. */
   let renderedBlockCount = 0;
-  let renderedSectionIdx = -1;
 
+  /** Full re-render of the viewer body on each stream tick.
+   *
+   * Why not append? During SSE streaming a chunk can arrive with a
+   * partial block opener (e.g. `:::chart` before `:donut\n{...}\n:::`
+   * lands). An append-only strategy would emit the partial as markdown,
+   * then on the next tick add the proper block — but the stale partial
+   * stays in the DOM. Re-rendering everything from the canonical parsed
+   * model guarantees the visible state always matches the buffer. */
   function streamAppendBlocks(buffer: string) {
-    const view = ensureStreamContainer();
-    if (!view) return;
+    if (!viewerBody) return;
     const { blocks, sections } = parseRichMarkdown(buffer);
-    if (blocks.length <= renderedBlockCount) return;
+    if (blocks.length === 0 && renderedBlockCount === 0) return;
+    if (blocks.length === renderedBlockCount) return; // nothing new
 
-    // First block just arrived — collapse progress block into a thin strip
     if (renderedBlockCount === 0 && progressBlock) {
       progressBlock.setAttribute("data-compact", "");
     }
 
-    for (let i = renderedBlockCount; i < blocks.length; i++) {
-      const b = blocks[i];
-      // emit section header when section index advances
-      if (b.section >= 0 && b.section > renderedSectionIdx && sections[b.section]) {
-        const sec = sections[b.section];
-        const headerHtml = `<section data-section-anchor="${sec.index}" class="scroll-mt-44 poc-stream-in">
-          <h2 class="flex items-center gap-3 pt-2 text-2xl font-bold tracking-tight text-ink-900">
-            <span class="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-blue-600 to-green-600 text-sm font-bold text-white shadow">${sec.label}</span>
-            ${sec.title.replace(/&/g, "&amp;").replace(/</g, "&lt;")}
-          </h2>
-        </section>`;
-        view.insertAdjacentHTML("beforeend", headerHtml);
-        renderedSectionIdx = b.section;
-      }
-      // render block
-      const html = renderBlock(b, RENDER_LABELS);
-      if (html) {
-        const wrap = document.createElement("div");
-        wrap.className = "poc-stream-in";
-        wrap.innerHTML = html;
-        view.appendChild(wrap);
-      }
-    }
+    const { body } = renderViewerBody(blocks, sections, RENDER_LABELS);
+    viewerBody.innerHTML = `<div class="poc-view space-y-5" data-view="all">${body}</div>`;
     renderedBlockCount = blocks.length;
   }
 
@@ -804,7 +789,6 @@ const I18N_FOR_JS = {
     if (progressLabel) progressLabel.textContent = I18N.connecting;
 
     renderedBlockCount = 0;
-    renderedSectionIdx = -1;
 
     controller = new AbortController();
     setRunning(true);

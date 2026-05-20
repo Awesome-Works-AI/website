@@ -90,15 +90,26 @@ function parseH1(line: string): { label: string; title: string } | null {
   return null;
 }
 
-/** Lines that should NEVER make it into the markdown buffer — pure cruft. */
+/** Lines that should NEVER make it into the markdown buffer — pure cruft.
+ *
+ * Critical for streaming UX: when a chunk arrives mid-block (e.g. ` :::chart `
+ * before ` :donut\n{...}\n::: ` lands), the partial `:::xxx` line would
+ * otherwise be emitted as markdown text. By filtering it we guarantee the
+ * user only ever sees fully-parsed blocks. */
 function isCruftLine(line: string): boolean {
   const t = line.trim();
   if (!t) return false; // keep blank lines
-  if (t === ':::') return true;
+  // ANY line starting with `:::` — bare close, partial opener, unknown type
+  if (t.startsWith(':::')) return true;
   if (t === '```' || /^```\w*$/.test(t)) return true;
   if (t === '---' || t === '___' || t === '***') return true;
   if (t === '#' || /^#+\s*$/.test(t)) return true;
-  if (/^#\s+/.test(t) && !/^#\s+\d+\./.test(t)) return true; // unnumbered H1 = cruft
+  // H1 lines: only `# <num>. <title>` with non-empty title counts as a section.
+  // Anything else starting with `# ` (incl `# 1.` mid-stream before title arrives)
+  // is treated as cruft to avoid flashing partial headers.
+  if (/^#\s+/.test(t)) {
+    if (!/^#\s+\d+\.\s+\S/.test(t)) return true;
+  }
   return false;
 }
 
