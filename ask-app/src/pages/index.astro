@@ -1,0 +1,31 @@
+---
+import Base from "../layouts/Base.astro";
+import Nav from "../components/Nav.astro";
+import Hero from "../components/Hero.astro";
+import SocialProof from "../components/SocialProof.astro";
+import Features from "../components/Features.astro";
+import InvoiceDemo from "../components/InvoiceDemo.astro";
+import HowItWorks from "../components/HowItWorks.astro";
+import Comparison from "../components/Comparison.astro";
+import Pricing from "../components/Pricing.astro";
+import FAQ from "../components/FAQ.astro";
+import FinalCTA from "../components/FinalCTA.astro";
+import Footer from "../components/Footer.astro";
+import { pl } from "../i18n/pl";
+---
+
+<Base title={pl.meta.title} description={pl.meta.description}>
+  <Nav />
+  <main>
+    <Hero />
+    <SocialProof />
+    <Features />
+    <InvoiceDemo />
+    <HowItWorks />
+    <Comparison />
+    <Pricing />
+    <FAQ />
+    <FinalCTA />
+  </main>
+  <Footer />
+</Base>

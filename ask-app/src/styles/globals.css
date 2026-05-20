@@ -1,0 +1,143 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ═══════════════════════════════════════════════════════════
+   AwesomeWorks Ask — Landing Page Design System
+   Brand: Blue 210° 70% 50%  |  Dark-mode-first  |  Glassmorphism
+   ═══════════════════════════════════════════════════════════ */
+
+@layer base {
+  :root {
+    --primary: 210 70% 60%;
+    --primary-foreground: 210 20% 98%;
+    --ring: 210 70% 60%;
+
+    --background: 220 20% 6%;
+    --foreground: 210 20% 95%;
+
+    --muted: 220 12% 14%;
+    --muted-foreground: 220 10% 55%;
+
+    --accent: 220 30% 14%;
+    --accent-foreground: 210 20% 95%;
+
+    --border: 220 12% 16%;
+  }
+}
+
+/* ── Glass Utilities ── */
+
+@layer components {
+  .glass {
+    @apply border border-white/[0.06] bg-white/[0.04] shadow-lg shadow-black/20 backdrop-blur-xl;
+  }
+
+  .glass-subtle {
+    @apply border border-white/[0.04] bg-white/[0.02] backdrop-blur-md;
+  }
+
+  .glass-card {
+    @apply border border-white/[0.06] bg-white/[0.03] backdrop-blur-xl rounded-xl;
+  }
+}
+
+/* ── Glow Effects ── */
+
+@layer utilities {
+  .glow-sm {
+    box-shadow:
+      0 0 15px -3px hsl(210 70% 60% / 0.15),
+      0 0 6px -4px hsl(210 70% 60% / 0.1);
+  }
+
+  .glow-primary {
+    box-shadow:
+      0 0 20px -5px hsl(210 70% 60% / 0.3),
+      0 4px 6px -4px hsl(210 70% 60% / 0.1);
+  }
+}
+
+/* ── Gradient Mesh ── */
+
+@layer utilities {
+  .gradient-mesh {
+    background-image:
+      radial-gradient(at 20% 20%, hsl(210 70% 50% / 0.08) 0px, transparent 60%),
+      radial-gradient(at 80% 40%, hsl(230 55% 55% / 0.06) 0px, transparent 60%),
+      radial-gradient(at 50% 90%, hsl(190 50% 50% / 0.05) 0px, transparent 60%);
+  }
+
+  .gradient-mesh-strong {
+    background-image:
+      radial-gradient(at 20% 20%, hsl(210 70% 50% / 0.15) 0px, transparent 50%),
+      radial-gradient(at 80% 30%, hsl(230 55% 55% / 0.12) 0px, transparent 50%),
+      radial-gradient(at 40% 80%, hsl(190 50% 50% / 0.08) 0px, transparent 50%);
+  }
+}
+
+/* ── Text Gradient ── */
+
+@layer utilities {
+  .text-gradient {
+    background-image: linear-gradient(
+      135deg,
+      hsl(210 70% 65%),
+      hsl(230 65% 70%),
+      hsl(250 60% 65%)
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
+
+/* ── Scroll Animation ── */
+
+@layer utilities {
+  .animate-on-scroll {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+
+  .animate-on-scroll.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Base Resets ── */
+
+@layer base {
+  * {
+    border-color: hsl(var(--border));
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+}
+
+/* ── Scrollbar Styling ── */
+
+@layer base {
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: hsl(220 12% 20%);
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(220 12% 28%);
+  }
+}

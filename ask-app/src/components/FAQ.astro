@@ -1,0 +1,49 @@
+---
+import { pl } from "../i18n/pl";
+const i = pl.faq;
+---
+
+<section id="faq" class="border-y border-white/[0.06] bg-white/[0.01] py-20 sm:py-28">
+  <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
+    <!-- Section header -->
+    <div class="mb-12 text-center animate-on-scroll">
+      <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">
+        {i.title}
+      </h2>
+    </div>
+
+    <!-- FAQ items -->
+    <div class="space-y-3">
+      {
+        i.items.map((item, idx) => (
+          <details
+            class="group animate-on-scroll rounded-xl border border-white/[0.06] bg-white/[0.03] transition-all duration-200 hover:border-primary/20 hover:bg-white/[0.05]"
+            style={`transition-delay: ${idx * 60}ms`}
+          >
+            <summary class="flex cursor-pointer items-center justify-between px-6 py-5 text-foreground [&::-webkit-details-marker]:hidden">
+              <span class="pr-4 font-semibold">{item.q}</span>
+              <svg
+                class="h-5 w-5 shrink-0 text-muted-foreground transition-transform duration-200 group-open:rotate-45"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M12 6v12m6-6H6"
+                />
+              </svg>
+            </summary>
+            <div class="px-6 pb-5">
+              <p class="text-[0.925rem] leading-relaxed text-muted-foreground">
+                {item.a}
+              </p>
+            </div>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>

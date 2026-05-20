@@ -1,0 +1,165 @@
+---
+import Base from "../layouts/Base.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+import { withBase } from "../utils/url";
+---
+
+<Base
+  title="Regulamin — AwesomeWorks Ask"
+  description="Regulamin korzystania z platformy AwesomeWorks Ask — asystent wiedzy dla biur rachunkowych."
+>
+  <Nav />
+  <main class="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
+    <article class="prose prose-invert prose-sm max-w-none">
+      <h1 class="text-3xl font-bold tracking-tight text-foreground">
+        Regulamin
+      </h1>
+      <p class="text-sm text-muted-foreground">
+        Ostatnia aktualizacja: 17 lutego 2026 r.
+      </p>
+
+      <hr class="border-white/[0.06] my-8" />
+
+      <h2>1. Definicje</h2>
+      <ul>
+        <li><strong>Usługodawca</strong> — AwesomeWorks sp. z o.o. z siedzibą w Warszawie</li>
+        <li><strong>Platforma</strong> — aplikacja internetowa AwesomeWorks Ask dostępna pod adresem ask.awesomeworks.ai</li>
+        <li><strong>Użytkownik</strong> — osoba fizyczna korzystająca z Platformy w imieniu Biura rachunkowego lub Klienta biura</li>
+        <li><strong>Biuro rachunkowe</strong> — podmiot gospodarczy będący stroną umowy z Usługodawcą (tenant)</li>
+        <li><strong>Klient biura</strong> — firma obsługiwana przez Biuro rachunkowe, korzystająca z Platformy w zakresie udostępnionym przez Biuro</li>
+        <li><strong>Usługa</strong> — asystent wiedzy umożliwiający wyszukiwanie informacji w dokumentach, weryfikację faktur i komunikację z klientami biura</li>
+      </ul>
+
+      <h2>2. Postanowienia ogólne</h2>
+      <ol>
+        <li>Niniejszy regulamin określa zasady korzystania z Platformy AwesomeWorks Ask.</li>
+        <li>Korzystanie z Platformy oznacza akceptację niniejszego regulaminu oraz <a href={withBase("/privacy")} class="text-primary hover:underline">Polityki prywatności</a>.</li>
+        <li>Platforma jest przeznaczona wyłącznie dla podmiotów prowadzących działalność gospodarczą (B2B).</li>
+      </ol>
+
+      <h2>3. Rejestracja i konto</h2>
+      <ol>
+        <li>Dostęp do Platformy wymaga rejestracji i utworzenia konta.</li>
+        <li>Użytkownik zobowiązuje się do podania prawdziwych danych.</li>
+        <li>Użytkownik jest odpowiedzialny za bezpieczeństwo swoich danych logowania.</li>
+        <li>Konta użytkowników w ramach Biura rachunkowego tworzy i zarządza nimi administrator Biura.</li>
+        <li>Konta klientów biura mają ograniczony dostęp, ustalony przez administratora Biura.</li>
+      </ol>
+
+      <h2>4. Zakres usługi</h2>
+      <p>Platforma oferuje następujące funkcje:</p>
+      <ol>
+        <li><strong>Asystent wiedzy (Ask Internal)</strong> — wyszukiwanie odpowiedzi w dokumentach wewnętrznych biura rachunkowego na podstawie wgranych plików.</li>
+        <li><strong>Chatbot dla klientów</strong> — automatyczna obsługa pytań klientów biura w zakresie ich spraw księgowych.</li>
+        <li><strong>Weryfikacja faktur (Invoice Judge)</strong> — automatyczna analiza faktur kosztowych pod kątem poprawności, duplikatów i klasyfikacji.</li>
+        <li><strong>Panel administracyjny</strong> — zarządzanie dokumentami, użytkownikami i klientami biura.</li>
+      </ol>
+
+      <h2>5. Wykorzystanie sztucznej inteligencji</h2>
+      <ol>
+        <li>
+          Platforma wykorzystuje modele sztucznej inteligencji (AI) do generowania odpowiedzi,
+          analizy dokumentów i weryfikacji faktur.
+        </li>
+        <li>
+          <strong>Odpowiedzi generowane przez AI mają charakter informacyjny i pomocniczy.</strong>
+          Nie stanowią porady księgowej, podatkowej ani prawnej.
+        </li>
+        <li>
+          AI może popełniać błędy. Użytkownik jest odpowiedzialny za weryfikację każdej odpowiedzi
+          przed podjęciem decyzji biznesowych.
+        </li>
+        <li>
+          Dane przesyłane do modeli AI (OpenAI) nie są wykorzystywane do trenowania modeli.
+          Szczegóły przetwarzania danych opisane są w <a href={withBase("/privacy")} class="text-primary hover:underline">Polityce prywatności</a>.
+        </li>
+      </ol>
+
+      <h2>6. Dane i dokumenty</h2>
+      <ol>
+        <li>Biuro rachunkowe pozostaje właścicielem wszystkich danych i dokumentów wgranych do Platformy.</li>
+        <li>Usługodawca przetwarza dane wyłącznie w celu świadczenia Usługi, na podstawie umowy powierzenia przetwarzania danych.</li>
+        <li>Dane każdego Biura rachunkowego są logicznie oddzielone od danych innych Biur (architektura multi-tenant).</li>
+        <li>Po rozwiązaniu umowy Usługodawca usunie dane Biura w ciągu 30 dni, chyba że przepisy prawa wymagają ich dłuższego przechowywania.</li>
+      </ol>
+
+      <h2>7. Odpowiedzialność</h2>
+      <ol>
+        <li>
+          Usługodawca dokłada wszelkich starań, aby Platforma działała poprawnie i nieprzerwanie,
+          jednak <strong>nie gwarantuje 100% dostępności</strong>.
+        </li>
+        <li>
+          Usługodawca nie ponosi odpowiedzialności za:
+          <ul>
+            <li>Decyzje biznesowe podjęte na podstawie odpowiedzi AI</li>
+            <li>Błędy w klasyfikacji faktur lub dekretacji, które nie zostały zweryfikowane przez księgowego</li>
+            <li>Przerwy w działaniu wynikające z przyczyn niezależnych (awarie dostawców, siła wyższa)</li>
+            <li>Treść dokumentów wgranych przez Użytkownika</li>
+          </ul>
+        </li>
+        <li>
+          Odpowiedzialność Usługodawcy jest ograniczona do wysokości opłat uiszczonych przez Biuro
+          rachunkowe w okresie 12 miesięcy poprzedzających zdarzenie.
+        </li>
+      </ol>
+
+      <h2>8. Zobowiązania Użytkownika</h2>
+      <p>Użytkownik zobowiązuje się do:</p>
+      <ul>
+        <li>Korzystania z Platformy zgodnie z jej przeznaczeniem</li>
+        <li>Niewgrywania treści niezgodnych z prawem</li>
+        <li>Nieudostępniania danych logowania osobom trzecim</li>
+        <li>Posiadania odpowiednich uprawnień do przetwarzania danych wgrywanych do Platformy</li>
+        <li>Weryfikacji odpowiedzi AI przed podjęciem decyzji</li>
+      </ul>
+
+      <h2>9. Plany i płatności</h2>
+      <ol>
+        <li>Platforma oferuje plany subskrypcyjne opisane na stronie <a href={`${withBase("/")}#pricing`} class="text-primary hover:underline">Cennik</a>.</li>
+        <li>Okres rozliczeniowy wynosi 1 miesiąc.</li>
+        <li>Usługodawca zastrzega sobie prawo do zmiany cennika z 30-dniowym wyprzedzeniem.</li>
+        <li>W okresie Early Access korzystanie z Platformy jest bezpłatne.</li>
+      </ol>
+
+      <h2>10. Rozwiązanie umowy</h2>
+      <ol>
+        <li>Biuro rachunkowe może rozwiązać umowę w dowolnym momencie z zachowaniem 30-dniowego okresu wypowiedzenia.</li>
+        <li>Usługodawca może rozwiązać umowę ze skutkiem natychmiastowym w przypadku rażącego naruszenia regulaminu.</li>
+        <li>Po rozwiązaniu umowy Użytkownik może pobrać swoje dane w ciągu 30 dni.</li>
+      </ol>
+
+      <h2>11. Własność intelektualna</h2>
+      <ol>
+        <li>Platforma, jej kod źródłowy, interfejs i dokumentacja stanowią własność Usługodawcy.</li>
+        <li>Użytkownik otrzymuje niewyłączną licencję na korzystanie z Platformy na czas trwania umowy.</li>
+        <li>Dane i dokumenty wgrane przez Użytkownika pozostają jego własnością.</li>
+      </ol>
+
+      <h2>12. Zmiany regulaminu</h2>
+      <ol>
+        <li>Usługodawca zastrzega sobie prawo do zmiany regulaminu.</li>
+        <li>O zmianach Użytkownik zostanie poinformowany z 14-dniowym wyprzedzeniem drogą mailową.</li>
+        <li>Dalsze korzystanie z Platformy po wejściu zmian w życie oznacza ich akceptację.</li>
+      </ol>
+
+      <h2>13. Postanowienia końcowe</h2>
+      <ol>
+        <li>Regulamin podlega prawu polskiemu.</li>
+        <li>Wszelkie spory będą rozstrzygane przez sąd właściwy dla siedziby Usługodawcy.</li>
+        <li>W sprawach nieuregulowanych niniejszym regulaminem mają zastosowanie przepisy prawa polskiego, w tym Kodeks cywilny i RODO.</li>
+      </ol>
+
+      <hr class="border-white/[0.06] my-8" />
+
+      <p class="text-sm text-muted-foreground">
+        Pytania dotyczące regulaminu? Napisz do nas:
+        <a href="mailto:hello@awesomeworks.ai" class="text-primary hover:underline">
+          hello@awesomeworks.ai
+        </a>
+      </p>
+    </article>
+  </main>
+  <Footer />
+</Base>

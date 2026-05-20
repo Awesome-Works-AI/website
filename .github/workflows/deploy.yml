@@ -53,6 +53,20 @@ jobs:
                   mkdir -p dist/metyra
                   cp -r metyra-app/dist/* dist/metyra/
 
+            # ─── Sub-app: Ask landing (awesomeworks.ai/ask/) ───
+            - name: Install ask-app deps
+              working-directory: ask-app
+              run: npm install
+
+            - name: Build ask-app
+              working-directory: ask-app
+              run: npm run build
+
+            - name: Merge ask-app dist into root dist
+              run: |
+                  mkdir -p dist/ask
+                  cp -r ask-app/dist/* dist/ask/
+
             - name: Setup Pages
               uses: actions/configure-pages@v4
 
