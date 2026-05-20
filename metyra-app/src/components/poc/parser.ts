@@ -350,6 +350,36 @@ function mergeAdjacentMetricCards(text: string): string {
   return out;
 }
 
+/**
+ * Detect standalone JSON paragraphs (formatter emitted `{...}` without any
+ * `:::TYPE` wrapper) and convert them into proper blocks via inferBlockFromJson.
+ * Walks paragraphs (split by blank line), tries JSON.parse on each, and
+ * substitutes the recognised block.
+ */
+function convertStandaloneJsonParagraphs(text: string): string {
+  const paragraphs = text.split(/\n\s*\n/);
+  const out: string[] = [];
+  for (const p of paragraphs) {
+    const trimmed = p.trim();
+    if (!trimmed.startsWith('{') || !trimmed.endsWith('}')) {
+      out.push(p);
+      continue;
+    }
+    try {
+      const parsed = JSON.parse(trimmed);
+      const inferred = inferBlockFromJson(parsed);
+      if (inferred) {
+        out.push(inferred);
+        continue;
+      }
+    } catch {
+      // not parseable JSON — keep as-is
+    }
+    out.push(p);
+  }
+  return out.join('\n\n');
+}
+
 export function normalizeMarkup(text: string): string {
   // Two passes — :::-closer first (most common), then ```-closer.
   // Two separate passes avoid the alternation pitfall where ```json...```json
@@ -373,6 +403,8 @@ export function normalizeMarkup(text: string): string {
       return '';
     });
   }
+  // Catch standalone JSON paragraphs (formatter forgot the :::TYPE marker)
+  out = convertStandaloneJsonParagraphs(out);
   // Convert leftover raw markdown tables into data-table blocks
   out = convertMarkdownTables(out);
   // Merge consecutive metric-cards (P25/P50/P75 should be one block, not three)
