@@ -23,12 +23,12 @@ export const ui = {
     'banner.founding.link': 'Zgłoś wdrożenie',
 
     // Hero
-    'hero.h1': 'AI asystent CFO dla mid-marketu.',
-    'hero.subhead': 'Wdrażamy AI agenta na Twoich danych finansowych. Pierwszy raport w 14 dni.',
-    'hero.cta_primary': 'Uzyskaj wgląd w finanse',
+    'hero.h1': 'AI brief dla zarządu. Dla mid-marketu.',
+    'hero.subhead': 'Wdrażamy AI agenta na danych Twojej firmy. CEO, CFO i COO dostają ten sam decyzyjny brief — pierwszy w 14 dni.',
+    'hero.cta_primary': 'Brief dla zarządu w 14 dni',
     'hero.cta_secondary': 'Zobacz jak działa',
     'hero.cta_subscript': '30-min konsultacja, bez sprzedaży',
-    'hero.eyebrow': 'Firmy 50-500 osób',
+    'hero.eyebrow': 'Dla zarządów · 50-500 osób',
 
     // Roadmap
     'roadmap.eyebrow': '14 dni · proces wdrożenia',
@@ -74,14 +74,14 @@ export const ui = {
 
     'product.boardpack.tag': 'Moduł 1',
     'product.boardpack.title': 'Board Pack Generator',
-    'product.boardpack.body': 'Auto-generowany pakiet zarządczy z Twojego ERP. 5 dni → 4 godziny.',
-    'product.boardpack.b1': 'Standardowy raport zarządczy',
+    'product.boardpack.body': 'Pakiet dla zarządu auto-generowany z Twoich danych. 5 dni → 4 godziny. CEO, CFO i COO dostają ten sam komplet.',
+    'product.boardpack.b1': 'Brief decyzyjny zarządu',
     'product.boardpack.b2': 'Wykresy, tabele, komentarze do KPI',
     'product.boardpack.b3': 'PDF, PPT lub Twój template',
 
     'product.qa.tag': 'Moduł 2',
     'product.qa.title': 'Cash & Vendor Q&A',
-    'product.qa.body': 'Chat na Twoich danych finansowych. Każda odpowiedź z cytatem.',
+    'product.qa.body': 'Pytania CEO bez czekania na zespół. Chat na Twoich danych — każda odpowiedź z cytatem.',
     'product.qa.b1': 'Faktury, umowy, transakcje',
     'product.qa.b2': 'Cytowane źródło przy każdej liczbie',
     'product.qa.b3': 'Lokalna księgowość first',
@@ -110,24 +110,24 @@ export const ui = {
     'mock.ksef.row3_label': 'Termin VAT',
     'mock.ksef.row3_value': 'za 4 dni',
 
-    // Stats — exec team outcomes (CFO + COO)
+    // Stats — exec board outcomes (CEO + CFO + COO)
     'stats.heading': 'Czego zarząd nie miał wczoraj, dostaje za 14 dni',
     'stats.s1.value': '5 → 1',
     'stats.s1.label': 'dni od close do decyzji zarządu',
     'stats.s2.value': '1×',
-    'stats.s2.label': 'źródło prawdy zamiast 4 wersji Excela',
+    'stats.s2.label': 'wspólna prawda CEO, CFO i COO — koniec z 4 wersjami Excela',
     'stats.s3.value': '40h → 4h',
-    'stats.s3.label': 'miesięcznego raportowania zespołu',
+    'stats.s3.label': 'czasu zespołu na miesięczny brief zarządu',
 
     // ICP
     'icp.heading': 'Dla kogo',
-    'icp.kicker': 'Zarząd firmy, który ma dość Excela jako "jedynej prawdy".',
+    'icp.kicker': 'Zarządy, które chcą podejmować decyzje na jednej wersji prawdy — nie na czterech wersjach Excela.',
     'icp.c1.title': 'Wielkość',
     'icp.c1.body': '50-500 osób.',
     'icp.c2.title': 'Stack',
     'icp.c2.body': 'Twój ERP + księgowość.',
     'icp.c3.title': 'Persona',
-    'icp.c3.body': 'CFO, COO, Controller.',
+    'icp.c3.body': 'CEO, CFO, COO. Cały zarząd.',
     'icp.c4.title': 'Branża',
     'icp.c4.body': 'Manufacturing, services, retail, real estate, IT.',
 
@@ -166,7 +166,7 @@ export const ui = {
     'faq.q5.q': 'Ile to kosztuje?',
     'faq.q5.a': '3-4 tys. USD w zależności od zakresu (1-3 moduły) i stanu Twoich danych. Pracujemy aż przyspieszymy Twoją pracę na tyle, że inwestycja Ci się zwraca.',
     'faq.q6.q': 'Kiedy startujecie?',
-    'faq.q6.a': 'Walidacja z CFO/COO. Pierwsze wdrożenia w Q2 2026.',
+    'faq.q6.a': 'Walidacja z zarządami mid-marketu. Pierwsze wdrożenia w Q2 2026.',
 
     // Trust marquee: logos-only, no copy
 
@@ -236,7 +236,7 @@ export const ui = {
     'footer.company.privacy': 'Prywatność',
     'footer.legal': 'AwesomeWorks · Rafał Łazicki',
     'footer.copyright': '© 2026 Metyra',
-    'footer.tagline': 'AI asystent CFO dla firm 50-500 osób.',
+    'footer.tagline': 'AI brief dla zarządu. Firmy 50-500 osób.',
   },
   en: {
     'nav.product': 'Solution',
@@ -249,12 +249,12 @@ export const ui = {
     'banner.founding.text': 'First 5 companies. 50% off the implementation.',
     'banner.founding.link': 'Apply for implementation',
 
-    'hero.h1': 'AI CFO assistant for the mid-market.',
-    'hero.subhead': 'We implement an AI agent on your finance data. First report in 14 days.',
-    'hero.cta_primary': 'Get financial insight',
+    'hero.h1': 'An AI brief for your exec board. Built for the mid-market.',
+    'hero.subhead': 'We deploy an AI agent on your company data. CEO, CFO and COO get the same decision-ready brief — first one in 14 days.',
+    'hero.cta_primary': 'Brief your board in 14 days',
     'hero.cta_secondary': 'See how it works',
     'hero.cta_subscript': '30-min consultation, no sales pitch',
-    'hero.eyebrow': 'Companies 50-500 people',
+    'hero.eyebrow': 'Exec teams · 50-500 person companies',
 
     'roadmap.eyebrow': '14 days · implementation process',
     'roadmap.heading': 'Your 14-day implementation',
@@ -297,14 +297,14 @@ export const ui = {
 
     'product.boardpack.tag': 'Module 1',
     'product.boardpack.title': 'Board Pack Generator',
-    'product.boardpack.body': 'Auto-generated monthly pack from your ERP. 5 days → 4 hours.',
-    'product.boardpack.b1': 'Standard management report',
+    'product.boardpack.body': 'Board-ready pack auto-generated from your data. 5 days → 4 hours. CEO, CFO and COO read the same thing.',
+    'product.boardpack.b1': 'Decision-ready board brief',
     'product.boardpack.b2': 'Charts, tables, KPI commentary',
     'product.boardpack.b3': 'PDF, PPT, or your template',
 
     'product.qa.tag': 'Module 2',
     'product.qa.title': 'Cash & Vendor Q&A',
-    'product.qa.body': 'Chat on your finance data. Every answer cites a source.',
+    'product.qa.body': "CEO questions answered without waiting for the team. Chat on your data — every answer cites a source.",
     'product.qa.b1': 'Invoices, contracts, transactions',
     'product.qa.b2': 'Source cited on every number',
     'product.qa.b3': 'Local accounting first',
@@ -332,22 +332,22 @@ export const ui = {
     'mock.ksef.row3_label': 'VAT deadline',
     'mock.ksef.row3_value': 'in 4 days',
 
-    'stats.heading': "What your leadership team didn't have yesterday, gets in 14 days",
+    'stats.heading': "What your board didn't have yesterday, lands in 14 days",
     'stats.s1.value': '5 → 1',
-    'stats.s1.label': 'days from close to a leadership decision',
+    'stats.s1.label': 'days from close to a board decision',
     'stats.s2.value': '1×',
-    'stats.s2.label': 'source of truth instead of 4 Excels',
+    'stats.s2.label': 'shared truth across CEO, CFO and COO — no more 4 Excels',
     'stats.s3.value': '40h → 4h',
-    'stats.s3.label': 'monthly reporting per team',
+    'stats.s3.label': 'team time spent on each monthly board brief',
 
     'icp.heading': 'Who we build for',
-    'icp.kicker': 'Leadership teams done with Excel as the "single truth".',
+    'icp.kicker': 'Exec boards that want to decide on one version of the truth — not four versions of Excel.',
     'icp.c1.title': 'Size',
     'icp.c1.body': '50-500 people.',
     'icp.c2.title': 'Stack',
     'icp.c2.body': 'Your ERP + accounting.',
     'icp.c3.title': 'Persona',
-    'icp.c3.body': 'CFO, COO, Controller.',
+    'icp.c3.body': 'CEO, CFO, COO. The whole exec team.',
     'icp.c4.title': 'Industry',
     'icp.c4.body': 'Manufacturing, services, retail, real estate, IT.',
 
@@ -383,7 +383,7 @@ export const ui = {
     'faq.q5.q': 'How much does it cost?',
     'faq.q5.a': 'USD 3-4k depending on scope (1-3 modules) and the state of your data. We work until we accelerate your team enough that the investment pays for itself.',
     'faq.q6.q': 'When do you launch?',
-    'faq.q6.a': 'Validating with CFO/COO. First implementations go live in Q2 2026.',
+    'faq.q6.a': 'Validating with mid-market exec boards. First implementations go live in Q2 2026.',
 
 
     'final.heading': 'Your first implementation in 14 days.',
@@ -450,7 +450,7 @@ export const ui = {
     'footer.company.privacy': 'Privacy',
     'footer.legal': 'AwesomeWorks · Rafał Łazicki',
     'footer.copyright': '© 2026 Metyra',
-    'footer.tagline': 'AI CFO assistant for companies 50-500 people.',
+    'footer.tagline': 'AI brief for your exec board. Companies 50-500 people.',
   },
 } as const;
 
