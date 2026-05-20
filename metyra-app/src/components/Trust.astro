@@ -8,14 +8,18 @@ interface Logo {
   extra?: string;
 }
 
+/* Prefix `/logos/...` with Astro's configured base path so assets resolve under
+   `awesomeworks.ai/metyra/` in production instead of 404ing at the site root. */
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+
 const logos: Logo[] = [
-  { name: "Deloitte",       src: "/logos/deloitte.svg",      h: "h-6 md:h-7"  },
-  { name: "PwC",            src: "/logos/pwc.png",           h: "h-10 md:h-12" },
-  { name: "Odoo",           src: "/logos/odoo.svg",          h: "h-11 md:h-13" },
-  { name: "Gemius",         src: "/logos/gemius.svg",        h: "h-5 md:h-6"  },
-  { name: "Gorąco Polecam", src: "/logos/goracopolecam.svg", h: "h-10 md:h-12" },
-  { name: "Thirty3",        src: "/logos/thirty3.webp",      h: "h-9 md:h-11", extra: "logo-darken" },
-  { name: "SDA",            src: "/logos/sda.svg",           h: "h-8 md:h-9"  },
+  { name: "Deloitte",       src: `${base}/logos/deloitte.svg`,      h: "h-6 md:h-7"  },
+  { name: "PwC",            src: `${base}/logos/pwc.png`,           h: "h-10 md:h-12" },
+  { name: "Odoo",           src: `${base}/logos/odoo.svg`,          h: "h-11 md:h-13" },
+  { name: "Gemius",         src: `${base}/logos/gemius.svg`,        h: "h-5 md:h-6"  },
+  { name: "Gorąco Polecam", src: `${base}/logos/goracopolecam.svg`, h: "h-10 md:h-12" },
+  { name: "Thirty3",        src: `${base}/logos/thirty3.webp`,      h: "h-9 md:h-11", extra: "logo-darken" },
+  { name: "SDA",            src: `${base}/logos/sda.svg`,           h: "h-8 md:h-9"  },
 ];
 
 /* Render the list twice for a seamless infinite scroll. */
