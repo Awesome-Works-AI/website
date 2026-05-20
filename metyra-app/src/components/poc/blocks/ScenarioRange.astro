@@ -1,0 +1,31 @@
+---
+interface Scenario { name: string; value: string; color?: "red" | "blue" | "green"; description?: string; }
+interface Props {
+  data: { title?: string; unit?: string; scenarios?: Scenario[] } | null;
+}
+const { data } = Astro.props;
+const scenarios = data?.scenarios ?? [];
+if (scenarios.length === 0) return null;
+
+const ACCENT: Record<string, string> = {
+  red: "border-l-red-500",
+  blue: "border-l-blue-600",
+  green: "border-l-green-600",
+};
+---
+
+<div class="rounded-2xl border border-ink-200 bg-white p-5 shadow-sm">
+  {data?.title && <div class="mb-3 text-sm font-semibold text-ink-900">{data.title}</div>}
+  <div class="grid gap-3 sm:grid-cols-3">
+    {scenarios.map((s) => (
+      <div class={`rounded-xl border border-ink-200 ${ACCENT[s.color ?? "blue"]} border-l-4 bg-ink-50/60 p-4`}>
+        <div class="text-[10px] font-semibold uppercase tracking-wider text-ink-500">{s.name}</div>
+        <div class="mt-1.5 flex items-baseline gap-1.5">
+          <span class="text-2xl font-bold text-ink-900">{s.value}</span>
+          {data?.unit && <span class="text-xs font-medium text-ink-500">{data.unit}</span>}
+        </div>
+        {s.description && <div class="mt-2 text-xs text-ink-600">{s.description}</div>}
+      </div>
+    ))}
+  </div>
+</div>

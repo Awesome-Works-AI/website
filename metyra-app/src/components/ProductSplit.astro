@@ -1,0 +1,104 @@
+---
+import { getLangFromUrl, useTranslations } from "~/i18n/utils";
+import type { UiKey } from "~/i18n/ui";
+import Kicker from "~/components/Kicker.astro";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+interface Props {
+  tag: UiKey;
+  title: UiKey;
+  body: UiKey;
+  bullets: [UiKey, UiKey, UiKey];
+  reverse?: boolean;
+  visual: "boardpack" | "qa" | "ksef";
+}
+
+const { tag, title, body, bullets, reverse = false, visual } = Astro.props;
+---
+
+<div class={`grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-20 ${reverse ? "lg:[&>*:first-child]:order-2" : ""}`}>
+  <div>
+    <Kicker text={t(tag)} variant="compact" tone="blue" />
+    <h3 class="mt-5 text-3xl font-bold tracking-tight text-ink-900 md:text-4xl">{t(title)}</h3>
+    <p class="mt-4 text-lg text-ink-600">{t(body)}</p>
+
+    <ul class="mt-7 space-y-3">
+      {
+        bullets.map((b) => (
+          <li class="flex items-start gap-3 text-ink-800">
+            <svg
+              class="mt-1 h-4 w-4 flex-none text-green-600"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="3"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polyline points="20 6 9 17 4 12" />
+            </svg>
+            <span>{t(b)}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+
+  {/* Visual mock — sits directly on section bg. No glow, no frame, no spray. */}
+  <div class="relative aspect-[5/4] flex items-center justify-center px-2">
+    {
+      visual === "boardpack" && (
+        <div class="w-full max-w-sm space-y-3">
+          <div class="flex items-center justify-between border-b border-ink-200/70 pb-2">
+            <div class="text-xs font-mono text-ink-500">{t("mock.boardpack.file")}</div>
+            <div class="h-2 w-2 rounded-full bg-green-500" />
+          </div>
+          <div class="text-xs uppercase tracking-wider text-ink-500">{t("mock.boardpack.metric_label")}</div>
+          <div class="text-4xl font-black tracking-tight text-green-600">{t("mock.boardpack.metric_value")}</div>
+          <div class="mt-4 grid grid-cols-3 gap-2 items-end">
+            <div class="h-12 rounded-md bg-green-200" />
+            <div class="h-16 rounded-md bg-green-400" />
+            <div class="h-20 rounded-md bg-green-600" />
+          </div>
+          <div class="pt-3 text-xs text-ink-500">{t("mock.boardpack.footer")}</div>
+        </div>
+      )
+    }
+    {
+      visual === "qa" && (
+        <div class="w-full max-w-sm space-y-3">
+          <div class="ml-auto inline-block max-w-[80%] rounded-2xl rounded-br-sm bg-ink-100 px-4 py-2.5 text-sm text-ink-700">
+            {t("mock.qa.question")}
+          </div>
+          <div class="mr-auto inline-block max-w-[90%] rounded-2xl rounded-bl-sm border border-blue-200 bg-white px-4 py-3 text-sm text-ink-900">
+            <div>{t("mock.qa.answer_lead")}</div>
+            <div class="mt-1.5 text-2xl font-black tracking-tight text-blue-700">{t("mock.qa.answer_value")}</div>
+            <div class="mt-2 text-xs text-ink-500">{t("mock.qa.source")}</div>
+          </div>
+        </div>
+      )
+    }
+    {
+      visual === "ksef" && (
+        <div class="w-full max-w-sm space-y-2.5">
+          <div class="text-xs font-mono uppercase tracking-wider text-ink-500">{t("mock.ksef.header")}</div>
+          <div class="flex items-center justify-between gap-3 border-b border-green-300/50 py-2 text-sm">
+            <span class="text-ink-800">{t("mock.ksef.row1_label")}</span>
+            <span class="font-semibold text-green-700">{t("mock.ksef.row1_status")}</span>
+          </div>
+          <div class="flex items-center justify-between gap-3 border-b border-orange-300/60 py-2 text-sm">
+            <span class="text-ink-800">{t("mock.ksef.row2_label")}</span>
+            <span class="font-semibold text-orange-600">{t("mock.ksef.row2_status")}</span>
+          </div>
+          <div class="flex items-center justify-between gap-3 border-b border-ink-200/70 py-2 text-sm">
+            <span class="text-ink-600">{t("mock.ksef.row3_label")}</span>
+            <span class="text-ink-700">{t("mock.ksef.row3_value")}</span>
+          </div>
+        </div>
+      )
+    }
+  </div>
+</div>

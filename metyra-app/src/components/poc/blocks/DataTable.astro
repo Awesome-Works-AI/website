@@ -1,0 +1,42 @@
+---
+interface Col { key: string; label: string; align?: "left" | "right"; }
+interface Props {
+  data: {
+    title?: string;
+    columns?: Col[];
+    rows?: Array<Record<string, any>>;
+  } | null;
+}
+const { data } = Astro.props;
+const cols = data?.columns ?? [];
+const rows = data?.rows ?? [];
+if (cols.length === 0 || rows.length === 0) return null;
+---
+
+<div class="rounded-2xl border border-ink-200 bg-white p-5 shadow-sm">
+  {data?.title && <div class="mb-3 text-sm font-semibold text-ink-900">{data.title}</div>}
+  <div class="overflow-x-auto">
+    <table class="w-full border-collapse text-sm">
+      <thead>
+        <tr class="border-b border-ink-200">
+          {cols.map((c) => (
+            <th class={`px-3 py-2 text-[11px] font-semibold uppercase tracking-wider text-ink-500 ${c.align === "right" ? "text-right" : "text-left"}`}>
+              {c.label}
+            </th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map((row) => (
+          <tr class="border-b border-ink-100 last:border-b-0 hover:bg-ink-50/60 transition">
+            {cols.map((c) => (
+              <td class={`px-3 py-2 text-ink-800 ${c.align === "right" ? "text-right tabular-nums" : ""}`}>
+                {row[c.key] ?? "—"}
+              </td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</div>

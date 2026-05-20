@@ -1,0 +1,93 @@
+---
+import { getLangFromUrl, useTranslations } from "~/i18n/utils";
+const t = useTranslations(getLangFromUrl(Astro.url));
+
+interface VarRow {
+  name: string;
+  actual: number;
+  baseline: number;
+  delta_abs?: number;
+  delta_pct?: number;
+  status?: "green" | "amber" | "red";
+}
+interface Props {
+  data: {
+    title?: string;
+    metric_label?: string;
+    baseline_label?: string;
+    rows?: VarRow[];
+  } | null;
+}
+const { data } = Astro.props;
+const rows = data?.rows ?? [];
+if (rows.length === 0) return null;
+const baselineLabel = data?.baseline_label ?? "Plan";
+
+const STATUS_PILL: Record<string, string> = {
+  green: "bg-green-50 text-green-700 ring-green-200",
+  amber: "bg-amber-50 text-amber-700 ring-amber-200",
+  red: "bg-red-50 text-red-700 ring-red-200",
+};
+
+const maxAbsPct = Math.max(...rows.map((r) => Math.abs(r.delta_pct ?? 0)), 1);
+const fmtN = (n: number) =>
+  Number.isInteger(n) ? n.toLocaleString("pl-PL") : n.toLocaleString("pl-PL", { maximumFractionDigits: 1 });
+---
+
+<div class="rounded-2xl border border-ink-200 bg-white p-5 shadow-sm">
+  <div class="mb-3 flex flex-wrap items-end justify-between gap-3">
+    {data?.title && <div class="text-sm font-semibold text-ink-900">{data.title}</div>}
+    <div class="text-[10px] uppercase tracking-wider text-ink-500">
+      {data?.metric_label} · vs {baselineLabel}
+    </div>
+  </div>
+  <div class="overflow-x-auto">
+    <table class="w-full border-collapse text-sm">
+      <thead>
+        <tr class="border-b border-ink-200 text-[11px] font-semibold uppercase tracking-wider text-ink-500">
+          <th class="px-3 py-2 text-left">{t("poc.block.variance.item")}</th>
+          <th class="px-3 py-2 text-right">Actual</th>
+          <th class="px-3 py-2 text-right">{baselineLabel}</th>
+          <th class="px-3 py-2 text-right">ΔAbs</th>
+          <th class="px-3 py-2 text-right">Δ%</th>
+          <th class="px-3 py-2 text-left">{t("poc.block.variance.variance")}</th>
+          <th class="px-3 py-2 text-right">{t("poc.block.variance.status")}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map((r) => {
+          const dAbs = r.delta_abs ?? r.actual - r.baseline;
+          const dPct = r.delta_pct ?? (r.baseline !== 0 ? ((r.actual - r.baseline) / r.baseline) * 100 : 0);
+          const positive = dPct >= 0;
+          const widthPct = Math.min(100, (Math.abs(dPct) / maxAbsPct) * 100);
+          const status = r.status ?? (positive ? "green" : Math.abs(dPct) > 10 ? "red" : "amber");
+          return (
+            <tr class="border-b border-ink-100 last:border-b-0 hover:bg-ink-50/60 transition">
+              <td class="px-3 py-2 text-ink-800">{r.name}</td>
+              <td class="px-3 py-2 text-right tabular-nums text-ink-900">{fmtN(r.actual)}</td>
+              <td class="px-3 py-2 text-right tabular-nums text-ink-600">{fmtN(r.baseline)}</td>
+              <td class={`px-3 py-2 text-right tabular-nums ${positive ? "text-green-700" : "text-red-700"}`}>
+                {positive ? "+" : ""}{fmtN(dAbs)}
+              </td>
+              <td class={`px-3 py-2 text-right tabular-nums font-semibold ${positive ? "text-green-700" : "text-red-700"}`}>
+                {positive ? "+" : ""}{dPct.toFixed(1)}%
+              </td>
+              <td class="px-3 py-2">
+                <div class="relative h-2 w-32 rounded-full bg-ink-100">
+                  <div
+                    class={`absolute top-0 h-2 rounded-full ${positive ? "left-1/2 bg-green-500" : "right-1/2 bg-red-500"}`}
+                    style={`width:${widthPct / 2}%`}
+                  ></div>
+                  <div class="absolute top-0 bottom-0 left-1/2 w-px bg-ink-300"></div>
+                </div>
+              </td>
+              <td class="px-3 py-2 text-right">
+                <span class={`inline-block h-3 w-3 rounded-full ring-2 ${STATUS_PILL[status]}`} title={status}></span>
+              </td>
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
+  </div>
+</div>

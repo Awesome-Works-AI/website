@@ -1,0 +1,59 @@
+---
+import { getLangFromUrl, useTranslations } from "~/i18n/utils";
+import type { UiKey } from "~/i18n/ui";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const items: { q: UiKey; a: UiKey }[] = [
+  { q: "faq.q1.q", a: "faq.q1.a" },
+  { q: "faq.q2.q", a: "faq.q2.a" },
+  { q: "faq.q3.q", a: "faq.q3.a" },
+  { q: "faq.q4.q", a: "faq.q4.a" },
+  { q: "faq.q5.q", a: "faq.q5.a" },
+  { q: "faq.q6.q", a: "faq.q6.a" },
+];
+---
+
+<section id="faq" class="relative overflow-hidden bg-white py-28">
+  {/* Subtle bg motifs */}
+
+  {/* Sophisticated solid shapes */}
+  <div aria-hidden="true" class="shape-quarter-tl pointer-events-none absolute top-0 left-0 hidden h-40 w-40 bg-green-400/18 md:block"></div>
+  <div aria-hidden="true" class="shape-quarter-br pointer-events-none absolute bottom-0 right-0 hidden h-40 w-40 bg-orange-300/22 md:block"></div>
+  <div aria-hidden="true" class="shape-hex pointer-events-none absolute top-1/4 right-8 hidden h-12 w-14 bg-blue-400/22 md:block"></div>
+  <div aria-hidden="true" class="shape-plus pointer-events-none absolute bottom-24 left-8 hidden h-10 w-10 bg-green-500/25 md:block"></div>
+  <div aria-hidden="true" class="shape-triangle-up pointer-events-none absolute top-1/2 right-20 hidden h-9 w-9 bg-orange-400/22 md:block"></div>
+
+  <div class="relative mx-auto max-w-3xl px-6">
+    <h2 class="text-center text-3xl font-bold tracking-tight text-ink-900 md:text-5xl">
+      {t("faq.heading")}
+    </h2>
+
+    {/* Background-first FAQ: no cards, just typography + subtle dividers */}
+    <div class="mt-12 divide-y divide-ink-200/70">
+      {
+        items.map((it, idx) => (
+          <details class="group py-5" open={idx === 0}>
+            <summary class="flex cursor-pointer items-center justify-between gap-4 text-left">
+              <span class="text-base font-semibold text-ink-900 md:text-lg">{t(it.q)}</span>
+              <svg
+                class="h-5 w-5 flex-none text-ink-500 transition group-open:rotate-180"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <polyline points="6 9 12 15 18 9" />
+              </svg>
+            </summary>
+            <div class="mt-3 max-w-2xl text-ink-600 leading-relaxed">{t(it.a)}</div>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>

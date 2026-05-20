@@ -1,0 +1,951 @@
+---
+import { parseRichMarkdown, groupKpiCards, type Block } from "./parser";
+import BlockRenderer from "./BlockRenderer.astro";
+import { getLangFromUrl, useTranslations } from "~/i18n/utils";
+
+interface Props {
+  markup: string;
+  initialQuery?: string;
+}
+
+const { markup, initialQuery = "" } = Astro.props;
+const { blocks, sections } = parseRichMarkdown(markup);
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const bySection = new Map<number, Block[]>();
+for (const b of blocks) {
+  const k = b.section;
+  if (!bySection.has(k)) bySection.set(k, []);
+  bySection.get(k)!.push(b);
+}
+const preSection = bySection.get(-1) ?? [];
+
+const QUICK_CHIPS = lang === "en"
+  ? [
+      "Margin analysis on a retail store fleet",
+      "Cash flow projection · 4 quarters · 3 scenarios",
+      "Tax compliance — invoice anomaly review",
+    ]
+  : [
+      "Analiza marży na flocie sklepów detalicznych",
+      "Cash flow projection · 4 kwartały · 3 scenariusze",
+      "Compliance VAT — przegląd anomalii faktur",
+    ];
+
+const MODE_PRESETS = [
+  {
+    id: "fast",
+    name: t("poc.mode.fast.name"),
+    time: t("poc.mode.fast.time"),
+    copy: t("poc.mode.fast.copy"),
+    iconSvg: '<path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" fill="none"/>',
+    tone: "blue" as const,
+  },
+  {
+    id: "smart",
+    name: t("poc.mode.smart.name"),
+    time: t("poc.mode.smart.time"),
+    copy: t("poc.mode.smart.copy"),
+    iconSvg: '<circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8" fill="none"/><path d="M16 16l5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>',
+    tone: "green" as const,
+  },
+  {
+    id: "expert",
+    name: t("poc.mode.expert.name"),
+    time: t("poc.mode.expert.time"),
+    copy: t("poc.mode.expert.copy"),
+    iconSvg: '<path d="M12 2L4 7v6c0 4 3.5 7.5 8 9 4.5-1.5 8-5 8-9V7l-8-5z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" fill="none"/><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>',
+    tone: "orange" as const,
+  },
+];
+
+// All strings the inline <script> needs, JSON-encoded onto the form via data-poc-i18n.
+const I18N_FOR_JS = {
+  // status
+  empty: t("poc.results.statusEmpty"),
+  connecting: t("poc.results.statusConnecting"),
+  ready: t("poc.results.statusReady"),
+  errorPrefix: t("poc.results.statusError"),
+  errorNoQuery: t("poc.results.statusErrorNoQuery"),
+  doneStepSuffix: t("poc.results.statusDoneStep"),
+  // labels used when re-rendering blocks
+  reportHeaderEyebrow: t("poc.block.reportHeader.eyebrow"),
+  waterfallStart: t("poc.block.waterfall.start"),
+  waterfallUp: t("poc.block.waterfall.up"),
+  waterfallDown: t("poc.block.waterfall.down"),
+  waterfallEnd: t("poc.block.waterfall.end"),
+  waterfallDrift: t("poc.block.waterfall.checksumDrift"),
+  varianceItem: t("poc.block.variance.item"),
+  varianceVariance: t("poc.block.variance.variance"),
+  varianceStatus: t("poc.block.variance.status"),
+  recommendationActions: "Action items",
+  recommendationEyebrow: lang === "en" ? "Recommendation" : "Rekomendacja",
+  recommendationBy: lang === "en" ? "by" : "do",
+  recommendationVerdictYes: lang === "en" ? "YES" : "TAK",
+  recommendationVerdictNo: lang === "en" ? "NO" : "NIE",
+  recommendationVerdictConditional: lang === "en" ? "CONDITIONAL" : "WARUNKOWO",
+  calloutInsight: "Insight",
+  calloutInfo: "Info",
+  calloutWarning: lang === "en" ? "Warning" : "Uwaga",
+  // sidebar
+  sections: t("poc.results.sections"),
+  allSections: t("poc.results.allSections"),
+};
+---
+
+{/* ============================================================
+    INITIAL — fullscreen experience: tagline + central rounded input
+    Wide spacing, geometric background, no marketing chrome.
+   ============================================================ */}
+<section
+  id="poc-hero"
+  class="poc-hero relative overflow-hidden bg-white pt-28 pb-10 md:pt-36"
+  data-poc-state="initial"
+>
+  {/* Background shapes — heavy, set the visual tone */}
+  <div aria-hidden="true" class="bg-grid pointer-events-none absolute inset-0 opacity-40"></div>
+  <div aria-hidden="true" class="bg-rings pointer-events-none absolute left-1/2 top-32 hidden h-[480px] w-[480px] -translate-x-1/2 md:block"></div>
+  <div aria-hidden="true" class="shape-quarter-tr pointer-events-none absolute -top-10 right-0 hidden h-56 w-56 bg-green-400/20 md:block"></div>
+  <div aria-hidden="true" class="shape-quarter-bl pointer-events-none absolute -bottom-10 left-0 hidden h-44 w-44 bg-orange-300/20 md:block"></div>
+  <div aria-hidden="true" class="shape-hex pointer-events-none absolute left-12 top-32 hidden h-16 w-20 bg-blue-300/30 md:block"></div>
+  <div aria-hidden="true" class="shape-plus pointer-events-none absolute right-16 top-44 hidden h-12 w-12 bg-green-500/30 md:block"></div>
+  <div aria-hidden="true" class="shape-triangle-up pointer-events-none absolute left-1/4 bottom-20 hidden h-10 w-10 bg-orange-400/30 md:block"></div>
+  <div aria-hidden="true" class="shape-trapezoid pointer-events-none absolute right-1/3 bottom-32 hidden h-14 w-32 bg-blue-300/22 md:block"></div>
+  <div aria-hidden="true" class="shape-arc pointer-events-none absolute left-1/2 top-1/2 hidden h-14 w-28 -translate-x-1/2 bg-orange-400/15 md:block"></div>
+
+  <div class="relative mx-auto flex max-w-4xl flex-col items-center px-6">
+    <div class="inline-flex items-center gap-2 rounded-full border border-ink-200 bg-white/90 px-3 py-1 text-xs font-medium text-ink-600 shadow-sm backdrop-blur">
+      <span class="h-1.5 w-1.5 rounded-full bg-green-500"></span>
+      {t("poc.hero.eyebrow")}
+    </div>
+
+    <h1 class="mt-8 text-balance text-center text-4xl font-bold leading-[1.05] tracking-tight text-ink-900 md:text-6xl md:leading-[1.0]">
+      {t("poc.hero.h1.a")} <span class="text-blue-700">{t("poc.hero.h1.b")}</span> <span class="text-green-700">{t("poc.hero.h1.c")}</span>
+    </h1>
+
+    {/* CENTRAL ROUNDED INPUT */}
+    <form id="poc-form" data-poc-form class="mt-10 w-full max-w-2xl" data-poc-i18n={JSON.stringify(I18N_FOR_JS)}>
+      <div class="group relative flex items-center gap-2 rounded-full border-2 border-ink-200 bg-white p-2 shadow-xl transition focus-within:border-blue-400 focus-within:shadow-blue-200/50">
+        <div aria-hidden="true" class="absolute -inset-4 -z-10 rounded-full bg-gradient-to-r from-blue-200/30 via-green-200/30 to-orange-200/30 blur-2xl"></div>
+        <textarea
+          id="poc-query"
+          name="query"
+          rows="1"
+          placeholder={t("poc.hero.input.placeholder")}
+          class="flex-1 resize-none rounded-full bg-transparent px-5 py-3 text-base leading-snug text-ink-900 placeholder:text-ink-400 focus:outline-none md:text-lg"
+        >{initialQuery}</textarea>
+        <button
+          type="submit"
+          id="poc-submit"
+          class="inline-flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-orange-600 text-white shadow-md transition hover:bg-orange-700 hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-50 md:h-14 md:w-14"
+          aria-label={t("poc.cta.submit_aria")}
+        >
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+            <path d="M5 12h14m-6-7l7 7-7 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
+      </div>
+
+      {/* MODE PICKER — Fast / Smart / Expert */}
+      <div class="mt-6 flex justify-center" data-poc-mode-picker>
+        <div class="inline-flex items-stretch rounded-full border-2 border-ink-200 bg-white p-1 shadow-sm">
+          {MODE_PRESETS.map((m, i) => (
+            <button
+              type="button"
+              data-poc-mode={m.id}
+              aria-pressed={i === 0 ? "true" : "false"}
+              class:list={[
+                "poc-mode-btn group relative inline-flex flex-col items-center justify-center gap-0.5 rounded-full px-4 py-1.5 transition",
+                i === 0
+                  ? "bg-blue-600 text-white shadow"
+                  : "text-ink-700 hover:bg-ink-50",
+              ]}
+            >
+              <span class="flex items-center gap-1.5 text-sm font-semibold leading-tight">
+                <svg width="14" height="14" viewBox="0 0 24 24" set:html={m.iconSvg}></svg>
+                {m.name}
+              </span>
+              <span class="poc-mode-time text-[10px] font-medium tabular-nums opacity-80">{m.time}</span>
+
+              {/* tooltip — sales copy */}
+              <div
+                role="tooltip"
+                class="pointer-events-none invisible absolute top-full left-1/2 z-30 mt-2 w-64 -translate-x-1/2 rounded-xl border border-ink-200 bg-white p-3 text-left text-xs leading-relaxed text-ink-700 opacity-0 shadow-xl transition group-hover:visible group-hover:opacity-100"
+              >
+                <div class="mb-1 flex items-baseline justify-between gap-2 text-[10px] font-bold uppercase tracking-widest text-blue-700">
+                  <span>{m.name}</span>
+                  <span class="font-medium tabular-nums text-ink-500">{m.time}</span>
+                </div>
+                <div class="text-ink-700">{m.copy}</div>
+                {/* arrow */}
+                <div class="absolute left-1/2 -top-1.5 h-3 w-3 -translate-x-1/2 rotate-45 border-l border-t border-ink-200 bg-white"></div>
+              </div>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* helper row */}
+      <div class="mt-4 flex flex-wrap items-center justify-center gap-2 text-xs">
+        <button
+          type="button"
+          data-open-modal="how-it-works"
+          class="inline-flex items-center gap-1.5 rounded-full border border-ink-200 bg-white px-3 py-1.5 text-ink-700 transition hover:border-blue-300 hover:text-blue-700"
+        >
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M9.5 9a2.5 2.5 0 015 0c0 1.5-2.5 2-2.5 3.5M12 17h.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          {t("poc.cta.howItWorks")}
+        </button>
+        {QUICK_CHIPS.map((q) => (
+          <button
+            type="button"
+            data-fill-query={q}
+            class="rounded-full border border-ink-200 bg-white/70 px-3 py-1.5 text-ink-600 transition hover:border-blue-300 hover:bg-blue-50 hover:text-blue-800"
+          >
+            {q}
+          </button>
+        ))}
+      </div>
+    </form>
+
+    {/* tiny status line — replaced live by JS */}
+    <div id="poc-status" data-poc-status class="mt-6 h-5 text-xs text-ink-500"></div>
+  </div>
+</section>
+
+{/* ============================================================
+    RESULTS — hidden initially; revealed after submit
+    Sidebar (sections nav + "How it works" button) + report viewer
+   ============================================================ */}
+<section
+  id="poc-results"
+  class="poc-results relative bg-ink-50/40 pb-24 pt-2 transition-opacity duration-500"
+  hidden
+>
+  <div class="mx-auto max-w-7xl px-6">
+    {/* sticky condensed query bar — pinned at top of results */}
+    <div class="sticky top-20 z-20 mb-6 rounded-2xl border border-ink-200 bg-white/95 px-4 py-3 shadow-md backdrop-blur">
+      <div class="flex items-center gap-3">
+        <div class="text-[10px] font-bold uppercase tracking-widest text-blue-700">{t("poc.results.queryLabel")}</div>
+        <div id="poc-query-echo" data-poc-query-echo class="flex-1 truncate text-sm text-ink-800"></div>
+        <button
+          type="button"
+          data-poc-reset
+          class="inline-flex items-center gap-1.5 rounded-full border border-ink-200 bg-white px-3 py-1.5 text-xs font-medium text-ink-700 transition hover:border-blue-300 hover:text-blue-700"
+        >
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M3 12a9 9 0 1015 -6.7L21 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 3v5h-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          {t("poc.results.reset")}
+        </button>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 gap-6 lg:grid-cols-[260px_minmax(0,1fr)]">
+      {/* Sidebar */}
+      <aside class="space-y-3 lg:sticky lg:top-44 lg:max-h-[calc(100vh-12rem)] lg:self-start lg:overflow-y-auto">
+        {/* How it works trigger (compact) */}
+        <button
+          type="button"
+          data-open-modal="how-it-works"
+          class="flex w-full items-center gap-2 rounded-2xl border border-blue-200 bg-blue-50/70 px-3 py-2.5 text-left text-xs font-semibold text-blue-800 transition hover:bg-blue-100"
+        >
+          <span class="grid h-7 w-7 flex-shrink-0 place-items-center rounded-md bg-white text-blue-700 ring-1 ring-blue-200">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M9.5 9a2.5 2.5 0 015 0c0 1.5-2.5 2-2.5 3.5M12 17h.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </span>
+          <span class="flex-1">{t("poc.cta.howItWorks")}</span>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+
+        {/* Sections nav — outer container always present; inner regenerated by JS after live render */}
+        <div class="rounded-2xl border border-ink-200 bg-white p-3 shadow-sm" data-poc-sidebar-nav-wrap class:list={[sections.length === 0 && "hidden"]}>
+          <div data-poc-sidebar-nav>
+            <div class="px-1 pt-1 text-[10px] font-bold uppercase tracking-widest text-ink-500">{t("poc.results.sections")}</div>
+            <div class="mt-2 flex flex-col gap-0.5">
+              <button
+                type="button"
+                class="poc-tab flex items-center gap-2 rounded-lg bg-blue-50 px-2 py-1.5 text-left text-xs font-semibold text-blue-800 transition"
+                data-section="all"
+                aria-current="true"
+              >
+                <span class="grid h-5 w-5 flex-shrink-0 place-items-center rounded-md bg-blue-700 text-[10px] font-bold text-white">★</span>
+                {t("poc.results.allSections")}
+              </button>
+              {sections.map((s) => (
+                <button
+                  type="button"
+                  class="poc-tab flex items-center gap-2 rounded-lg px-2 py-1.5 text-left text-xs text-ink-600 transition hover:bg-ink-50 hover:text-ink-900"
+                  data-section={String(s.index)}
+                >
+                  <span class="grid h-5 w-5 flex-shrink-0 place-items-center rounded-md bg-blue-700 text-[10px] font-bold text-white">{s.label}</span>
+                  <span class="truncate">{s.title}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      {/* Report viewer */}
+      <main class="min-w-0">
+        {/* PROGRESS BLOCK — visible only during generation */}
+        <div
+          id="poc-progress"
+          data-poc-progress
+          hidden
+          class="mb-5 rounded-2xl border border-blue-200 bg-white p-6 shadow-sm"
+        >
+          <div class="poc-progress-row flex items-center justify-between gap-3">
+            <div class="flex items-center gap-3">
+              <span class="poc-progress-ping relative flex h-3 w-3">
+                <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-blue-400 opacity-75"></span>
+                <span class="relative inline-flex h-3 w-3 rounded-full bg-blue-500"></span>
+              </span>
+              <div>
+                <div class="poc-progress-eyebrow text-[10px] font-bold uppercase tracking-widest text-blue-700">{t("poc.results.streaming")}</div>
+                <div data-poc-progress-label class="poc-progress-label-line text-sm font-semibold text-ink-900">{t("poc.results.statusConnecting")}</div>
+              </div>
+            </div>
+            <div class="flex items-baseline gap-3 tabular-nums">
+              <span data-poc-progress-pct class="poc-progress-pct-big text-2xl font-bold text-blue-700">0%</span>
+              <span data-poc-progress-pct-small class="poc-progress-pct-small text-xs">0%</span>
+              <span data-poc-elapsed class="text-xs text-ink-500">0.0s</span>
+            </div>
+          </div>
+          <div class="poc-progress-bar-wrap mt-4 h-2 w-full overflow-hidden rounded-full bg-ink-100">
+            <div
+              data-poc-progress-bar
+              class="h-full rounded-full bg-gradient-to-r from-blue-500 via-blue-600 to-green-500 transition-[width] duration-500 ease-out"
+              style="width: 0%"
+            ></div>
+          </div>
+          <div class="poc-progress-caption mt-4 text-xs text-ink-500">
+            {lang === "en"
+              ? "The analyst and editor agents are reading the question and assembling a board pack tailored to it."
+              : "Analityk i redaktor pracują nad raportem dopasowanym do Twojego pytania."}
+          </div>
+        </div>
+
+        {/* Debug stream pane — kept; visible during generation */}
+        <details
+          id="poc-stream-pane"
+          data-poc-stream-pane
+          hidden
+          class="mb-5 rounded-2xl border border-ink-200 bg-ink-50/40 p-3"
+        >
+          <summary class="cursor-pointer text-[10px] font-bold uppercase tracking-widest text-ink-500">
+            {lang === "en" ? "Live stream (raw markup)" : "Strumień na żywo (raw markup)"}
+          </summary>
+          <pre
+            id="poc-stream-text"
+            data-poc-stream-text
+            class="mt-3 max-h-32 overflow-auto whitespace-pre-wrap break-words rounded-lg border border-ink-200 bg-white p-3 font-mono text-[11px] leading-relaxed text-ink-700"
+          ></pre>
+        </details>
+
+        {/* Error pane */}
+        <div
+          data-poc-error-pane
+          hidden
+          class="mb-5 rounded-2xl border border-red-200 bg-red-50 p-4 text-sm text-red-800"
+        >
+          <div class="flex items-start gap-2">
+            <span class="text-lg leading-none">⚠</span>
+            <div>
+              <div class="font-semibold">{lang === "en" ? "Generation failed" : "Generacja nie powiodła się"}</div>
+              <div data-poc-error-message class="mt-1 text-xs"></div>
+              <div class="mt-2 text-xs text-red-700/80">
+                {lang === "en"
+                  ? "You can try again or click \"New query\" to start over."
+                  : "Spróbuj jeszcze raz lub kliknij \"Nowe zapytanie\", żeby zacząć od nowa."}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ALL THE SAMPLE / LIVE-RENDERED VIEWS go inside this wrapper.
+            JS swaps `data-poc-viewer-body` innerHTML after `done`. */}
+        <div data-poc-viewer-body>
+          {/* "All" view (default) */}
+          <div class="poc-view space-y-5" data-view="all">
+            {preSection.map((b) => <BlockRenderer block={b} />)}
+            {sections.map((sec) => {
+              const sectionBlocks = bySection.get(sec.index) ?? [];
+              const groups = groupKpiCards(sectionBlocks);
+              return (
+                <section data-section-anchor={sec.index} class="scroll-mt-44 space-y-5">
+                  <h2 class="flex items-center gap-3 pt-2 text-2xl font-bold tracking-tight text-ink-900">
+                    <span class="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-blue-600 to-green-600 text-sm font-bold text-white shadow">
+                      {sec.label}
+                    </span>
+                    {sec.title}
+                  </h2>
+                  {groups.map((g) => {
+                    if (g.kind === "block") return <BlockRenderer block={g.block} />;
+                    return (
+                      <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                        {g.blocks.map((b) => <BlockRenderer block={b} />)}
+                      </div>
+                    );
+                  })}
+                </section>
+              );
+            })}
+          </div>
+
+          {/* Per-section views */}
+          {sections.map((sec) => {
+            const sectionBlocks = bySection.get(sec.index) ?? [];
+            const groups = groupKpiCards(sectionBlocks);
+            return (
+              <div class="poc-view hidden space-y-5" data-view={String(sec.index)}>
+                <h2 class="flex items-center gap-3 text-2xl font-bold tracking-tight text-ink-900">
+                  <span class="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-blue-600 to-green-600 text-sm font-bold text-white shadow">
+                    {sec.label}
+                  </span>
+                  {sec.title}
+                </h2>
+                {groups.map((g) => {
+                  if (g.kind === "block") return <BlockRenderer block={g.block} />;
+                  return (
+                    <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                      {g.blocks.map((b) => <BlockRenderer block={b} />)}
+                    </div>
+                  );
+                })}
+              </div>
+            );
+          })}
+        </div>
+      </main>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { parseRichMarkdown } from "./parser";
+  import { renderBlock, renderViewerBody, renderSectionNav, type RenderLabels } from "./client-renderer";
+
+  /* ============================================================
+   * DOM refs
+   * ============================================================ */
+  const form = document.querySelector<HTMLFormElement>("[data-poc-form]");
+  const input = document.getElementById("poc-query") as HTMLTextAreaElement | null;
+  const submitBtn = document.getElementById("poc-submit") as HTMLButtonElement | null;
+  const statusEl = document.querySelector<HTMLElement>("[data-poc-status]");
+  const queryEcho = document.querySelector<HTMLElement>("[data-poc-query-echo]");
+  const results = document.getElementById("poc-results");
+  const resetBtn = document.querySelector<HTMLButtonElement>("[data-poc-reset]");
+  const heroSection = document.getElementById("poc-hero");
+
+  const viewerBody = document.querySelector<HTMLElement>("[data-poc-viewer-body]");
+  const sidebarNav = document.querySelector<HTMLElement>("[data-poc-sidebar-nav]");
+  const sidebarNavWrap = document.querySelector<HTMLElement>("[data-poc-sidebar-nav-wrap]");
+  const progressBlock = document.querySelector<HTMLElement>("[data-poc-progress]");
+  const progressBar = document.querySelector<HTMLElement>("[data-poc-progress-bar]");
+  const progressPct = document.querySelector<HTMLElement>("[data-poc-progress-pct]");
+  const progressPctSmall = document.querySelector<HTMLElement>("[data-poc-progress-pct-small]");
+  const progressLabel = document.querySelector<HTMLElement>("[data-poc-progress-label]");
+  const elapsedEl = document.querySelector<HTMLElement>("[data-poc-elapsed]");
+  const streamPane = document.querySelector<HTMLDetailsElement>("[data-poc-stream-pane]");
+  const streamText = document.querySelector<HTMLElement>("[data-poc-stream-text]");
+  const errorPane = document.querySelector<HTMLElement>("[data-poc-error-pane]");
+  const errorMessage = document.querySelector<HTMLElement>("[data-poc-error-message]");
+
+  // Save original server-rendered sample so we can restore on reset.
+  const ORIGINAL_VIEWER_HTML = viewerBody?.innerHTML ?? "";
+  const ORIGINAL_SIDEBAR_HTML = sidebarNav?.innerHTML ?? "";
+
+  /* ============================================================
+   * localStorage: persist last successful generation for ~30 min
+   * Key:   metyra-poc-last
+   * Shape: { query, markup, ts }
+   * Stale: anything older than CACHE_MAX_AGE_MS is ignored.
+   * ============================================================ */
+  const CACHE_KEY = "metyra-poc-last";
+  const CACHE_MAX_AGE_MS = 30 * 60 * 1000; // 30 min
+
+  function saveLastResult(query: string, markup: string) {
+    try {
+      localStorage.setItem(CACHE_KEY, JSON.stringify({ query, markup, ts: Date.now() }));
+    } catch { /* quota / private-mode — silent */ }
+  }
+  function readLastResult(): { query: string; markup: string; ts: number } | null {
+    try {
+      const raw = localStorage.getItem(CACHE_KEY);
+      if (!raw) return null;
+      const parsed = JSON.parse(raw);
+      if (typeof parsed !== "object" || !parsed) return null;
+      if (typeof parsed.markup !== "string" || typeof parsed.query !== "string") return null;
+      if (Date.now() - (parsed.ts ?? 0) > CACHE_MAX_AGE_MS) return null;
+      return parsed;
+    } catch { return null; }
+  }
+  function clearLastResult() {
+    try { localStorage.removeItem(CACHE_KEY); } catch {}
+  }
+
+  let controller: AbortController | null = null;
+  let elapsedTimer: number | null = null;
+  let progressTimer: number | null = null;
+  let startTs = 0;
+  let selectedMode: "fast" | "smart" | "expert" = "fast";
+
+  /* ============================================================
+   * Mode picker — Fast / Smart / Expert
+   * ============================================================ */
+  const modeButtons = document.querySelectorAll<HTMLButtonElement>("[data-poc-mode]");
+  function applyModeSelection(mode: string) {
+    selectedMode = (mode === "smart" || mode === "expert" ? mode : "fast");
+    modeButtons.forEach((btn) => {
+      const active = btn.dataset.pocMode === selectedMode;
+      btn.setAttribute("aria-pressed", active ? "true" : "false");
+      // selected = filled pill; unselected = transparent
+      btn.classList.toggle("bg-blue-600", active);
+      btn.classList.toggle("text-white", active);
+      btn.classList.toggle("shadow", active);
+      btn.classList.toggle("text-ink-700", !active);
+      btn.classList.toggle("hover:bg-ink-50", !active);
+    });
+  }
+  modeButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      applyModeSelection(btn.dataset.pocMode ?? "fast");
+    });
+  });
+
+  /* ============================================================
+   * i18n payload from server
+   * ============================================================ */
+  type I18nFull = {
+    empty: string; connecting: string; ready: string;
+    errorPrefix: string; errorNoQuery: string; doneStepSuffix: string;
+    reportHeaderEyebrow: string;
+    waterfallStart: string; waterfallUp: string; waterfallDown: string;
+    waterfallEnd: string; waterfallDrift: string;
+    varianceItem: string; varianceVariance: string; varianceStatus: string;
+    recommendationActions: string;
+    calloutInsight: string; calloutInfo: string; calloutWarning: string;
+    sections: string; allSections: string;
+  };
+  const I18N: I18nFull = (() => {
+    try { return JSON.parse(form?.dataset.pocI18n ?? "{}"); }
+    catch { return {} as I18nFull; }
+  })();
+
+  const RENDER_LABELS: RenderLabels = {
+    reportHeaderEyebrow: I18N.reportHeaderEyebrow,
+    waterfallStart: I18N.waterfallStart,
+    waterfallUp: I18N.waterfallUp,
+    waterfallDown: I18N.waterfallDown,
+    waterfallEnd: I18N.waterfallEnd,
+    waterfallDrift: I18N.waterfallDrift,
+    varianceItem: I18N.varianceItem,
+    varianceVariance: I18N.varianceVariance,
+    varianceStatus: I18N.varianceStatus,
+    recommendationActions: I18N.recommendationActions,
+    calloutInsight: I18N.calloutInsight,
+    calloutInfo: I18N.calloutInfo,
+    calloutWarning: I18N.calloutWarning,
+  };
+
+  /* ============================================================
+   * Input behaviour: autosize + Enter submits
+   * ============================================================ */
+  function autosize(el: HTMLTextAreaElement) {
+    el.style.height = "auto";
+    el.style.height = el.scrollHeight + "px";
+  }
+  if (input) {
+    autosize(input);
+    input.addEventListener("input", () => autosize(input));
+    input.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); form?.requestSubmit(); }
+    });
+  }
+  document.querySelectorAll<HTMLElement>("[data-fill-query]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      if (!input) return;
+      input.value = btn.dataset.fillQuery ?? "";
+      autosize(input);
+      input.focus();
+    });
+  });
+
+  /* ============================================================
+   * Status line under input (small text)
+   * ============================================================ */
+  function setStatus(text: string, tone: "neutral" | "running" | "ok" | "error" = "neutral") {
+    if (!statusEl) return;
+    statusEl.textContent = text;
+    statusEl.className =
+      "mt-6 h-5 text-xs " +
+      (tone === "running" ? "text-blue-700" : tone === "ok" ? "text-green-700" : tone === "error" ? "text-red-700" : "text-ink-500");
+  }
+
+  /* ============================================================
+   * Submit button spinner
+   * ============================================================ */
+  function setRunning(running: boolean) {
+    if (!submitBtn) return;
+    submitBtn.disabled = running;
+    submitBtn.innerHTML = running
+      ? '<svg class="animate-spin" width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2.2" stroke-opacity="0.25"/><path d="M21 12a9 9 0 00-9-9" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>'
+      : '<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M5 12h14m-6-7l7 7-7 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  }
+
+  /* ============================================================
+   * Fake logarithmic progress bar
+   *   p(t) = 1 - exp(-t/k)  clamped at 0.95 (never reaches 100% on its own)
+   *   k ≈ 20s → at 30s: 78%, at 60s: 95% (capped), feels like real work
+   * ============================================================ */
+  const PROGRESS_K = 20;
+  const PROGRESS_CAP = 0.95;
+  function updateProgress() {
+    const t = (Date.now() - startTs) / 1000;
+    const p = Math.min(PROGRESS_CAP, 1 - Math.exp(-t / PROGRESS_K));
+    const pct = Math.round(p * 100);
+    if (progressBar) progressBar.style.width = pct + "%";
+    if (progressPct) progressPct.textContent = pct + "%";
+    if (progressPctSmall) progressPctSmall.textContent = pct + "%";
+    if (elapsedEl) elapsedEl.textContent = t.toFixed(1) + "s";
+  }
+  function startProgress() {
+    startTs = Date.now();
+    if (progressTimer !== null) window.clearInterval(progressTimer);
+    updateProgress();
+    progressTimer = window.setInterval(updateProgress, 150);
+  }
+  function snapProgressTo100() {
+    if (progressTimer !== null) { window.clearInterval(progressTimer); progressTimer = null; }
+    if (progressBar) progressBar.style.width = "100%";
+    if (progressPct) progressPct.textContent = "100%";
+    if (progressPctSmall) progressPctSmall.textContent = "100%";
+  }
+  function stopProgress() {
+    if (progressTimer !== null) { window.clearInterval(progressTimer); progressTimer = null; }
+  }
+
+  /* ============================================================
+   * Results show/hide
+   * ============================================================ */
+  function revealResults(query: string) {
+    if (!results) return;
+    if (queryEcho) queryEcho.textContent = query;
+    results.hidden = false;
+    requestAnimationFrame(() => results.scrollIntoView({ behavior: "smooth", block: "start" }));
+  }
+
+  function hideResults() {
+    if (!results) return;
+    results.hidden = true;
+    if (streamPane) streamPane.hidden = true;
+    if (streamText) streamText.textContent = "";
+    if (errorPane) errorPane.hidden = true;
+    if (progressBlock) progressBlock.removeAttribute("data-compact");
+    setStatus("");
+    // Restore sample for next visit
+    if (viewerBody) viewerBody.innerHTML = ORIGINAL_VIEWER_HTML;
+    if (sidebarNav) sidebarNav.innerHTML = ORIGINAL_SIDEBAR_HTML;
+    if (sidebarNavWrap) sidebarNavWrap.classList.toggle("hidden", ORIGINAL_SIDEBAR_HTML.trim() === "");
+    bindSectionTabs();
+    // Wipe cached result — user explicitly chose to start over
+    clearLastResult();
+    if (heroSection) heroSection.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+  resetBtn?.addEventListener("click", hideResults);
+
+  /* ============================================================
+   * Section tab switching — call after any innerHTML swap
+   * ============================================================ */
+  function bindSectionTabs() {
+    const tabs = document.querySelectorAll<HTMLElement>(".poc-tab");
+    const views = document.querySelectorAll<HTMLElement>(".poc-view");
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        const target = tab.dataset.section ?? "all";
+        tabs.forEach((tt) => {
+          const active = tt === tab;
+          tt.classList.toggle("bg-blue-50", active);
+          tt.classList.toggle("font-semibold", active);
+          tt.classList.toggle("text-blue-800", active);
+          tt.classList.toggle("text-ink-600", !active);
+          if (active) tt.setAttribute("aria-current", "true");
+          else tt.removeAttribute("aria-current");
+        });
+        views.forEach((v) => v.classList.toggle("hidden", v.dataset.view !== target));
+      });
+    });
+  }
+  bindSectionTabs();
+
+  /* ============================================================
+   * Restore last result from localStorage (if fresh, < 30 min)
+   * Runs once on page load BEFORE any user interaction.
+   * Defined after finalRender below — guard at runtime.
+   * ============================================================ */
+  let pendingCacheRestore: { query: string; markup: string } | null = readLastResult();
+
+  /* ============================================================
+   * Streaming + final live render
+   *
+   * During stream: we re-parse the accumulated buffer on every chunk
+   * and append any NEW completed blocks to the viewer (with fade-in).
+   * On done: we do a final clean re-render so KPI cards get properly
+   * grouped into rows (which streaming-append can't do losslessly).
+   * ============================================================ */
+  function ensureStreamContainer(): HTMLElement | null {
+    if (!viewerBody) return null;
+    let view = viewerBody.querySelector<HTMLElement>(".poc-view[data-view='all']");
+    if (!view) {
+      viewerBody.innerHTML = '<div class="poc-view space-y-5" data-view="all"></div>';
+      view = viewerBody.querySelector<HTMLElement>(".poc-view[data-view='all']");
+    }
+    return view;
+  }
+
+  /** Per-stream state — reset on each submit. */
+  let renderedBlockCount = 0;
+  let renderedSectionIdx = -1;
+
+  function streamAppendBlocks(buffer: string) {
+    const view = ensureStreamContainer();
+    if (!view) return;
+    const { blocks, sections } = parseRichMarkdown(buffer);
+    if (blocks.length <= renderedBlockCount) return;
+
+    // First block just arrived — collapse progress block into a thin strip
+    if (renderedBlockCount === 0 && progressBlock) {
+      progressBlock.setAttribute("data-compact", "");
+    }
+
+    for (let i = renderedBlockCount; i < blocks.length; i++) {
+      const b = blocks[i];
+      // emit section header when section index advances
+      if (b.section >= 0 && b.section > renderedSectionIdx && sections[b.section]) {
+        const sec = sections[b.section];
+        const headerHtml = `<section data-section-anchor="${sec.index}" class="scroll-mt-44 poc-stream-in">
+          <h2 class="flex items-center gap-3 pt-2 text-2xl font-bold tracking-tight text-ink-900">
+            <span class="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-blue-600 to-green-600 text-sm font-bold text-white shadow">${sec.label}</span>
+            ${sec.title.replace(/&/g, "&amp;").replace(/</g, "&lt;")}
+          </h2>
+        </section>`;
+        view.insertAdjacentHTML("beforeend", headerHtml);
+        renderedSectionIdx = b.section;
+      }
+      // render block
+      const html = renderBlock(b, RENDER_LABELS);
+      if (html) {
+        const wrap = document.createElement("div");
+        wrap.className = "poc-stream-in";
+        wrap.innerHTML = html;
+        view.appendChild(wrap);
+      }
+    }
+    renderedBlockCount = blocks.length;
+  }
+
+  function finalRender(markup: string) {
+    if (!viewerBody) return;
+    const { blocks, sections } = parseRichMarkdown(markup);
+    const { body } = renderViewerBody(blocks, sections, RENDER_LABELS);
+    viewerBody.innerHTML = `<div class="poc-view space-y-5" data-view="all">${body}</div>`;
+    if (sidebarNav) {
+      sidebarNav.innerHTML = renderSectionNav(sections, { sections: I18N.sections, allSections: I18N.allSections });
+      if (sidebarNavWrap) sidebarNavWrap.classList.toggle("hidden", sections.length === 0);
+    }
+    bindSectionTabs();
+  }
+
+  // Now that finalRender is defined we can apply the cached restore.
+  if (pendingCacheRestore && results && viewerBody && pendingCacheRestore.markup.trim().length > 0) {
+    if (input) { input.value = pendingCacheRestore.query; autosize(input); }
+    if (queryEcho) queryEcho.textContent = pendingCacheRestore.query;
+    finalRender(pendingCacheRestore.markup);
+    results.hidden = false;
+    if (progressBlock) progressBlock.hidden = true;
+    if (streamPane) streamPane.hidden = true;
+  }
+  pendingCacheRestore = null;
+
+  /* ============================================================
+   * Submit handler — full pipeline
+   * ============================================================ */
+  function appendStream(text: string) {
+    if (!streamText) return;
+    streamText.textContent += text;
+    streamText.scrollTop = streamText.scrollHeight;
+  }
+
+  function showError(msg: string) {
+    if (errorMessage) errorMessage.textContent = msg;
+    if (errorPane) errorPane.hidden = false;
+    if (progressBlock) progressBlock.hidden = true;
+    stopProgress();
+  }
+
+  async function handleSubmit(ev: SubmitEvent) {
+    ev.preventDefault();
+    if (controller) controller.abort();
+    const query = (input?.value ?? "").trim();
+    if (!query) { setStatus(I18N.errorNoQuery, "error"); return; }
+
+    revealResults(query);
+
+    // Clear sample, open empty viewer for live block append
+    if (viewerBody) {
+      viewerBody.hidden = false;
+      viewerBody.innerHTML = '<div class="poc-view space-y-5" data-view="all"></div>';
+    }
+    if (sidebarNavWrap) sidebarNavWrap.classList.add("hidden");
+    if (errorPane) errorPane.hidden = true;
+    if (progressBlock) progressBlock.hidden = false;
+    if (streamPane) streamPane.hidden = false;
+    if (streamText) streamText.textContent = "";
+    if (progressLabel) progressLabel.textContent = I18N.connecting;
+
+    renderedBlockCount = 0;
+    renderedSectionIdx = -1;
+
+    controller = new AbortController();
+    setRunning(true);
+    setStatus(I18N.connecting, "running");
+    startProgress();
+    let buffer = ""; // accumulated formatter markup
+    let sawDone = false;
+
+    try {
+      // API base URL — empty in dev (Vite proxy handles /api/poc),
+      // full URL in prod (set PUBLIC_METYRA_API_BASE=https://app.metyra.awesomeworks.ai)
+      const API_BASE = import.meta.env.PUBLIC_METYRA_API_BASE ?? "";
+      const res = await fetch(`${API_BASE}/api/poc/query`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "text/event-stream" },
+        body: JSON.stringify({ query, mode: selectedMode }),
+        signal: controller.signal,
+      });
+      if (!res.ok || !res.body) throw new Error("HTTP " + res.status);
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder("utf-8");
+      let sseBuf = "";
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) break;
+        sseBuf += decoder.decode(value, { stream: true });
+        let sep = sseBuf.indexOf("\n\n");
+        while (sep !== -1) {
+          const raw = sseBuf.slice(0, sep);
+          sseBuf = sseBuf.slice(sep + 2);
+          let event = "message";
+          const dataLines: string[] = [];
+          for (const line of raw.split("\n")) {
+            if (line.startsWith("event:")) event = line.slice(6).trim();
+            else if (line.startsWith("data:")) dataLines.push(line.slice(5).trimStart());
+          }
+          if (dataLines.length === 0) { sep = sseBuf.indexOf("\n\n"); continue; }
+          let payload: any = null;
+          try { payload = JSON.parse(dataLines.join("\n")); } catch {}
+          if (payload) {
+            if (event === "step_start") {
+              setStatus(payload.label ?? "...", "running");
+              if (progressLabel) progressLabel.textContent = payload.label ?? "...";
+            } else if (event === "step_end") {
+              setStatus((payload.label ?? "") + " " + I18N.doneStepSuffix, "running");
+            } else if (event === "token" && typeof payload.content === "string") {
+              buffer += payload.content;
+              appendStream(payload.content);
+              // INCREMENTAL REVEAL — append newly-completed blocks
+              streamAppendBlocks(buffer);
+            } else if (event === "done") {
+              sawDone = true;
+              setStatus(I18N.ready, "ok");
+            } else if (event === "error") {
+              throw new Error(payload.message ?? I18N.errorPrefix);
+            }
+          }
+          sep = sseBuf.indexOf("\n\n");
+        }
+      }
+
+      if (sawDone && buffer.trim().length > 0) {
+        // Snap progress, then do a final clean render so KPI cards collapse into rows.
+        snapProgressTo100();
+        await new Promise((r) => setTimeout(r, 350));
+        finalRender(buffer);
+        if (progressBlock) { progressBlock.hidden = true; progressBlock.removeAttribute("data-compact"); }
+        if (viewerBody) viewerBody.hidden = false;
+        // Persist for ~30 min so refresh / back-button doesn't lose the report
+        saveLastResult(query, buffer);
+      } else {
+        // No done event (stream cut off) — show error
+        throw new Error(I18N.errorPrefix);
+      }
+    } catch (err: any) {
+      if (err?.name === "AbortError") {
+        if (progressBlock) progressBlock.hidden = true;
+        if (viewerBody) viewerBody.hidden = false;
+        if (sidebarNavWrap && ORIGINAL_SIDEBAR_HTML.trim() !== "") sidebarNavWrap.classList.remove("hidden");
+      } else {
+        showError(err?.message ?? String(err));
+      }
+    } finally {
+      setRunning(false);
+      stopProgress();
+      controller = null;
+    }
+  }
+  form?.addEventListener("submit", handleSubmit);
+</script>
+
+<style is:global>
+  /* Fade + slide-up animation for blocks appearing during the LLM stream */
+  @keyframes poc-stream-in {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .poc-stream-in {
+    animation: poc-stream-in 360ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .poc-stream-in { animation: none; }
+  }
+
+  /* Condensed progress — kicks in once the first block has materialised.
+     Big block shrinks to a thin sticky strip so the report blocks below
+     become the visual focus, not the progress UI. */
+  [data-poc-progress] {
+    transition: padding 220ms ease, background-color 220ms ease, border-radius 220ms ease;
+  }
+  [data-poc-progress][data-compact] {
+    padding: 0.625rem 1rem;
+    position: sticky;
+    top: 5rem;           /* sits under the existing sticky query bar */
+    z-index: 15;
+  }
+  [data-poc-progress][data-compact] .poc-progress-caption,
+  [data-poc-progress][data-compact] .poc-progress-pct-big,
+  [data-poc-progress][data-compact] .poc-progress-ping,
+  [data-poc-progress][data-compact] .poc-progress-eyebrow {
+    display: none;
+  }
+  [data-poc-progress][data-compact] .poc-progress-row {
+    margin: 0;
+  }
+  [data-poc-progress][data-compact] .poc-progress-bar-wrap {
+    margin-top: 0.45rem;
+    height: 4px;
+  }
+  [data-poc-progress][data-compact] .poc-progress-label-line {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-ink-700);
+  }
+  [data-poc-progress][data-compact] .poc-progress-pct-small {
+    display: inline;
+  }
+  .poc-progress-pct-small {
+    display: none;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-blue-700);
+    font-weight: 700;
+  }
+</style>

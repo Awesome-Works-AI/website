@@ -1,0 +1,229 @@
+---
+/* Modal "Jak to działa" / "How it works" — biblioteka komponentów + przykładowe zapytania.
+ * Triggered by [data-open-modal="how-it-works"]. Fills input via [data-fill-query="..."].
+ * Fully localised (PL/EN) via inline content arrays keyed on Astro.url lang.
+ */
+import { getLangFromUrl, useTranslations } from "~/i18n/utils";
+import LibraryPreview from "./blocks/LibraryPreview.astro";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const STEPS = lang === "en"
+  ? [
+      { num: "1", title: "Ask in plain language", body: "Type what you want to know — no SQL, no Excel, no consultants." },
+      { num: "2", title: "The analyst builds the report", body: "An AI agent reads your data (your ERP and accounting system), computes KPIs, builds the bridge, checks variance, benchmarks against the market." },
+      { num: "3", title: "The editor lays out the pack", body: "A second agent turns the analysis into a clean board pack: charts, cards, scenarios, recommendation with action items — board-ready." },
+    ]
+  : [
+      { num: "1", title: "Pytasz prostym językiem", body: "Wpisujesz, czego chcesz się dowiedzieć — bez SQL, bez Excela, bez konsultantów." },
+      { num: "2", title: "Analityk buduje raport", body: "AI agent czyta Twoje dane (Twój ERP i system księgowy), liczy KPI, robi bridge, sprawdza variance, buduje porównanie z rynkiem." },
+      { num: "3", title: "Redaktor układa pakiet", body: "Drugi agent zamienia analizę w czytelny board pack: wykresy, karty, scenariusze, rekomendacja z action items — gotowe na zarząd." },
+    ];
+
+const EXAMPLES = lang === "en"
+  ? [
+      "Q3 2026 sales report — compare against plan and peer group",
+      "Margin analysis on a retail store fleet — 6-quarter trend",
+      "Cash flow projection · 4 quarters · 3 FX scenarios",
+      "Headcount + payroll for the IT department — market benchmark",
+      "Tax compliance — invoice anomaly review for June 2026",
+      "Top-20 B2B debtors — aging + collection plan",
+    ]
+  : [
+      "Raport sprzedaży za Q3 2026 — porównanie z planem i peer group",
+      "Analiza marży na flocie sklepów detalicznych — trend 6 kwartałów",
+      "Cash flow projection na 4 kwartały z 3 scenariuszami FX",
+      "Headcount + payroll dla działu IT — benchmark rynkowy",
+      "Compliance VAT — przegląd anomalii faktur za czerwiec 2026",
+      "Top-20 dłużników B2B — aging + propozycja windykacji",
+    ];
+
+const LIBRARY = lang === "en"
+  ? [
+      { cat: "Numbers", color: "blue", items: [
+          { name: "KPI card", desc: "Value + sparkline + delta % + RAG status", previewType: "kpi-card" },
+          { name: "Metric cards", desc: "P25 / P50 / P75 with a colour accent", previewType: "metric-cards" },
+          { name: "Report header", desc: "5 headline stats + period + industry", previewType: "report-header" },
+        ] },
+      { cat: "Charts", color: "green", items: [
+          { name: "Donut", desc: "Revenue / cost structure — % shares", previewType: "chart:donut" },
+          { name: "Line chart", desc: "Trend over 8–12 periods, multi-series", previewType: "chart:line" },
+          { name: "Combo (bars + line)", desc: "Revenue bars + margin % line — dual axis", previewType: "chart:combo" },
+          { name: "Bar chart", desc: "Category / peer comparison", previewType: "chart:bar" },
+          { name: "Waterfall", desc: "Bridge analysis — what drove the change", previewType: "chart:waterfall" },
+        ] },
+      { cat: "Tables", color: "blue", items: [
+          { name: "Data table", desc: "Sortable, for peer detail / contracts", previewType: "data-table" },
+          { name: "Variance table", desc: "Actual vs Plan with a ±% bar and RAG on every row", previewType: "variance-table" },
+        ] },
+      { cat: "Planning", color: "orange", items: [
+          { name: "Scenarios", desc: "Bearish / Base / Bullish — 3 cards with descriptions", previewType: "scenario-range" },
+          { name: "Drivers", desc: "Key drivers with direction ↑↓ and estimated impact", previewType: "driver-cards" },
+        ] },
+      { cat: "Decision", color: "green", items: [
+          { name: "Recommendation", desc: "Verdict (YES / NO / CONDITIONAL) + rationale + numbered action items", previewType: "recommendation" },
+        ] },
+      { cat: "Commentary", color: "amber", items: [
+          { name: "Insight", desc: "Sharp one-liner with a concrete number", previewType: "callout:insight" },
+          { name: "Info", desc: "Neutral methodological context", previewType: "callout:info" },
+          { name: "Warning", desc: "Risk / what to watch before period close", previewType: "callout:warning" },
+        ] },
+    ]
+  : [
+      { cat: "Dane liczbowe", color: "blue", items: [
+          { name: "KPI z trendem", desc: "Wartość + sparkline + delta % + RAG status", previewType: "kpi-card" },
+          { name: "Metric cards", desc: "P25 / P50 / P75 z kolorowym akcentem", previewType: "metric-cards" },
+          { name: "Report header", desc: "5 nagłówkowych statystyk + okres + branża", previewType: "report-header" },
+        ] },
+      { cat: "Wykresy", color: "green", items: [
+          { name: "Donut", desc: "Struktura przychodów / kosztów — udziały %", previewType: "chart:donut" },
+          { name: "Line chart", desc: "Trend 8-12 okresów, multi-series", previewType: "chart:line" },
+          { name: "Combo (bars + line)", desc: "Revenue słupki + marża % linia — dual axis", previewType: "chart:combo" },
+          { name: "Bar chart", desc: "Porównanie kategorii / peer group", previewType: "chart:bar" },
+          { name: "Waterfall", desc: "Bridge analysis — z czego wziął się wzrost / spadek", previewType: "chart:waterfall" },
+        ] },
+      { cat: "Tabele", color: "blue", items: [
+          { name: "Data table", desc: "Sortable, dla detali peer group / kontraktów", previewType: "data-table" },
+          { name: "Variance table", desc: "Actual vs Plan z paskiem ±% i RAG na każdym wierszu", previewType: "variance-table" },
+        ] },
+      { cat: "Planowanie", color: "orange", items: [
+          { name: "Scenariusze", desc: "Bearish / Base / Bullish — 3 kafelki z opisem", previewType: "scenario-range" },
+          { name: "Drivers", desc: "Kluczowe drivery z kierunkiem ↑↓ i szacowanym impactem", previewType: "driver-cards" },
+        ] },
+      { cat: "Decyzja", color: "green", items: [
+          { name: "Recommendation", desc: "Verdict (TAK / NIE / WARUNKOWO) + rationale + numerowane action items", previewType: "recommendation" },
+        ] },
+      { cat: "Komentarz", color: "amber", items: [
+          { name: "Insight", desc: "Ostry, jednozdaniowy wniosek z konkretną liczbą", previewType: "callout:insight" },
+          { name: "Info", desc: "Neutralny kontekst metodologiczny", previewType: "callout:info" },
+          { name: "Warning", desc: "Ryzyko / na co uważać przed zamknięciem okresu", previewType: "callout:warning" },
+        ] },
+    ];
+
+const COLOR_MAP: Record<string, { bg: string; text: string; ring: string }> = {
+  blue:   { bg: "bg-blue-50",   text: "text-blue-700",   ring: "ring-blue-200" },
+  green:  { bg: "bg-green-50",  text: "text-green-700",  ring: "ring-green-200" },
+  orange: { bg: "bg-orange-50", text: "text-orange-700", ring: "ring-orange-200" },
+  amber:  { bg: "bg-amber-50",  text: "text-amber-700",  ring: "ring-amber-200" },
+};
+---
+
+<dialog
+  id="how-it-works-modal"
+  class="hidden w-full max-w-3xl rounded-3xl border border-ink-200 bg-white p-0 shadow-2xl backdrop:bg-ink-950/50 backdrop:backdrop-blur-sm open:flex open:flex-col open:max-h-[90vh] m-auto"
+  aria-labelledby="how-it-works-title"
+>
+  <header class="sticky top-0 z-10 flex items-start justify-between gap-4 border-b border-ink-200 bg-white/95 px-6 py-4 backdrop-blur">
+    <div>
+      <div class="text-[10px] font-bold uppercase tracking-widest text-blue-700">{t("poc.modal.eyebrow")}</div>
+      <h2 id="how-it-works-title" class="text-xl font-bold text-ink-900">{t("poc.modal.title")}</h2>
+    </div>
+    <button
+      type="button"
+      data-close-modal
+      class="grid h-9 w-9 place-items-center rounded-full text-ink-500 transition hover:bg-ink-100 hover:text-ink-900"
+      aria-label={t("poc.modal.closeAria")}
+    >
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+    </button>
+  </header>
+
+  <div class="space-y-8 overflow-y-auto px-6 py-6">
+    {/* 3 STEPS */}
+    <section>
+      <h3 class="mb-3 text-sm font-bold uppercase tracking-wider text-ink-500">{t("poc.modal.steps.label")}</h3>
+      <ol class="grid gap-3 md:grid-cols-3">
+        {STEPS.map((s) => (
+          <li class="relative rounded-2xl border border-ink-200 bg-white p-4">
+            <span class="absolute -top-3 left-4 grid h-7 w-7 place-items-center rounded-full bg-blue-700 text-xs font-bold text-white shadow">
+              {s.num}
+            </span>
+            <div class="mt-2 text-sm font-semibold text-ink-900">{s.title}</div>
+            <div class="mt-1.5 text-xs leading-relaxed text-ink-600">{s.body}</div>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    {/* EXAMPLE QUERIES */}
+    <section>
+      <h3 class="mb-3 text-sm font-bold uppercase tracking-wider text-ink-500">{t("poc.modal.examples.label")}</h3>
+      <p class="mb-3 text-xs text-ink-600">{t("poc.modal.examples.hint")}</p>
+      <div class="flex flex-col gap-2">
+        {EXAMPLES.map((q) => (
+          <button
+            type="button"
+            data-fill-query={q}
+            data-close-modal
+            class="group flex items-center gap-3 rounded-xl border border-ink-200 bg-ink-50/50 px-3 py-2.5 text-left text-sm text-ink-800 transition hover:border-blue-300 hover:bg-blue-50 hover:text-blue-900"
+          >
+            <span class="grid h-6 w-6 flex-shrink-0 place-items-center rounded-md bg-white text-ink-500 ring-1 ring-ink-200 transition group-hover:bg-blue-700 group-hover:text-white group-hover:ring-blue-700">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 12h14m-6-6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <span class="flex-1">{q}</span>
+          </button>
+        ))}
+      </div>
+    </section>
+
+    {/* COMPONENT LIBRARY */}
+    <section>
+      <h3 class="mb-1 text-sm font-bold uppercase tracking-wider text-ink-500">{t("poc.modal.lib.label")}</h3>
+      <p class="mb-4 text-xs text-ink-600">{t("poc.modal.lib.hint")}</p>
+      <div class="space-y-5">
+        {LIBRARY.map((g) => {
+          const c = COLOR_MAP[g.color];
+          return (
+            <div>
+              <div class={`inline-block rounded-md px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider ${c.bg} ${c.text} ring-1 ${c.ring}`}>
+                {g.cat}
+              </div>
+              <div class="mt-2 grid gap-2 sm:grid-cols-2">
+                {g.items.map((it) => (
+                  <div class="rounded-xl border border-ink-200 bg-white p-3">
+                    <div class="text-sm font-semibold text-ink-900">{it.name}</div>
+                    <div class="mt-1 text-xs leading-relaxed text-ink-600">{it.desc}</div>
+                    <div class="mt-2.5 rounded-lg bg-ink-50/40 p-2">
+                      <LibraryPreview type={it.previewType} />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </section>
+  </div>
+</dialog>
+
+<script>
+  const modal = document.getElementById("how-it-works-modal") as HTMLDialogElement | null;
+  if (modal) {
+    document.querySelectorAll<HTMLElement>("[data-open-modal='how-it-works']").forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        modal.classList.remove("hidden");
+        modal.showModal();
+      });
+    });
+    modal.querySelectorAll<HTMLElement>("[data-close-modal]").forEach((btn) => {
+      btn.addEventListener("click", () => modal.close());
+    });
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) modal.close();
+    });
+    modal.querySelectorAll<HTMLElement>("[data-fill-query]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const q = btn.dataset.fillQuery ?? "";
+        const input = document.getElementById("poc-query") as HTMLTextAreaElement | null;
+        if (input) {
+          input.value = q;
+          input.dispatchEvent(new Event("input", { bubbles: true }));
+          input.focus();
+        }
+      });
+    });
+  }
+</script>

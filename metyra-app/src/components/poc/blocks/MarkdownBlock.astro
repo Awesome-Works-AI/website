@@ -1,0 +1,25 @@
+---
+import { renderBlockMarkdown } from "../parser";
+
+interface Props {
+  source: string;
+}
+const { source } = Astro.props;
+const html = renderBlockMarkdown(source);
+---
+
+<div class="poc-prose text-sm leading-relaxed text-ink-700" set:html={html}></div>
+
+<style is:global>
+  .poc-prose p { margin: 0 0 0.5rem; }
+  .poc-prose p:last-child { margin-bottom: 0; }
+  .poc-prose strong { font-weight: 600; color: var(--color-ink-900); }
+  .poc-prose ul, .poc-prose ol { padding-left: 1.25rem; margin: 0.25rem 0; }
+  .poc-prose li { margin: 0.125rem 0; }
+  .poc-prose code {
+    background: var(--color-ink-100);
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-size: 0.85em;
+  }
+</style>

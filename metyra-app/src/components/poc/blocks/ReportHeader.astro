@@ -1,0 +1,42 @@
+---
+import { getLangFromUrl, useTranslations } from "~/i18n/utils";
+
+interface Props {
+  data: {
+    title?: string;
+    subtitle?: string;
+    period?: string;
+    stats?: { label: string; value: string }[];
+  } | null;
+}
+const { data } = Astro.props;
+if (!data) return null;
+const stats = data.stats ?? [];
+const t = useTranslations(getLangFromUrl(Astro.url));
+---
+
+<div class="relative overflow-hidden rounded-2xl border border-blue-200 bg-gradient-to-br from-blue-50 via-white to-green-50 p-6 shadow-sm">
+  <div aria-hidden="true" class="bg-dots-emerald pointer-events-none absolute inset-0 opacity-40"></div>
+  <div class="relative flex flex-wrap items-start justify-between gap-4">
+    <div>
+      <div class="text-xs font-semibold uppercase tracking-wider text-blue-700">{t("poc.block.reportHeader.eyebrow")}</div>
+      <div class="mt-1 text-2xl font-bold tracking-tight text-ink-900 md:text-3xl">{data.title}</div>
+      {data.subtitle && <div class="mt-1.5 text-sm text-ink-600">{data.subtitle}</div>}
+    </div>
+    {data.period && (
+      <div class="rounded-full border border-blue-300 bg-white/80 px-3 py-1 text-xs font-semibold text-blue-800 backdrop-blur">
+        {data.period}
+      </div>
+    )}
+  </div>
+  {stats.length > 0 && (
+    <div class="relative mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+      {stats.map((s) => (
+        <div class="rounded-xl border border-ink-200 bg-white/80 px-3 py-2.5 backdrop-blur">
+          <div class="text-[10px] font-semibold uppercase tracking-wider text-ink-500">{s.label}</div>
+          <div class="mt-0.5 text-base font-bold text-ink-900">{s.value}</div>
+        </div>
+      ))}
+    </div>
+  )}
+</div>
