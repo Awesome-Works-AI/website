@@ -8,15 +8,19 @@ interface Props {
 
 const { locale } = Astro.props;
 const { bottlenecks } = getPersonalHome(locale);
-const kicker = locale === "pl" ? "Bottlenecki" : "Bottlenecks";
+const kicker = locale === "pl" ? "Koszt" : "Cost";
 const accents = [
+  "border-red-400/30 bg-red-400/[0.06]",
   "border-amber-400/30 bg-amber-400/[0.06]",
-  "border-indigo-400/20 bg-indigo-400/[0.06]",
-  "border-emerald-400/20 bg-emerald-400/[0.06]",
+  "border-rose-400/25 bg-rose-400/[0.05]",
+  "border-orange-400/25 bg-orange-400/[0.05]",
 ] as const;
 ---
 
-<section class="relative flex min-h-[100svh] items-center border-t border-white/[0.06] px-5 py-20 sm:px-6 sm:py-24 lg:px-8">
+<section
+  id="fomo"
+  class="relative flex min-h-[100svh] items-center border-t border-white/[0.06] px-5 py-20 sm:px-6 sm:py-24 lg:px-8"
+>
   <div class="presentation-shell">
     <div class="animate-on-scroll max-w-3xl">
       <div class="section-kicker">{kicker}</div>
@@ -24,13 +28,13 @@ const accents = [
       {bottlenecks.intro && <p class="section-copy mt-4 max-w-2xl">{bottlenecks.intro}</p>}
     </div>
 
-    <div class="mt-10 grid gap-4 lg:grid-cols-3">
+    <div class="mt-10 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
       {
         bottlenecks.items.map((item, index) => (
           <article
             class:list={[
-              "animate-on-scroll rounded-[1.75rem] border px-6 py-6 shadow-xl shadow-black/10",
-              accents[index],
+              "animate-on-scroll flex flex-col rounded-[1.75rem] border px-6 py-6 shadow-xl shadow-black/10",
+              accents[index % accents.length],
             ]}
             style={`transition-delay: ${index * 80}ms`}
           >

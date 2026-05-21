@@ -1,15 +1,14 @@
 ---
+import Authority from "@/components/authority.astro";
 import Bottlenecks from "@/components/bottlenecks.astro";
 import Closing from "@/components/closing.astro";
 import Footer from "@/components/footer.astro";
 import Hero from "@/components/hero.astro";
 import HowItWorks from "@/components/how-it-works.astro";
 import Nav from "@/components/nav.astro";
-import Products from "@/components/products.astro";
+import Products from "@/components/projects-carousel.astro";
 import Questions from "@/components/questions.astro";
 import Socials from "@/components/socials.astro";
-import StoryContent from "@/components/story-content.astro";
-import WhoItsFor from "@/components/who-its-for.astro";
 import { getPersonalHome } from "@/data/personal-home";
 import Base from "@/layouts/base.astro";
 
@@ -29,11 +28,10 @@ const home = getPersonalHome(locale);
     <Hero locale={locale} />
     <Bottlenecks locale={locale} />
     <Products locale={locale} />
+    <Authority locale={locale} />
     <HowItWorks locale={locale} />
-    <WhoItsFor locale={locale} />
     <Questions locale={locale} />
     <Socials locale={locale} />
-    <StoryContent locale={locale} />
     <Closing locale={locale} />
     <Footer locale={locale} />
   </main>

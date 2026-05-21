@@ -38,6 +38,28 @@ const { faq } = getPersonalHome(locale);
             </summary>
             <div class="px-6 pb-5">
               <p class="max-w-3xl text-sm leading-relaxed text-muted-foreground sm:text-base">{item.a}</p>
+              {
+                "bullets" in item && (item as any).bullets && (
+                  <ul class="mt-4 max-w-3xl space-y-3">
+                    {(item as any).bullets.map((b: { title: string; text: string }) => (
+                      <li class="flex gap-3">
+                        <span class="mt-2 h-1.5 w-1.5 flex-none rounded-full bg-red-400/80" aria-hidden="true" />
+                        <span class="text-sm leading-relaxed text-muted-foreground sm:text-base">
+                          <strong class="font-semibold text-foreground/95">{b.title}</strong>
+                          <span class="opacity-90"> — {b.text}</span>
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                )
+              }
+              {
+                "outro" in item && (item as any).outro && (
+                  <p class="mt-4 max-w-3xl text-sm leading-relaxed text-muted-foreground sm:text-base">
+                    {(item as any).outro}
+                  </p>
+                )
+              }
             </div>
           </details>
         ))
