@@ -56,6 +56,11 @@ export const ui = {
     'roadmap.footnote.day': 'Dzień 15:',
     'roadmap.footnote.text': 'recap + decyzja o pełnym dealu.',
 
+    // Integrations marquee
+    'integrations.eyebrow': 'Integracje · Twój stack',
+    'integrations.heading': 'Wpinamy się tam, gdzie już pracujecie',
+    'integrations.subhead': 'Email, CRM, księgowość, ERP, dokumenty, dyski, czaty. Bez migracji, bez przepisywania. Agent czyta to, co macie.',
+
     // Enemy frame
     'enemy.heading': 'Manualny pakiet zarządczy to przeszłość.',
     'enemy.subhead': 'Koniec z tym:',
@@ -280,6 +285,10 @@ export const ui = {
     'roadmap.p4.body': 'Compliance agent flags anomalies. Pre-deadline VAT alerts. Cycle closed.',
     'roadmap.footnote.day': 'Day 15:',
     'roadmap.footnote.text': 'recap + decide on full deal.',
+
+    'integrations.eyebrow': 'Integrations · your stack',
+    'integrations.heading': 'We plug in where your team already works',
+    'integrations.subhead': 'Email, CRM, accounting, ERP, documents, drives, chats. No migration, no rewrites. The agent reads what you already have.',
 
     'enemy.heading': 'Manual management packs are over.',
     'enemy.subhead': 'Stop doing this:',
