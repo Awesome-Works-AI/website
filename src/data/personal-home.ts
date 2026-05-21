@@ -34,7 +34,7 @@ const personalHome = {
         { id: "faq", label: "FAQ", href: "#faq" },
         { id: "contact", label: "Start", href: "#contact" },
       ],
-      cta: "Wyprzedź konkurencję",
+      cta: "Zacznij teraz",
       ctaSublabel: "Darmowa 30-minutowa konsultacja",
     },
     hero: {
@@ -43,7 +43,7 @@ const personalHome = {
       title: "Twoja konkurencja właśnie wdrożyła AI. Ty się o tym dowiesz po stracie pierwszego klienta.",
       subtitle:
         "Agencje, kancelarie, biura księgowe, software house'y — wszyscy sprzedają czas. Dobrze wdrożone AI mnoży go razy dziesięć. Każdy miesiąc opóźnienia to klienci, którzy po cichu odchodzą tam, gdzie obsługa jest szybsza i tańsza.",
-      primaryCta: "Wyprzedź konkurencję",
+      primaryCta: "Zacznij teraz",
       primaryHref: calendlyUrl,
       primarySublabel: "Darmowa 30-minutowa konsultacja. Wychodzisz z konkretnym planem.",
       secondaryCta: "",
@@ -357,7 +357,7 @@ const personalHome = {
       title: "Twoja konkurencja właśnie czyta moje rekomendacje.",
       description:
         "30 minut wystarczy, żebyś wiedział, co wdrożyć, co pominąć i ile to kosztuje. Bez sprzedaży. Bez slajdów.",
-      primaryCta: "Wyprzedź konkurencję",
+      primaryCta: "Zacznij teraz",
       primaryHref: calendlyUrl,
       secondaryCta: "",
       secondaryHref: "",
@@ -392,7 +392,7 @@ const personalHome = {
         { id: "faq", label: "FAQ", href: "#faq" },
         { id: "contact", label: "Start", href: "#contact" },
       ],
-      cta: "Outpace the competition",
+      cta: "Start Now",
       ctaSublabel: "Free 30-minute consultation",
     },
     hero: {
@@ -401,7 +401,7 @@ const personalHome = {
       title: "Your competitor just adopted AI. You'll find out after losing your first client.",
       subtitle:
         "Agencies, law firms, accounting offices, software houses — you all sell hours. AI multiplies them by 10. Three months behind is steady margin erosion and pipeline drift.",
-      primaryCta: "Outpace the competition",
+      primaryCta: "Start Now",
       primaryHref: calendlyUrl,
       primarySublabel: "Free 30-minute consultation. You leave with a concrete plan.",
       secondaryCta: "",
@@ -714,7 +714,7 @@ const personalHome = {
       title: "Your competitor is already reading my recommendations.",
       description:
         "30 minutes is enough to know what to adopt, what to skip, and what it costs. No pitch. No slides.",
-      primaryCta: "Outpace the competition",
+      primaryCta: "Start Now",
       primaryHref: calendlyUrl,
       secondaryCta: "",
       secondaryHref: "",
