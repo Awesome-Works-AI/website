@@ -17,11 +17,11 @@ export const personSameAs = [linkedinUrl, githubUrl] as const;
 const personalHome = {
   pl: {
     meta: {
-      title: "Rafał Łazicki — AI advisor dla service businesses",
+      title: "Rafał Łazicki — AI advisor dla firm usługowych",
       description:
-        "30 minut rozmowy, konkretna lista decyzji: co wdrożyć, co pominąć, co odłożyć. Audyt AI dla agencji, biur, kancelarii i software house'ów — od kogoś, kto pracuje w AI od 2018, zanim wszyscy o nim usłyszeli.",
+        "Audyt AI w 30 minut dla agencji, kancelarii, biur księgowych i software house'ów. Konkretny plan: co wdrożyć, co pominąć, co odłożyć. Bez sprzedaży i bez slajdów.",
       socialDescription:
-        "AI advisor dla agencji, biur, kancelarii i software house'ów. 30 minut rozmowy → konkretna mapa decyzji.",
+        "AI advisor dla firm usługowych. 30 minut rozmowy → konkretny plan wdrożeń. Bez sprzedaży.",
     },
     nav: {
       brand: "Rafał Łazicki",
@@ -38,7 +38,7 @@ const personalHome = {
       ctaSublabel: "Darmowa 30-minutowa konsultacja",
     },
     hero: {
-      eyebrow: "AI advisor for service businesses",
+      eyebrow: "AI advisor dla firm usługowych",
       name: "Rafał Łazicki",
       title: "Twoja konkurencja właśnie wdrożyła AI. Ty się o tym dowiesz po stracie pierwszego klienta.",
       subtitle:
@@ -375,11 +375,11 @@ const personalHome = {
   },
   en: {
     meta: {
-      title: "Rafał Łazicki — AI delivery systems for product teams",
+      title: "Rafał Łazicki — AI advisor for service businesses",
       description:
-        "30 minutes, free, no pitch. You walk out with a list: what to adopt, what to skip, what to delay. AI advisor for agencies, law firms, accounting offices, and software houses — from someone who's been in AI since 2018, before the market caught on.",
+        "30-minute AI audit for agencies, law firms, accounting offices, and software houses. A concrete plan: what to adopt, what to skip, what to delay. No pitch. No slides.",
       socialDescription:
-        "AI advisor for agencies, law firms, accounting offices, and software houses. 30-min consultation → concrete decision map.",
+        "AI advisor for service businesses. 30 minutes → concrete adoption plan. No pitch.",
     },
     nav: {
       brand: "Rafał Łazicki",

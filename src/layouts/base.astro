@@ -1,7 +1,7 @@
 ---
 import "@/styles/globals.css";
-import { organizationSameAs, personSameAs } from "@/data/personal-home";
-import { t, type Locale } from "@/i18n/utils";
+import { getPersonalHome, organizationSameAs, personSameAs } from "@/data/personal-home";
+import type { Locale } from "@/i18n/utils";
 
 interface Props {
   title: string;
@@ -30,29 +30,33 @@ const alumniOfName = locale === "pl" ? "Wojskowa Akademia Techniczna" : "Militar
 const knowsAbout =
   locale === "pl"
     ? [
-        "AI delivery systems",
-        "workflow design",
-        "handoffy",
-        "internal tooling",
-        "backend engineering",
+        "Doradztwo AI",
+        "Audyt AI",
+        "Agenci AI",
+        "Systemy RAG",
+        "LLM",
+        "Automatyzacja procesów biznesowych",
+        "AI dla firm usługowych",
+        "Backend engineering",
         "DevOps",
-        "systemy RAG",
       ]
     : [
-        "AI delivery systems",
-        "workflow design",
-        "handoffs",
-        "internal tooling",
-        "backend engineering",
-        "DevOps",
+        "AI advisory",
+        "AI audit",
+        "AI agents",
         "RAG systems",
+        "LLM applications",
+        "Process automation",
+        "AI for service businesses",
+        "Backend engineering",
+        "DevOps",
       ];
 const ogImageAlt =
   locale === "pl"
-    ? "Rafał Łazicki — workflow, handoffy i software delivery"
-    : "Rafał Łazicki — workflow, handoffs, and software delivery";
+    ? "Rafał Łazicki — AI advisor dla firm usługowych"
+    : "Rafał Łazicki — AI advisor for service businesses";
 
-const i = t(locale);
+const i = getPersonalHome(locale);
 
 const organizationJsonLd = {
   "@context": "https://schema.org",
@@ -88,7 +92,7 @@ const personJsonLd = {
   name: "Rafał Łazicki",
   url: canonicalUrl.href,
   image: new URL("/rafal.jpeg", siteBase).href,
-  jobTitle: "Founder",
+  jobTitle: locale === "pl" ? "AI advisor i founder" : "AI advisor and founder",
   sameAs: personSameAs,
   worksFor: {
     "@id": organizationId,
@@ -105,6 +109,19 @@ const personJsonLd = {
   knowsAbout,
 };
 
+const flattenAnswer = (item: {
+  a: string;
+  bullets?: ReadonlyArray<{ title: string; text: string }>;
+  outro?: string;
+}) => {
+  const parts: string[] = [item.a];
+  if (item.bullets) {
+    for (const b of item.bullets) parts.push(`${b.title}: ${b.text}`);
+  }
+  if (item.outro) parts.push(item.outro);
+  return parts.join(" ");
+};
+
 const faqJsonLd = includeFaqSchema
   ? {
       "@context": "https://schema.org",
@@ -114,7 +131,7 @@ const faqJsonLd = includeFaqSchema
         name: item.q,
         acceptedAnswer: {
           "@type": "Answer",
-          text: item.a,
+          text: flattenAnswer(item as { a: string; bullets?: ReadonlyArray<{ title: string; text: string }>; outro?: string }),
         },
       })),
     }
