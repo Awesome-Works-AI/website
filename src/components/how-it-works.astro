@@ -19,32 +19,6 @@ const kicker = locale === "pl" ? "Flow" : "Flow";
       <h2 class="section-title mt-4">{process.title}</h2>
     </div>
 
-    <div class="presentation-panel animate-on-scroll mt-10 grid gap-8 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
-      <div>
-        <div class="text-xs font-semibold uppercase tracking-[0.24em] text-muted-foreground/65">
-          {process.bridge.kicker}
-        </div>
-        <h3 class="mt-4 max-w-2xl text-2xl font-semibold tracking-tight text-foreground sm:text-[2rem]">
-          {process.bridge.title}
-        </h3>
-      </div>
-
-      <div>
-        <ul class="space-y-3">
-          {
-            process.bridge.bullets.map((bullet) => (
-              <li class="flex gap-3">
-                <span class="mt-2 h-1.5 w-1.5 flex-none rounded-full bg-indigo-400"></span>
-                <span class="text-sm leading-relaxed text-muted-foreground sm:text-base">{bullet}</span>
-              </li>
-            ))
-          }
-        </ul>
-
-        <p class="mt-5 text-sm leading-relaxed text-muted-foreground">{process.bridge.note}</p>
-      </div>
-    </div>
-
     <div class="mt-10 grid gap-4 lg:grid-cols-3">
       {
         process.steps.map((step, index) => (

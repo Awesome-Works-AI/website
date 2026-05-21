@@ -28,22 +28,28 @@ const hasSecondaryCta = Boolean(hero.secondaryCta && hero.secondaryHref);
           {hero.subtitle}
         </p>
 
-        <div class="mt-8 flex flex-col items-start gap-4 sm:flex-row sm:flex-wrap">
+        <div class="mt-8 flex flex-col items-start gap-3">
           <a
             href={hero.primaryHref}
             target={isPrimaryExternal ? "_blank" : undefined}
             rel={isPrimaryExternal ? "noopener noreferrer" : undefined}
-            class="inline-flex items-center rounded-full bg-foreground px-6 py-3 text-sm font-semibold text-background transition-opacity hover:opacity-90"
+            class="inline-flex items-center rounded-full bg-red-500 px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-red-500/30 transition hover:bg-red-400 hover:shadow-red-500/50 sm:text-base"
           >
             {hero.primaryCta}
+            <span aria-hidden="true" class="ml-2">→</span>
           </a>
+          {
+            "primarySublabel" in hero && (hero as any).primarySublabel && (
+              <p class="text-xs text-muted-foreground sm:text-sm">{(hero as any).primarySublabel}</p>
+            )
+          }
           {
             hasSecondaryCta && (
               <a
                 href={hero.secondaryHref}
                 target={isSecondaryExternal ? "_blank" : undefined}
                 rel={isSecondaryExternal ? "noopener noreferrer" : undefined}
-                class="inline-flex items-center rounded-full border border-white/[0.12] bg-white/[0.04] px-6 py-3 text-sm font-semibold text-foreground transition-colors hover:bg-white/[0.08]"
+                class="mt-2 inline-flex items-center rounded-full border border-white/[0.12] bg-white/[0.04] px-6 py-3 text-sm font-semibold text-foreground transition-colors hover:bg-white/[0.08]"
               >
                 {hero.secondaryCta}
               </a>

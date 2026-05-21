@@ -31,5 +31,8 @@ export default defineConfig({
     build: {
       cssMinify: true,
     },
+    server: {
+      allowedHosts: [".ts.net"],
+    },
   },
 });

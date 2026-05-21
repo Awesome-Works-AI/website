@@ -1,0 +1,360 @@
+---
+import { getPersonalHome } from "@/data/personal-home";
+import type { Locale } from "@/i18n/utils";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const { products } = getPersonalHome(locale);
+const items = products.items;
+const total = items.length;
+
+// Three copies for infinite scroll. Middle copy is the canonical position.
+const COPIES = 3;
+const copies = Array.from({ length: COPIES }, (_, c) => c);
+
+const isExternalHref = (href: string) => /^https?:\/\//i.test(href);
+
+const accentByIndex: Record<string, string> = {
+  callwise: "from-indigo-500/25 via-indigo-500/5 to-transparent",
+  metyra: "from-blue-500/25 via-blue-500/5 to-transparent",
+  courseai: "from-sky-400/25 via-sky-400/5 to-transparent",
+  ask: "from-emerald-400/25 via-emerald-400/5 to-transparent",
+  "ai-daily": "from-amber-400/25 via-amber-400/5 to-transparent",
+  goose: "from-white/[0.18] via-white/[0.04] to-transparent",
+};
+
+const localeForId: Record<string, "pl" | "en" | "both"> = {
+  callwise: "both",
+  metyra: "both",
+  courseai: "both",
+  ask: "pl",
+  "ai-daily": "en",
+  goose: "en",
+};
+
+function screenshotFor(id: string, loc: Locale): string {
+  const variant = localeForId[id];
+  const useLocale = variant === "both" ? loc : variant;
+  return `/projects/${id}-${useLocale}.webp`;
+}
+
+const prevLabel = locale === "pl" ? "Poprzedni projekt" : "Previous project";
+const nextLabel = locale === "pl" ? "Następny projekt" : "Next project";
+const goLabel = locale === "pl" ? "Przejdź do" : "Go to";
+const slideOfLabel = locale === "pl" ? "z" : "of";
+const audienceKickerLabel = locale === "pl" ? "Dla" : "For";
+const focusSlideLabel = locale === "pl" ? "Pokaż projekt" : "Show project";
+---
+
+<section
+  id="work"
+  class="relative flex min-h-[100svh] flex-col justify-center border-t border-white/[0.06] py-20 sm:py-24"
+>
+  <div
+    class="animate-on-scroll relative w-full"
+    data-carousel-root
+    data-reals={total}
+    data-copies={COPIES}
+    style="--slide-w: min(52vw, 780px); --slide-pad: max(1rem, calc((100% - var(--slide-w)) / 2));"
+  >
+    <div
+      class="flex snap-x snap-mandatory gap-6 overflow-x-auto pb-2 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+      style="padding-inline: var(--slide-pad);"
+      data-carousel-track
+    >
+      {
+        copies.flatMap((copyIdx) =>
+          items.map((item, realIdx) => {
+            const audience = "audience" in item ? (item as any).audience : null;
+            const screenshot = screenshotFor(item.id, locale);
+            const accent =
+              accentByIndex[item.id as keyof typeof accentByIndex] ?? accentByIndex.goose;
+            return (
+              <article
+                class="relative flex shrink-0 snap-center flex-col gap-4 transition-opacity duration-500"
+                style="flex-basis: var(--slide-w);"
+                data-carousel-slide
+                data-real-index={realIdx}
+                data-copy={copyIdx}
+                aria-roledescription="slide"
+                aria-label={`${realIdx + 1} ${slideOfLabel} ${total}: ${item.name}`}
+              >
+                <div class="flex flex-wrap items-center justify-between gap-3 px-1">
+                  <div class="flex min-w-0 flex-1 items-center gap-3">
+                    {audience && (
+                      <span class="inline-flex items-center gap-1.5 rounded-full border border-white/[0.08] bg-white/[0.04] px-3 py-1 text-[10px] font-medium uppercase tracking-[0.2em] text-muted-foreground backdrop-blur-sm">
+                        <span class="opacity-60">{audienceKickerLabel}</span>
+                        <span class="text-foreground/80">{audience}</span>
+                      </span>
+                    )}
+                    <h3 class="truncate text-xl font-semibold tracking-tight text-foreground sm:text-2xl">
+                      {item.name}
+                    </h3>
+                  </div>
+
+                  <a
+                    href={item.href}
+                    target={isExternalHref(item.href) ? "_blank" : undefined}
+                    rel={isExternalHref(item.href) ? "noopener noreferrer" : undefined}
+                    class="inline-flex shrink-0 items-center gap-2 rounded-full bg-red-500 px-4 py-2 text-xs font-semibold text-white shadow-md shadow-red-500/30 transition hover:bg-red-400 hover:shadow-red-500/50 sm:text-sm"
+                  >
+                    <span>{item.cta}</span>
+                    <span aria-hidden="true">→</span>
+                  </a>
+                </div>
+
+                <button
+                  type="button"
+                  data-carousel-focus
+                  data-target-real={realIdx}
+                  class="group/shot relative block w-full overflow-hidden rounded-[1.25rem] border border-white/[0.08] bg-black/40 text-left shadow-2xl shadow-black/50 transition-transform duration-500 hover:scale-[1.005] focus:outline-none focus-visible:ring-2 focus-visible:ring-foreground/60"
+                  aria-label={`${focusSlideLabel}: ${item.name}`}
+                >
+                  <div
+                    class:list={["pointer-events-none absolute inset-0 bg-gradient-to-br opacity-50", accent]}
+                    aria-hidden="true"
+                  />
+                  <img
+                    src={screenshot}
+                    alt={`${item.name} landing screenshot`}
+                    width="1280"
+                    height="720"
+                    loading={copyIdx === 1 && realIdx === 0 ? "eager" : "lazy"}
+                    decoding="async"
+                    class="relative block h-auto w-full object-contain transition-transform duration-700 group-hover/shot:scale-[1.015]"
+                  />
+                </button>
+              </article>
+            );
+          })
+        )
+      }
+    </div>
+
+    <div class="pointer-events-none absolute inset-y-0 left-0 hidden items-center pl-3 sm:flex">
+      <button
+        type="button"
+        class="pointer-events-auto inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/[0.12] bg-background/80 text-foreground backdrop-blur-md transition hover:bg-background"
+        data-carousel-prev
+        aria-label={prevLabel}
+      >
+        <span aria-hidden="true">←</span>
+      </button>
+    </div>
+    <div class="pointer-events-none absolute inset-y-0 right-0 hidden items-center pr-3 sm:flex">
+      <button
+        type="button"
+        class="pointer-events-auto inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/[0.12] bg-background/80 text-foreground backdrop-blur-md transition hover:bg-background"
+        data-carousel-next
+        aria-label={nextLabel}
+      >
+        <span aria-hidden="true">→</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="animate-on-scroll mt-8 flex items-center justify-center gap-3" role="tablist" aria-label="Projects">
+    {
+      items.map((item, index) => (
+        <button
+          type="button"
+          class="group inline-flex h-9 w-9 items-center justify-center rounded-full"
+          data-carousel-dot={index}
+          aria-label={`${goLabel} ${item.name}`}
+          role="tab"
+        >
+          <span
+            class="h-2 w-2 rounded-full bg-muted-foreground/40 transition-all group-hover:bg-foreground/80 group-data-[active=true]:w-6 group-data-[active=true]:bg-foreground"
+            aria-hidden="true"
+          />
+        </button>
+      ))
+    }
+  </div>
+</section>
+
+<script>
+  function initCarousel(root: HTMLElement) {
+    const track = root.querySelector<HTMLElement>("[data-carousel-track]");
+    if (!track) return;
+
+    const slides = Array.from(track.querySelectorAll<HTMLElement>("[data-carousel-slide]"));
+    if (slides.length === 0) return;
+
+    const reals = Number(root.dataset.reals) || 1;
+    const middleStart = reals;
+    const middleEnd = reals * 2;
+
+    const dots = Array.from(document.querySelectorAll<HTMLElement>("[data-carousel-dot]"));
+    const current = document.querySelector<HTMLElement>("[data-carousel-current]");
+    const focusBtns = Array.from(track.querySelectorAll<HTMLElement>("[data-carousel-focus]"));
+    const prevBtns = Array.from(
+      document.querySelectorAll<HTMLElement>(
+        "[data-carousel-prev], [data-carousel-prev-mobile]"
+      )
+    );
+    const nextBtns = Array.from(
+      document.querySelectorAll<HTMLElement>(
+        "[data-carousel-next], [data-carousel-next-mobile]"
+      )
+    );
+
+    let suppressActiveUpdate = false;
+
+    // Mouse wheel: keep page scrolling vertically instead of letting the track
+    // hijack deltaY into horizontal scroll. Trackpad horizontal gestures still
+    // reach the carousel because deltaX > deltaY in that case.
+    track.addEventListener(
+      "wheel",
+      (e) => {
+        if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+          e.preventDefault();
+          window.scrollBy({ top: e.deltaY, left: 0, behavior: "auto" });
+        }
+      },
+      { passive: false }
+    );
+
+    const setActiveDots = (realIndex: number) => {
+      dots.forEach((dot, i) => {
+        dot.dataset.active = String(i === realIndex);
+      });
+      slides.forEach((slide) => {
+        const r = Number(slide.dataset.realIndex);
+        slide.dataset.active = String(r === realIndex);
+      });
+      if (current) current.textContent = String(realIndex + 1).padStart(2, "0");
+    };
+
+    const getCenterDomIndex = (): number => {
+      const center = track.scrollLeft + track.clientWidth / 2;
+      let bestIdx = 0;
+      let bestDist = Number.POSITIVE_INFINITY;
+      slides.forEach((s, i) => {
+        const sc = s.offsetLeft + s.clientWidth / 2;
+        const d = Math.abs(sc - center);
+        if (d < bestDist) {
+          bestDist = d;
+          bestIdx = i;
+        }
+      });
+      return bestIdx;
+    };
+
+    const offsetFor = (idx: number): number => {
+      const slide = slides[idx];
+      if (!slide) return 0;
+      return slide.offsetLeft - (track.clientWidth - slide.clientWidth) / 2;
+    };
+
+    const smoothScrollTo = (idx: number) => {
+      track.scrollTo({ left: offsetFor(idx), behavior: "smooth" });
+    };
+
+    const instantScrollTo = (idx: number) => {
+      // Direct property assignment bypasses any scroll-behavior CSS.
+      track.scrollLeft = offsetFor(idx);
+    };
+
+    const scrollToRealIndex = (realIdx: number) => {
+      const cur = getCenterDomIndex();
+      const candidates = [realIdx, realIdx + reals, realIdx + 2 * reals];
+      const closest = candidates.reduce((best, c) =>
+        Math.abs(c - cur) < Math.abs(best - cur) ? c : best
+      );
+      smoothScrollTo(closest);
+    };
+
+    // Park on middle copy first slide
+    requestAnimationFrame(() => {
+      instantScrollTo(middleStart);
+      setActiveDots(0);
+    });
+
+    // Track active slide during scroll + rewind clones when settled
+    let scrollTimer: number | null = null;
+    track.addEventListener("scroll", () => {
+      if (suppressActiveUpdate) return;
+      const cur = getCenterDomIndex();
+      const slide = slides[cur];
+      if (slide) setActiveDots(Number(slide.dataset.realIndex));
+
+      if (scrollTimer) window.clearTimeout(scrollTimer);
+      scrollTimer = window.setTimeout(() => {
+        const c = getCenterDomIndex();
+        if (c < middleStart || c >= middleEnd) {
+          suppressActiveUpdate = true;
+          const equivalent = middleStart + (c % reals);
+          instantScrollTo(equivalent);
+          // Release suppression on next frame after the instant scroll lands.
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              suppressActiveUpdate = false;
+            });
+          });
+        }
+      }, 140);
+    });
+
+    dots.forEach((dot, i) => dot.addEventListener("click", () => scrollToRealIndex(i)));
+
+    focusBtns.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const real = Number(btn.dataset.targetReal);
+        if (Number.isFinite(real)) scrollToRealIndex(real);
+      });
+    });
+
+    const advance = (delta: number) => {
+      const cur = getCenterDomIndex();
+      const targetDom = cur + delta;
+      // If next/prev would leave the middle copy, pre-jump to the equivalent
+      // slide in the OTHER copy first, then smooth-scroll one step. This makes
+      // crossing the loop boundary look like a natural one-slide animation.
+      if (delta < 0 && cur === middleStart) {
+        suppressActiveUpdate = true;
+        instantScrollTo(middleEnd);
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            suppressActiveUpdate = false;
+            smoothScrollTo(middleEnd - 1);
+          });
+        });
+        return;
+      }
+      if (delta > 0 && cur === middleEnd - 1) {
+        suppressActiveUpdate = true;
+        instantScrollTo(middleStart - 1);
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            suppressActiveUpdate = false;
+            smoothScrollTo(middleStart);
+          });
+        });
+        return;
+      }
+      smoothScrollTo(targetDom);
+    };
+    prevBtns.forEach((b) => b.addEventListener("click", () => advance(-1)));
+    nextBtns.forEach((b) => b.addEventListener("click", () => advance(1)));
+
+    root.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight") advance(1);
+      if (e.key === "ArrowLeft") advance(-1);
+    });
+  }
+
+  document.querySelectorAll<HTMLElement>("[data-carousel-root]").forEach(initCarousel);
+</script>
+
+<style>
+  [data-carousel-slide] {
+    opacity: 0.4;
+  }
+  [data-carousel-slide][data-active="true"] {
+    opacity: 1;
+  }
+</style>

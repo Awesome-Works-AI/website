@@ -37,7 +37,7 @@ export default {
         sm: "calc(var(--radius) - 4px)",
       },
       fontFamily: {
-        sans: ["Inter Variable", "Inter", "system-ui", "sans-serif"],
+        sans: ['"Space Grotesk"', "system-ui", "Segoe UI", "Roboto", "sans-serif"],
       },
       animation: {
         float: "float 6s ease-in-out infinite",

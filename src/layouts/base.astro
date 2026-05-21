@@ -1,5 +1,4 @@
 ---
-import "@fontsource-variable/inter";
 import "@/styles/globals.css";
 import { organizationSameAs, personSameAs } from "@/data/personal-home";
 import { t, type Locale } from "@/i18n/utils";
@@ -163,6 +162,13 @@ const faqJsonLd = includeFaqSchema
     <meta name="twitter:image:alt" content={ogImageAlt} />
 
     <link rel="image_src" href={ogImageAbsolute} />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap"
+    />
 
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />

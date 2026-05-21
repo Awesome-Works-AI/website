@@ -27,9 +27,10 @@ const hasSecondaryCta = Boolean(closing.secondaryCta && closing.secondaryHref);
             href={closing.primaryHref}
             target={isPrimaryExternal ? "_blank" : undefined}
             rel={isPrimaryExternal ? "noopener noreferrer" : undefined}
-            class="inline-flex items-center rounded-full bg-foreground px-6 py-3 text-sm font-semibold text-background transition-opacity hover:opacity-90"
+            class="inline-flex items-center rounded-full bg-red-500 px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-red-500/30 transition hover:bg-red-400 hover:shadow-red-500/50 sm:text-base"
           >
             {closing.primaryCta}
+            <span aria-hidden="true" class="ml-2">→</span>
           </a>
           {
             hasSecondaryCta && (
