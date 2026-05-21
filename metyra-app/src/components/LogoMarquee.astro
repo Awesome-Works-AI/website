@@ -1,0 +1,131 @@
+---
+/**
+ * LogoMarquee — seamless infinite horizontal marquee of brand logos.
+ *
+ * Used for: customer Trust strip + integrations strip. Renders the list
+ * twice so `translateX(-50%)` lands exactly on the seam (no jump).
+ */
+export interface MarqueeLogo {
+  name: string;
+  src: string;
+  /* Per-logo Tailwind height classes — tune visual weight across logos with very different aspect ratios. */
+  h: string;
+  /* Optional extra class — e.g. `logo-darken` for pale logos on white. */
+  extra?: string;
+}
+
+interface Props {
+  logos: MarqueeLogo[];
+  /** Marquee scroll direction. */
+  direction?: "left" | "right";
+  /** Full-cycle duration, e.g. "38s". Slower = calmer. */
+  speed?: string;
+  /** Min width per item — controls density of the strip. */
+  itemMinWidth?: string;
+  /** Trailing gap between items (also acts as the seam). */
+  itemGap?: string;
+}
+
+const {
+  logos,
+  direction = "left",
+  speed = "38s",
+  itemMinWidth = "8rem",
+  itemGap = "4rem",
+} = Astro.props;
+
+/* Render the list twice for a seamless infinite scroll. */
+const marquee = [...logos, ...logos];
+const animationName = direction === "right" ? "marquee-right" : "marquee-left";
+---
+
+<div
+  class="marquee-mask relative"
+  style={`--marquee-speed: ${speed}; --marquee-anim: ${animationName}; --marquee-item-min: ${itemMinWidth}; --marquee-item-gap: ${itemGap};`}
+>
+  <div class="marquee-track">
+    {
+      marquee.map((logo, i) => (
+        <div class="marquee-item">
+          <img
+            src={logo.src}
+            alt={i < logos.length ? logo.name : ""}
+            aria-hidden={i >= logos.length ? "true" : undefined}
+            class={`${logo.h} w-auto select-none opacity-70 grayscale transition hover:opacity-100 hover:grayscale-0 ${logo.extra ?? ""}`}
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  .marquee-mask {
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      black 8%,
+      black 92%,
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      black 8%,
+      black 92%,
+      transparent 100%
+    );
+  }
+
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    align-items: center;
+    animation: var(--marquee-anim) var(--marquee-speed) linear infinite;
+  }
+
+  /* Per-item margin-right (not flex gap) so EVERY item — including the last
+     of each copy — has a trailing gap. That makes translateX(-50%) land
+     perfectly on the seam, no visible "longer gap" at the loop. */
+  .marquee-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    min-width: var(--marquee-item-min);
+    margin-right: var(--marquee-item-gap);
+  }
+
+  .marquee-track:hover {
+    animation-play-state: paused;
+  }
+
+  /* Darken pale logos (e.g. Thirty3 light gray on white) */
+  :global(.logo-darken) {
+    filter: brightness(0.45) contrast(1.15);
+  }
+  :global(.logo-darken:hover) {
+    filter: none;
+  }
+
+  @keyframes marquee-left {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  @keyframes marquee-right {
+    from { transform: translateX(-50%); }
+    to   { transform: translateX(0); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-track {
+      animation: none;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+  }
+</style>

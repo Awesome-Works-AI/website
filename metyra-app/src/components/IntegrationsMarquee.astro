@@ -1,0 +1,56 @@
+---
+import { getLangFromUrl, useTranslations } from "~/i18n/utils";
+import Kicker from "~/components/Kicker.astro";
+import LogoMarquee, { type MarqueeLogo } from "~/components/LogoMarquee.astro";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+
+/* 20 systems CFO/COO/CEO actually use day-to-day. Logos sourced from
+   simpleicons.org (CC0) and svgl.app / vectorlogo.zone for trademarked
+   marks that Simple Icons had to drop. All monochrome SVGs — the marquee
+   grayscales them anyway and reveals brand color on hover. */
+const H = "h-8 md:h-10";
+const integrations: MarqueeLogo[] = [
+  { name: "Gmail",             src: `${base}/integrations/gmail.svg`,            h: H },
+  { name: "Microsoft Outlook", src: `${base}/integrations/microsoftoutlook.svg`, h: H },
+  { name: "Google Drive",      src: `${base}/integrations/googledrive.svg`,      h: H },
+  { name: "Dropbox",           src: `${base}/integrations/dropbox.svg`,          h: H },
+  { name: "Microsoft Teams",   src: `${base}/integrations/microsoftteams.svg`,   h: H },
+  { name: "Slack",             src: `${base}/integrations/slack.svg`,            h: H },
+  { name: "Zoom",              src: `${base}/integrations/zoom.svg`,             h: H },
+  { name: "Notion",            src: `${base}/integrations/notion.svg`,           h: H },
+  { name: "Asana",             src: `${base}/integrations/asana.svg`,            h: H },
+  { name: "Trello",            src: `${base}/integrations/trello.svg`,           h: H },
+  { name: "Jira",              src: `${base}/integrations/jira.svg`,             h: H },
+  { name: "HubSpot",           src: `${base}/integrations/hubspot.svg`,          h: H },
+  { name: "Salesforce",        src: `${base}/integrations/salesforce.svg`,       h: H },
+  { name: "Stripe",            src: `${base}/integrations/stripe.svg`,           h: H },
+  { name: "QuickBooks",        src: `${base}/integrations/quickbooks.svg`,       h: H },
+  { name: "Xero",              src: `${base}/integrations/xero.svg`,             h: H },
+  { name: "SAP",               src: `${base}/integrations/sap.svg`,              h: H },
+  { name: "Microsoft Excel",   src: `${base}/integrations/microsoftexcel.svg`,   h: H },
+  { name: "Airtable",          src: `${base}/integrations/airtable.svg`,         h: H },
+  { name: "DocuSign",          src: `${base}/integrations/docusign.svg`,         h: H },
+];
+---
+
+<section class="relative overflow-hidden bg-ink-50 py-20">
+  {/* Subtle decorative shapes matching Trust strip but mirrored tones */}
+  <div aria-hidden="true" class="shape-half-pill-l pointer-events-none absolute -left-10 bottom-1/3 hidden h-10 w-32 bg-blue-400/15 md:block"></div>
+  <div aria-hidden="true" class="shape-half-pill-r pointer-events-none absolute -right-10 top-1/4 hidden h-10 w-32 bg-green-400/15 md:block"></div>
+
+  <div class="relative mx-auto max-w-7xl px-6 mb-12 text-center">
+    <Kicker text={t("integrations.eyebrow")} tone="blue" accent="green" />
+    <h2 class="mt-5 text-balance text-2xl font-bold tracking-tight text-ink-900 md:text-3xl">
+      {t("integrations.heading")}
+    </h2>
+    <p class="mx-auto mt-3 max-w-2xl text-sm text-ink-600 md:text-base">
+      {t("integrations.subhead")}
+    </p>
+  </div>
+
+  <LogoMarquee logos={integrations} speed="55s" itemMinWidth="7rem" itemGap="3.5rem" />
+</section>
