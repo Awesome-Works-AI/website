@@ -5,7 +5,7 @@ const localizedProductUrl = (baseUrl: string, locale: Locale) => `${baseUrl}/${l
 const githubUrl = "https://github.com/Raff-dev";
 const gooseUrl = "https://raff-dev.github.io/goose/";
 const aiDailyUrl = "https://raff-dev.github.io/ai-daily/";
-const metyraPath = "/metyra/";
+const metyraPath = (locale: Locale) => (locale === "en" ? "/metyra/en/" : "/metyra/");
 const askPath = "/ask/";
 const xUrl = "https://x.com/awesomeworksai";
 const linkedinUrl = "https://linkedin.com/in/rlazicki";
@@ -152,7 +152,7 @@ const personalHome = {
           audience: "Executive board",
           logoSrc: "/metyra-logo.svg",
           logoAlt: "Metyra logo",
-          href: metyraPath,
+          href: metyraPath("pl"),
           cta: "Zobacz Metyrę",
         },
         {
@@ -510,7 +510,7 @@ const personalHome = {
           audience: "Executive board",
           logoSrc: "/metyra-logo.svg",
           logoAlt: "Metyra logo",
-          href: metyraPath,
+          href: metyraPath("en"),
           cta: "See Metyra",
         },
         {
