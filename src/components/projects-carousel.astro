@@ -82,15 +82,15 @@ const focusSlideLabel = locale === "pl" ? "Pokaż projekt" : "Show project";
                 aria-roledescription="slide"
                 aria-label={`${realIdx + 1} ${slideOfLabel} ${total}: ${item.name}`}
               >
-                <div class="flex flex-wrap items-center justify-between gap-3 px-1">
-                  <div class="flex min-w-0 flex-1 items-center gap-3">
+                <div class="flex flex-wrap items-center justify-between gap-3 px-1 max-sm:flex-col max-sm:flex-nowrap max-sm:items-start">
+                  <div class="flex min-w-0 flex-1 items-center gap-3 max-sm:w-full">
                     {audience && (
                       <span class="inline-flex items-center gap-1.5 rounded-full border border-white/[0.08] bg-white/[0.04] px-3 py-1 text-[10px] font-medium uppercase tracking-[0.2em] text-muted-foreground backdrop-blur-sm">
                         <span class="opacity-60">{audienceKickerLabel}</span>
                         <span class="text-foreground/80">{audience}</span>
                       </span>
                     )}
-                    <h3 class="truncate text-xl font-semibold tracking-tight text-foreground sm:text-2xl">
+                    <h3 class="truncate text-xl font-semibold tracking-tight text-foreground sm:text-2xl max-sm:overflow-visible max-sm:whitespace-normal">
                       {item.name}
                     </h3>
                   </div>
@@ -99,7 +99,7 @@ const focusSlideLabel = locale === "pl" ? "Pokaż projekt" : "Show project";
                     href={item.href}
                     target={isExternalHref(item.href) ? "_blank" : undefined}
                     rel={isExternalHref(item.href) ? "noopener noreferrer" : undefined}
-                    class="inline-flex shrink-0 items-center gap-2 rounded-full bg-red-500 px-4 py-2 text-xs font-semibold text-white shadow-md shadow-red-500/30 transition hover:bg-red-400 hover:shadow-red-500/50 sm:text-sm"
+                    class="inline-flex shrink-0 items-center gap-2 rounded-full bg-red-600 px-4 py-2 text-xs font-semibold text-white shadow-md shadow-red-500/30 transition hover:bg-red-500 hover:shadow-red-500/50 sm:text-sm max-sm:w-full max-sm:justify-center"
                   >
                     <span>{item.cta}</span>
                     <span aria-hidden="true">→</span>
@@ -156,7 +156,7 @@ const focusSlideLabel = locale === "pl" ? "Pokaż projekt" : "Show project";
     </div>
   </div>
 
-  <div class="animate-on-scroll mt-8 flex items-center justify-center gap-3" role="tablist" aria-label="Projects">
+  <div class="animate-on-scroll mt-8 hidden items-center justify-center gap-3 sm:flex" role="tablist" aria-label="Projects">
     {
       items.map((item, index) => (
         <button
@@ -178,8 +178,10 @@ const focusSlideLabel = locale === "pl" ? "Pokaż projekt" : "Show project";
 
 <script>
   function initCarousel(root: HTMLElement) {
+    if (root.dataset.carouselInit === "1") return;
     const track = root.querySelector<HTMLElement>("[data-carousel-track]");
     if (!track) return;
+    root.dataset.carouselInit = "1";
 
     const slides = Array.from(track.querySelectorAll<HTMLElement>("[data-carousel-slide]"));
     if (slides.length === 0) return;
@@ -347,7 +349,15 @@ const focusSlideLabel = locale === "pl" ? "Pokaż projekt" : "Show project";
     });
   }
 
-  document.querySelectorAll<HTMLElement>("[data-carousel-root]").forEach(initCarousel);
+  // Only run the carousel on desktop. On mobile the cards render as a plain
+  // vertical stack (CSS), so we skip the layout-thrashing JS entirely.
+  const desktopMq = window.matchMedia("(min-width: 640px)");
+  const bootCarousels = () =>
+    document.querySelectorAll<HTMLElement>("[data-carousel-root]").forEach(initCarousel);
+  if (desktopMq.matches) bootCarousels();
+  desktopMq.addEventListener("change", (e) => {
+    if (e.matches) bootCarousels();
+  });
 </script>
 
 <style>
@@ -356,5 +366,29 @@ const focusSlideLabel = locale === "pl" ? "Pokaż projekt" : "Show project";
   }
   [data-carousel-slide][data-active="true"] {
     opacity: 1;
+  }
+
+  /* Mobile: drop the horizontal carousel and stack the canonical cards
+     vertically. The infinite-scroll clones are removed from layout, the
+     carousel JS is skipped (see boot guard), and arrows/dots are hidden —
+     this both fixes the cramped/overlapping mobile UI and kills the
+     main-thread Style & Layout cost of laying out 18 slides. */
+  @media (max-width: 639px) {
+    [data-carousel-track] {
+      flex-direction: column !important;
+      gap: 2.75rem !important;
+      overflow-x: visible !important;
+      padding-inline: 1rem !important;
+      scroll-snap-type: none !important;
+    }
+    [data-carousel-slide] {
+      flex-basis: auto !important;
+      width: 100% !important;
+      opacity: 1 !important;
+    }
+    /* keep only the middle (canonical) copy as the vertical stack */
+    [data-carousel-slide]:not([data-copy="1"]) {
+      display: none !important;
+    }
   }
 </style>

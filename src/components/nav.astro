@@ -46,7 +46,7 @@ const ctaIsExternal = /^(https?:|mailto:)/.test(ctaHref);
       href={ctaHref}
       target={ctaIsExternal ? "_blank" : undefined}
       rel={ctaIsExternal ? "noopener noreferrer" : undefined}
-      class="inline-flex h-9 items-center rounded-full bg-red-500 px-4 text-xs font-semibold uppercase tracking-[0.14em] text-white shadow-md shadow-red-500/30 transition hover:bg-red-400 sm:text-sm sm:tracking-[0.08em]"
+      class="inline-flex h-9 items-center rounded-full bg-red-600 px-4 text-xs font-semibold uppercase tracking-[0.14em] text-white shadow-md shadow-red-500/30 transition hover:bg-red-500 sm:text-sm sm:tracking-[0.08em]"
     >
       {ctaLabel}
     </a>
