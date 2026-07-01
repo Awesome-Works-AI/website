@@ -1,0 +1,62 @@
+---
+// Pains of the ACTIVE segment only — both variants live in the DOM,
+// html[data-segment] decides which one is visible.
+import Icon from "~/components/Icon.astro";
+import { getLangFromUrl, useTranslations } from "~/i18n/utils";
+import type { UiKey } from "~/i18n/ui";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const variants: { seg: "seg-med" | "seg-est"; icon: string; label: UiKey; sub: UiKey; items: UiKey[] }[] = [
+  {
+    seg: "seg-med",
+    icon: "heart-pulse",
+    label: "problem.label.med",
+    sub: "problem.sub.med",
+    items: ["problem.item1.med", "problem.item2.med", "problem.item3.med"],
+  },
+  {
+    seg: "seg-est",
+    icon: "building-2",
+    label: "problem.label.est",
+    sub: "problem.sub.est",
+    items: ["problem.item1.est", "problem.item2.est", "problem.item3.est"],
+  },
+];
+---
+
+<section id="problem" class="diag-band scroll-mt-10 bg-band">
+  <div class="mx-auto max-w-6xl px-6">
+    <p class="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-primary-deep">
+      [ {t("problem.eyebrow")} ]
+    </p>
+    <h2 class="mt-4 max-w-3xl text-3xl font-bold tracking-tight text-ink md:text-5xl">
+      {t("problem.heading")}
+    </h2>
+
+    {
+      variants.map((v) => (
+        <div class={v.seg}>
+          <p class="mt-4 max-w-2xl text-lg text-muted">{t(v.sub)}</p>
+
+          <div class="mt-10 flex items-center gap-3">
+            <span class="grid h-10 w-10 flex-none place-items-center rounded-lg bg-dark text-band-strong">
+              <Icon name={v.icon} class="h-5 w-5" />
+            </span>
+            <h3 class="font-mono text-sm font-semibold uppercase tracking-[0.14em] text-dark">{t(v.label)}</h3>
+          </div>
+
+          <ul class="mt-7 grid gap-6 md:grid-cols-3 md:gap-10">
+            {v.items.map((item) => (
+              <li class="flex items-start gap-3 border-l-2 border-band-strong/70 pl-4 text-[0.95rem] leading-relaxed text-muted">
+                <Icon name="alert-triangle" class="mt-1 h-4 w-4 flex-none text-primary-deep" />
+                {t(item)}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))
+    }
+  </div>
+</section>

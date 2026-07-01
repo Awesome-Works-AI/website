@@ -1,0 +1,45 @@
+---
+// Segmented control switching the page between the medical and estate skin.
+// State lives on html[data-segment]; active-button styling is pure CSS
+// (html attribute selectors), so the buttons never go out of sync.
+import { getLangFromUrl, useTranslations } from "~/i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<div class="seg-toggle" role="group" aria-label={t("toggle.label")}>
+  <button type="button" data-seg="medical">{t("toggle.medical")}</button>
+  <button type="button" data-seg="estate">{t("toggle.estate")}</button>
+</div>
+
+<script>
+  const root = document.documentElement;
+
+  function currentSegment(): string {
+    return root.getAttribute("data-segment") === "estate" ? "estate" : "medical";
+  }
+
+  function syncPressed(): void {
+    const cur = currentSegment();
+    document.querySelectorAll<HTMLButtonElement>("[data-seg]").forEach((btn) => {
+      btn.setAttribute("aria-pressed", String(btn.dataset.seg === cur));
+    });
+  }
+
+  function applySegment(seg: string): void {
+    root.setAttribute("data-segment", seg);
+    try {
+      localStorage.setItem("ab-segment", seg);
+    } catch {
+      /* private mode — skip persistence */
+    }
+    syncPressed();
+  }
+
+  document.querySelectorAll<HTMLButtonElement>("[data-seg]").forEach((btn) => {
+    btn.addEventListener("click", () => applySegment(btn.dataset.seg === "estate" ? "estate" : "medical"));
+  });
+
+  syncPressed();
+</script>
