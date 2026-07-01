@@ -257,58 +257,287 @@ html[data-segment="estate"] .seg-toggle [data-seg="estate"] {
 }
 
 /* ============================================================
- * Orb — soft blurred gradient sphere (fonio-style), CSS only.
- * Segment layers via --orb-1/--orb-2, shared orange core.
+ * Orb — layered light sculpture (long-exposure energy look).
+ * Composition, all CSS, transform/opacity animations only:
+ *   halo (cool) + warm halo        — big soft glows behind everything
+ *   body (scaleY .95)              — slight ellipse = slender silhouette
+ *     aura                         — segment-tinted soft mass (--orb-1/2)
+ *     streaks ×4                   — thin conic arcs masked to rings,
+ *                                    screen-blended, counter-rotating
+ *     comet                        — one elongated streak past the rim
+ *     core                         — small white-hot → orange, breathing
+ *     ring                         — 1px tilted orbit line
+ *     sparks ×5                    — orbiting 2px points, phased fades
+ *     grain                        — SVG turbulence noise overlay
  * ============================================================ */
 
 .orb {
+  /* Size comes from a --orb-size utility on the element (plain CSS here would
+   * out-cascade @layer utilities); 340px is only the fallback. */
   position: relative;
-  width: 200px;
-  height: 200px;
-}
-
-.orb-a,
-.orb-b,
-.orb-core {
-  position: absolute;
-  border-radius: 9999px;
+  width: var(--orb-size, 340px);
+  height: var(--orb-size, 340px);
   pointer-events: none;
 }
 
-.orb-a {
-  inset: 0;
-  background: conic-gradient(from 0deg, var(--orb-1), var(--orb-2), var(--orb-1));
-  filter: blur(20px);
-  opacity: 0.85;
-  animation: orb-spin 16s linear infinite;
+.orb * {
+  position: absolute;
+  pointer-events: none;
 }
 
-.orb-b {
-  inset: 12%;
-  background: radial-gradient(circle at 35% 30%, var(--orb-2), transparent 65%);
-  filter: blur(14px);
-  animation: orb-spin 24s linear infinite reverse;
+.orb-halo {
+  inset: -32%;
+  border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--orb-1) 24%, transparent) 0%, transparent 62%);
+  filter: blur(30px);
+}
+
+.orb-halo-warm {
+  inset: -20%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 52% 58%, color-mix(in srgb, var(--color-cta) 15%, transparent) 0%, transparent 58%);
+  filter: blur(26px);
+  animation: orb-halo-pulse 9s ease-in-out infinite;
+}
+
+.orb-body {
+  inset: 0;
+  transform: scaleY(0.95); /* slender ellipse */
+}
+
+.orb-aura {
+  inset: 7%;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 34% 30%, color-mix(in srgb, var(--orb-2) 85%, transparent), transparent 62%),
+    radial-gradient(circle at 68% 72%, color-mix(in srgb, var(--orb-1) 80%, transparent), transparent 66%);
+  filter: blur(22px);
+  opacity: 0.85;
+  animation: orb-aura-drift 21s ease-in-out infinite alternate;
+}
+
+.orb-streak {
+  border-radius: 50%;
+  mix-blend-mode: screen;
+  will-change: transform;
+}
+
+.orb-streak-1 {
+  inset: 4%;
+  background: conic-gradient(
+    from 10deg,
+    transparent 0deg,
+    color-mix(in srgb, var(--orb-2) 90%, white) 24deg,
+    transparent 70deg,
+    transparent 170deg,
+    color-mix(in srgb, var(--orb-1) 80%, white) 198deg,
+    transparent 244deg
+  );
+  mask: radial-gradient(closest-side, transparent 66%, black 71%, black 77%, transparent 82%);
+  filter: blur(5px);
+  animation: orb-spin 17s linear infinite;
+}
+
+.orb-streak-2 {
+  inset: 11%;
+  background: conic-gradient(
+    from 120deg,
+    transparent 0deg,
+    rgb(255 255 255 / 0.95) 14deg,
+    transparent 58deg,
+    transparent 298deg,
+    color-mix(in srgb, var(--orb-2) 85%, transparent) 330deg,
+    transparent 356deg
+  );
+  mask: radial-gradient(closest-side, transparent 58%, black 63%, black 70%, transparent 75%);
+  filter: blur(4px);
+  opacity: 0.9;
+  animation: orb-spin 11s linear infinite reverse;
+}
+
+.orb-streak-3 {
+  inset: -2%;
+  background: conic-gradient(from 220deg, transparent 0deg, color-mix(in srgb, var(--color-cta) 85%, transparent) 20deg, transparent 74deg);
+  mask: radial-gradient(closest-side, transparent 75%, black 79%, black 83%, transparent 87%);
+  filter: blur(9px);
+  opacity: 0.75;
+  animation: orb-spin 26s linear infinite;
+}
+
+.orb-streak-4 {
+  inset: 15%;
+  background: conic-gradient(from 300deg, transparent 0deg, color-mix(in srgb, var(--orb-1) 70%, white) 32deg, transparent 112deg);
+  mask: radial-gradient(closest-side, transparent 48%, black 54%, black 62%, transparent 68%);
+  filter: blur(15px);
+  opacity: 0.8;
+  animation: orb-spin 40s linear infinite reverse;
+}
+
+/* One streak stretched past the rim — comet tail */
+.orb-comet {
+  inset: -7%;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 40deg,
+    transparent 0deg,
+    color-mix(in srgb, var(--orb-2) 80%, white) 14deg,
+    color-mix(in srgb, var(--orb-1) 55%, transparent) 44deg,
+    transparent 92deg
+  );
+  mask: radial-gradient(closest-side, transparent 70%, black 76%, black 82%, transparent 88%);
+  filter: blur(7px);
+  mix-blend-mode: screen;
+  animation: orb-comet-spin 33s linear infinite;
 }
 
 .orb-core {
-  inset: 28%;
-  background: radial-gradient(circle at 50% 55%, var(--color-cta), color-mix(in srgb, var(--color-cta-deep) 60%, transparent) 55%, transparent 75%);
-  filter: blur(10px);
-  animation: orb-breathe 5s ease-in-out infinite;
+  inset: 35%;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 50% 46%,
+    #fff8f2 0%,
+    #ffd9b0 26%,
+    var(--color-cta) 58%,
+    color-mix(in srgb, var(--color-cta-deep) 70%, transparent) 78%,
+    transparent 92%
+  );
+  filter: blur(6px);
+  animation: orb-core-breathe 7s ease-in-out infinite;
+}
+
+.orb-ring {
+  inset: 5%;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--color-primary) 35%, transparent);
+  opacity: 0.45;
+  animation: orb-ring-spin 31s linear infinite;
+}
+
+.orb-spark {
+  top: 50%;
+  left: 50%;
+  width: 2px;
+  height: 2px;
+  margin: -1px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 0 6px 1px color-mix(in srgb, var(--orb-2) 80%, white);
+  animation:
+    orb-spark-orbit var(--d, 18s) linear infinite,
+    orb-spark-fade calc(var(--d, 18s) / 3) ease-in-out infinite;
+  animation-delay: var(--delay, 0s), var(--delay, 0s);
+}
+
+.orb-grain {
+  inset: -8%;
+  border-radius: 50%;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.12;
+  mix-blend-mode: overlay;
 }
 
 @keyframes orb-spin {
   to { transform: rotate(360deg); }
 }
 
-@keyframes orb-breathe {
-  0%, 100% { transform: scale(0.88); opacity: 0.85; }
-  50% { transform: scale(1.1); opacity: 1; }
+@keyframes orb-comet-spin {
+  from { transform: scaleX(1.28) rotate(-8deg); }
+  to { transform: scaleX(1.28) rotate(352deg); }
+}
+
+@keyframes orb-ring-spin {
+  from { transform: rotateX(66deg) rotateZ(0deg); }
+  to { transform: rotateX(66deg) rotateZ(360deg); }
+}
+
+@keyframes orb-core-breathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.04); }
+}
+
+@keyframes orb-halo-pulse {
+  0%, 100% { opacity: 0.75; transform: scale(0.98); }
+  50% { opacity: 1; transform: scale(1.04); }
+}
+
+@keyframes orb-aura-drift {
+  from { transform: rotate(-6deg) scale(0.98); }
+  to { transform: rotate(8deg) scale(1.03); }
+}
+
+@keyframes orb-spark-orbit {
+  from { transform: rotate(var(--a, 0deg)) translateX(calc(var(--orb-size, 340px) * var(--r, 0.4))); }
+  to { transform: rotate(calc(var(--a, 0deg) + 360deg)) translateX(calc(var(--orb-size, 340px) * var(--r, 0.4))); }
+}
+
+@keyframes orb-spark-fade {
+  0%, 100% { opacity: 0.1; }
+  50% { opacity: 0.9; }
+}
+
+/* ============================================================
+ * Hero backdrop — drifting blobs + faint corner light streaks
+ * ============================================================ */
+
+.hero-blob {
+  border-radius: 50%;
+  filter: blur(64px);
+  animation: hero-blob-drift 26s ease-in-out infinite alternate;
+}
+
+.hero-light-streak {
+  height: 1.5px;
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--orb-2) 45%, transparent), transparent);
+  filter: blur(3px);
+  opacity: 0.5;
+}
+
+@keyframes hero-blob-drift {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to { transform: translate3d(28px, -20px, 0) scale(1.08); }
+}
+
+/* ============================================================
+ * Floating message chips around the orb (decoration, aria-hidden)
+ * ============================================================ */
+
+.orb-chip {
+  /* display comes from utilities on the element (inline-flex / hidden lg:inline-flex) —
+   * setting it here would out-cascade @layer utilities and break responsive hiding */
+  position: absolute;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 0.7rem;
+  border-radius: 0.75rem;
+  border: 1px solid color-mix(in srgb, var(--color-band-strong) 60%, transparent);
+  background: rgb(255 255 255 / 0.78);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 10px 26px -14px rgb(15 30 30 / 0.35);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--color-muted);
+  white-space: nowrap;
+  opacity: 0;
+  animation: chip-cycle var(--cd, 16s) ease-in-out infinite;
+  animation-delay: var(--cdelay, 0s);
+}
+
+@keyframes chip-cycle {
+  0%, 6% { opacity: 0; transform: translateY(10px); }
+  14%, 56% { opacity: 1; transform: translateY(0); }
+  66%, 100% { opacity: 0; transform: translateY(-12px); }
+}
+
+/* Hide the hero micro-copy on short desktop viewports to keep hero in one screen */
+@media (min-width: 1024px) and (max-height: 899px) {
+  .hero-micro { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .status-dot::after { animation: none; opacity: 0; }
-  .orb-a, .orb-b, .orb-core { animation: none; }
+  .orb *, .hero-blob { animation: none !important; }
+  .orb-chip { animation: none; opacity: 1; transform: none; }
+  .orb-spark { opacity: 0.6; transform: rotate(var(--a, 0deg)) translateX(calc(var(--orb-size, 340px) * var(--r, 0.4))); }
 }
 
 /* ============================================================
