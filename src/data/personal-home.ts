@@ -9,7 +9,7 @@ const metyraPath = (locale: Locale) => (locale === "en" ? "/metyra/en/" : "/mety
 const askPath = "/ask/";
 const xUrl = "https://x.com/awesomeworksai";
 const linkedinUrl = "https://linkedin.com/in/rlazicki";
-const instagramUrl = "https://instagram.com/awesomeworksai";
+const instagramUrl = "https://instagram.com/makeitagentic";
 
 export const organizationSameAs = [linkedinUrl, githubUrl, xUrl, instagramUrl] as const;
 export const personSameAs = [linkedinUrl, githubUrl] as const;
@@ -347,7 +347,7 @@ const personalHome = {
           icon: "instagram",
           name: "Instagram",
           href: instagramUrl,
-          meta: "@awesomeworksai",
+          meta: "@makeitagentic",
           description: "Krótsze formaty i to, co dzieje się wokół budowania.",
         },
       ],
@@ -704,7 +704,7 @@ const personalHome = {
           icon: "instagram",
           name: "Instagram",
           href: instagramUrl,
-          meta: "@awesomeworksai",
+          meta: "@makeitagentic",
           description: "Short-form building updates and behind the scenes.",
         },
       ],
