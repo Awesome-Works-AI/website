@@ -93,7 +93,7 @@ const organizationJsonLd = {
     "https://linkedin.com/in/rlazicki",
     "https://github.com/Raff-dev",
     "https://x.com/awesomeworksai",
-    "https://instagram.com/awesomeworksai",
+    "https://instagram.com/makeitagentic",
   ],
   founder: {
     "@id": new URL("#rafal-lazicki", siteBase).href,

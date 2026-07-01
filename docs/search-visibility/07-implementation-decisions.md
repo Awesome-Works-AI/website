@@ -20,7 +20,7 @@ Cel: oddzielić rzeczy, które można wdrożyć od razu, od rzeczy, które wymag
      - `https://github.com/Raff-dev`
      - `https://x.com/awesomeworksai`
      - `https://linkedin.com/in/rlazicki`
-     - `https://instagram.com/awesomeworksai`
+     - `https://instagram.com/makeitagentic`
 
 3. **Image dimensions**
    - dodać brakujące `width` / `height` na dekoracyjnych logo/obrazach w sekcji produktów
