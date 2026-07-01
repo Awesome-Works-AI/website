@@ -1,0 +1,51 @@
+---
+import Icon from "~/components/Icon.astro";
+import { getLangFromUrl, useTranslations } from "~/i18n/utils";
+import type { UiKey } from "~/i18n/ui";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+// Shared pillar copy + a segment-specific example line (swapped via html[data-segment]).
+const pillars: { icon: string; label: string; title: UiKey; body: UiKey; exMed: UiKey; exEst: UiKey }[] = [
+  { icon: "phone", label: "01", title: "pillars.p1.title", body: "pillars.p1.body", exMed: "pillars.p1.ex.med", exEst: "pillars.p1.ex.est" },
+  { icon: "cpu", label: "02", title: "pillars.p2.title", body: "pillars.p2.body", exMed: "pillars.p2.ex.med", exEst: "pillars.p2.ex.est" },
+  { icon: "shield-check", label: "03", title: "pillars.p3.title", body: "pillars.p3.body", exMed: "pillars.p3.ex.med", exEst: "pillars.p3.ex.est" },
+  { icon: "audio-lines", label: "04", title: "pillars.p4.title", body: "pillars.p4.body", exMed: "pillars.p4.ex.med", exEst: "pillars.p4.ex.est" },
+];
+---
+
+<section id="produkt" class="scroll-mt-24 bg-white py-20 md:py-28">
+  <div class="mx-auto max-w-6xl px-6">
+    <p class="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-primary-deep">
+      [ {t("pillars.eyebrow")} ]
+    </p>
+    <h2 class="mt-4 text-3xl font-bold tracking-tight text-ink md:text-5xl">
+      {t("pillars.heading")}
+    </h2>
+    <p class="mt-4 max-w-2xl text-lg text-muted">{t("pillars.sub")}</p>
+
+    <div class="mt-12 grid gap-5 sm:grid-cols-2">
+      {
+        pillars.map((p) => (
+          <div class="hud-card rounded-xl border border-band-strong/50 bg-offwhite p-6 transition hover:border-band-strong md:p-8">
+            <div class="flex items-center justify-between">
+              <span class="grid h-11 w-11 place-items-center rounded-lg bg-band text-primary-deep">
+                <Icon name={p.icon} class="h-5 w-5" />
+              </span>
+              <span class="font-mono text-xs font-medium tracking-[0.2em] text-primary-deep">
+                [ {p.label} ]
+              </span>
+            </div>
+            <h3 class="mt-5 text-xl font-semibold tracking-tight text-ink">{t(p.title)}</h3>
+            <p class="mt-2.5 leading-relaxed text-muted">{t(p.body)}</p>
+            <p class="mt-3 font-mono text-xs text-primary-deep">
+              <span class="seg-med">{t(p.exMed)}</span>
+              <span class="seg-est">{t(p.exEst)}</span>
+            </p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

@@ -72,6 +72,20 @@ jobs:
                   mkdir -p dist/ask
                   cp -r ask-app/dist/* dist/ask/
 
+            # ─── Sub-app: AwesomeBot landing (awesomeworks.ai/awesomebot/) ───
+            - name: Install awesomebot-app deps
+              working-directory: awesomebot-app
+              run: npm install
+
+            - name: Build awesomebot-app
+              working-directory: awesomebot-app
+              run: npm run build
+
+            - name: Merge awesomebot-app dist into root dist
+              run: |
+                  mkdir -p dist/awesomebot
+                  cp -r awesomebot-app/dist/* dist/awesomebot/
+
             - name: Setup Pages
               uses: actions/configure-pages@v6
 

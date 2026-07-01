@@ -1,0 +1,60 @@
+---
+import Icon from "~/components/Icon.astro";
+import TriageCard from "~/components/TriageCard.astro";
+import { getLangFromUrl, useTranslations } from "~/i18n/utils";
+import type { UiKey } from "~/i18n/ui";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const steps: { icon: string; no: string; title: UiKey; body: UiKey }[] = [
+  { icon: "inbox", no: "01", title: "how.s1.title", body: "how.s1.body" },
+  { icon: "tag", no: "02", title: "how.s2.title", body: "how.s2.body" },
+  { icon: "zap", no: "03", title: "how.s3.title", body: "how.s3.body" },
+  { icon: "list-checks", no: "04", title: "how.s4.title", body: "how.s4.body" },
+];
+---
+
+<section id="jak-dziala" class="diag-band scroll-mt-10 bg-band">
+  <div class="mx-auto max-w-6xl px-6">
+    <p class="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-primary-deep">
+      [ {t("how.eyebrow")} ]
+    </p>
+    <h2 class="mt-4 text-3xl font-bold tracking-tight text-ink md:text-5xl">
+      {t("how.heading")}
+    </h2>
+    <p class="mt-4 max-w-2xl text-lg text-muted">{t("how.sub")}</p>
+
+    <ol class="mt-12 grid gap-8 md:grid-cols-4 md:gap-6">
+      {
+        steps.map((s, idx) => (
+          <li class="relative">
+            {/* connecting line, desktop only */}
+            {idx < steps.length - 1 && (
+              <span
+                aria-hidden="true"
+                class="absolute top-5 left-14 hidden h-px w-[calc(100%-3.5rem)] border-t border-dashed border-primary/40 md:block"
+              />
+            )}
+            <div class="flex items-center gap-3">
+              <span class="grid h-10 w-10 flex-none place-items-center rounded-lg bg-white text-primary-deep shadow-sm">
+                <Icon name={s.icon} class="h-5 w-5" />
+              </span>
+              <span class="font-mono text-xs font-semibold tracking-[0.2em] text-primary-deep">{s.no}</span>
+            </div>
+            <h3 class="mt-4 text-lg font-semibold tracking-tight text-ink">{t(s.title)}</h3>
+            <p class="mt-2 text-[0.95rem] leading-relaxed text-muted">{t(s.body)}</p>
+          </li>
+        ))
+      }
+    </ol>
+
+    {/* The product's proof artifact — a triaged case, content follows the active segment */}
+    <div class="mx-auto mt-16 max-w-lg">
+      <p class="mb-3 text-center font-mono text-xs font-semibold uppercase tracking-[0.18em] text-primary-deep">
+        [ {t("triage.caption")} ]
+      </p>
+      <TriageCard />
+    </div>
+  </div>
+</section>

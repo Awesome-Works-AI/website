@@ -1,0 +1,69 @@
+---
+// FAQ: shared questions + segment-worded q1 and a segment-specific q6.
+// Segment variants render both spans; html[data-segment] decides visibility.
+import Icon from "~/components/Icon.astro";
+import { getLangFromUrl, useTranslations } from "~/i18n/utils";
+import type { UiKey } from "~/i18n/ui";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+type SegPair = { med: UiKey; est: UiKey };
+type Item = { q: UiKey | SegPair; a: UiKey | SegPair };
+
+const items: Item[] = [
+  { q: { med: "faq.q1.q.med", est: "faq.q1.q.est" }, a: "faq.q1.a" },
+  { q: "faq.q2.q", a: "faq.q2.a" },
+  { q: "faq.q3.q", a: "faq.q3.a" },
+  { q: "faq.q4.q", a: "faq.q4.a" },
+  { q: "faq.q5.q", a: "faq.q5.a" },
+  { q: { med: "faq.q6.q.med", est: "faq.q6.q.est" }, a: { med: "faq.q6.a.med", est: "faq.q6.a.est" } },
+  { q: "faq.q7.q", a: "faq.q7.a" },
+];
+
+const isPair = (v: UiKey | SegPair): v is SegPair => typeof v !== "string";
+---
+
+<section id="faq" class="scroll-mt-24 bg-white py-20 md:py-28">
+  <div class="mx-auto max-w-3xl px-6">
+    <h2 class="text-3xl font-bold tracking-tight text-ink md:text-5xl">
+      {t("faq.heading")}
+    </h2>
+
+    {/* Background-first FAQ: typography + subtle dividers, no card grid */}
+    <div class="mt-10 divide-y divide-band-strong/50">
+      {
+        items.map((it, idx) => (
+          <details class="group py-5" open={idx === 0}>
+            <summary class="flex cursor-pointer items-center justify-between gap-4 text-left">
+              <span class="text-base font-semibold text-ink md:text-lg">
+                {isPair(it.q) ? (
+                  <>
+                    <span class="seg-med">{t(it.q.med)}</span>
+                    <span class="seg-est">{t(it.q.est)}</span>
+                  </>
+                ) : (
+                  t(it.q)
+                )}
+              </span>
+              <Icon
+                name="chevron-down"
+                class="h-5 w-5 flex-none text-primary-deep transition group-open:rotate-180"
+              />
+            </summary>
+            <p class="mt-3 max-w-2xl leading-relaxed text-muted">
+              {isPair(it.a) ? (
+                <>
+                  <span class="seg-med">{t(it.a.med)}</span>
+                  <span class="seg-est">{t(it.a.est)}</span>
+                </>
+              ) : (
+                t(it.a)
+              )}
+            </p>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>

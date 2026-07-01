@@ -1,0 +1,103 @@
+---
+import "~/styles/global.css";
+import Nav from "~/components/Nav.astro";
+import Footer from "~/components/Footer.astro";
+import { getLangFromUrl, getAltLangPath } from "~/i18n/utils";
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+
+const site = (Astro.site?.href ?? "https://awesomeworks.ai/").replace(/\/$/, "");
+// Normalize to a trailing slash so canonical matches the hreflang URLs (GH Pages serves directories).
+const pathname = Astro.url.pathname.endsWith("/") ? Astro.url.pathname : Astro.url.pathname + "/";
+const canonical = site + pathname;
+const plHref = site + getAltLangPath(Astro.url.pathname, "pl");
+const enHref = site + getAltLangPath(Astro.url.pathname, "en");
+const faviconHref = `${import.meta.env.BASE_URL.replace(/\/$/, "")}/favicon.svg`;
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://awesomeworks.ai/#organization",
+      name: "AwesomeWorks",
+      legalName: "Awesome Works AI",
+      url: "https://awesomeworks.ai",
+      email: "hello@awesomeworks.ai",
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: "Warszawa",
+        addressCountry: "PL",
+      },
+    },
+    {
+      "@type": "SoftwareApplication",
+      name: "AwesomeBot",
+      applicationCategory: "BusinessApplication",
+      operatingSystem: "Web",
+      url: canonical,
+      inLanguage: lang === "pl" ? "pl-PL" : "en",
+      description,
+      provider: { "@id": "https://awesomeworks.ai/#organization" },
+    },
+  ],
+};
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href={faviconHref} />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="pl" href={plHref} />
+    <link rel="alternate" hreflang="en" href={enHref} />
+    <link rel="alternate" hreflang="x-default" href={plHref} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content="AwesomeBot" />
+    <meta property="og:locale" content={lang === "pl" ? "pl_PL" : "en_US"} />
+    <meta name="twitter:card" content="summary" />
+    <title>{title}</title>
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    {/* Segment skin init — runs before paint to avoid a flash of the wrong
+        variant. Priority: ?segment= param → localStorage → medical default.
+        Without JS the html attribute is absent and CSS falls back to medical. */}
+    <script is:inline>
+      (function () {
+        var seg = "medical";
+        try {
+          var fromUrl = new URLSearchParams(window.location.search).get("segment");
+          if (fromUrl === "estate" || fromUrl === "medical") {
+            seg = fromUrl;
+            localStorage.setItem("ab-segment", fromUrl);
+          } else {
+            var stored = localStorage.getItem("ab-segment");
+            if (stored === "estate" || stored === "medical") seg = stored;
+          }
+        } catch (e) {
+          /* storage unavailable — keep default */
+        }
+        document.documentElement.setAttribute("data-segment", seg);
+      })();
+    </script>
+  </head>
+  <body class="bg-white text-ink antialiased">
+    <Nav />
+    <main>
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

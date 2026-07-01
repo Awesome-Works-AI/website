@@ -1,0 +1,58 @@
+---
+// "Dla kogo" — use cases of the ACTIVE segment. Both variants live in
+// the DOM, html[data-segment] decides which one is visible.
+import Icon from "~/components/Icon.astro";
+import { getLangFromUrl, useTranslations } from "~/i18n/utils";
+import type { UiKey } from "~/i18n/ui";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const variants: { seg: "seg-med" | "seg-est"; icon: string; title: UiKey; lead: UiKey; items: UiKey[] }[] = [
+  {
+    seg: "seg-med",
+    icon: "heart-pulse",
+    title: "usecases.title.med",
+    lead: "usecases.lead.med",
+    items: ["usecases.item1.med", "usecases.item2.med", "usecases.item3.med", "usecases.item4.med"],
+  },
+  {
+    seg: "seg-est",
+    icon: "building-2",
+    title: "usecases.title.est",
+    lead: "usecases.lead.est",
+    items: ["usecases.item1.est", "usecases.item2.est", "usecases.item3.est", "usecases.item4.est"],
+  },
+];
+---
+
+<section id="dla-kogo" class="scroll-mt-24 bg-white py-20 md:py-28">
+  <div class="mx-auto max-w-6xl px-6">
+    <p class="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-primary-deep">
+      [ {t("usecases.eyebrow")} ]
+    </p>
+
+    {
+      variants.map((v) => (
+        <div class={v.seg}>
+          <div class="mt-4 flex items-center gap-3.5">
+            <span class="grid h-12 w-12 flex-none place-items-center rounded-xl bg-dark text-band-strong">
+              <Icon name={v.icon} class="h-6 w-6" />
+            </span>
+            <h2 class="text-3xl font-bold tracking-tight text-ink md:text-5xl">{t(v.title)}</h2>
+          </div>
+          <p class="mt-4 max-w-2xl text-lg font-medium text-primary-deep">{t(v.lead)}</p>
+
+          <ul class="mt-10 grid gap-x-10 gap-y-6 md:grid-cols-2">
+            {v.items.map((item) => (
+              <li class="hud-card flex items-start gap-3 rounded-xl border border-band-strong/50 bg-gradient-to-b from-band/70 to-white p-5 text-[0.95rem] leading-relaxed text-muted transition hover:border-band-strong">
+                <Icon name="check" class="mt-1 h-4 w-4 flex-none text-primary" />
+                {t(item)}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))
+    }
+  </div>
+</section>
