@@ -23,6 +23,7 @@ export const ui = {
     'nav.product': 'Produkt',
     'nav.how': 'Jak działa',
     'nav.who': 'Dla kogo',
+    'nav.pricing': 'Cennik',
     'nav.faq': 'FAQ',
     'nav.cta': 'Umów rozmowę',
 
@@ -59,6 +60,45 @@ export const ui = {
     'hero.stat2.label': 'gotowe drafty na sprawę',
     'hero.stat3.value': '100%',
     'hero.stat3.label': 'akcji w audycie',
+
+    // Hero — floating message chips (decoration around the orb)
+    'chips.med.1': 'Czy mogę przełożyć wizytę na piątek?',
+    'chips.med.2': 'Jak przygotować się do USG?',
+    'chips.med.3': '+48 512 ··· ··· — odebrane 02:14',
+    'chips.est.1': 'Cieknie z sufitu w łazience',
+    'chips.est.2': 'Faktura od hydraulika — zatwierdzić?',
+    'chips.est.3': '+48 601 ··· ··· — odebrane 23:47',
+
+    // Pricing
+    'pricing.eyebrow': 'Cennik',
+    'pricing.heading': 'Trzy plany, jedna recepcja',
+    'pricing.sub': 'Od gabinetu po portfel nieruchomości. Zakres i wdrożenie ustalamy na rozmowie.',
+    'pricing.p1.name': 'Start',
+    'pricing.p1.price': '499 zł',
+    'pricing.p1.per': '/ mc',
+    'pricing.p1.fit': 'Dla 1–20 rozmów dziennie',
+    'pricing.p1.f1': '1 numer telefonu',
+    'pricing.p1.f2': 'Wszystkie kanały: telefon, SMS, e-mail',
+    'pricing.p1.f3': 'Kolejka zatwierdzeń i pełny audyt',
+    'pricing.p1.f4': '1 użytkownik',
+    'pricing.p2.name': 'Zespół',
+    'pricing.p2.price': '1499 zł',
+    'pricing.p2.per': '/ mc',
+    'pricing.p2.badge': 'Najczęściej wybierany',
+    'pricing.p2.fit': 'Dla 20–100 rozmów dziennie',
+    'pricing.p2.f1': '3 numery telefonu',
+    'pricing.p2.f2': 'Użytkownicy bez limitu',
+    'pricing.p2.f3': 'Wszystko z planu Start',
+    'pricing.p2.f4': 'Priorytetowe wsparcie',
+    'pricing.p3.name': 'Skala',
+    'pricing.p3.price': 'od 2499 zł',
+    'pricing.p3.per': '/ mc',
+    'pricing.p3.fit': 'Powyżej 100 rozmów dziennie',
+    'pricing.p3.f1': 'Numery i lokalizacje pod wymiar',
+    'pricing.p3.f2': 'Integracje pod klienta',
+    'pricing.p3.f3': 'SLA i opiekun wdrożenia',
+    'pricing.cta': 'Umów rozmowę',
+    'pricing.cta.scale': 'Skonfiguruj plan',
 
     // Triage card mock (lives in "Jak działa")
     'triage.caption': 'Tak wygląda sprawa gotowa do decyzji',
@@ -198,7 +238,7 @@ export const ui = {
       'AwesomeBot rozpoznaje faktury i wiadomości od wykonawców, podpina je do właściwej sprawy i kieruje do Twojej akceptacji. Nic nie jest opłacane ani wysyłane automatycznie.',
     'faq.q7.q': 'Ile to kosztuje?',
     'faq.q7.a':
-      'Porozmawiajmy — wycena zależy od skali: liczby pacjentów lub lokali, kanałów i godzin pracy. Na 30-minutowej rozmowie pokażemy, jak to wygląda dla Twojej placówki albo portfela nieruchomości.',
+      'Plany zaczynają się od 499 zł miesięcznie — szczegóły znajdziesz w cenniku. Dokładny zakres pod skalę Twojej placówki albo portfela nieruchomości ustalamy na 30-minutowej rozmowie.',
 
     // Final CTA
     'cta.eyebrow': 'Pilotaż',
@@ -228,6 +268,7 @@ export const ui = {
     'nav.product': 'Product',
     'nav.how': 'How it works',
     'nav.who': 'Who it’s for',
+    'nav.pricing': 'Pricing',
     'nav.faq': 'FAQ',
     'nav.cta': 'Book a call',
 
@@ -264,6 +305,45 @@ export const ui = {
     'hero.stat2.label': 'ready drafts per case',
     'hero.stat3.value': '100%',
     'hero.stat3.label': 'of actions audited',
+
+    // Hero — floating message chips (decoration around the orb)
+    'chips.med.1': 'Can I move my visit to Friday?',
+    'chips.med.2': 'How do I prepare for the ultrasound?',
+    'chips.med.3': '+48 512 ··· ··· — answered 02:14',
+    'chips.est.1': 'Water leaking from the bathroom ceiling',
+    'chips.est.2': 'Plumber’s invoice — approve it?',
+    'chips.est.3': '+48 601 ··· ··· — answered 23:47',
+
+    // Pricing
+    'pricing.eyebrow': 'Pricing',
+    'pricing.heading': 'Three plans, one front desk',
+    'pricing.sub': 'From a single practice to a property portfolio. Scope and rollout are agreed on a call.',
+    'pricing.p1.name': 'Start',
+    'pricing.p1.price': '499 PLN',
+    'pricing.p1.per': '/ mo',
+    'pricing.p1.fit': 'For 1–20 calls a day',
+    'pricing.p1.f1': '1 phone number',
+    'pricing.p1.f2': 'All channels: phone, SMS, email',
+    'pricing.p1.f3': 'Approval queue and full audit trail',
+    'pricing.p1.f4': '1 user',
+    'pricing.p2.name': 'Team',
+    'pricing.p2.price': '1499 PLN',
+    'pricing.p2.per': '/ mo',
+    'pricing.p2.badge': 'Most popular',
+    'pricing.p2.fit': 'For 20–100 calls a day',
+    'pricing.p2.f1': '3 phone numbers',
+    'pricing.p2.f2': 'Unlimited users',
+    'pricing.p2.f3': 'Everything in Start',
+    'pricing.p2.f4': 'Priority support',
+    'pricing.p3.name': 'Scale',
+    'pricing.p3.price': 'from 2499 PLN',
+    'pricing.p3.per': '/ mo',
+    'pricing.p3.fit': 'Above 100 calls a day',
+    'pricing.p3.f1': 'Numbers and locations to fit',
+    'pricing.p3.f2': 'Custom integrations',
+    'pricing.p3.f3': 'SLA and a dedicated rollout lead',
+    'pricing.cta': 'Book a call',
+    'pricing.cta.scale': 'Configure your plan',
 
     // Triage card mock (lives in "How it works")
     'triage.caption': 'This is a case ready for your decision',
@@ -403,7 +483,7 @@ export const ui = {
       'AwesomeBot recognises vendor invoices and messages, attaches them to the right case and routes them for your approval. Nothing is paid or sent automatically.',
     'faq.q7.q': 'How much does it cost?',
     'faq.q7.a':
-      'Let’s talk — pricing depends on scale: the number of patients or units, channels and working hours. In a 30-minute call we’ll show what it looks like for your clinic or property portfolio.',
+      'Plans start at 499 PLN per month — see the pricing section for details. The exact scope for your clinic or property portfolio is agreed in a 30-minute call.',
 
     // Final CTA
     'cta.eyebrow': 'Pilot',

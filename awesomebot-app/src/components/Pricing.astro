@@ -1,0 +1,112 @@
+---
+// Pricing — three plans, segment-neutral (colors inherit the active skin).
+// All CTAs route to the booking section; there is no self-serve checkout.
+import Icon from "~/components/Icon.astro";
+import { getLangFromUrl, useTranslations } from "~/i18n/utils";
+import type { UiKey } from "~/i18n/ui";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+type Plan = {
+  label: string;
+  name: UiKey;
+  price: UiKey;
+  per: UiKey;
+  fit: UiKey;
+  features: UiKey[];
+  cta: UiKey;
+  badge?: UiKey;
+  featured?: boolean;
+};
+
+const plans: Plan[] = [
+  {
+    label: "01",
+    name: "pricing.p1.name",
+    price: "pricing.p1.price",
+    per: "pricing.p1.per",
+    fit: "pricing.p1.fit",
+    features: ["pricing.p1.f1", "pricing.p1.f2", "pricing.p1.f3", "pricing.p1.f4"],
+    cta: "pricing.cta",
+  },
+  {
+    label: "02",
+    name: "pricing.p2.name",
+    price: "pricing.p2.price",
+    per: "pricing.p2.per",
+    fit: "pricing.p2.fit",
+    features: ["pricing.p2.f1", "pricing.p2.f2", "pricing.p2.f3", "pricing.p2.f4"],
+    cta: "pricing.cta",
+    badge: "pricing.p2.badge",
+    featured: true,
+  },
+  {
+    label: "03",
+    name: "pricing.p3.name",
+    price: "pricing.p3.price",
+    per: "pricing.p3.per",
+    fit: "pricing.p3.fit",
+    features: ["pricing.p3.f1", "pricing.p3.f2", "pricing.p3.f3"],
+    cta: "pricing.cta.scale",
+  },
+];
+---
+
+<section id="cennik" class="scroll-mt-24 bg-white py-20 md:py-28">
+  <div class="mx-auto max-w-6xl px-6">
+    <p class="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-primary-deep">
+      [ {t("pricing.eyebrow")} ]
+    </p>
+    <h2 class="mt-4 text-3xl font-bold tracking-tight text-ink md:text-5xl">
+      {t("pricing.heading")}
+    </h2>
+    <p class="mt-4 max-w-2xl text-lg text-muted">{t("pricing.sub")}</p>
+
+    <div class="mt-14 grid items-stretch gap-6 lg:grid-cols-3">
+      {
+        plans.map((plan) => (
+          <div
+            class:list={[
+              "hud-card relative flex flex-col rounded-2xl p-7 transition md:p-8",
+              plan.featured
+                ? "border-2 border-primary bg-offwhite shadow-[0_28px_60px_-30px_color-mix(in_srgb,var(--color-primary)_45%,transparent)] lg:-translate-y-3"
+                : "border border-band-strong/50 bg-offwhite hover:border-band-strong",
+            ]}
+          >
+            {plan.badge && (
+              <span class="absolute -top-3.5 left-6 inline-flex items-center rounded-full bg-primary px-3 py-1 text-xs font-semibold text-white">
+                {t(plan.badge)}
+              </span>
+            )}
+
+            <div class="flex items-center justify-between">
+              <h3 class="text-xl font-semibold tracking-tight text-ink">{t(plan.name)}</h3>
+              <span class="font-mono text-xs font-medium tracking-[0.2em] text-primary-deep">[ {plan.label} ]</span>
+            </div>
+
+            <div class="mt-4 flex items-baseline gap-1.5">
+              <span class="font-mono text-4xl font-bold tracking-tight text-ink">{t(plan.price)}</span>
+              <span class="text-sm text-muted">{t(plan.per)}</span>
+            </div>
+            <p class="mt-2 font-mono text-xs text-primary-deep">{t(plan.fit)}</p>
+
+            <ul class="mt-6 flex-1 space-y-3 border-t border-band-strong/40 pt-6">
+              {plan.features.map((f) => (
+                <li class="flex items-start gap-2.5 text-[0.95rem] leading-relaxed text-muted">
+                  <Icon name="check" class="mt-1 h-4 w-4 flex-none text-primary" />
+                  {t(f)}
+                </li>
+              ))}
+            </ul>
+
+            <a href="#umow-rozmowe" class:list={["mt-7 w-full", plan.featured ? "btn-primary" : "btn-ghost"]}>
+              {t(plan.cta)}
+              <Icon name="arrow-right" class="h-4 w-4" />
+            </a>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
