@@ -19,6 +19,7 @@ const isExternalHref = (href: string) => /^https?:\/\//i.test(href);
 
 const accentByIndex: Record<string, string> = {
   callwise: "from-indigo-500/25 via-indigo-500/5 to-transparent",
+  awesomebot: "from-teal-400/25 via-teal-400/5 to-transparent",
   metyra: "from-blue-500/25 via-blue-500/5 to-transparent",
   courseai: "from-sky-400/25 via-sky-400/5 to-transparent",
   ask: "from-emerald-400/25 via-emerald-400/5 to-transparent",
@@ -28,6 +29,7 @@ const accentByIndex: Record<string, string> = {
 
 const localeForId: Record<string, "pl" | "en" | "both"> = {
   callwise: "both",
+  awesomebot: "both",
   metyra: "both",
   courseai: "both",
   ask: "pl",
