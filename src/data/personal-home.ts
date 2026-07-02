@@ -6,6 +6,7 @@ const githubUrl = "https://github.com/Raff-dev";
 const gooseUrl = "https://raff-dev.github.io/goose/";
 const aiDailyUrl = "https://raff-dev.github.io/ai-daily/";
 const metyraPath = (locale: Locale) => (locale === "en" ? "/metyra/en/" : "/metyra/");
+const awesomebotPath = (locale: Locale) => (locale === "en" ? "/awesomebot/en/" : "/awesomebot/");
 const askPath = "/ask/";
 const xUrl = "https://x.com/awesomeworksai";
 const linkedinUrl = "https://linkedin.com/in/rlazicki";
@@ -78,7 +79,7 @@ const personalHome = {
       eyebrow: "Why me",
       title: "AI to nie hype. To moja codzienna praca — i sposób, w jaki prowadzę firmę.",
       intro:
-        "W branży tech jestem od 2018. Zaczynałem jako programista fullstack, potem backend i DevOps, po drodze projekty z petabajtami danych. Z modelami językowymi pracuję od 2022, dziś specjalizuję się w agentach AI. Sześć wdrożonych produktów, firma zbudowana wokół agentów, codzienne testowanie narzędzi. Nie konsultuję teorii — opowiadam o tym, co robię na co dzień.",
+        "W branży tech jestem od 2018. Zaczynałem jako programista fullstack, potem backend i DevOps, po drodze projekty z petabajtami danych. Z modelami językowymi pracuję od 2022, dziś specjalizuję się w agentach AI. Siedem wdrożonych produktów, firma zbudowana wokół agentów, codzienne testowanie narzędzi. Nie konsultuję teorii — opowiadam o tym, co robię na co dzień.",
       points: [
         {
           label: "Od 2018 w tech",
@@ -89,8 +90,8 @@ const personalHome = {
           text: "Kiedy GPT-3.5 wywrócił rynek do góry nogami, wszedłem w modele językowe na pełen etat. Dziś specjalizuję się w agentach AI — projektuję je, testuję i wpinam w realne procesy biznesowe.",
         },
         {
-          label: "Sześć produktów AI",
-          text: "CallWise, Metyra, CourseAI, Ask, Goose, AI Daily — każdy to AI wdrożone w innej branży: sprzedaż, finanse, edukacja, księgowość, ewaluacja, treści.",
+          label: "Siedem produktów AI",
+          text: "CallWise, AwesomeBot, Metyra, CourseAI, Ask, Goose, AI Daily — każdy to AI wdrożone w innej branży: sprzedaż, recepcja, finanse, edukacja, księgowość, ewaluacja, treści.",
         },
         {
           label: "Firma zbudowana na AI",
@@ -140,6 +141,20 @@ const personalHome = {
           href: localizedProductUrl("https://callwise.awesomeworks.ai", "pl"),
           cta: "Zobacz CallWise",
           note: "B2B · dostęp na zaproszenie",
+        },
+        {
+          id: "awesomebot",
+          name: "AwesomeBot",
+          label: "AI front desk",
+          tagline: "Recepcja, która odbiera zawsze.",
+          title: "",
+          description:
+            "AI recepcja 24/7 dla placówek medycznych i zarządców nieruchomości: odbiera telefony, SMS-y i e-maile, rozpoznaje sprawy i przygotowuje odpowiedzi. Wszystko wychodzące zatwierdza człowiek.",
+          audience: "Klinik i zarządców nieruchomości",
+          logoSrc: "/awesomebot-logo.svg",
+          logoAlt: "AwesomeBot logo",
+          href: awesomebotPath("pl"),
+          cta: "Zobacz AwesomeBota",
         },
         {
           id: "metyra",
@@ -260,7 +275,7 @@ const personalHome = {
         },
         {
           q: "Skąd mam wiedzieć, że się na tym znasz?",
-          a: "W AI pracuję od 2018, mam za sobą sześć wdrożonych produktów (zobacz w karuzeli powyżej), na co dzień piszę kod razem z agentami i doradzam firmom usługowym w Polsce i UE. To nie są referencje ze slajdu — to żywe wdrożenia.",
+          a: "W AI pracuję od 2018, mam za sobą siedem wdrożonych produktów (zobacz w karuzeli powyżej), na co dzień piszę kod razem z agentami i doradzam firmom usługowym w Polsce i UE. To nie są referencje ze slajdu — to żywe wdrożenia.",
         },
         {
           q: "Co dostaję po konsultacji?",
@@ -436,7 +451,7 @@ const personalHome = {
       eyebrow: "Why me",
       title: "AI isn't hype for me. It's my daily work — and the way I run my company.",
       intro:
-        "I've been in tech since 2018 — first as a fullstack engineer, then backend and DevOps on petabytes of data. With language models I've been working since 2022, and today I specialize in AI agents. Six shipped products, a company built on agents, daily tool testing. I don't consult theory — I tell you what I do every day.",
+        "I've been in tech since 2018 — first as a fullstack engineer, then backend and DevOps on petabytes of data. With language models I've been working since 2022, and today I specialize in AI agents. Seven shipped products, a company built on agents, daily tool testing. I don't consult theory — I tell you what I do every day.",
       points: [
         {
           label: "In tech since 2018",
@@ -447,8 +462,8 @@ const personalHome = {
           text: "When GPT-3.5 flipped the market upside down, I went full-time into language models. Today I specialize in AI agents — designing them, testing them, and wiring them into real business processes.",
         },
         {
-          label: "Six AI products",
-          text: "CallWise, Metyra, CourseAI, Ask, Goose, AI Daily — each is AI shipped into a different vertical: sales, finance, education, accounting, eval, content.",
+          label: "Seven AI products",
+          text: "CallWise, AwesomeBot, Metyra, CourseAI, Ask, Goose, AI Daily — each is AI shipped into a different vertical: sales, front desk, finance, education, accounting, eval, content.",
         },
         {
           label: "Company built on AI",
@@ -498,6 +513,20 @@ const personalHome = {
           href: localizedProductUrl("https://callwise.awesomeworks.ai", "en"),
           cta: "See the proof in CallWise",
           note: "B2B · invite-only access",
+        },
+        {
+          id: "awesomebot",
+          name: "AwesomeBot",
+          label: "AI front desk",
+          tagline: "The front desk that always picks up.",
+          title: "",
+          description:
+            "24/7 AI front desk for clinics and property managers: it answers calls, texts, and emails, triages every case, and drafts replies. A human approves everything outgoing.",
+          audience: "Clinics & property managers",
+          logoSrc: "/awesomebot-logo.svg",
+          logoAlt: "AwesomeBot logo",
+          href: awesomebotPath("en"),
+          cta: "See AwesomeBot",
         },
         {
           id: "metyra",
@@ -618,7 +647,7 @@ const personalHome = {
         },
         {
           q: "How do I know you actually know your stuff?",
-          a: "I've been in AI since 2018, I've shipped 6 AI products to production (see the carousel above), I write code daily alongside agents, and I advise service businesses across PL and EU. These aren't references on a slide — they're live deployments.",
+          a: "I've been in AI since 2018, I've shipped 7 AI products to production (see the carousel above), I write code daily alongside agents, and I advise service businesses across PL and EU. These aren't references on a slide — they're live deployments.",
         },
         {
           q: "What do I get after the consultation?",
