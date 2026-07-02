@@ -14,7 +14,7 @@ export const defaultLang = 'pl' as const;
 export const ui = {
   pl: {
     // Meta / SEO
-    'meta.title': 'AwesomeBot — AI recepcja 24/7 dla placówek medycznych i zarządców nieruchomości',
+    'meta.title': 'AwesomeBot — AI recepcja 24/7 dla klinik i zarządców',
     'meta.description':
       'AwesomeBot odbiera telefony, SMS-y i e-maile 24/7, rozpoznaje sprawy, nadaje priorytety i przygotowuje odpowiedzi. Wszystko wychodzące zatwierdza człowiek.',
 
@@ -33,9 +33,9 @@ export const ui = {
     'toggle.estate': 'Nieruchomości',
 
     // Hero
-    'hero.h1.pre.med': 'Rejestracja, która',
+    'hero.h1.pre.med': 'AI recepcja, która',
     'hero.h1.accent.med': 'odbiera zawsze',
-    'hero.h1.pre.est': 'Biuro zarządcy, które',
+    'hero.h1.pre.est': 'AI recepcja zarządcy, która',
     'hero.h1.accent.est': 'odbiera zawsze',
 
     // Hero — live status log (cycling reception feed above the H1)
@@ -111,7 +111,7 @@ export const ui = {
 
     // Triage card mock (lives in "Jak działa")
     'triage.caption': 'Tak wygląda sprawa gotowa do decyzji',
-    'triage.header': 'Triage · sprawa #124',
+    'triage.header': 'Triage · przykładowa sprawa #124',
     'triage.online': 'Online',
     'triage.tag.label': 'Tag',
     'triage.prio.label': 'Priorytet',
@@ -155,7 +155,8 @@ export const ui = {
     // Product pillars
     'pillars.eyebrow': 'Produkt',
     'pillars.heading': 'Co robi AwesomeBot',
-    'pillars.sub': 'Cztery filary jednej recepcji — od odebrania do gotowej odpowiedzi.',
+    'pillars.sub':
+      'AwesomeBot to AI recepcja 24/7 dla placówek medycznych i zarządców nieruchomości — odbiera telefony, SMS-y i e-maile, a wszystko wychodzące zatwierdza człowiek.',
     'pillars.p1.title': 'Odbiera zawsze',
     'pillars.p1.body':
       'Telefon, SMS i e-mail — 24/7. Każda wiadomość jest przeczytana i podpięta do właściwej sprawy, zanim otworzysz skrzynkę.',
@@ -287,9 +288,9 @@ export const ui = {
     'toggle.estate': 'Real estate',
 
     // Hero
-    'hero.h1.pre.med': 'The front desk that',
+    'hero.h1.pre.med': 'The AI front desk that',
     'hero.h1.accent.med': 'always picks up',
-    'hero.h1.pre.est': 'The property desk that',
+    'hero.h1.pre.est': 'The AI property desk that',
     'hero.h1.accent.est': 'always picks up',
 
     // Hero — live status log (cycling reception feed above the H1)
@@ -365,7 +366,7 @@ export const ui = {
 
     // Triage card mock (lives in "How it works")
     'triage.caption': 'This is a case ready for your decision',
-    'triage.header': 'Triage · case #124',
+    'triage.header': 'Triage · example case #124',
     'triage.online': 'Online',
     'triage.tag.label': 'Tag',
     'triage.prio.label': 'Priority',
@@ -409,7 +410,8 @@ export const ui = {
     // Product pillars
     'pillars.eyebrow': 'Product',
     'pillars.heading': 'What AwesomeBot does',
-    'pillars.sub': 'Four pillars of one front desk — from pickup to a ready reply.',
+    'pillars.sub':
+      'AwesomeBot is a 24/7 AI front desk for medical clinics and property managers — it answers calls, texts and emails, and everything outbound is approved by a human.',
     'pillars.p1.title': 'Always answers',
     'pillars.p1.body':
       'Phone, SMS and email — 24/7. Every message is read and attached to the right case before you open your inbox.',
