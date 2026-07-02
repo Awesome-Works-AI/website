@@ -1,6 +1,7 @@
 ---
-// Two-column hero: copy + phone demo on the left, the orb light sculpture
-// with floating message chips on the right. Fits one desktop viewport.
+// Hero: segment toggle centered on the page axis, then a two-column stage —
+// copy + bare phone demo on the left, the orb light sculpture with floating
+// message chips on the right. Fits one desktop viewport.
 import Icon from "~/components/Icon.astro";
 import SegmentToggle from "~/components/SegmentToggle.astro";
 import { getLangFromUrl, useTranslations } from "~/i18n/utils";
@@ -59,125 +60,132 @@ const sparks = [
   </div>
 
   <div
-    class="relative mx-auto grid max-w-6xl items-center gap-10 px-6 pt-24 pb-16 md:pt-28 lg:min-h-svh lg:grid-cols-[1.02fr_0.98fr] lg:gap-6 lg:pt-20 lg:pb-10"
+    class="relative mx-auto flex max-w-6xl flex-col px-6 pt-24 pb-16 md:pt-28 lg:min-h-svh lg:justify-center lg:pt-24 lg:pb-10"
   >
-    {/* Left — copy + phone demo (above the dimmed orb on mobile) */}
-    <div class="relative z-10 flex flex-col items-start text-left">
+    {/* Segment toggle — centered on the page axis, above the two-column stage */}
+    <div class="relative z-10 flex justify-center">
       <SegmentToggle />
+    </div>
 
-      <p class="mt-6 inline-flex items-center gap-2.5 rounded-full border border-band-strong/50 bg-white/80 px-4 py-1.5 font-mono text-xs font-semibold uppercase tracking-[0.18em] text-primary-deep backdrop-blur-sm">
-        <span class="status-dot"></span>
-        [ {t("hero.eyebrow")} ]
-      </p>
-
-      <h1 class="mt-5 max-w-xl text-4xl font-bold leading-[1.05] tracking-tight text-ink sm:text-5xl xl:text-6xl">
-        <span class="seg-med">{t("hero.h1.pre.med")}</span><span class="seg-est">{t("hero.h1.pre.est")}</span>
-        <span class="text-primary underline decoration-cta decoration-[3px] underline-offset-8">
-          <span class="seg-med">{t("hero.h1.accent.med")}</span><span class="seg-est">{t("hero.h1.accent.est")}</span></span
-        >.
-      </h1>
-
-      <p class="mt-4 max-w-lg text-base leading-relaxed text-muted md:text-lg">
-        <span class="seg-med">{t("hero.subtitle.med")}</span><span class="seg-est">{t("hero.subtitle.est")}</span>
-      </p>
-
-      {/* Phone demo card — front-end only; validation + inline message, no data leaves the page.
-          Keep the form element so a backend POST can be wired in later. */}
-      <form
-        class="mt-7 w-full max-w-md rounded-2xl border border-band-strong/60 bg-white p-4 shadow-[0_24px_60px_-28px_rgb(18_33_31/0.35)]"
-        novalidate
-        data-demo-form
-      >
-        <div class="flex items-stretch gap-2">
-          <span
-            class="inline-flex flex-none cursor-help items-center gap-1.5 rounded-full border border-band-strong/60 bg-offwhite px-3 font-mono text-sm font-medium text-ink"
-            title={t("phone.prefix.title")}
-          >
-            {/* Polish flag — inline SVG (no emoji, renders everywhere) */}
-            <svg viewBox="0 0 20 14" class="h-3.5 w-5 flex-none overflow-hidden rounded-[2px]" aria-hidden="true">
-              <rect width="20" height="7" y="0" fill="#f5f5f5"></rect>
-              <rect width="20" height="7" y="7" fill="#dc143c"></rect>
-            </svg>
-            +48
+    <div class="relative mt-10 grid items-center gap-10 lg:mt-12 lg:grid-cols-[1.02fr_0.98fr] lg:gap-6">
+      {/* Left — copy + phone demo (above the dimmed orb on mobile) */}
+      <div class="relative z-10 flex flex-col items-start text-left">
+        {/* Live status log — cycling reception feed, no badge chrome */}
+        <p class="flex items-center gap-2.5 font-mono text-xs font-medium text-primary-deep" aria-hidden="true">
+          <span class="status-dot"></span>
+          <span class="status-log seg-med">
+            <span>{t("hero.log.med.1")}</span>
+            <span>{t("hero.log.med.2")}</span>
+            <span>{t("hero.log.med.3")}</span>
           </span>
-          <input
-            type="tel"
-            inputmode="tel"
-            autocomplete="tel-national"
-            placeholder={t("phone.input.placeholder")}
-            aria-label={t("phone.input.label")}
-            class="h-11 w-full min-w-0 rounded-full border border-band-strong/60 bg-white px-4 font-mono text-sm text-ink placeholder:text-muted/60 focus:border-primary focus:outline-none"
-          />
-        </div>
-        <button type="submit" class="btn-primary mt-3 w-full">
-          <Icon name="phone" class="h-4 w-4" />
-          {t("phone.cta")}
-        </button>
-        <p class="mt-3 hidden text-left text-sm leading-snug text-primary-deep" data-demo-success role="status">
-          {t("phone.success")}
+          <span class="status-log seg-est">
+            <span>{t("hero.log.est.1")}</span>
+            <span>{t("hero.log.est.2")}</span>
+            <span>{t("hero.log.est.3")}</span>
+          </span>
+        </p>
+
+        <h1 class="mt-6 max-w-xl text-4xl font-bold leading-[1.05] tracking-tight text-ink sm:text-5xl xl:text-[4.25rem]">
+          <span class="seg-med">{t("hero.h1.pre.med")}</span><span class="seg-est">{t("hero.h1.pre.est")}</span>
+          <span class="text-primary underline decoration-band-strong decoration-[3px] underline-offset-8">
+            <span class="seg-med">{t("hero.h1.accent.med")}</span><span class="seg-est">{t("hero.h1.accent.est")}</span></span
+          >.
+        </h1>
+
+        {/* Phone demo — front-end only; validation + inline message, no data leaves the page.
+            Keep the form element so a backend POST can be wired in later. */}
+        <form class="mt-9 w-full max-w-md" novalidate data-demo-form>
+          <div class="flex items-stretch gap-2">
+            <span
+              class="inline-flex flex-none cursor-help items-center gap-1.5 rounded-full border border-band-strong/60 bg-white/80 px-3.5 font-mono text-sm font-medium text-ink backdrop-blur-sm"
+              title={t("phone.prefix.title")}
+            >
+              {/* Polish flag — inline SVG (no emoji, renders everywhere) */}
+              <svg viewBox="0 0 20 14" class="h-3.5 w-5 flex-none overflow-hidden rounded-[2px]" aria-hidden="true">
+                <rect width="20" height="7" y="0" fill="#f5f5f5"></rect>
+                <rect width="20" height="7" y="7" fill="#dc143c"></rect>
+              </svg>
+              +48
+            </span>
+            <input
+              type="tel"
+              inputmode="tel"
+              autocomplete="tel-national"
+              placeholder={t("phone.input.placeholder")}
+              aria-label={t("phone.input.label")}
+              class="h-12 w-full min-w-0 rounded-full border border-band-strong/60 bg-white/80 px-5 font-mono text-sm text-ink backdrop-blur-sm placeholder:text-muted/60 focus:border-primary focus:outline-none"
+            />
+          </div>
+          <button type="submit" class="btn-primary mt-3 w-full">
+            <Icon name="phone" class="h-4 w-4" />
+            {t("phone.cta")}
+          </button>
+          <p class="mt-3 hidden text-left text-sm leading-snug text-primary-deep" data-demo-success role="status">
+            {t("phone.success")}
+            <a
+              href="https://calendly.com/hello-awesomeworks/30min"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="font-semibold underline decoration-band-strong decoration-2 underline-offset-2 hover:text-ink hover:decoration-primary"
+              >{t("phone.success.link")} ↗</a
+            >
+          </p>
+          <p class="mt-3 hidden text-left text-sm text-danger" data-demo-error role="alert">
+            {t("phone.error")}
+          </p>
+        </form>
+
+        <div class="mt-5 flex flex-wrap items-baseline gap-x-5 gap-y-1">
           <a
             href="https://calendly.com/hello-awesomeworks/30min"
             target="_blank"
             rel="noopener noreferrer"
-            class="font-semibold underline decoration-cta decoration-2 underline-offset-2 hover:text-ink"
-            >{t("phone.success.link")} ↗</a
+            class="text-sm font-semibold text-ink underline decoration-band-strong decoration-2 underline-offset-4 transition hover:decoration-primary"
           >
-        </p>
-        <p class="mt-3 hidden text-left text-sm text-cta-deep" data-demo-error role="alert">
-          {t("phone.error")}
-        </p>
-      </form>
-
-      <div class="mt-4 flex flex-wrap items-baseline gap-x-5 gap-y-1">
-        <a
-          href="https://calendly.com/hello-awesomeworks/30min"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="text-sm font-semibold text-ink underline decoration-band-strong decoration-2 underline-offset-4 transition hover:decoration-cta"
-        >
-          {t("hero.demolink")} ↗
-        </a>
-        <p class="hero-micro font-mono text-xs text-muted">{t("hero.micro")}</p>
-      </div>
-    </div>
-
-    {/* Right — orb light sculpture + floating message chips.
-        Mobile: sits dimmed behind the left column (decoration only). */}
-    <div
-      aria-hidden="true"
-      class="pointer-events-none absolute inset-0 flex items-center justify-center opacity-40 lg:static lg:opacity-100"
-    >
-      <div class="relative">
-        <div class="orb [--orb-size:260px] md:[--orb-size:320px] xl:[--orb-size:380px]">
-          <div class="orb-halo"></div>
-          <div class="orb-halo-warm"></div>
-          <div class="orb-body">
-            <div class="orb-aura"></div>
-            <div class="orb-streak orb-streak-1"></div>
-            <div class="orb-streak orb-streak-2"></div>
-            <div class="orb-streak orb-streak-3"></div>
-            <div class="orb-streak orb-streak-4"></div>
-            <div class="orb-comet"></div>
-            <div class="orb-ring"></div>
-            <div class="orb-core"></div>
-            {sparks.map((s) => <div class="orb-spark" style={s}></div>)}
-            <div class="orb-grain"></div>
-          </div>
+            {t("hero.demolink")} ↗
+          </a>
+          <p class="hero-micro font-mono text-xs text-muted">{t("hero.micro")}</p>
         </div>
+      </div>
 
-        {/* Messages drifting into the front desk */}
-        {
-          chips.map((c) => (
-            <div
-              class:list={["orb-chip", c.mobile ? "inline-flex" : "hidden lg:inline-flex", c.pos]}
-              style={c.vars}
-            >
-              <Icon name={c.icon} class="h-3.5 w-3.5 flex-none text-primary-deep" />
-              <span class="seg-med">{t(c.med)}</span>
-              <span class="seg-est">{t(c.est)}</span>
+      {/* Right — orb light sculpture + floating message chips.
+          Mobile: sits dimmed behind the left column (decoration only). */}
+      <div
+        aria-hidden="true"
+        class="pointer-events-none absolute inset-0 flex items-center justify-center opacity-40 lg:static lg:opacity-100"
+      >
+        <div class="relative">
+          <div class="orb [--orb-size:260px] md:[--orb-size:320px] xl:[--orb-size:380px]">
+            <div class="orb-halo"></div>
+            <div class="orb-halo-2"></div>
+            <div class="orb-body">
+              <div class="orb-aura"></div>
+              <div class="orb-streak orb-streak-1"></div>
+              <div class="orb-streak orb-streak-2"></div>
+              <div class="orb-streak orb-streak-3"></div>
+              <div class="orb-streak orb-streak-4"></div>
+              <div class="orb-comet"></div>
+              <div class="orb-ring"></div>
+              <div class="orb-core"></div>
+              {sparks.map((s) => <div class="orb-spark" style={s}></div>)}
+              <div class="orb-grain"></div>
             </div>
-          ))
-        }
+          </div>
+
+          {/* Messages drifting into the front desk */}
+          {
+            chips.map((c) => (
+              <div
+                class:list={["orb-chip", c.mobile ? "inline-flex" : "hidden lg:inline-flex", c.pos]}
+                style={c.vars}
+              >
+                <Icon name={c.icon} class="h-3.5 w-3.5 flex-none text-primary-deep" />
+                <span class="seg-med">{t(c.med)}</span>
+                <span class="seg-est">{t(c.est)}</span>
+              </div>
+            ))
+          }
+        </div>
       </div>
     </div>
   </div>

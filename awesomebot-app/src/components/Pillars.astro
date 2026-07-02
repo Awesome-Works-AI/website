@@ -28,9 +28,9 @@ const pillars: { icon: string; label: string; title: UiKey; body: UiKey; exMed: 
     <div class="mt-12 grid gap-5 sm:grid-cols-2">
       {
         pillars.map((p) => (
-          <div class="hud-card rounded-xl border border-band-strong/50 bg-offwhite p-6 transition hover:border-band-strong md:p-8">
+          <div class="hud-card rounded-xl bg-band/45 p-6 transition-colors hover:bg-band/80 md:p-8">
             <div class="flex items-center justify-between">
-              <span class="grid h-11 w-11 place-items-center rounded-lg bg-band text-primary-deep">
+              <span class="grid h-11 w-11 place-items-center rounded-lg bg-white/90 text-primary-deep">
                 <Icon name={p.icon} class="h-5 w-5" />
               </span>
               <span class="font-mono text-xs font-medium tracking-[0.2em] text-primary-deep">
