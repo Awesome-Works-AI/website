@@ -14,12 +14,13 @@
    * every component without touching markup.
    *
    *   BASE       offwhite  → hero/section backgrounds
-   *   PRIMARY    primary   → segment accent (teal | slate navy)
+   *   PRIMARY    primary   → segment accent (teal | slate navy);
+   *                          conversion CTAs ride the primary ramp too
    *   DEEP       primary-deep → hover states, small accent text (AA-safer)
    *   DARK       dark      → dark bands: final CTA, footer
    *   BETWEEN    band      → diagonal section bands, card fills
    *   ACCENT     band-strong → borders, details (mint | brass)
-   *   CTA        cta / cta-deep → shared orange conversion accent
+   *   DANGER     danger    → form validation errors (segment-neutral)
    */
   --color-offwhite: #FBFDFD;
   --color-ink: #12211F;
@@ -30,8 +31,7 @@
   --color-dark: #0F3D3E;
   --color-band: #E7F6F3;
   --color-band-strong: #7ED4C9;
-  --color-cta: #F97316;
-  --color-cta-deep: #EA580C;
+  --color-danger: #B91C1C;
 
   --font-sans: "Inter Variable", "Inter", system-ui, "Segoe UI", Roboto, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
@@ -42,9 +42,14 @@
  * ============================================================ */
 
 :root {
-  /* orb gradient layers (orange core is shared) */
+  /* orb gradient layers + core ramp (everything segment-tinted):
+   * medical core = icy white → mint → teal ("clinically clean"),
+   * estate core  = warm white → champagne → brass. */
   --orb-1: #14b8a6;
   --orb-2: #7ed4c9;
+  --orb-core-hot: #f0fdfa;
+  --orb-core-mid: #5eead4;
+  --orb-core-edge: #0d9488;
 }
 
 html[data-segment="estate"] {
@@ -59,6 +64,9 @@ html[data-segment="estate"] {
   --color-band-strong: #d9a441;
   --orb-1: #3e5f95;
   --orb-2: #d9a441;
+  --orb-core-hot: #fdf6ea;
+  --orb-core-mid: #e6c887;
+  --orb-core-edge: #d9a441;
 }
 
 /* Segment-scoped content: both variants live in the DOM, the html
@@ -174,6 +182,46 @@ summary::-webkit-details-marker {
 }
 
 /* ============================================================
+ * Status log — the hero's live reception feed. Plain mono text,
+ * no chrome: entries share one grid cell and cross-fade on a slow,
+ * deliberately uneven cycle (reads as a system heartbeat, not a badge).
+ * Reduced motion / no animation → the last entry ("online · 24/7")
+ * stays pinned.
+ * ============================================================ */
+
+.status-log {
+  display: inline-grid;
+  text-align: left;
+}
+
+.status-log > span {
+  grid-area: 1 / 1;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.5em;
+  white-space: nowrap;
+  opacity: 0;
+  animation: log-cycle 13s ease-in-out infinite;
+  animation-delay: var(--ld, 0s);
+}
+
+.status-log > span::before {
+  content: "▸";
+  font-size: 0.85em;
+  color: var(--color-primary);
+}
+
+/* uneven delays → gaps of 4.6s / 3.8s / 4.6s, so the loop never feels metronomic */
+.status-log > span:nth-child(2) { --ld: 4.6s; }
+.status-log > span:nth-child(3) { --ld: 8.4s; }
+
+@keyframes log-cycle {
+  0% { opacity: 0; transform: translateY(5px); }
+  3.5%, 26% { opacity: 1; transform: translateY(0); }
+  32%, 100% { opacity: 0; transform: translateY(-4px); }
+}
+
+/* ============================================================
  * HUD corner brackets — thin L-corners revealed on card hover
  * ============================================================ */
 
@@ -259,13 +307,14 @@ html[data-segment="estate"] .seg-toggle [data-seg="estate"] {
 /* ============================================================
  * Orb — layered light sculpture (long-exposure energy look).
  * Composition, all CSS, transform/opacity animations only:
- *   halo (cool) + warm halo        — big soft glows behind everything
+ *   halo ×2                        — big soft glows behind everything
+ *                                    (primary hue + accent hue)
  *   body (scaleY .95)              — slight ellipse = slender silhouette
  *     aura                         — segment-tinted soft mass (--orb-1/2)
  *     streaks ×4                   — thin conic arcs masked to rings,
  *                                    screen-blended, counter-rotating
  *     comet                        — one elongated streak past the rim
- *     core                         — small white-hot → orange, breathing
+ *     core                         — white-hot → segment hue, breathing
  *     ring                         — 1px tilted orbit line
  *     sparks ×5                    — orbiting 2px points, phased fades
  *     grain                        — SVG turbulence noise overlay
@@ -292,10 +341,10 @@ html[data-segment="estate"] .seg-toggle [data-seg="estate"] {
   filter: blur(30px);
 }
 
-.orb-halo-warm {
+.orb-halo-2 {
   inset: -20%;
   border-radius: 50%;
-  background: radial-gradient(circle at 52% 58%, color-mix(in srgb, var(--color-cta) 15%, transparent) 0%, transparent 58%);
+  background: radial-gradient(circle at 52% 58%, color-mix(in srgb, var(--orb-2) 22%, transparent) 0%, transparent 58%);
   filter: blur(26px);
   animation: orb-halo-pulse 9s ease-in-out infinite;
 }
@@ -357,7 +406,7 @@ html[data-segment="estate"] .seg-toggle [data-seg="estate"] {
 
 .orb-streak-3 {
   inset: -2%;
-  background: conic-gradient(from 220deg, transparent 0deg, color-mix(in srgb, var(--color-cta) 85%, transparent) 20deg, transparent 74deg);
+  background: conic-gradient(from 220deg, transparent 0deg, color-mix(in srgb, var(--orb-2) 85%, transparent) 20deg, transparent 74deg);
   mask: radial-gradient(closest-side, transparent 75%, black 79%, black 83%, transparent 87%);
   filter: blur(9px);
   opacity: 0.75;
@@ -395,10 +444,10 @@ html[data-segment="estate"] .seg-toggle [data-seg="estate"] {
   border-radius: 50%;
   background: radial-gradient(
     circle at 50% 46%,
-    #fff8f2 0%,
-    #ffd9b0 26%,
-    var(--color-cta) 58%,
-    color-mix(in srgb, var(--color-cta-deep) 70%, transparent) 78%,
+    var(--orb-core-hot) 0%,
+    var(--orb-core-mid) 30%,
+    var(--orb-core-edge) 60%,
+    color-mix(in srgb, var(--orb-core-edge) 65%, transparent) 78%,
     transparent 92%
   );
   filter: blur(6px);
@@ -538,10 +587,14 @@ html[data-segment="estate"] .seg-toggle [data-seg="estate"] {
   .orb *, .hero-blob { animation: none !important; }
   .orb-chip { animation: none; opacity: 1; transform: none; }
   .orb-spark { opacity: 0.6; transform: rotate(var(--a, 0deg)) translateX(calc(var(--orb-size, 340px) * var(--r, 0.4))); }
+  .status-log > span { animation: none; }
+  .status-log > span:last-child { opacity: 1; transform: none; }
 }
 
 /* ============================================================
- * Buttons — shared orange conversion accent, full pill shape
+ * Buttons — segment conversion accent, full pill shape.
+ * Gradient is weighted toward the dark end (bright only kisses the
+ * top-left corner) so white text keeps contrast on the medical teal.
  * ============================================================ */
 
 .btn-primary {
@@ -554,14 +607,14 @@ html[data-segment="estate"] .seg-toggle [data-seg="estate"] {
   font-size: 0.9375rem;
   font-weight: 600;
   color: #ffffff;
-  background-image: linear-gradient(135deg, var(--color-cta), var(--color-cta-deep));
-  box-shadow: 0 8px 24px -8px color-mix(in srgb, var(--color-cta-deep) 60%, transparent);
+  background-image: linear-gradient(135deg, var(--color-primary-bright), var(--color-primary) 40%, var(--color-primary-deep));
+  box-shadow: 0 8px 24px -8px color-mix(in srgb, var(--color-primary-deep) 55%, transparent);
   transition: box-shadow 0.2s ease, filter 0.2s ease, transform 0.2s ease;
 }
 
 .btn-primary:hover {
-  filter: brightness(0.92);
-  box-shadow: 0 10px 28px -8px color-mix(in srgb, var(--color-cta-deep) 70%, transparent);
+  filter: brightness(0.94);
+  box-shadow: 0 10px 28px -8px color-mix(in srgb, var(--color-primary-deep) 65%, transparent);
   transform: translateY(-1px);
 }
 

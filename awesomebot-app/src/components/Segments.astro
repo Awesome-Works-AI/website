@@ -45,7 +45,7 @@ const variants: { seg: "seg-med" | "seg-est"; icon: string; title: UiKey; lead: 
 
           <ul class="mt-10 grid gap-x-10 gap-y-6 md:grid-cols-2">
             {v.items.map((item) => (
-              <li class="hud-card flex items-start gap-3 rounded-xl border border-band-strong/50 bg-gradient-to-b from-band/70 to-white p-5 text-[0.95rem] leading-relaxed text-muted transition hover:border-band-strong">
+              <li class="hud-card flex items-start gap-3 rounded-xl bg-gradient-to-b from-band/70 to-white p-5 text-[0.95rem] leading-relaxed text-muted transition hover:from-band">
                 <Icon name="check" class="mt-1 h-4 w-4 flex-none text-primary" />
                 {t(item)}
               </li>

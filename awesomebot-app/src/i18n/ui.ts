@@ -33,15 +33,18 @@ export const ui = {
     'toggle.estate': 'Nieruchomości',
 
     // Hero
-    'hero.eyebrow': 'AI recepcja · online 24/7',
     'hero.h1.pre.med': 'Rejestracja, która',
     'hero.h1.accent.med': 'odbiera zawsze',
-    'hero.subtitle.med':
-      'AI odbiera telefony, SMS-y i e-maile Twojej placówki — 24/7. Pacjent zawsze się dodzwoni, decyzje zostają u personelu.',
     'hero.h1.pre.est': 'Biuro zarządcy, które',
     'hero.h1.accent.est': 'odbiera zawsze',
-    'hero.subtitle.est':
-      'AI czyta każde zgłoszenie mieszkańca — telefon, SMS, e-mail — 24/7. Priorytety i drafty gotowe, decyzje zostają u Ciebie.',
+
+    // Hero — live status log (cycling reception feed above the H1)
+    'hero.log.med.1': 'odebrano SMS · 02:14',
+    'hero.log.med.2': 'nowa sprawa: przełożenie wizyty',
+    'hero.log.med.3': 'online · 24/7',
+    'hero.log.est.1': 'odebrano zgłoszenie: przeciek',
+    'hero.log.est.2': 'draft odpowiedzi gotowy',
+    'hero.log.est.3': 'online · 24/7',
 
     // Hero — phone demo card
     'phone.prefix.title': 'Dostępne tylko dla polskich numerów',
@@ -278,15 +281,18 @@ export const ui = {
     'toggle.estate': 'Real estate',
 
     // Hero
-    'hero.eyebrow': 'AI front desk · online 24/7',
     'hero.h1.pre.med': 'The front desk that',
     'hero.h1.accent.med': 'always picks up',
-    'hero.subtitle.med':
-      'AI answers your clinic’s calls, texts and emails — 24/7. Patients always get through, decisions stay with your staff.',
     'hero.h1.pre.est': 'The property desk that',
     'hero.h1.accent.est': 'always picks up',
-    'hero.subtitle.est':
-      'AI reads every resident request — phone, SMS, email — 24/7. Priorities and drafts ready, decisions stay with you.',
+
+    // Hero — live status log (cycling reception feed above the H1)
+    'hero.log.med.1': 'SMS answered · 02:14',
+    'hero.log.med.2': 'new case: visit reschedule',
+    'hero.log.med.3': 'online · 24/7',
+    'hero.log.est.1': 'report received: ceiling leak',
+    'hero.log.est.2': 'reply draft ready',
+    'hero.log.est.3': 'online · 24/7',
 
     // Hero — phone demo card
     'phone.prefix.title': 'Available for Polish numbers only',
