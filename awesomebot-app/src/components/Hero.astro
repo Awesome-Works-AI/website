@@ -88,11 +88,22 @@ const sparks = [
           </span>
         </p>
 
+        {/* Each segment span carries its complete sentence (incl. the accent), so
+            raw-text extraction without CSS yields two intact sentences instead of
+            one word-level splice. Rendered output per segment is unchanged. */}
         <h1 class="mt-6 max-w-xl text-4xl font-bold leading-[1.05] tracking-tight text-ink sm:text-5xl xl:text-[4.25rem]">
-          <span class="seg-med">{t("hero.h1.pre.med")}</span><span class="seg-est">{t("hero.h1.pre.est")}</span>
-          <span class="text-primary underline decoration-band-strong decoration-[3px] underline-offset-8">
-            <span class="seg-med">{t("hero.h1.accent.med")}</span><span class="seg-est">{t("hero.h1.accent.est")}</span></span
-          >.
+          <span class="seg-med"
+            >{t("hero.h1.pre.med")}
+            <span class="text-primary underline decoration-band-strong decoration-[3px] underline-offset-8"
+              >{t("hero.h1.accent.med")}</span
+            >.</span
+          >
+          <span class="seg-est"
+            >{t("hero.h1.pre.est")}
+            <span class="text-primary underline decoration-band-strong decoration-[3px] underline-offset-8"
+              >{t("hero.h1.accent.est")}</span
+            >.</span
+          >
         </h1>
 
         {/* Phone demo — with PUBLIC_AWESOMEBOT_API_BASE set at build time the form POSTs

@@ -1,27 +1,13 @@
 ---
 // FAQ: shared questions + segment-worded q1 and a segment-specific q6.
 // Segment variants render both spans; html[data-segment] decides visibility.
+// Item list lives in ~/i18n/faq.ts, shared with the FAQPage JSON-LD.
 import Icon from "~/components/Icon.astro";
 import { getLangFromUrl, useTranslations } from "~/i18n/utils";
-import type { UiKey } from "~/i18n/ui";
+import { faqItems as items, isSegPair as isPair } from "~/i18n/faq";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
-
-type SegPair = { med: UiKey; est: UiKey };
-type Item = { q: UiKey | SegPair; a: UiKey | SegPair };
-
-const items: Item[] = [
-  { q: { med: "faq.q1.q.med", est: "faq.q1.q.est" }, a: "faq.q1.a" },
-  { q: "faq.q2.q", a: "faq.q2.a" },
-  { q: "faq.q3.q", a: "faq.q3.a" },
-  { q: "faq.q4.q", a: "faq.q4.a" },
-  { q: "faq.q5.q", a: "faq.q5.a" },
-  { q: { med: "faq.q6.q.med", est: "faq.q6.q.est" }, a: { med: "faq.q6.a.med", est: "faq.q6.a.est" } },
-  { q: "faq.q7.q", a: "faq.q7.a" },
-];
-
-const isPair = (v: UiKey | SegPair): v is SegPair => typeof v !== "string";
 ---
 
 <section id="faq" class="scroll-mt-24 bg-white py-20 md:py-28">
