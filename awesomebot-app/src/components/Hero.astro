@@ -10,6 +10,9 @@ import type { UiKey } from "~/i18n/ui";
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
+// Shared booking fallback — also the CTA on demo-call error states.
+const CALENDLY_URL = "https://calendly.com/hello-awesomeworks/30min";
+
 // Floating chips: [medical key, estate key, icon, position classes, cycle vars, mobile visibility]
 const chips: { med: UiKey; est: UiKey; icon: string; pos: string; vars: string; mobile: boolean }[] = [
   {
@@ -92,9 +95,10 @@ const sparks = [
           >.
         </h1>
 
-        {/* Phone demo — front-end only; validation + inline message, no data leaves the page.
-            Keep the form element so a backend POST can be wired in later. */}
-        <form class="mt-9 w-full max-w-md" novalidate data-demo-form>
+        {/* Phone demo — with PUBLIC_AWESOMEBOT_API_BASE set at build time the form POSTs
+            to the AwesomeBot backend and places a real outbound AI call; with the variable
+            empty it is a client-only stub (digit validation + "coming soon" note). */}
+        <form class="mt-9 w-full max-w-md" novalidate data-demo-form data-lang={lang}>
           <div class="flex items-stretch gap-2">
             <span
               class="inline-flex flex-none cursor-help items-center gap-1.5 rounded-full border border-band-strong/60 bg-white/80 px-3.5 font-mono text-sm font-medium text-ink backdrop-blur-sm"
@@ -116,28 +120,52 @@ const sparks = [
               class="h-12 w-full min-w-0 rounded-full border border-band-strong/60 bg-white/80 px-5 font-mono text-sm text-ink backdrop-blur-sm placeholder:text-muted/60 focus:border-primary focus:outline-none"
             />
           </div>
+          {/* Honeypot — bots fill it and get a fake success from the backend; people never
+              see it (offscreen via .hp-field, out of the tab order and the a11y tree). */}
+          <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp-field" />
           <button type="submit" class="btn-primary mt-3 w-full">
             <Icon name="phone" class="h-4 w-4" />
-            {t("phone.cta")}
+            <span class="btn-dot hidden" data-demo-cta-dot aria-hidden="true"></span>
+            <span data-demo-cta-label>{t("phone.cta")}</span>
           </button>
-          <p class="mt-3 hidden text-left text-sm leading-snug text-primary-deep" data-demo-success role="status">
-            {t("phone.success")}
+          <p class="mt-2 text-left text-xs leading-snug text-muted">{t("phone.consent")}</p>
+          <p
+            class="mt-3 hidden text-left text-sm leading-snug text-primary-deep"
+            data-demo-success
+            role="status"
+            aria-live="polite"
+          >
+            <span data-demo-success-text>{t("phone.success")}</span>
             <a
-              href="https://calendly.com/hello-awesomeworks/30min"
+              href={CALENDLY_URL}
               target="_blank"
               rel="noopener noreferrer"
               class="font-semibold underline decoration-band-strong decoration-2 underline-offset-2 hover:text-ink hover:decoration-primary"
+              data-demo-success-link
               >{t("phone.success.link")} ↗</a
             >
           </p>
-          <p class="mt-3 hidden text-left text-sm text-danger" data-demo-error role="alert">
-            {t("phone.error")}
+          <p
+            class="mt-3 hidden text-left text-sm leading-snug text-danger"
+            data-demo-error
+            role="alert"
+            aria-live="polite"
+          >
+            <span data-demo-error-text>{t("phone.error")}</span>
+            <a
+              href={CALENDLY_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="hidden font-semibold text-ink underline decoration-band-strong decoration-2 underline-offset-2 hover:decoration-primary"
+              data-demo-error-link
+              >{t("phone.success.link")} ↗</a
+            >
           </p>
         </form>
 
         <div class="mt-5 flex flex-wrap items-baseline gap-x-5 gap-y-1">
           <a
-            href="https://calendly.com/hello-awesomeworks/30min"
+            href={CALENDLY_URL}
             target="_blank"
             rel="noopener noreferrer"
             class="text-sm font-semibold text-ink underline decoration-band-strong decoration-2 underline-offset-4 transition hover:decoration-primary"
@@ -192,18 +220,146 @@ const sparks = [
 </section>
 
 <script>
-  // Demo stub: validate a 9-digit Polish number and show the inline status.
-  // Nothing is sent anywhere; swap this handler for a backend POST later.
+  import { ui, defaultLang, type UiKey } from "~/i18n/ui";
+
+  // Build-time switch: with PUBLIC_AWESOMEBOT_API_BASE unset/empty the form is a
+  // client-only stub — digit validation + the "coming soon" note, no request ever
+  // leaves the page. Setting the variable at build time flips it to the live demo
+  // call: POST {API_BASE}/v1/public/demo-call (AwesomeBot backend, TD-6).
+  const API_BASE = (import.meta.env.PUBLIC_AWESOMEBOT_API_BASE ?? "").replace(/\/+$/, "");
+  const FETCH_TIMEOUT_MS = 12_000;
+  const RESUBMIT_HOLD_MS = 60_000;
+
+  // Backend error code → i18n key (contract: TD-6 §2.3 / §7.2). Field-level codes
+  // render without the Calendly CTA; unknown codes fall back to the generic message.
+  const ERROR_KEY_BY_CODE: Record<string, UiKey> = {
+    invalid_phone: "phone.error",
+    unsupported_prefix: "phone.error",
+    cooldown_active: "phone.error.cooldown",
+    phone_daily_limit: "phone.error.capacity",
+    ip_daily_limit: "phone.error.capacity",
+    daily_cap_reached: "phone.error.capacity",
+    demo_unavailable: "phone.error.capacity",
+  };
+
   document.querySelectorAll<HTMLFormElement>("[data-demo-form]").forEach((form) => {
+    const lang: keyof typeof ui = form.dataset.lang === "en" ? "en" : defaultLang;
+    const t = (key: UiKey): string => ui[lang][key] ?? ui[defaultLang][key];
+
     const input = form.querySelector<HTMLInputElement>("input[type='tel']");
+    const honeypot = form.querySelector<HTMLInputElement>("input[name='website']");
+    const button = form.querySelector<HTMLButtonElement>("button[type='submit']");
+    const icon = button?.querySelector("svg");
+    const dot = button?.querySelector<HTMLElement>("[data-demo-cta-dot]");
+    const label = button?.querySelector<HTMLElement>("[data-demo-cta-label]");
     const success = form.querySelector<HTMLElement>("[data-demo-success]");
+    const successText = form.querySelector<HTMLElement>("[data-demo-success-text]");
+    const successLink = form.querySelector<HTMLElement>("[data-demo-success-link]");
     const error = form.querySelector<HTMLElement>("[data-demo-error]");
-    form.addEventListener("submit", (event) => {
+    const errorText = form.querySelector<HTMLElement>("[data-demo-error-text]");
+    const errorLink = form.querySelector<HTMLElement>("[data-demo-error-link]");
+
+    let holdTimer: ReturnType<typeof setTimeout> | undefined;
+
+    const setDisabled = (disabled: boolean) => {
+      if (!button) return;
+      // Keep keyboard focus alive when the focused button gets disabled (a11y).
+      if (disabled && document.activeElement === button) input?.focus();
+      button.disabled = disabled;
+    };
+
+    const setBusy = (busy: boolean) => {
+      icon?.classList.toggle("hidden", busy);
+      dot?.classList.toggle("hidden", !busy);
+      dot?.classList.toggle("inline-block", busy);
+      if (label) label.textContent = busy ? t("phone.cta.loading") : t("phone.cta");
+      button?.setAttribute("aria-busy", String(busy));
+    };
+
+    const holdResubmit = () => {
+      clearTimeout(holdTimer);
+      setDisabled(true);
+      holdTimer = setTimeout(() => setDisabled(false), RESUBMIT_HOLD_MS);
+    };
+
+    const hideMessages = () => {
+      success?.classList.add("hidden");
+      error?.classList.add("hidden");
+    };
+
+    // Unhide first, then swap the copy — mutations inside an already-visible
+    // aria-live region are announced more reliably than unhiding filled content.
+    const showSuccess = (liveText?: string) => {
+      hideMessages();
+      success?.classList.remove("hidden");
+      if (liveText && successText) successText.textContent = liveText;
+      // The stub note keeps its booking link; the live "calling you" state has no CTA.
+      successLink?.classList.toggle("hidden", Boolean(liveText));
+    };
+
+    const showError = (key: UiKey) => {
+      hideMessages();
+      error?.classList.remove("hidden");
+      if (errorText) errorText.textContent = t(key);
+      errorLink?.classList.toggle("hidden", key === "phone.error");
+    };
+
+    form.addEventListener("submit", async (event) => {
       event.preventDefault();
+      if (button?.disabled) return; // Enter in the input during in-flight/lockout
+
       const digits = (input?.value ?? "").replace(/\D/g, "");
-      const valid = digits.length === 9;
-      success?.classList.toggle("hidden", !valid);
-      error?.classList.toggle("hidden", valid);
+      if (digits.length !== 9) {
+        showError("phone.error");
+        return;
+      }
+
+      if (!API_BASE) {
+        showSuccess(); // stub mode — pre-rendered "coming soon" note + booking link
+        return;
+      }
+
+      const segment =
+        document.documentElement.getAttribute("data-segment") === "estate" ? "estate" : "medical";
+
+      hideMessages();
+      setBusy(true);
+      setDisabled(true);
+
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
+      try {
+        const res = await fetch(`${API_BASE}/v1/public/demo-call`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            phone: digits,
+            segment,
+            locale: form.dataset.lang ?? "pl",
+            website: honeypot?.value ?? "",
+          }),
+          signal: controller.signal,
+        });
+        if (res.status === 202) {
+          showSuccess(t("phone.success.calling"));
+          holdResubmit();
+        } else {
+          const body = await res.json().catch(() => null);
+          const code = body?.detail?.code;
+          const key =
+            (typeof code === "string" && ERROR_KEY_BY_CODE[code]) || "phone.error.generic";
+          showError(key);
+          if (code === "cooldown_active") holdResubmit();
+          else setDisabled(false);
+        }
+      } catch {
+        // Timeout (AbortError) and network failures share the generic path.
+        showError("phone.error.generic");
+        setDisabled(false);
+      } finally {
+        clearTimeout(timeout);
+        setBusy(false);
+      }
     });
   });
 </script>
