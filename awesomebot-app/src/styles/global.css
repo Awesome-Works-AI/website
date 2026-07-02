@@ -583,7 +583,7 @@ html[data-segment="estate"] .seg-toggle [data-seg="estate"] {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .status-dot::after { animation: none; opacity: 0; }
+  .status-dot::after, .btn-dot::after { animation: none; opacity: 0; }
   .orb *, .hero-blob { animation: none !important; }
   .orb-chip { animation: none; opacity: 1; transform: none; }
   .orb-spark { opacity: 0.6; transform: rotate(var(--a, 0deg)) translateX(calc(var(--orb-size, 340px) * var(--r, 0.4))); }
@@ -612,10 +612,51 @@ html[data-segment="estate"] .seg-toggle [data-seg="estate"] {
   transition: box-shadow 0.2s ease, filter 0.2s ease, transform 0.2s ease;
 }
 
-.btn-primary:hover {
+.btn-primary:hover:not(:disabled) {
   filter: brightness(0.94);
   box-shadow: 0 10px 28px -8px color-mix(in srgb, var(--color-primary-deep) 65%, transparent);
   transform: translateY(-1px);
+}
+
+/* Readable "not clickable right now" state — demo call in flight / 60 s resubmit hold */
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ============================================================
+ * Hero demo-call form — honeypot field + in-flight CTA dot
+ * ============================================================ */
+
+/* Honeypot: offscreen instead of display:none so naive bots still "see" and
+ * fill it; people never do (aria-hidden + tabindex=-1 keep it out of AT/tab). */
+.hp-field {
+  position: absolute;
+  left: -9999px;
+  height: 0;
+  width: 0;
+  opacity: 0;
+}
+
+/* White pulsing dot inside the primary CTA while the call is being placed.
+ * Display comes from utilities on the element (hidden / inline-block) —
+ * setting it here would out-cascade @layer utilities. */
+.btn-dot {
+  position: relative;
+  width: 8px;
+  height: 8px;
+  border-radius: 9999px;
+  background: #ffffff;
+  flex: none;
+}
+
+.btn-dot::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 9999px;
+  background: rgb(255 255 255 / 0.45);
+  animation: pulse-dot 2.2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
 .btn-ghost {
