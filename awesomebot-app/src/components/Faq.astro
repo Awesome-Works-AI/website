@@ -1,28 +1,40 @@
 ---
-// FAQ: shared questions + segment-worded q1 and a segment-specific q6.
-// Segment variants render both spans; html[data-segment] decides visibility.
+// FAQ — interactive split: question list on the left, a chat panel on the
+// right where the "AwesomeBot" agent types out the answer. Mobile keeps the
+// classic accordion (the split needs horizontal room).
+// Segment variants (med/est) render both spans; html[data-segment] decides
+// visibility for the list, and the client script re-picks the chat bubble
+// text when the visitor flips the segment toggle.
 // Item list lives in ~/i18n/faq.ts, shared with the FAQPage JSON-LD.
 import Icon from "~/components/Icon.astro";
+import Logo from "~/components/Logo.astro";
 import { getLangFromUrl, useTranslations } from "~/i18n/utils";
 import { faqItems as items, isSegPair as isPair } from "~/i18n/faq";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
+
+// Both segment variants resolved up front; the client script picks the one
+// matching html[data-segment] for the chat bubbles.
+const chatItems = items.map((it) => ({
+  q: isPair(it.q) ? { med: t(it.q.med), est: t(it.q.est) } : t(it.q),
+  a: isPair(it.a) ? { med: t(it.a.med), est: t(it.a.est) } : t(it.a),
+}));
 ---
 
 <section id="faq" class="scroll-mt-24 bg-white py-20 md:py-28">
-  <div class="mx-auto max-w-3xl px-6">
-    <h2 class="text-3xl font-bold tracking-tight text-ink md:text-5xl">
+  <div class="mx-auto max-w-5xl px-6">
+    <h2 class="text-center text-3xl font-bold tracking-tight text-ink md:text-5xl">
       {t("faq.heading")}
     </h2>
 
-    {/* Background-first FAQ: typography + subtle dividers, no card grid */}
-    <div class="mt-10 divide-y divide-band-strong/50">
+    {/* Mobile: classic accordion (the chat split needs horizontal room) */}
+    <div class="mt-10 divide-y divide-band-strong/40 lg:hidden">
       {
         items.map((it, idx) => (
           <details class="group py-5" open={idx === 0}>
             <summary class="flex cursor-pointer items-center justify-between gap-4 text-left">
-              <span class="text-base font-semibold text-ink md:text-lg">
+              <span class="text-base font-semibold text-ink">
                 {isPair(it.q) ? (
                   <>
                     <span class="seg-med">{t(it.q.med)}</span>
@@ -37,7 +49,7 @@ const t = useTranslations(lang);
                 class="h-5 w-5 flex-none text-primary-deep transition group-open:rotate-180"
               />
             </summary>
-            <p class="mt-3 max-w-2xl leading-relaxed text-muted">
+            <p class="mt-3 leading-relaxed text-muted">
               {isPair(it.a) ? (
                 <>
                   <span class="seg-med">{t(it.a.med)}</span>
@@ -51,5 +63,122 @@ const t = useTranslations(lang);
         ))
       }
     </div>
+
+    {/* Desktop: question list + live AwesomeBot answer panel */}
+    <div class="mt-12 hidden gap-6 lg:grid lg:grid-cols-[5fr_7fr]" id="ab-faq-chat">
+      <div class="flex flex-col gap-2" role="list">
+        {
+          items.map((it, idx) => (
+            <button
+              type="button"
+              class="ab-faq-q"
+              data-faq-q={idx}
+              aria-expanded={idx === 0 ? "true" : "false"}
+            >
+              <span class="ab-faq-q-num">{String(idx + 1).padStart(2, "0")}</span>
+              <span class="flex-1">
+                {isPair(it.q) ? (
+                  <>
+                    <span class="seg-med">{t(it.q.med)}</span>
+                    <span class="seg-est">{t(it.q.est)}</span>
+                  </>
+                ) : (
+                  t(it.q)
+                )}
+              </span>
+              <Icon name="chevron-down" class="h-4 w-4 flex-none -rotate-90 opacity-40" />
+            </button>
+          ))
+        }
+      </div>
+
+      <div class="ab-faq-panel" aria-live="polite">
+        <div class="ab-mock-bar">
+          <span class="ab-mock-dot"></span>
+          <span class="ab-mock-dot"></span>
+          <span class="ab-mock-dot"></span>
+          <span class="ml-1.5 flex items-center gap-1.5 text-xs font-semibold text-muted">
+            <Logo class="h-4 w-4" />AwesomeBot
+          </span>
+          <span class="ml-auto flex items-center gap-1.5 text-[0.7rem] font-medium text-muted">
+            <span class="status-dot"></span>{t("triage.online")}
+          </span>
+        </div>
+        <div class="ab-faq-thread">
+          <div class="ab-chat-user" id="ab-faq-user"></div>
+          <div class="ab-chat-typing" id="ab-faq-typing" aria-hidden="true">
+            <span></span><span></span><span></span>
+          </div>
+          <div class="ab-chat-agent" id="ab-faq-agent">
+            <span class="ab-chat-agent-avatar"><Logo class="h-4 w-4" /></span>
+            <p id="ab-faq-answer"></p>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
+
+<script define:vars={{ chatItems }}>
+  const root = document.getElementById("ab-faq-chat");
+  if (root) {
+    const buttons = Array.from(root.querySelectorAll("[data-faq-q]"));
+    const userBubble = root.querySelector("#ab-faq-user");
+    const typing = root.querySelector("#ab-faq-typing");
+    const agentRow = root.querySelector("#ab-faq-agent");
+    const answer = root.querySelector("#ab-faq-answer");
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let timer = null;
+    let current = 0;
+
+    // Chat text follows the active segment; a string item has no variants.
+    const seg = () =>
+      document.documentElement.getAttribute("data-segment") === "estate" ? "est" : "med";
+    const pick = (v) => (typeof v === "string" ? v : v[seg()]);
+
+    const select = (idx, animate) => {
+      current = idx;
+      buttons.forEach((btn, i) => {
+        btn.classList.toggle("is-active", i === idx);
+        btn.setAttribute("aria-expanded", i === idx ? "true" : "false");
+      });
+
+      const item = chatItems[idx];
+      userBubble.textContent = pick(item.q);
+      userBubble.classList.remove("is-in");
+      agentRow.classList.remove("is-in");
+      typing.classList.remove("is-on");
+      if (timer) clearTimeout(timer);
+
+      if (!animate || reduceMotion) {
+        userBubble.classList.add("is-in");
+        answer.textContent = pick(item.a);
+        agentRow.classList.add("is-in");
+        return;
+      }
+
+      // Chat choreography: question pops in, agent "types", answer slides in.
+      requestAnimationFrame(() => {
+        userBubble.classList.add("is-in");
+        typing.classList.add("is-on");
+        timer = setTimeout(() => {
+          typing.classList.remove("is-on");
+          answer.textContent = pick(item.a);
+          agentRow.classList.add("is-in");
+        }, 750);
+      });
+    };
+
+    buttons.forEach((btn, idx) => {
+      btn.addEventListener("click", () => select(idx, true));
+    });
+
+    // Re-render the open answer when the visitor flips the segment toggle.
+    new MutationObserver(() => select(current, false)).observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-segment"],
+    });
+
+    select(0, false);
+  }
+</script>
