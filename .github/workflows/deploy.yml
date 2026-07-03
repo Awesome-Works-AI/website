@@ -10,9 +10,13 @@ permissions:
     pages: write
     id-token: write
 
+# Serialize Pages deployments: queue later runs, but let the in-progress one
+# finish. Cancelling a Pages deploy mid-flight leaves the github-pages
+# environment half-published, which makes the NEXT deploy fail with
+# "Deployment failed, try again later." (canonical GitHub Pages setting).
 concurrency:
     group: "pages"
-    cancel-in-progress: true
+    cancel-in-progress: false
 
 # Opt into Node.js 24 for all JS actions ahead of the 2026-09-16 cutoff.
 # https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
