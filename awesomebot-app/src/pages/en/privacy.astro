@@ -1,0 +1,208 @@
+---
+import LegalLayout from "~/layouts/LegalLayout.astro";
+import { getLocalizedPath } from "~/i18n/utils";
+
+const terms = getLocalizedPath("/terms", "en");
+const subprocessors = getLocalizedPath("/subprocessors", "en");
+
+const title = "AwesomeBot Privacy Policy";
+const description =
+  "How AwesomeBot processes personal data: controller and processor roles, data categories, subprocessors, data residency, retention and your rights.";
+---
+
+<LegalLayout
+  title={title}
+  description={description}
+  eyebrow="Data protection"
+  heading="Privacy Policy"
+  lastUpdated="Effective 10 July 2026"
+  slugs={{ pl: "/prywatnosc", en: "/privacy" }}
+>
+  <p class="legal-lead">
+    This policy explains how we process personal data in connection with the AwesomeBot product and
+    the website presenting it (the "Landing"). We state exactly what we collect, why, whom we entrust
+    it to, and where it is physically stored.
+  </p>
+
+  <div class="legal-card">
+    <p>
+      <strong>Controller:</strong> Awesome Works AI Rafał Łazicki (sole proprietorship), ul. Wojska
+      Polskiego 43, Warsaw, Poland, VAT ID PL5223202536 (the "<strong>AwesomeWorks</strong>", "<strong>we</strong>").
+    </p>
+    <p><strong>Contact for data protection matters:</strong> hello@awesomeworks.ai</p>
+  </div>
+
+  <h2><span class="legal-num">1.</span>Two roles: controller and processor</h2>
+  <p>
+    AwesomeBot is a multi-tenant service used by medical clinics and property-management firms,
+    housing communities and cooperatives (the "Clients"). Depending on the type of data, we act in
+    one of two roles:
+  </p>
+  <ul>
+    <li>
+      <strong>Controller</strong> — for the data of Landing visitors, people requesting a Demo call,
+      Client User accounts, and correspondence with us.
+    </li>
+    <li>
+      <strong>Processor</strong> — for the data of persons contacting the Client (patients,
+      residents, vendors) processed in AwesomeBot on the Client's behalf. Here the
+      <strong>Client is the controller</strong>, and our basis is a data processing agreement (DPA).
+    </li>
+  </ul>
+  <p>
+    If you are a patient, resident or vendor and wish to exercise your rights regarding data handled
+    in AwesomeBot, direct your request to the relevant Client (the controller); you may also write to
+    us at hello@awesomeworks.ai and we will forward it.
+  </p>
+
+  <h2><span class="legal-num">2.</span>Data we process as controller</h2>
+  <h3>a) Landing visitors</h3>
+  <p>
+    Technical data needed to display the site and keep it secure (including IP address, browser type,
+    server log data).
+  </p>
+  <h3>b) Demo call</h3>
+  <p>
+    When you request a demonstration conversation with an AI agent, we process the
+    <strong>phone number you provide</strong> and your device's <strong>IP address</strong> — to
+    place the call and enforce abuse-prevention limits.
+  </p>
+  <h3>c) Client User accounts</h3>
+  <p>
+    Email address and a secured (argon2id-hashed) password, workspace memberships and roles, and
+    technical login records (email and IP of a login attempt) for security purposes.
+  </p>
+  <h3>d) Correspondence</h3>
+  <p>Data you provide when contacting us (e.g. by email at hello@awesomeworks.ai).</p>
+
+  <h2><span class="legal-num">3.</span>Data processed on the Client's behalf</h2>
+  <p>
+    While handling messages and calls for the Client, the following may be processed, depending on
+    the content of the contact:
+  </p>
+  <ul>
+    <li><strong>phone numbers</strong> and <strong>email addresses</strong> of contacting persons;</li>
+    <li><strong>message content</strong> (phone, SMS, email) and <strong>voicemail content</strong>;</li>
+    <li><strong>transcripts</strong> of voice conversations (browser and phone) and voicemail;</li>
+    <li><strong>call recordings</strong> from the AI voice agent (stored at the voice-platform provider — see section 6);</li>
+    <li>
+      <strong>case data</strong> entered or generated during handling (e.g. unit number, report
+      history, reply drafts, priority reasons).
+    </li>
+  </ul>
+  <p>
+    The scope and purposes of this processing are determined by the Client as controller. Where the
+    Client is a medical clinic, processing may involve <strong>health data</strong> (a special
+    category, Art. 9 GDPR) — the Client is responsible for the appropriate legal basis. We do not use
+    this data for our own purposes.
+  </p>
+
+  <h2><span class="legal-num">4.</span>Purposes and legal bases (data for which we are controller)</h2>
+  <ul>
+    <li>Displaying and securing the Landing, preventing abuse — Art. 6(1)(f) GDPR (legitimate interest).</li>
+    <li>Placing a Demo call at your request — Art. 6(1)(a) (consent) and (f).</li>
+    <li>Creating and maintaining User accounts, providing the Service to the Client — Art. 6(1)(b) (contract) and (f).</li>
+    <li>Handling correspondence and complaints — Art. 6(1)(f), and (c) for complaints.</li>
+    <li>Establishing or defending claims, tax and accounting obligations — Art. 6(1)(c) and (f).</li>
+  </ul>
+
+  <h2><span class="legal-num">5.</span>Automation and artificial intelligence</h2>
+  <p>
+    AwesomeBot uses AI models to classify messages, set priorities, transcribe speech and prepare
+    reply drafts. These are <strong>assistive</strong> — outbound communication requires human
+    approval on the Client's side. We do not make decisions about data subjects based solely on
+    automated processing that would produce legal or similarly significant effects on them within the
+    meaning of Art. 22 GDPR.
+  </p>
+
+  <h2><span class="legal-num">6.</span>Recipients and subprocessors</h2>
+  <p>
+    To provide the Service we use trusted providers to whom we entrust processing under data
+    processing agreements. Key subprocessors:
+  </p>
+  <ul>
+    <li>
+      <strong>OpenAI</strong> — language models (classification, reply drafting), speech
+      transcription (Whisper) and vector embeddings. Transfer outside the EEA is safeguarded by
+      Standard Contractual Clauses (SCC) and a DPA.
+    </li>
+    <li>
+      <strong>ElevenLabs</strong> — speech synthesis and the voice-agent platform; this provider
+      <strong>stores call recordings</strong>. It provides <strong>data residency</strong> and a DPA.
+    </li>
+    <li>
+      <strong>Telnyx</strong> — telephony (numbers, routing of calls and messages).
+      <strong>Data is processed in Germany (EU)</strong>. DPA in place.
+    </li>
+    <li>
+      <strong>Twilio</strong> — SMS delivery (internal escalation notifications). Transfer outside the
+      EEA safeguarded by SCC and a DPA.
+    </li>
+    <li>
+      <strong>Hetzner Online GmbH</strong> — hosting of the application infrastructure and database.
+      <strong>The server and database are located in Germany (Nuremberg data centre, EU)</strong>.
+    </li>
+  </ul>
+  <p>
+    A full list with data categories and processing locations is in the
+    <a href={subprocessors}>Subprocessor List</a>. Data may also be disclosed to bodies authorised by
+    law and, to the necessary extent, to our advisers.
+  </p>
+
+  <h2><span class="legal-num">7.</span>Transfers outside the EEA</h2>
+  <p>
+    Some subprocessors (OpenAI, Twilio) process data outside the European Economic Area (including in
+    the USA). In such cases the transfer relies on <strong>Standard Contractual Clauses (SCC)</strong>
+    with additional safeguards. <strong>The hosting infrastructure (server and database) and Telnyx
+    telephony remain within the EU (Germany)</strong>. You can obtain information about the safeguards
+    used by writing to hello@awesomeworks.ai.
+  </p>
+
+  <h2><span class="legal-num">8.</span>Retention periods</h2>
+  <ul>
+    <li><strong>Voice call records</strong> (metadata and transcripts in the Service) — as a rule <strong>up to 30 days</strong>.</li>
+    <li><strong>Demo call data</strong> (phone number, IP) — <strong>up to 30 days</strong>.</li>
+    <li><strong>Login attempt records</strong> — about 24 hours.</li>
+    <li><strong>Call recordings</strong> — per the retention settings of the voice-platform provider (ElevenLabs).</li>
+    <li><strong>Client account, message and case data</strong> — for the term of the agreement; afterwards deleted or returned per the DPA.</li>
+    <li><strong>Billing data and documentation</strong> — for the period required by law and until claims are time-barred.</li>
+  </ul>
+
+  <h2><span class="legal-num">9.</span>Your rights</h2>
+  <p>
+    You have the right to: access your data, rectification, erasure, restriction of processing, data
+    portability, objection to processing based on legitimate interest, and — for data processed based
+    on consent — to withdraw it at any time (without affecting the lawfulness of processing before
+    withdrawal).
+  </p>
+  <ul>
+    <li>For matters where we are the <strong>controller</strong>, direct requests to hello@awesomeworks.ai.</li>
+    <li>For contacting persons' data (where we are the processor), the controller is the <strong>Client</strong> — direct your request to them; we will support its fulfilment.</li>
+  </ul>
+  <p>
+    You also have the right to lodge a complaint with a supervisory authority — in Poland the
+    <strong>President of the Personal Data Protection Office (PUODO)</strong>, ul. Stawki 2, 00-193
+    Warsaw.
+  </p>
+
+  <h2><span class="legal-num">10.</span>Cookies</h2>
+  <p>
+    The Landing uses cookies and similar technologies necessary for its operation and security and,
+    with your consent, for analytics. You can manage cookie settings in your browser.
+  </p>
+
+  <h2><span class="legal-num">11.</span>Data security</h2>
+  <p>
+    We apply technical and organisational measures appropriate to the risk, including: hard isolation
+    of each Client's data at the database level (Row-Level Security), password hashing (argon2id),
+    session tokens, restricting operator-panel access to a private network only, no publicly exposed
+    database ports, and keeping access keys to external services server-side.
+  </p>
+
+  <h2><span class="legal-num">12.</span>Changes to this policy</h2>
+  <p>
+    We may update this policy (e.g. when the scope of the Service, the law or the subprocessor list
+    changes). The current version and its effective date are published on the Landing; we will inform
+    Clients of material changes. Use of the Service is governed by the <a href={terms}>Terms of Service</a>.
+  </p>
+</LegalLayout>

@@ -266,6 +266,10 @@ export const ui = {
     'footer.legal': 'Awesome Works AI · NIP: 5223202536 · Warszawa',
     'footer.copyright': '© 2026 AwesomeWorks',
     'footer.madeby': 'Stworzone przez AwesomeWorks',
+    'footer.terms': 'Regulamin',
+    'footer.privacy': 'Polityka prywatności',
+    'footer.subprocessors': 'Podprocesorzy',
+    'legal.back': 'Powrót do strony głównej',
   },
   en: {
     // Meta / SEO
@@ -521,6 +525,10 @@ export const ui = {
     'footer.legal': 'Awesome Works AI · NIP: 5223202536 · Warszawa',
     'footer.copyright': '© 2026 AwesomeWorks',
     'footer.madeby': 'Built by AwesomeWorks',
+    'footer.terms': 'Terms',
+    'footer.privacy': 'Privacy Policy',
+    'footer.subprocessors': 'Subprocessors',
+    'legal.back': 'Back to home',
   },
 } as const;
 

@@ -1,0 +1,106 @@
+---
+import LegalLayout from "~/layouts/LegalLayout.astro";
+import { getLocalizedPath } from "~/i18n/utils";
+
+const privacy = getLocalizedPath("/prywatnosc", "pl");
+
+const title = "Lista Podprocesorów AwesomeBot";
+const description =
+  "Podmioty, którym AwesomeWorks powierza przetwarzanie danych przy świadczeniu AwesomeBot — rola, kategorie danych i lokalizacja przetwarzania.";
+---
+
+<LegalLayout
+  title={title}
+  description={description}
+  eyebrow="Powierzenie danych"
+  heading="Lista Podprocesorów"
+  lastUpdated="Obowiązuje od 10 lipca 2026"
+  slugs={{ pl: "/podprocesorzy", en: "/subprocessors" }}
+>
+  <p class="legal-lead">
+    Poniżej wskazujemy podmioty (podprocesorów), którym AwesomeWorks powierza przetwarzanie danych
+    osobowych przy świadczeniu usługi AwesomeBot. Lista stanowi element dokumentacji powierzenia
+    przetwarzania (DPA) zawieranej z Klientami.
+  </p>
+  <p>
+    Z każdym z wymienionych podmiotów łączy nas umowa zapewniająca odpowiedni poziom ochrony danych
+    oraz — w przypadku transferu poza Europejski Obszar Gospodarczy — standardowe klauzule umowne
+    (SCC). Zasady przetwarzania opisuje <a href={privacy}>Polityka Prywatności</a>.
+  </p>
+
+  <h2><span class="legal-num">1.</span>Podprocesorzy operacyjni</h2>
+  <div class="legal-table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Podprocesor</th>
+          <th>Rola i cel</th>
+          <th>Kategorie danych</th>
+          <th>Lokalizacja</th>
+          <th>Podstawa transferu</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>OpenAI</strong><br />OpenAI, L.L.C. / OpenAI Ireland Ltd.</td>
+          <td>Modele językowe (klasyfikacja, redagowanie odpowiedzi), transkrypcja mowy (Whisper), osadzenia wektorowe.</td>
+          <td>Treść zgłoszeń, transkrypcje rozmów i poczty głosowej, dane kontaktowe zawarte w treści.</td>
+          <td>USA (poza EOG)</td>
+          <td>DPA + SCC</td>
+        </tr>
+        <tr>
+          <td><strong>ElevenLabs</strong><br />ElevenLabs Inc.</td>
+          <td>Synteza mowy (TTS) i platforma agentów głosowych; przechowywanie nagrań rozmów.</td>
+          <td>Nagrania i treść rozmów głosowych, transkrypcje, identyfikator rozmowy.</td>
+          <td>Rezydencja danych (data residency)</td>
+          <td>DPA</td>
+        </tr>
+        <tr>
+          <td><strong>Telnyx</strong><br />Telnyx LLC</td>
+          <td>Telefonia: numery, trasowanie połączeń przychodzących oraz wiadomości SMS.</td>
+          <td>Numery telefonów, metadane połączeń.</td>
+          <td><strong>Niemcy (UE)</strong></td>
+          <td>DPA</td>
+        </tr>
+        <tr>
+          <td><strong>Twilio</strong><br />Twilio Inc.</td>
+          <td>Wysyłka SMS — wewnętrzne powiadomienia eskalacyjne do osoby dyżurnej po stronie Klienta.</td>
+          <td>Numer telefonu odbiorcy, treść wiadomości SMS.</td>
+          <td>USA (poza EOG)</td>
+          <td>DPA + SCC</td>
+        </tr>
+        <tr>
+          <td><strong>Hetzner</strong><br />Hetzner Online GmbH</td>
+          <td>Hosting infrastruktury aplikacji i bazy danych (serwer, baza PostgreSQL).</td>
+          <td>Wszystkie dane aplikacji przechowywane w bazie (konta, zgłoszenia, transkrypcje, rejestry).</td>
+          <td><strong>Niemcy — Norymberga (UE)</strong></td>
+          <td>Umowa powierzenia (AVV)</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2><span class="legal-num">2.</span>Podsumowanie lokalizacji danych (rezydencja)</h2>
+  <ul>
+    <li><strong>Serwer i baza danych AwesomeBot:</strong> Niemcy — Norymberga (UE), u dostawcy Hetzner.</li>
+    <li><strong>Telefonia (Telnyx):</strong> Niemcy (UE).</li>
+    <li><strong>Platforma głosowa i nagrania (ElevenLabs):</strong> z zapewnioną rezydencją danych.</li>
+    <li><strong>Modele AI i transkrypcja (OpenAI) oraz SMS (Twilio):</strong> USA — na podstawie SCC i umów powierzenia.</li>
+  </ul>
+
+  <h2><span class="legal-num">3.</span>Infrastruktura pomocnicza</h2>
+  <p>
+    Do budowy i dostarczania oprogramowania wykorzystujemy również usługi pomocnicze (np. repozytorium
+    kodu i obrazów kontenerów oraz sieć zarządzającą). Usługi te co do zasady nie przetwarzają danych
+    osobowych osób kontaktujących się w toku normalnego działania Usługi; w razie potrzeby zostaną
+    ujęte w zaktualizowanej wersji niniejszej listy.
+  </p>
+
+  <h2><span class="legal-num">4.</span>Zmiany listy podprocesorów</h2>
+  <p>
+    O planowanym dodaniu lub zmianie podprocesora poinformujemy Klientów przed powierzeniem im danych,
+    umożliwiając wniesienie uzasadnionego sprzeciwu na zasadach określonych w umowie powierzenia
+    (DPA). Aktualna wersja listy wraz z datą obowiązywania jest publikowana na Landingu. Pytania:
+    hello@awesomeworks.ai.
+  </p>
+</LegalLayout>
