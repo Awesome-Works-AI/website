@@ -6,7 +6,9 @@ const githubUrl = "https://github.com/Raff-dev";
 const gooseUrl = "https://raff-dev.github.io/goose/";
 const aiDailyUrl = "https://raff-dev.github.io/ai-daily/";
 const metyraPath = (locale: Locale) => (locale === "en" ? "/metyra/en/" : "/metyra/");
-const awesomebotPath = (locale: Locale) => (locale === "en" ? "/awesomebot/en/" : "/awesomebot/");
+// AwesomeBot now lives on its own subdomain (landing served from the box, like the app).
+const awesomebotPath = (locale: Locale) =>
+  locale === "en" ? "https://awesomebot.awesomeworks.ai/en/" : "https://awesomebot.awesomeworks.ai/";
 const askPath = "/ask/";
 const xUrl = "https://x.com/awesomeworksai";
 const linkedinUrl = "https://linkedin.com/in/rlazicki";
