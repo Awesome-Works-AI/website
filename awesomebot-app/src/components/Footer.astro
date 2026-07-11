@@ -29,7 +29,7 @@ const legalLinks: { href: string; key: UiKey }[] = [
 
 <footer class="border-t border-white/10 bg-dark py-14">
   <div class="mx-auto max-w-6xl px-6">
-    <div class="grid grid-cols-1 gap-10 md:grid-cols-4">
+    <div class="grid grid-cols-1 gap-10 md:grid-cols-5">
       <div class="md:col-span-2">
         <div class="flex items-center gap-2.5">
           <Logo class="h-7 w-7" />
@@ -71,26 +71,30 @@ const legalLinks: { href: string; key: UiKey }[] = [
           </li>
         </ul>
       </div>
+
+      <div>
+        <p class="font-mono text-xs font-semibold uppercase tracking-[0.16em] text-band-strong">
+          {t("footer.legal_heading")}
+        </p>
+        <ul class="mt-4 space-y-2.5 text-sm text-white/70">
+          {
+            legalLinks.map((link) => (
+              <li>
+                <a href={link.href} class="transition hover:text-white">
+                  {t(link.key)}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
     </div>
 
     <div
-      class="mt-12 flex flex-col items-start gap-4 border-t border-white/10 pt-6 text-xs text-white/60"
+      class="mt-12 flex flex-col items-start justify-between gap-3 border-t border-white/10 pt-6 text-xs text-white/60 sm:flex-row sm:items-center"
     >
-      <nav class="flex flex-wrap gap-x-5 gap-y-2" aria-label="Legal">
-        {
-          legalLinks.map((link) => (
-            <a href={link.href} class="transition hover:text-white">
-              {t(link.key)}
-            </a>
-          ))
-        }
-      </nav>
-      <div
-        class="flex w-full flex-col items-start justify-between gap-3 sm:flex-row sm:items-center"
-      >
-        <span>{t("footer.copyright")}</span>
-        <a href="https://awesomeworks.ai" class="transition hover:text-white">{t("footer.madeby")}</a>
-      </div>
+      <span>{t("footer.copyright")}</span>
+      <a href="https://awesomeworks.ai" class="transition hover:text-white">{t("footer.madeby")}</a>
     </div>
   </div>
 </footer>
