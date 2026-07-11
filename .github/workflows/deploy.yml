@@ -76,21 +76,9 @@ jobs:
                   mkdir -p dist/ask
                   cp -r ask-app/dist/* dist/ask/
 
-            # ─── Sub-app: AwesomeBot landing (awesomeworks.ai/awesomebot/) ───
-            - name: Install awesomebot-app deps
-              working-directory: awesomebot-app
-              run: npm install
-
-            - name: Build awesomebot-app
-              working-directory: awesomebot-app
-              run: npm run build
-              env:
-                  PUBLIC_AWESOMEBOT_API_BASE: ${{ vars.PUBLIC_AWESOMEBOT_API_BASE }}
-
-            - name: Merge awesomebot-app dist into root dist
-              run: |
-                  mkdir -p dist/awesomebot
-                  cp -r awesomebot-app/dist/* dist/awesomebot/
+            # AwesomeBot moved to its own subdomain (awesomebot.awesomeworks.ai),
+            # deployed from the awesomebot repo to the box. The root site now only
+            # 301-redirects the old /awesomebot/* URLs (see astro.config redirects).
 
             - name: Setup Pages
               uses: actions/configure-pages@v6
