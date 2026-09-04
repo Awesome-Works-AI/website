@@ -6,9 +6,9 @@ const githubUrl = "https://github.com/Raff-dev";
 const gooseUrl = "https://raff-dev.github.io/goose/";
 const aiDailyUrl = "https://raff-dev.github.io/ai-daily/";
 const metyraPath = (locale: Locale) => (locale === "en" ? "/metyra/en/" : "/metyra/");
-// AwesomeBot now lives on its own subdomain (landing served from the box, like the app).
-const awesomebotPath = (locale: Locale) =>
-  locale === "en" ? "https://awesomebot.awesomeworks.ai/en/" : "https://awesomebot.awesomeworks.ai/";
+// odbiera.ai lives on its own domain (landing served from the box, like the app).
+const odbieraPath = (locale: Locale) =>
+  locale === "en" ? "https://odbiera.ai/en/" : "https://odbiera.ai/";
 const askPath = "/ask/";
 const xUrl = "https://x.com/awesomeworksai";
 const linkedinUrl = "https://linkedin.com/in/rlazicki";
@@ -93,7 +93,7 @@ const personalHome = {
         },
         {
           label: "Siedem produktów AI",
-          text: "CallWise, AwesomeBot, Metyra, CourseAI, Ask, Goose, AI Daily — każdy to AI wdrożone w innej branży: sprzedaż, recepcja, finanse, edukacja, księgowość, ewaluacja, treści.",
+          text: "CallWise, odbiera.ai, Metyra, CourseAI, Ask, Goose, AI Daily — każdy to AI wdrożone w innej branży: sprzedaż, recepcja, finanse, edukacja, księgowość, ewaluacja, treści.",
         },
         {
           label: "Firma zbudowana na AI",
@@ -145,18 +145,18 @@ const personalHome = {
           note: "B2B · dostęp na zaproszenie",
         },
         {
-          id: "awesomebot",
-          name: "AwesomeBot",
+          id: "odbiera",
+          name: "odbiera.ai",
           label: "AI front desk",
           tagline: "Recepcja, która odbiera zawsze.",
           title: "",
           description:
-            "AI recepcja 24/7 dla placówek medycznych i zarządców nieruchomości: odbiera telefony, SMS-y i e-maile, rozpoznaje sprawy i przygotowuje odpowiedzi. Wszystko wychodzące zatwierdza człowiek.",
-          audience: "Klinik i zarządców nieruchomości",
-          logoSrc: "/awesomebot-logo.svg",
-          logoAlt: "AwesomeBot logo",
-          href: awesomebotPath("pl"),
-          cta: "Zobacz AwesomeBota",
+            "Głosowa AI recepcja 24/7 dla klinik, wypożyczalni i zarządców nieruchomości: odbiera telefony, rezerwuje w rozmowie, potwierdza SMS-em i przygotowuje odpowiedzi. Wszystko wychodzące zatwierdza człowiek.",
+          audience: "Klinik, wypożyczalni i zarządców",
+          logoSrc: "/odbiera-logo.png",
+          logoAlt: "odbiera.ai logo",
+          href: odbieraPath("pl"),
+          cta: "Zobacz odbiera.ai",
         },
         {
           id: "metyra",
@@ -465,7 +465,7 @@ const personalHome = {
         },
         {
           label: "Seven AI products",
-          text: "CallWise, AwesomeBot, Metyra, CourseAI, Ask, Goose, AI Daily — each is AI shipped into a different vertical: sales, front desk, finance, education, accounting, eval, content.",
+          text: "CallWise, odbiera.ai, Metyra, CourseAI, Ask, Goose, AI Daily — each is AI shipped into a different vertical: sales, front desk, finance, education, accounting, eval, content.",
         },
         {
           label: "Company built on AI",
@@ -517,18 +517,18 @@ const personalHome = {
           note: "B2B · invite-only access",
         },
         {
-          id: "awesomebot",
-          name: "AwesomeBot",
+          id: "odbiera",
+          name: "odbiera.ai",
           label: "AI front desk",
           tagline: "The front desk that always picks up.",
           title: "",
           description:
-            "24/7 AI front desk for clinics and property managers: it answers calls, texts, and emails, triages every case, and drafts replies. A human approves everything outgoing.",
-          audience: "Clinics & property managers",
-          logoSrc: "/awesomebot-logo.svg",
-          logoAlt: "AwesomeBot logo",
-          href: awesomebotPath("en"),
-          cta: "See AwesomeBot",
+            "A 24/7 AI voice front desk for clinics, rentals, and property managers: it answers calls, books in conversation, confirms by SMS, and drafts replies. A human approves everything outgoing.",
+          audience: "Clinics, rentals & property managers",
+          logoSrc: "/odbiera-logo.png",
+          logoAlt: "odbiera.ai logo",
+          href: odbieraPath("en"),
+          cta: "See odbiera.ai",
         },
         {
           id: "metyra",
