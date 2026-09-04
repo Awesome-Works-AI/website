@@ -31,16 +31,16 @@ export default defineConfig({
   // AwesomeBot moved from this subpath to awesomebot.awesomeworks.ai — 301-style
   // redirects preserve the old /awesomebot/* URLs (incl. the legal pages).
   redirects: {
-    "/awesomebot": "https://awesomebot.awesomeworks.ai/",
-    "/awesomebot/": "https://awesomebot.awesomeworks.ai/",
-    "/awesomebot/en": "https://awesomebot.awesomeworks.ai/en/",
-    "/awesomebot/en/": "https://awesomebot.awesomeworks.ai/en/",
-    "/awesomebot/regulamin": "https://awesomebot.awesomeworks.ai/regulamin",
-    "/awesomebot/prywatnosc": "https://awesomebot.awesomeworks.ai/prywatnosc",
-    "/awesomebot/podprocesorzy": "https://awesomebot.awesomeworks.ai/podprocesorzy",
-    "/awesomebot/en/terms": "https://awesomebot.awesomeworks.ai/en/terms",
-    "/awesomebot/en/privacy": "https://awesomebot.awesomeworks.ai/en/privacy",
-    "/awesomebot/en/subprocessors": "https://awesomebot.awesomeworks.ai/en/subprocessors",
+    "/awesomebot": "https://odbiera.ai/",
+    "/awesomebot/": "https://odbiera.ai/",
+    "/awesomebot/en": "https://odbiera.ai/en/",
+    "/awesomebot/en/": "https://odbiera.ai/en/",
+    "/awesomebot/regulamin": "https://odbiera.ai/regulamin",
+    "/awesomebot/prywatnosc": "https://odbiera.ai/prywatnosc",
+    "/awesomebot/podprocesorzy": "https://odbiera.ai/podprocesorzy",
+    "/awesomebot/en/terms": "https://odbiera.ai/en/terms",
+    "/awesomebot/en/privacy": "https://odbiera.ai/en/privacy",
+    "/awesomebot/en/subprocessors": "https://odbiera.ai/en/subprocessors",
   },
   i18n: {
     defaultLocale: "en",
