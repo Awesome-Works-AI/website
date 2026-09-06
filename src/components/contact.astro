@@ -29,44 +29,19 @@ const label = "block text-sm font-medium text-ink";
 
 <section id="kontakt" class="diag-top scroll-mt-10 relative overflow-hidden bg-dark pb-20 md:pb-24">
   <div class="relative mx-auto max-w-6xl px-6 pt-8 md:pt-12">
-    <div class="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-start lg:gap-16">
-      <div class="lg:pt-6">
+    {/* Mobile stacks in conversion order (header → form → next steps → email);
+        on lg the form card spans both rows of the right column. */}
+    <div class="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:grid-rows-[auto_1fr] lg:items-start lg:gap-x-16 lg:gap-y-10">
+      <div class="lg:col-start-1 lg:row-start-1 lg:pt-6">
         <p class="inline-flex items-center gap-2.5 font-mono text-xs font-semibold uppercase tracking-[0.18em] text-band-strong">
           <span class="status-dot"></span>
           [ {c.eyebrow} ]
         </p>
         <h2 class="mt-5 max-w-xl text-3xl font-bold tracking-tight text-white md:text-5xl">{c.title}</h2>
         <p class="mt-4 max-w-xl text-lg leading-relaxed text-white/75">{c.subtitle}</p>
-
-        <p class="mt-10 font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-white/60">
-          {c.nextTitle}
-        </p>
-        <ol class="mt-4 max-w-xl space-y-3">
-          {
-            c.next.map((step, idx) => (
-              <li class="flex items-start gap-3">
-                <span class="grid h-7 w-7 flex-none place-items-center rounded-full bg-white/10 font-mono text-[11px] font-semibold text-white">
-                  {String(idx + 1).padStart(2, "0")}
-                </span>
-                <span class="text-[0.95rem] leading-relaxed text-white/80">{step}</span>
-              </li>
-            ))
-          }
-        </ol>
-
-        <p class="mt-8 text-sm text-white/60">
-          {c.altLabel}
-          <a
-            href={`mailto:${c.email}?subject=AwesomeWorks`}
-            class="ml-1 inline-flex items-center gap-1.5 font-semibold text-white underline decoration-white/30 underline-offset-4 hover:decoration-white"
-          >
-            <Icon name="mail" class="h-4 w-4" />
-            {c.email}
-          </a>
-        </p>
       </div>
 
-      <div class="rounded-2xl border border-white/10 bg-white p-6 shadow-2xl md:p-8">
+      <div class="rounded-2xl border border-white/10 bg-white p-6 shadow-2xl md:p-8 lg:col-start-2 lg:row-start-1 lg:row-span-2">
         <form class="contact-form" novalidate data-contact-form>
           <script is:inline type="application/json" data-contact-i18n set:html={JSON.stringify(formI18n)} />
           <div class="grid gap-5 sm:grid-cols-2">
@@ -122,6 +97,35 @@ const label = "block text-sm font-medium text-ink";
           </p>
           <p class="mt-4 hidden text-sm leading-snug text-danger" data-contact-error role="alert" aria-live="polite"></p>
         </form>
+      </div>
+
+      <div class="lg:col-start-1 lg:row-start-2">
+        <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-white/60">
+          {c.nextTitle}
+        </p>
+        <ol class="mt-4 max-w-xl space-y-3">
+          {
+            c.next.map((step, idx) => (
+              <li class="flex items-start gap-3">
+                <span class="grid h-7 w-7 flex-none place-items-center rounded-full bg-white/10 font-mono text-[11px] font-semibold text-white">
+                  {String(idx + 1).padStart(2, "0")}
+                </span>
+                <span class="text-[0.95rem] leading-relaxed text-white/80">{step}</span>
+              </li>
+            ))
+          }
+        </ol>
+
+        <p class="mt-8 text-sm text-white/60">
+          {c.altLabel}
+          <a
+            href={`mailto:${c.email}?subject=AwesomeWorks`}
+            class="ml-1 inline-flex items-center gap-1.5 font-semibold text-white underline decoration-white/30 underline-offset-4 hover:decoration-white"
+          >
+            <Icon name="mail" class="h-4 w-4" />
+            {c.email}
+          </a>
+        </p>
       </div>
     </div>
   </div>

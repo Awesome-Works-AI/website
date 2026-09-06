@@ -18,21 +18,23 @@ const i = getCompanyHome(locale);
   <div class="mx-auto max-w-6xl px-6">
     <h2 class="animate-on-scroll text-3xl font-bold tracking-tight text-ink md:text-4xl">{i.process.title}</h2>
 
-    <ol class="animate-on-scroll relative mt-12 grid gap-10 md:grid-cols-4 md:gap-6">
-      {/* Rail connector (desktop): one line behind the step markers */}
+    <div class="animate-on-scroll relative mt-12">
+      {/* Rail connector: one line behind the step markers (vertical on mobile, horizontal on md) */}
       <div class="absolute left-5 top-0 h-full w-px bg-band-strong/50 md:left-0 md:top-5 md:h-px md:w-full" aria-hidden="true"></div>
-      {
-        i.process.steps.map((step, idx) => (
-          <li class="relative pl-16 md:pl-0 md:pt-16">
-            <span class="absolute left-0 top-0 grid h-10 w-10 place-items-center rounded-full border border-band-strong/60 bg-offwhite font-mono text-sm font-semibold text-primary-deep">
-              {idx + 1}
-            </span>
-            <h3 class="text-lg font-bold tracking-tight text-ink">{step.title}</h3>
-            <p class="mt-2 text-[15px] leading-relaxed text-muted">{step.text}</p>
-          </li>
-        ))
-      }
-    </ol>
+      <ol class="grid gap-10 md:grid-cols-4 md:gap-6">
+        {
+          i.process.steps.map((step, idx) => (
+            <li class="relative pl-16 md:pl-0 md:pt-16">
+              <span class="absolute left-0 top-0 grid h-10 w-10 place-items-center rounded-full border border-band-strong/60 bg-offwhite font-mono text-sm font-semibold text-primary-deep">
+                {idx + 1}
+              </span>
+              <h3 class="text-lg font-bold tracking-tight text-ink">{step.title}</h3>
+              <p class="mt-2 text-[15px] leading-relaxed text-muted">{step.text}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
 
     <div class="animate-on-scroll mt-12">
       <a href="#kontakt" class="btn-primary">

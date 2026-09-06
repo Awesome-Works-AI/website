@@ -13,7 +13,8 @@ const { locale } = Astro.props;
 const i = getCompanyHome(locale);
 const [voice, chat, software, training] = i.services.items;
 
-const baseCard = "flex flex-col rounded-2xl border p-6 md:p-7";
+const baseCard =
+  "flex flex-col rounded-2xl border p-6 transition-[border-color,box-shadow] duration-200 hover:border-band-strong/80 hover:shadow-[0_18px_44px_-26px_rgba(1,9,51,0.4)] md:p-7";
 ---
 
 <section id="uslugi" class="scroll-mt-24 bg-white py-20 md:py-24">
