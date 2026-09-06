@@ -112,6 +112,69 @@ summary::-webkit-details-marker {
 }
 
 /* ============================================================
+ * Services rail — slanted panels ("rhombi") bleeding off
+ * alternating screen edges; blue and white schemes alternate.
+ * Desktop: skewX with counter-skewed content (vertical edges
+ * lean the family way, descending left → right); the off-screen
+ * edge hides its own slant. Mobile: full-bleed skewY bands.
+ * ============================================================ */
+
+.svc-blue {
+  background-image: linear-gradient(120deg, var(--color-primary) 0%, var(--color-primary-deep) 80%);
+  box-shadow: 0 24px 60px -32px color-mix(in srgb, var(--color-primary-deep) 60%, transparent);
+}
+
+.svc-light {
+  background: #ffffff;
+  border: 1px solid color-mix(in srgb, var(--color-band-strong) 45%, transparent);
+  box-shadow: 0 18px 48px -34px color-mix(in srgb, var(--color-dark) 35%, transparent);
+}
+
+@media (min-width: 768px) {
+  .svc-panel {
+    width: min(88%, 76rem);
+    transform: skewX(12deg);
+  }
+
+  .svc-left {
+    margin-left: -3.5rem;
+    border-radius: 0 1.5rem 1.5rem 0;
+  }
+
+  .svc-right {
+    margin-left: auto;
+    margin-right: -3.5rem;
+    border-radius: 1.5rem 0 0 1.5rem;
+  }
+
+  .svc-inner {
+    transform: skewX(-12deg);
+    padding: 3.5rem 5rem;
+  }
+
+  /* Align the counter-skewed content to the page grid (max-w-6xl = 72rem);
+   * the 3.5rem term compensates the panel's off-screen offset. */
+  .svc-left .svc-inner {
+    padding-left: max(5rem, calc((100vw - 72rem) / 2 + 1.5rem + 3.5rem));
+  }
+
+  .svc-right .svc-inner {
+    padding-right: max(5rem, calc((100vw - 72rem) / 2 + 1.5rem + 3.5rem));
+  }
+}
+
+@media (max-width: 767px) {
+  .svc-panel {
+    transform: skewY(2deg);
+  }
+
+  .svc-inner {
+    transform: skewY(-2deg);
+    padding: 3rem 1.5rem;
+  }
+}
+
+/* ============================================================
  * Buttons — conversion accent, full pill. Gradient is weighted
  * toward the dark end so white text keeps AA contrast.
  * ============================================================ */

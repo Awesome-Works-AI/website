@@ -1,6 +1,9 @@
 ---
-// Services: bento with exactly 4 cells (1 featured), each named in the
-// client's language and closed with a proof pointer instead of a CTA.
+// Services: a rail of five slanted panels ("rhombi") bleeding off alternating
+// screen edges — a blue panel with white text, then a white panel with ink
+// text. Each panel keeps a media slot for per-service artwork (PNG); until the
+// artwork lands, the service icon holds the slot. Panels are not clickable;
+// only the proof links/buttons inside them are interactive.
 import Icon from "@/components/icon.astro";
 import { getCompanyHome } from "@/data/company-home";
 import type { Locale } from "@/i18n/utils";
@@ -11,85 +14,89 @@ interface Props {
 
 const { locale } = Astro.props;
 const i = getCompanyHome(locale);
-const [voice, chat, software, training] = i.services.items;
-
-// Static cards: no hover elevation — the cards themselves are not clickable,
-// only the proof links/buttons inside them are interactive.
-const baseCard = "flex flex-col rounded-2xl border p-6 md:p-7";
 ---
 
-<section id="uslugi" class="scroll-mt-24 bg-white py-20 md:py-24">
+<section id="uslugi" class="scroll-mt-24 overflow-x-clip bg-white py-20 md:py-24">
   <div class="mx-auto max-w-6xl px-6">
     <div class="animate-on-scroll">
       <h2 class="text-3xl font-bold tracking-tight text-ink md:text-4xl">{i.services.title}</h2>
       <p class="mt-3 max-w-[60ch] text-base leading-relaxed text-muted md:text-lg">{i.services.subtitle}</p>
     </div>
+  </div>
 
-    <div class="animate-on-scroll mt-10 grid gap-4 md:grid-cols-3 md:gap-5">
-      {/* Featured: voice agents — band tint, double width */}
-      <article class:list={[baseCard, "border-band-strong/50 bg-gradient-to-br from-band to-band/40 md:col-span-2 md:p-8"]}>
-        <span class="grid h-11 w-11 place-items-center rounded-xl bg-white text-primary shadow-sm">
-          <Icon name={voice.icon} class="h-5 w-5" />
-        </span>
-        <h3 class="mt-5 text-xl font-bold tracking-tight text-ink">{voice.name}</h3>
-        <p class="mt-2 max-w-[52ch] text-[15px] leading-relaxed text-muted">{voice.text}</p>
-        <a
-          href={voice.proofHref}
-          target="_blank"
-          rel="noopener"
-          class="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-primary-deep hover:text-primary"
-        >
-          {voice.proofLabel}
-          <Icon name="external-link" class="h-3.5 w-3.5" />
-        </a>
-      </article>
-
-      {/* Chat agents — white card, proof points at the live widget in the corner */}
-      <article class:list={[baseCard, "border-band-strong/40 bg-white shadow-sm"]}>
-        <span class="grid h-11 w-11 place-items-center rounded-xl bg-band text-primary-deep">
-          <Icon name={chat.icon} class="h-5 w-5" />
-        </span>
-        <h3 class="mt-5 text-lg font-bold tracking-tight text-ink">{chat.name}</h3>
-        <p class="mt-2 text-[15px] leading-relaxed text-muted">{chat.text}</p>
-        {/* Opens the demo widget directly — the proof is one click away, not a hunt for the corner icon. */}
-        <button
-          type="button"
-          data-open-chat
-          class="mt-auto inline-flex items-center gap-1.5 self-start pt-5 text-left text-sm font-semibold text-primary-deep hover:text-primary"
-        >
-          {chat.proofLabel}
-          <Icon name="message-circle" class="h-3.5 w-3.5 flex-none" />
-        </button>
-      </article>
-
-      {/* Custom software — blueprint texture */}
-      <article
-        class:list={[baseCard, "border-band-strong/40 bg-white shadow-sm"]}
-        style="background-image: linear-gradient(to right, rgba(0,91,252,0.045) 1px, transparent 1px), linear-gradient(to bottom, rgba(0,91,252,0.045) 1px, transparent 1px); background-size: 34px 34px;"
-      >
-        <span class="grid h-11 w-11 place-items-center rounded-xl bg-band text-primary-deep">
-          <Icon name={software.icon} class="h-5 w-5" />
-        </span>
-        <h3 class="mt-5 text-lg font-bold tracking-tight text-ink">{software.name}</h3>
-        <p class="mt-2 text-[15px] leading-relaxed text-muted">{software.text}</p>
-        <a
-          href={software.proofHref}
-          class="mt-auto inline-flex items-center gap-1.5 pt-5 text-sm font-semibold text-primary-deep hover:text-primary"
-        >
-          {software.proofLabel}
-          <Icon name="arrow-right" class="h-3.5 w-3.5" />
-        </a>
-      </article>
-
-      {/* Training — wide, quiet tint */}
-      <article class:list={[baseCard, "border-band-strong/40 bg-offwhite md:col-span-2"]}>
-        <span class="grid h-11 w-11 place-items-center rounded-xl bg-white text-primary shadow-sm">
-          <Icon name={training.icon} class="h-5 w-5" />
-        </span>
-        <h3 class="mt-5 text-lg font-bold tracking-tight text-ink">{training.name}</h3>
-        <p class="mt-2 max-w-[52ch] text-[15px] leading-relaxed text-muted">{training.text}</p>
-        <p class="mt-auto pt-5 text-sm font-medium text-muted">{training.proofLabel}</p>
-      </article>
-    </div>
+  <div class="mt-10 space-y-8 md:mt-14 md:space-y-10">
+    {
+      i.services.items.map((item, idx) => {
+        const fromLeft = idx % 2 === 0;
+        const onBlue = fromLeft;
+        const proofInteractive = onBlue
+          ? "mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-white underline decoration-white/40 underline-offset-4 hover:decoration-white"
+          : "mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-primary-deep hover:text-primary";
+        return (
+          <article
+            class:list={[
+              "svc-panel animate-on-scroll",
+              fromLeft ? "svc-left" : "svc-right",
+              onBlue ? "svc-blue" : "svc-light",
+            ]}
+          >
+            <div class="svc-inner md:grid md:grid-cols-[1.1fr_0.9fr] md:items-center md:gap-12">
+              <div class:list={[!fromLeft && "md:order-2"]}>
+                <h3 class:list={["text-xl font-bold tracking-tight md:text-2xl", onBlue ? "text-white" : "text-ink"]}>
+                  {item.name}
+                </h3>
+                <p
+                  class:list={[
+                    "mt-3 max-w-[52ch] text-[15px] leading-relaxed md:text-base",
+                    onBlue ? "text-white/90" : "text-muted",
+                  ]}
+                >
+                  {item.text}
+                </p>
+                {item.id === "chat" ? (
+                  <button type="button" data-open-chat class:list={[proofInteractive, "text-left"]}>
+                    {item.proofLabel}
+                    <Icon name="message-circle" class="h-3.5 w-3.5 flex-none" />
+                  </button>
+                ) : item.proofHref.startsWith("http") ? (
+                  <a href={item.proofHref} target="_blank" rel="noopener" class={proofInteractive}>
+                    {item.proofLabel}
+                    <Icon name="external-link" class="h-3.5 w-3.5 flex-none" />
+                  </a>
+                ) : item.proofHref ? (
+                  <a href={item.proofHref} class={proofInteractive}>
+                    {item.proofLabel}
+                    <Icon name="arrow-right" class="h-3.5 w-3.5 flex-none" />
+                  </a>
+                ) : (
+                  <p class:list={["mt-6 text-sm font-medium", onBlue ? "text-white/80" : "text-muted"]}>
+                    {item.proofLabel}
+                  </p>
+                )}
+              </div>
+              <div
+                class:list={[
+                  "mt-8 flex items-center justify-center md:mt-0",
+                  !fromLeft && "md:order-1",
+                  onBlue ? "text-white/80" : "text-primary",
+                ]}
+              >
+                {item.image ? (
+                  <img
+                    src={item.image}
+                    alt={item.imageAlt || item.name}
+                    class="max-h-56 w-auto md:max-h-64"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                ) : (
+                  <Icon name={item.icon} class="h-16 w-16 md:h-20 md:w-20" />
+                )}
+              </div>
+            </div>
+          </article>
+        );
+      })
+    }
   </div>
 </section>
