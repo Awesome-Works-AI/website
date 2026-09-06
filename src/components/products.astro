@@ -27,7 +27,7 @@ const [odbiera, callwise] = i.products.items;
     <div class="animate-on-scroll mt-10 grid gap-5 lg:grid-cols-[0.58fr_0.42fr]">
       {
         [odbiera, callwise].map((product) => (
-          <article class="flex flex-col overflow-hidden rounded-2xl border border-band-strong/50 bg-white shadow-[0_24px_60px_-32px_rgba(1,9,51,0.45)] transition-[border-color,box-shadow] duration-200 hover:border-band-strong/80 hover:shadow-[0_30px_70px_-30px_rgba(1,9,51,0.55)]">
+          <article class="relative flex flex-col overflow-hidden rounded-2xl border border-band-strong/50 bg-white shadow-[0_24px_60px_-32px_rgba(1,9,51,0.45)] transition-[border-color,box-shadow] duration-200 hover:border-band-strong/80 hover:shadow-[0_30px_70px_-30px_rgba(1,9,51,0.55)]">
             <div class="overflow-hidden border-b border-band-strong/30">
               <img
                 src={product.shot}
@@ -47,11 +47,13 @@ const [odbiera, callwise] = i.products.items;
                 </p>
               </div>
               <p class="mt-2 text-[15px] leading-relaxed text-muted">{product.description}</p>
+              {/* Stretched link: the whole card (screenshot included) is the click target,
+                  so the hover elevation is an honest affordance. */}
               <a
                 href={product.href}
                 target="_blank"
                 rel="noopener"
-                class="mt-auto inline-flex items-center gap-1.5 pt-5 text-sm font-semibold text-primary-deep hover:text-primary"
+                class="mt-auto inline-flex items-center gap-1.5 pt-5 text-sm font-semibold text-primary-deep after:absolute after:inset-0 hover:text-primary"
               >
                 {product.linkLabel}
                 <Icon name="external-link" class="h-3.5 w-3.5" />

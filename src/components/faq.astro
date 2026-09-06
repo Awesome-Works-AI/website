@@ -43,6 +43,7 @@ const i = getCompanyHome(locale);
               id={`faq-tab-${idx}`}
               aria-controls={`faq-panel-${idx}`}
               aria-selected={idx === 0 ? "true" : "false"}
+              tabindex={idx === 0 ? 0 : -1}
               data-faq-btn={idx}
               class:list={[
                 "rounded-xl border px-5 py-4 text-left text-[15px] font-semibold leading-snug transition",
@@ -99,16 +100,35 @@ const i = getCompanyHome(locale);
     ];
     const idleClasses = ["border-transparent", "bg-offwhite", "text-muted", "hover:bg-white", "hover:text-ink"];
 
-    buttons.forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const idx = btn.dataset.faqBtn;
-        buttons.forEach((other) => {
-          const active = other === btn;
-          other.setAttribute("aria-selected", String(active));
-          other.classList.remove(...(active ? idleClasses : activeClasses));
-          other.classList.add(...(active ? activeClasses : idleClasses));
-        });
-        panels.forEach((panel) => panel.classList.toggle("hidden", panel.dataset.faqPanel !== idx));
+    const select = (btn: HTMLButtonElement) => {
+      const idx = btn.dataset.faqBtn;
+      buttons.forEach((other) => {
+        const active = other === btn;
+        other.setAttribute("aria-selected", String(active));
+        other.tabIndex = active ? 0 : -1;
+        other.classList.remove(...(active ? idleClasses : activeClasses));
+        other.classList.add(...(active ? activeClasses : idleClasses));
+      });
+      panels.forEach((panel) => panel.classList.toggle("hidden", panel.dataset.faqPanel !== idx));
+    };
+
+    buttons.forEach((btn, idx) => {
+      btn.addEventListener("click", () => select(btn));
+      // Tabs keyboard pattern: arrows move between questions, Home/End jump.
+      btn.addEventListener("keydown", (event) => {
+        const targets: Record<string, number> = {
+          ArrowDown: (idx + 1) % buttons.length,
+          ArrowRight: (idx + 1) % buttons.length,
+          ArrowUp: (idx - 1 + buttons.length) % buttons.length,
+          ArrowLeft: (idx - 1 + buttons.length) % buttons.length,
+          Home: 0,
+          End: buttons.length - 1,
+        };
+        const next = targets[event.key];
+        if (next === undefined) return;
+        event.preventDefault();
+        buttons[next].focus();
+        select(buttons[next]);
       });
     });
   });

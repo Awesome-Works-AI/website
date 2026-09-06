@@ -210,6 +210,14 @@ const chatI18n = {
     fab.addEventListener("click", openPanel);
     closeBtn.addEventListener("click", closePanel);
 
+    // Proof pointers elsewhere on the page (services card) open the demo directly.
+    document.querySelectorAll<HTMLButtonElement>("[data-open-chat]").forEach((btn) => {
+      btn.addEventListener("click", (event) => {
+        event.stopPropagation(); // keep the desktop click-outside handler from instantly closing it
+        openPanel();
+      });
+    });
+
     panel.addEventListener("keydown", (event) => {
       if (event.key === "Escape") {
         event.preventDefault();

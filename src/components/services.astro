@@ -13,8 +13,9 @@ const { locale } = Astro.props;
 const i = getCompanyHome(locale);
 const [voice, chat, software, training] = i.services.items;
 
-const baseCard =
-  "flex flex-col rounded-2xl border p-6 transition-[border-color,box-shadow] duration-200 hover:border-band-strong/80 hover:shadow-[0_18px_44px_-26px_rgba(1,9,51,0.4)] md:p-7";
+// Static cards: no hover elevation — the cards themselves are not clickable,
+// only the proof links/buttons inside them are interactive.
+const baseCard = "flex flex-col rounded-2xl border p-6 md:p-7";
 ---
 
 <section id="uslugi" class="scroll-mt-24 bg-white py-20 md:py-24">
@@ -50,7 +51,15 @@ const baseCard =
         </span>
         <h3 class="mt-5 text-lg font-bold tracking-tight text-ink">{chat.name}</h3>
         <p class="mt-2 text-[15px] leading-relaxed text-muted">{chat.text}</p>
-        <p class="mt-auto pt-5 text-sm font-medium text-primary-deep">{chat.proofLabel}</p>
+        {/* Opens the demo widget directly — the proof is one click away, not a hunt for the corner icon. */}
+        <button
+          type="button"
+          data-open-chat
+          class="mt-auto inline-flex items-center gap-1.5 self-start pt-5 text-left text-sm font-semibold text-primary-deep hover:text-primary"
+        >
+          {chat.proofLabel}
+          <Icon name="message-circle" class="h-3.5 w-3.5 flex-none" />
+        </button>
       </article>
 
       {/* Custom software — blueprint texture */}
