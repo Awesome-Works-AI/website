@@ -2,161 +2,472 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Self-hosted Space Grotesk (variable 300–700) — avoids the render-blocking
-   Google Fonts stylesheet + third-party connection. latin covers EN; latin-ext
-   covers Polish diacritics. */
-@font-face {
-  font-family: "Space Grotesk";
-  font-style: normal;
-  font-weight: 300 700;
-  font-display: swap;
-  src: url("/fonts/space-grotesk-latin.woff2") format("woff2");
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
-    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
-    U+2212, U+2215, U+FEFF, U+FFFD;
-}
-@font-face {
-  font-family: "Space Grotesk";
-  font-style: normal;
-  font-weight: 300 700;
-  font-display: swap;
-  src: url("/fonts/space-grotesk-latin-ext.woff2") format("woff2");
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7,
-    U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF,
-    U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+/* ============================================================
+ * Brand tokens as CSS vars — used by the custom classes below.
+ * Same values as tailwind.config.mjs (the family palette shared
+ * with odbiera.ai). Fonts load via @fontsource imports in base.astro.
+ * ============================================================ */
+
+:root {
+  --color-offwhite: #f6f8ff;
+  --color-ink: #010933;
+  --color-muted: #4a5478;
+  --color-primary: #005bfc;
+  --color-primary-bright: #3b82ff;
+  --color-primary-deep: #0046c7;
+  --color-dark: #010933;
+  --color-band: #e7eeff;
+  --color-band-strong: #9dbcff;
+  --color-danger: #b91c1c;
+
+  /* One consistent slant: every diagonal edge descends left → right. */
+  --slant: clamp(2rem, 4vw, 3.5rem);
 }
 
-@layer base {
-  :root {
-    --background: 240 20% 97%;
-    --foreground: 240 25% 10%;
-    --card: 0 0% 100%;
-    --card-foreground: 240 25% 10%;
-    --primary: 239 84% 67%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 240 25% 95%;
-    --secondary-foreground: 240 30% 20%;
-    --muted: 240 15% 93%;
-    --muted-foreground: 240 10% 45%;
-    --accent: 160 59% 52%;
-    --accent-foreground: 160 50% 15%;
-    --border: 240 20% 92%;
-    --input: 240 15% 90%;
-    --ring: 239 84% 67%;
-    --radius: 0.75rem;
-  }
-
-  .dark {
-    --background: 240 30% 4%;
-    --foreground: 240 5% 95%;
-    --card: 240 20% 8%;
-    --card-foreground: 240 5% 95%;
-    --primary: 239 84% 72%;
-    --primary-foreground: 240 20% 6%;
-    --secondary: 240 15% 12%;
-    --secondary-foreground: 240 5% 90%;
-    --muted: 240 15% 14%;
-    --muted-foreground: 240 10% 55%;
-    --accent: 160 59% 57%;
-    --accent-foreground: 160 40% 80%;
-    --border: 240 15% 16%;
-    --input: 240 15% 16%;
-    --ring: 239 84% 72%;
-  }
-}
-
-@layer base {
-  * {
-    @apply border-border;
-  }
+@media (prefers-reduced-motion: no-preference) {
   html {
     scroll-behavior: smooth;
   }
-  body {
-    @apply bg-background text-foreground antialiased;
-    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--color-band-strong);
+  color: var(--color-dark);
+}
+
+/* Brand-consistent keyboard focus (links, buttons, summary) */
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Safari still renders the default disclosure triangle on flex summaries */
+summary::-webkit-details-marker {
+  display: none;
+}
+
+/* The chat widget toggles visibility via the hidden attribute; keep it
+ * authoritative over any class-level display rule. */
+[hidden] {
+  display: none !important;
+}
+
+/* ============================================================
+ * Diagonal section bands (family signature; ≤ 3 slanted edges
+ * per page: Products top+bottom, Contact top).
+ * ============================================================ */
+
+/* Full band: slanted top + bottom (band stripe between white sections) */
+.diag-band {
+  clip-path: polygon(0 0, 100% var(--slant), 100% 100%, 0 calc(100% - var(--slant)));
+  padding-top: calc(var(--slant) + 4rem);
+  padding-bottom: calc(var(--slant) + 4rem);
+}
+
+/* Slanted top only (the dark closing block: contact + footer) */
+.diag-top {
+  clip-path: polygon(0 0, 100% var(--slant), 100% 100%, 0 100%);
+  padding-top: calc(var(--slant) + 4rem);
+}
+
+/* ============================================================
+ * Status dot — semantic "live in production" indicator only.
+ * ============================================================ */
+
+.status-dot {
+  position: relative;
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 9999px;
+  background: var(--color-primary);
+  flex: none;
+}
+
+.status-dot::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 9999px;
+  background: color-mix(in srgb, var(--color-primary) 35%, transparent);
+  animation: pulse-dot 2.2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse-dot {
+  0%,
+  100% {
+    transform: scale(0.5);
+    opacity: 0.9;
+  }
+  50% {
+    transform: scale(1.4);
+    opacity: 0;
   }
 }
 
-@layer utilities {
-  .presentation-slide {
-    @apply relative flex min-h-[100svh] items-center overflow-hidden px-5 py-24 sm:px-6 lg:px-8;
+/* ============================================================
+ * Buttons — conversion accent, full pill. Gradient is weighted
+ * toward the dark end so white text keeps AA contrast.
+ * ============================================================ */
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 9999px;
+  padding: 0.875rem 1.75rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #ffffff;
+  background-image: linear-gradient(135deg, var(--color-primary-bright), var(--color-primary) 40%, var(--color-primary-deep));
+  box-shadow: 0 8px 24px -8px color-mix(in srgb, var(--color-primary-deep) 55%, transparent);
+  transition: box-shadow 0.2s ease, filter 0.2s ease, transform 0.2s ease;
+}
+
+.btn-primary:hover:not(:disabled) {
+  filter: brightness(0.94);
+  box-shadow: 0 10px 28px -8px color-mix(in srgb, var(--color-primary-deep) 65%, transparent);
+  transform: translateY(-1px);
+}
+
+.btn-primary:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 9999px;
+  padding: 0.875rem 1.75rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--color-ink);
+  background: #ffffff;
+  border: 1px solid var(--color-band-strong);
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.btn-ghost:hover {
+  background: var(--color-band);
+  border-color: var(--color-primary);
+}
+
+.btn-ghost:active {
+  transform: translateY(1px);
+}
+
+/* ============================================================
+ * Contact form helpers — honeypot + in-flight CTA dot.
+ * ============================================================ */
+
+/* Honeypot: offscreen instead of display:none so naive bots still "see"
+ * and fill it; people never do (aria-hidden + tabindex=-1 keep it out
+ * of AT / tab order). */
+.hp-field {
+  position: absolute;
+  left: -9999px;
+  height: 0;
+  width: 0;
+  opacity: 0;
+}
+
+/* White pulsing dot inside the primary CTA while the request is in flight.
+ * Display comes from utilities on the element (hidden / inline-block). */
+.btn-dot {
+  position: relative;
+  width: 8px;
+  height: 8px;
+  border-radius: 9999px;
+  background: #ffffff;
+  flex: none;
+}
+
+.btn-dot::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 9999px;
+  background: rgb(255 255 255 / 0.45);
+  animation: pulse-dot 2.2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* ============================================================
+ * Hero backdrop — drifting glow blobs behind the product shots.
+ * ============================================================ */
+
+.hero-blob {
+  border-radius: 50%;
+  filter: blur(64px);
+  animation: hero-blob-drift 26s ease-in-out infinite alternate;
+}
+
+@keyframes hero-blob-drift {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
   }
-  .presentation-shell {
-    @apply relative mx-auto flex w-full max-w-6xl flex-col;
+  to {
+    transform: translate3d(28px, -20px, 0) scale(1.08);
   }
-  .presentation-panel {
-    @apply relative overflow-hidden rounded-[2rem] border border-white/[0.08] bg-white/[0.03] p-8 shadow-2xl shadow-black/20 sm:p-10 lg:p-12;
+}
+
+/* Hero asset parallax: the main shot drifts slower than the chip.
+ * CSS scroll-driven only; browsers without support stay static. */
+@supports (animation-timeline: view()) {
+  @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+    .hero-parallax-slow {
+      animation: hero-drift-slow linear both;
+      animation-timeline: view();
+      animation-range: entry 0% exit 100%;
+    }
+    .hero-parallax-fast {
+      animation: hero-drift-fast linear both;
+      animation-timeline: view();
+      animation-range: entry 0% exit 100%;
+    }
+    .product-shot-drift {
+      animation: product-drift linear both;
+      animation-timeline: view();
+      animation-range: entry 0% exit 100%;
+    }
   }
-  .section-kicker {
-    @apply text-[11px] font-semibold uppercase tracking-[0.28em] text-muted-foreground/70;
+}
+
+@keyframes hero-drift-slow {
+  from {
+    transform: translateY(14px);
   }
-  .section-title {
-    @apply text-[1.75rem] font-semibold tracking-tight text-foreground sm:text-5xl;
+  to {
+    transform: translateY(-14px);
   }
-  .section-copy {
-    @apply text-[15px] leading-relaxed text-muted-foreground sm:text-lg;
+}
+
+@keyframes hero-drift-fast {
+  from {
+    transform: translateY(30px);
   }
-  .glass {
-    @apply border border-white/[0.06] bg-white/[0.04] shadow-lg shadow-black/20 backdrop-blur-xl;
+  to {
+    transform: translateY(-30px);
   }
-  .glass-subtle {
-    @apply border border-white/[0.04] bg-white/[0.02] backdrop-blur-md;
+}
+
+@keyframes product-drift {
+  from {
+    transform: translateY(6px);
   }
-  .glow-sm {
-    box-shadow:
-      0 0 15px -3px hsl(var(--primary) / 0.15),
-      0 0 6px -4px hsl(var(--primary) / 0.1);
+  to {
+    transform: translateY(-6px);
   }
-  .glow-primary {
-    box-shadow:
-      0 0 20px -5px hsl(var(--primary) / 0.3),
-      0 4px 6px -4px hsl(var(--primary) / 0.1);
+}
+
+/* ============================================================
+ * Scroll reveal — IO adds .visible once (script in base.astro).
+ * ============================================================ */
+
+.animate-on-scroll {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.animate-on-scroll.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ============================================================
+ * Chat widget (demo assistant) — FAB, panel / mobile sheet,
+ * bubbles in the family style. z-ladder: nav 50 > panel 45 > FAB 40.
+ * ============================================================ */
+
+.cw-fab {
+  position: fixed;
+  right: 16px;
+  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  z-index: 40;
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 9999px;
+  color: #ffffff;
+  background-image: linear-gradient(135deg, var(--color-primary-bright), var(--color-primary) 40%, var(--color-primary-deep));
+  box-shadow: 0 10px 28px -10px color-mix(in srgb, var(--color-primary-deep) 70%, transparent);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+@media (min-width: 768px) {
+  .cw-fab {
+    right: 24px;
+    bottom: 24px;
   }
-  .gradient-mesh {
-    background-image:
-      radial-gradient(at 20% 20%, hsl(239 84% 67% / 0.08) 0px, transparent 60%),
-      radial-gradient(at 80% 40%, hsl(160 59% 52% / 0.06) 0px, transparent 60%),
-      radial-gradient(at 50% 90%, hsl(239 60% 55% / 0.05) 0px, transparent 60%);
+}
+
+.cw-fab:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 32px -10px color-mix(in srgb, var(--color-primary-deep) 80%, transparent);
+}
+
+.cw-fab:active {
+  transform: translateY(1px);
+}
+
+.cw-nudge {
+  position: fixed;
+  right: 16px;
+  bottom: calc(84px + env(safe-area-inset-bottom, 0px));
+  z-index: 40;
+  max-width: 14rem;
+  border-radius: 1rem 1rem 0.25rem 1rem;
+  border: 1px solid color-mix(in srgb, var(--color-band-strong) 60%, transparent);
+  background: #ffffff;
+  padding: 0.6rem 0.9rem;
+  font-size: 0.875rem;
+  color: var(--color-ink);
+  box-shadow: 0 14px 34px -18px color-mix(in srgb, var(--color-dark) 45%, transparent);
+  animation: cw-in 0.3s ease-out both;
+}
+
+@media (min-width: 768px) {
+  .cw-nudge {
+    right: 24px;
+    bottom: 92px;
   }
-  .gradient-mesh-strong {
-    background-image:
-      radial-gradient(at 20% 20%, hsl(239 84% 67% / 0.15) 0px, transparent 50%),
-      radial-gradient(at 80% 30%, hsl(160 59% 52% / 0.10) 0px, transparent 50%),
-      radial-gradient(at 40% 80%, hsl(239 60% 55% / 0.08) 0px, transparent 50%);
+}
+
+.cw-panel {
+  position: fixed;
+  z-index: 45;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: #ffffff;
+  border: 1px solid color-mix(in srgb, var(--color-band-strong) 50%, transparent);
+  box-shadow: 0 26px 60px -30px color-mix(in srgb, var(--color-dark) 55%, transparent);
+  animation: cw-in 0.25s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  /* Mobile: bottom sheet */
+  inset: auto 0 0 0;
+  height: 85dvh;
+  border-radius: 1rem 1rem 0 0;
+}
+
+@media (min-width: 768px) {
+  .cw-panel {
+    inset: auto 24px 24px auto;
+    width: 360px;
+    height: min(560px, 80vh);
+    border-radius: 1rem;
   }
-  .text-gradient {
-    @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(135deg, hsl(239 84% 72%), hsl(160 59% 57%), hsl(239 60% 80%));
-  }
-  .animate-on-scroll {
+}
+
+@keyframes cw-in {
+  from {
     opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    transform: translateY(12px);
   }
-  .animate-on-scroll.visible {
+  to {
     opacity: 1;
     transform: translateY(0);
   }
-  .rail-link {
-    @apply flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.26em] transition-colors;
-    color: hsl(var(--muted-foreground) / 0.42);
+}
+
+.cw-msg-user {
+  align-self: flex-end;
+  max-width: 85%;
+  border-radius: 1rem 1rem 0.25rem 1rem;
+  background: var(--color-dark);
+  color: #ffffff;
+  padding: 0.7rem 1.05rem;
+  font-size: 0.9375rem;
+  line-height: 1.45;
+}
+
+.cw-msg-bot {
+  align-self: flex-start;
+  max-width: 90%;
+  border-radius: 0.25rem 1rem 1rem 1rem;
+  background: var(--color-band);
+  color: var(--color-ink);
+  padding: 0.7rem 1.05rem;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+}
+
+.cw-typing {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  align-self: flex-start;
+  border-radius: 0.25rem 1rem 1rem 1rem;
+  background: var(--color-band);
+  padding: 0.85rem 1rem;
+}
+
+.cw-typing span {
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 9999px;
+  background: var(--color-primary);
+  opacity: 0.4;
+  animation: cw-typing-bounce 1s ease-in-out infinite;
+}
+
+.cw-typing span:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.cw-typing span:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+@keyframes cw-typing-bounce {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: translateY(0);
   }
-  .rail-link:hover {
-    @apply text-foreground;
+  50% {
+    opacity: 1;
+    transform: translateY(-3px);
   }
-  .rail-link-line {
-    @apply h-px w-6 transition-all duration-200;
-    background-color: rgb(255 255 255 / 0.18);
+}
+
+/* ============================================================
+ * Reduced motion — collapse to static states.
+ * ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .status-dot::after,
+  .btn-dot::after {
+    animation: none;
+    opacity: 0;
   }
-  .rail-link:hover .rail-link-line {
-    @apply w-8;
-    background-color: rgb(255 255 255 / 0.4);
+  .hero-blob {
+    animation: none !important;
   }
-  .rail-link.is-active {
-    @apply text-foreground;
+  .animate-on-scroll {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
-  .rail-link.is-active .rail-link-line {
-    @apply w-10 bg-foreground;
+  .cw-panel,
+  .cw-nudge {
+    animation: none;
+  }
+  .cw-typing span {
+    animation: none;
   }
 }

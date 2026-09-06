@@ -1,21 +1,90 @@
 ---
-import { getPersonalHome } from "@/data/personal-home";
-import type { Locale } from "@/i18n/utils";
+// Footer: continuation of the dark contact band. Company data, section
+// anchors, product links, privacy + socials (icons only, no card grid).
+import Icon from "@/components/icon.astro";
+import { getCompanyHome, privacyPath } from "@/data/company-home";
+import { getLocalePath, type Locale } from "@/i18n/utils";
 
 interface Props {
   locale: Locale;
 }
 
 const { locale } = Astro.props;
-const { footer } = getPersonalHome(locale);
+const i = getCompanyHome(locale);
+const f = i.footer;
+const homePath = getLocalePath(locale);
+const privacyHref = privacyPath(locale);
 ---
 
-<footer class="border-t border-white/[0.06] px-5 py-8 sm:px-6 lg:px-8">
-  <div class="presentation-shell gap-4 lg:flex-row lg:items-center lg:justify-between">
-    <div class="animate-on-scroll space-y-1.5">
-      <p class="text-sm font-semibold text-foreground">{footer.name}</p>
-      <p class="max-w-2xl text-sm leading-relaxed text-muted-foreground">{footer.companyInfo}</p>
+<footer class="bg-dark text-white/70">
+  <div class="mx-auto max-w-6xl px-6 pb-8 pt-4">
+    <div class="grid gap-10 border-t border-white/10 pt-10 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
+      <div>
+        <a href={homePath} class="inline-flex items-center gap-2">
+          <img src="/logo.png" alt="" width="28" height="28" class="h-7 w-7" loading="lazy" />
+          <span class="text-base font-bold tracking-tight text-white">AwesomeWorks</span>
+        </a>
+        <p class="mt-4 max-w-[36ch] text-sm leading-relaxed">{f.brandLine}</p>
+        <p class="mt-4 text-xs leading-relaxed text-white/50">{f.legalLine}</p>
+      </div>
+
+      <nav aria-label={f.companyTitle}>
+        <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-white/50">{f.companyTitle}</p>
+        <ul class="mt-4 space-y-2.5">
+          {
+            f.companyLinks.map((link) => (
+              <li>
+                <a href={`${homePath}${link.href}`} class="text-sm transition hover:text-white">
+                  {link.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <nav aria-label={f.productsTitle}>
+        <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-white/50">{f.productsTitle}</p>
+        <ul class="mt-4 space-y-2.5">
+          {
+            f.productLinks.map((link) => (
+              <li>
+                <a href={link.href} target="_blank" rel="noopener" class="text-sm transition hover:text-white">
+                  {link.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <div>
+        <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-white/50">{f.legalTitle}</p>
+        <ul class="mt-4 space-y-2.5">
+          <li>
+            <a href={privacyHref} class="text-sm transition hover:text-white">{f.privacyLabel}</a>
+          </li>
+        </ul>
+        <ul class="mt-5 flex items-center gap-3">
+          {
+            f.socials.map((social) => (
+              <li>
+                <a
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener"
+                  aria-label={social.name}
+                  class="grid h-9 w-9 place-items-center rounded-full border border-white/15 text-white/70 transition hover:border-white/40 hover:text-white"
+                >
+                  <Icon name={social.icon} class="h-4 w-4" />
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
     </div>
-    <p class="animate-on-scroll text-sm text-muted-foreground">{footer.copyright}</p>
+
+    <p class="mt-10 border-t border-white/10 pt-6 text-xs text-white/40">{f.copyright}</p>
   </div>
 </footer>

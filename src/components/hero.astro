@@ -1,5 +1,9 @@
 ---
-import { getPersonalHome } from "@/data/personal-home";
+// Hero: asymmetric split — value prop left, real product shots right
+// (CallWise dominant + odbiera.ai chip with the semantic "live" dot),
+// closed by the mono trust strip. Only true facts, no invented numbers.
+import Icon from "@/components/icon.astro";
+import { getCompanyHome } from "@/data/company-home";
 import type { Locale } from "@/i18n/utils";
 
 interface Props {
@@ -7,66 +11,79 @@ interface Props {
 }
 
 const { locale } = Astro.props;
-const { hero } = getPersonalHome(locale);
-const isPrimaryExternal = /^(https?:|mailto:)/.test(hero.primaryHref);
-const isSecondaryExternal = /^(https?:|mailto:)/.test(hero.secondaryHref);
-const hasSecondaryCta = Boolean(hero.secondaryCta && hero.secondaryHref);
+const i = getCompanyHome(locale);
+const mainShot = `/projects/callwise-${locale}.webp`;
+const chipShot = `/projects/odbiera-${locale}.webp`;
 ---
 
-<section id="top" class="relative flex min-h-[100svh] items-center overflow-hidden px-5 pb-16 pt-20 sm:px-6 sm:pt-24 lg:px-8">
-  <div class="pointer-events-none absolute inset-0 gradient-mesh-strong"></div>
-  <div class="pointer-events-none absolute inset-x-0 top-0 h-64 bg-[radial-gradient(circle_at_top,rgba(99,102,241,0.16),transparent_55%)]"></div>
+<section class="relative overflow-hidden bg-offwhite">
+  {/* Backdrop: drifting glow blobs + one slanted light accent behind the shots */}
+  <div class="pointer-events-none absolute inset-0" aria-hidden="true">
+    <div class="hero-blob absolute -top-24 right-[-10%] h-[28rem] w-[28rem] bg-band-strong/40"></div>
+    <div class="hero-blob absolute bottom-[-20%] right-[22%] h-[22rem] w-[22rem] bg-primary-bright/20 [animation-delay:-9s]"></div>
+    <div
+      class="absolute right-[-5%] top-[38%] hidden h-[2px] w-[55%] -rotate-[2.5deg] bg-gradient-to-r from-transparent via-band-strong/70 to-transparent lg:block"
+    >
+    </div>
+  </div>
 
-  <div class="presentation-shell pt-4">
-    <div class="presentation-panel animate-on-scroll max-w-5xl">
-      <div class="max-w-4xl">
-        <div class="section-kicker">{hero.eyebrow}</div>
-        <h1 class="mt-4 max-w-4xl text-[2.125rem] font-semibold tracking-tight text-foreground sm:text-6xl lg:text-7xl">
-          {hero.title}
+  <div class="relative mx-auto max-w-6xl px-6 pb-14 pt-28 md:pb-16 lg:pt-32">
+    <div class="grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14">
+      <div>
+        <h1
+          class="text-4xl font-bold leading-[1.06] tracking-tight text-ink [text-wrap:balance] md:text-5xl lg:text-[3.4rem]"
+        >
+          {i.hero.title}
         </h1>
-        <p class="mt-6 max-w-3xl text-base leading-relaxed text-muted-foreground sm:text-xl">
-          {hero.subtitle}
-        </p>
-
-        <div class="mt-8 flex flex-col items-start gap-3">
-          <a
-            href={hero.primaryHref}
-            target={isPrimaryExternal ? "_blank" : undefined}
-            rel={isPrimaryExternal ? "noopener noreferrer" : undefined}
-            class="inline-flex items-center rounded-full bg-red-600 px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-red-500/30 transition hover:bg-red-500 hover:shadow-red-500/50 sm:text-base"
-          >
-            {hero.primaryCta}
-            <span aria-hidden="true" class="ml-2">→</span>
+        <p class="mt-5 max-w-[46ch] text-lg leading-relaxed text-muted">{i.hero.subtitle}</p>
+        <div class="mt-8 flex flex-wrap items-center gap-3">
+          <a href="#kontakt" class="btn-primary">
+            {i.hero.primaryCta}
+            <Icon name="arrow-right" class="h-4 w-4" />
           </a>
-          {
-            "primarySublabel" in hero && (hero as any).primarySublabel && (
-              <p class="text-xs text-muted-foreground sm:text-sm">{(hero as any).primarySublabel}</p>
-            )
-          }
-          {
-            hasSecondaryCta && (
-              <a
-                href={hero.secondaryHref}
-                target={isSecondaryExternal ? "_blank" : undefined}
-                rel={isSecondaryExternal ? "noopener noreferrer" : undefined}
-                class="mt-2 inline-flex items-center rounded-full border border-white/[0.12] bg-white/[0.04] px-6 py-3 text-sm font-semibold text-foreground transition-colors hover:bg-white/[0.08]"
-              >
-                {hero.secondaryCta}
-              </a>
-            )
-          }
-          {
-            hero.storyCta && hero.storyHref && (
-              <a
-                href={hero.storyHref}
-                class="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-              >
-                <span>{hero.storyCta}</span>
-              </a>
-            )
-          }
+          <a href="#produkty" class="btn-ghost">{i.hero.secondaryCta}</a>
+        </div>
+      </div>
+
+      {/* Hero asset: real screenshots in glass frames */}
+      <div class="relative mx-auto w-full max-w-[34rem] pb-10 pl-6 lg:mx-0 lg:max-w-none">
+        <div
+          class="hero-parallax-slow overflow-hidden rounded-2xl border border-band-strong/60 bg-white shadow-[0_30px_70px_-30px_rgba(1,9,51,0.4)]"
+        >
+          <img
+            src={mainShot}
+            alt={i.hero.mainShotAlt}
+            width="1280"
+            height="720"
+            class="aspect-[16/10] w-full object-cover object-top"
+            loading="eager"
+            fetchpriority="high"
+          />
+        </div>
+        <div
+          class="hero-parallax-fast absolute -bottom-2 -left-0 w-[46%] overflow-hidden rounded-xl border border-band-strong/60 bg-white shadow-[0_20px_50px_-24px_rgba(1,9,51,0.5)]"
+        >
+          <img
+            src={chipShot}
+            alt={i.hero.chipShotAlt}
+            width="1280"
+            height="720"
+            class="aspect-[16/9] w-full object-cover object-top"
+            loading="eager"
+          />
+          <p class="flex items-center gap-2 px-3 py-2 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-muted">
+            <span class="status-dot"></span>
+            {i.hero.liveLabel}
+          </p>
         </div>
       </div>
     </div>
+
+    {/* Trust strip: real facts only */}
+    <ul
+      class="mt-14 flex flex-col gap-2 border-t border-band-strong/40 pt-6 font-mono text-xs font-medium uppercase tracking-[0.12em] text-muted sm:flex-row sm:flex-wrap sm:gap-0 sm:[&>li+li]:ml-8 sm:[&>li+li]:border-l sm:[&>li+li]:border-band-strong/50 sm:[&>li+li]:pl-8"
+    >
+      {i.hero.trust.map((fact) => <li>{fact}</li>)}
+    </ul>
   </div>
 </section>

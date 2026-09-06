@@ -1,21 +1,21 @@
 ---
+// Locale switch pill (mono, family style) — lives inside the nav pill.
 import type { Locale } from "@/i18n/utils";
 
 interface Props {
-  currentLocale: Locale;
+  locale: Locale;
+  /** Path of this page in the other locale. */
+  altPath: string;
 }
 
-const { currentLocale } = Astro.props;
-const otherLocale = currentLocale === "en" ? "pl" : "en";
-const otherLabel = currentLocale === "en" ? "PL" : "EN";
-const currentPath = Astro.url.pathname;
-const localizedPath = /^\/(pl|en)(?=\/|$)/.test(currentPath) ? currentPath : `/${currentLocale}/`;
-const alternatePath = localizedPath.replace(/^\/(pl|en)(?=\/|$)/, `/${otherLocale}`);
+const { locale, altPath } = Astro.props;
+const altLocale: Locale = locale === "pl" ? "en" : "pl";
 ---
 
 <a
-  href={alternatePath}
-  class="inline-flex items-center text-[10px] font-semibold uppercase tracking-[0.28em] text-muted-foreground/60 transition-colors hover:text-foreground"
+  href={altPath}
+  class="inline-flex h-9 items-center rounded-full px-3 font-mono text-[11px] font-semibold tracking-wide text-primary-deep transition hover:bg-band hover:text-dark"
+  aria-label={altLocale === "en" ? "Switch to English" : "Przełącz na polski"}
 >
-  <span>{otherLabel}</span>
+  {altLocale.toUpperCase()}
 </a>

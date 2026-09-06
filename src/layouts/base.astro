@@ -1,6 +1,10 @@
 ---
+import "@fontsource-variable/inter";
+import "@fontsource/ibm-plex-mono/400.css";
+import "@fontsource/ibm-plex-mono/500.css";
+import "@fontsource/ibm-plex-mono/600.css";
 import "@/styles/globals.css";
-import { getPersonalHome, organizationSameAs, personSameAs } from "@/data/personal-home";
+import { getCompanyHome, organizationSameAs, personSameAs } from "@/data/company-home";
 import type { Locale } from "@/i18n/utils";
 
 interface Props {
@@ -10,10 +14,19 @@ interface Props {
   ogImage?: string;
   socialDescription?: string;
   includeFaqSchema?: boolean;
+  /** Image URLs to preload (LCP: the hero product shot). */
+  preloadImages?: string[];
 }
 
-const { title, description, locale, ogImage, socialDescription, includeFaqSchema = false } =
-  Astro.props;
+const {
+  title,
+  description,
+  locale,
+  ogImage,
+  socialDescription,
+  includeFaqSchema = false,
+  preloadImages = [],
+} = Astro.props;
 const altLocale = locale === "en" ? "pl" : "en";
 const siteBase = Astro.site?.href ?? "https://awesomeworks.ai";
 const canonicalUrl = new URL(Astro.url.pathname, siteBase);
@@ -26,43 +39,44 @@ const ogImageAbsolute = new URL(ogImage ?? "/og-image.png", siteBase).href;
 const organizationId = new URL("#organization", siteBase).href;
 const personId = new URL("#rafal-lazicki", siteBase).href;
 const resolvedSocialDescription = socialDescription ?? description;
-const alumniOfName = locale === "pl" ? "Wojskowa Akademia Techniczna" : "Military University of Technology";
+
+const i = getCompanyHome(locale);
+const ogImageAlt = i.meta.ogImageAlt;
+
+// Organization is the primary subject; the founder Person stays for SEO
+// continuity (no UI exposure).
+const services =
+  locale === "pl"
+    ? ["Agenci głosowi AI", "Agenci konwersacyjni AI", "Oprogramowanie na zamówienie", "Szkolenia AI"]
+    : ["AI voice agents", "AI chat agents", "Custom software development", "AI training"];
+
 const knowsAbout =
   locale === "pl"
     ? [
-        "Doradztwo AI",
-        "Audyt AI",
         "Agenci AI",
-        "Systemy RAG",
+        "Agenci głosowi",
+        "Agenci konwersacyjni",
+        "Oprogramowanie na zamówienie",
         "LLM",
         "Automatyzacja procesów biznesowych",
-        "AI dla firm usługowych",
-        "Backend engineering",
-        "DevOps",
+        "Szkolenia AI",
       ]
     : [
-        "AI advisory",
-        "AI audit",
         "AI agents",
-        "RAG systems",
+        "Voice agents",
+        "Conversational agents",
+        "Custom software",
         "LLM applications",
-        "Process automation",
-        "AI for service businesses",
-        "Backend engineering",
-        "DevOps",
+        "Business process automation",
+        "AI training",
       ];
-const ogImageAlt =
-  locale === "pl"
-    ? "Rafał Łazicki — AI advisor dla firm usługowych"
-    : "Rafał Łazicki — AI advisor for service businesses";
-
-const i = getPersonalHome(locale);
 
 const organizationJsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
   "@id": organizationId,
   name: "AwesomeWorks",
+  legalName: "Awesome Works AI Rafał Łazicki",
   url: siteBase,
   logo: new URL("/logo.png", siteBase).href,
   image: ogImageAbsolute,
@@ -83,6 +97,26 @@ const organizationJsonLd = {
     email: "hello@awesomeworks.ai",
     availableLanguage: ["English", "Polish"],
   },
+  knowsAbout,
+  makesOffer: services.map((name) => ({
+    "@type": "Offer",
+    itemOffered: {
+      "@type": "Service",
+      name,
+    },
+  })),
+  owns: [
+    {
+      "@type": "Product",
+      name: "odbiera.ai",
+      url: "https://odbiera.ai/",
+    },
+    {
+      "@type": "Product",
+      name: "CallWise",
+      url: "https://callwise.awesomeworks.ai/",
+    },
+  ],
 };
 
 const personJsonLd = {
@@ -90,36 +124,13 @@ const personJsonLd = {
   "@type": "Person",
   "@id": personId,
   name: "Rafał Łazicki",
-  url: canonicalUrl.href,
+  url: siteBase,
   image: new URL("/rafal.jpeg", siteBase).href,
-  jobTitle: locale === "pl" ? "AI advisor i founder" : "AI advisor and founder",
+  jobTitle: "Founder",
   sameAs: personSameAs,
   worksFor: {
     "@id": organizationId,
   },
-  alumniOf: {
-    "@type": "CollegeOrUniversity",
-    name: alumniOfName,
-    address: {
-      "@type": "PostalAddress",
-      addressLocality: "Warsaw",
-      addressCountry: "PL",
-    },
-  },
-  knowsAbout,
-};
-
-const flattenAnswer = (item: {
-  a: string;
-  bullets?: ReadonlyArray<{ title: string; text: string }>;
-  outro?: string;
-}) => {
-  const parts: string[] = [item.a];
-  if (item.bullets) {
-    for (const b of item.bullets) parts.push(`${b.title}: ${b.text}`);
-  }
-  if (item.outro) parts.push(item.outro);
-  return parts.join(" ");
 };
 
 const faqJsonLd = includeFaqSchema
@@ -131,7 +142,7 @@ const faqJsonLd = includeFaqSchema
         name: item.q,
         acceptedAnswer: {
           "@type": "Answer",
-          text: flattenAnswer(item as { a: string; bullets?: ReadonlyArray<{ title: string; text: string }>; outro?: string }),
+          text: item.a,
         },
       })),
     }
@@ -139,12 +150,12 @@ const faqJsonLd = includeFaqSchema
 ---
 
 <!doctype html>
-<html lang={locale} class="dark">
+<html lang={locale}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="generator" content={Astro.generator} />
-    <meta name="theme-color" content="#0a0a12" />
+    <meta name="theme-color" content="#F6F8FF" />
 
     <title>{title}</title>
     <meta name="description" content={description} />
@@ -180,41 +191,39 @@ const faqJsonLd = includeFaqSchema
 
     <link rel="image_src" href={ogImageAbsolute} />
 
-    <link
-      rel="preload"
-      as="font"
-      type="font/woff2"
-      href="/fonts/space-grotesk-latin.woff2"
-      crossorigin
-    />
+    {preloadImages.map((href) => <link rel="preload" as="image" href={href} fetchpriority="high" />)}
 
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 
-    <script type="application/ld+json" set:html={JSON.stringify(organizationJsonLd)} />
-    <script type="application/ld+json" set:html={JSON.stringify(personJsonLd)} />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(organizationJsonLd)} />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(personJsonLd)} />
     {
-      faqJsonLd && <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
+      faqJsonLd && <script is:inline type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
     }
   </head>
-  <body class="min-h-screen overflow-x-hidden">
+  <body class="min-h-[100dvh] overflow-x-hidden bg-offwhite font-sans text-ink">
     <slot />
     <script>
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add("visible");
-              observer.unobserve(entry.target);
-            }
-          });
-        },
-        { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }
-      );
-      document
-        .querySelectorAll(".animate-on-scroll")
-        .forEach((el) => observer.observe(el));
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const targets = document.querySelectorAll(".animate-on-scroll");
+      if (reduceMotion) {
+        targets.forEach((el) => el.classList.add("visible"));
+      } else {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("visible");
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }
+        );
+        targets.forEach((el) => observer.observe(el));
+      }
     </script>
   </body>
 </html>

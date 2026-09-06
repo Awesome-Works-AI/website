@@ -1,47 +1,115 @@
 ---
-import { t, type Locale } from "@/i18n/utils";
+// FAQ: B2B objections (cost, time, data, maintenance) answered before the form.
+// Desktop: question list + answer panel. Mobile: accordion, one open at a time.
+import Icon from "@/components/icon.astro";
+import { getCompanyHome } from "@/data/company-home";
+import type { Locale } from "@/i18n/utils";
 
 interface Props {
   locale: Locale;
 }
 
 const { locale } = Astro.props;
-const i = t(locale);
+const i = getCompanyHome(locale);
 ---
 
-<section id="faq" class="relative border-t border-white/[0.06] py-20 sm:py-28">
-  <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-    <h2
-      class="animate-on-scroll mb-12 text-center text-3xl font-bold tracking-tight sm:text-4xl"
-    >
-      {i.faq.title}
-    </h2>
+<section id="faq" class="scroll-mt-24 bg-white py-20 pb-24 md:py-24 md:pb-28">
+  <div class="mx-auto max-w-6xl px-6">
+    <h2 class="animate-on-scroll text-3xl font-bold tracking-tight text-ink md:text-4xl">{i.faq.title}</h2>
 
-    <div class="animate-on-scroll space-y-3">
+    {/* Mobile: accordion */}
+    <div class="animate-on-scroll mt-8 space-y-3 lg:hidden" data-faq-accordion>
       {
         i.faq.items.map((item) => (
-          <details class="group rounded-xl border border-white/[0.06] bg-white/[0.03] transition-colors open:border-indigo-500/20 open:bg-white/[0.05]">
-            <summary class="flex cursor-pointer items-center justify-between px-6 py-5 text-left text-base font-medium text-foreground transition-colors hover:text-indigo-400 [&::-webkit-details-marker]:hidden">
-              <span class="pr-4">{item.q}</span>
-              <svg
-                class="h-5 w-5 flex-shrink-0 text-muted-foreground transition-transform group-open:rotate-45"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <line x1="12" y1="5" x2="12" y2="19" />
-                <line x1="5" y1="12" x2="19" y2="12" />
-              </svg>
+          <details class="group rounded-xl border border-band-strong/40 bg-offwhite px-5 py-4">
+            <summary class="flex cursor-pointer list-none items-center justify-between gap-4 text-[15px] font-semibold text-ink">
+              {item.q}
+              <Icon name="chevron-down" class="h-4 w-4 flex-none text-muted transition-transform group-open:rotate-180" />
             </summary>
-            <div class="px-6 pb-5">
-              <p class="leading-relaxed text-muted-foreground">{item.a}</p>
-            </div>
+            <p class="mt-3 text-[15px] leading-relaxed text-muted">{item.a}</p>
           </details>
         ))
       }
     </div>
+
+    {/* Desktop: question list + answer panel */}
+    <div class="animate-on-scroll mt-10 hidden gap-8 lg:grid lg:grid-cols-[0.44fr_0.56fr] lg:items-start" data-faq-desktop>
+      <div class="flex flex-col gap-2" role="tablist" aria-label="FAQ">
+        {
+          i.faq.items.map((item, idx) => (
+            <button
+              type="button"
+              role="tab"
+              id={`faq-tab-${idx}`}
+              aria-controls={`faq-panel-${idx}`}
+              aria-selected={idx === 0 ? "true" : "false"}
+              data-faq-btn={idx}
+              class:list={[
+                "rounded-xl border px-5 py-4 text-left text-[15px] font-semibold leading-snug transition",
+                idx === 0
+                  ? "border-band-strong/60 bg-white text-ink shadow-[inset_3px_0_0_#005BFC,0_12px_30px_-22px_rgba(1,9,51,0.55)]"
+                  : "border-transparent bg-offwhite text-muted hover:bg-white hover:text-ink",
+              ]}
+            >
+              {item.q}
+            </button>
+          ))
+        }
+      </div>
+      <div class="sticky top-24 rounded-2xl border border-band-strong/40 bg-offwhite p-8">
+        {
+          i.faq.items.map((item, idx) => (
+            <div
+              role="tabpanel"
+              id={`faq-panel-${idx}`}
+              aria-labelledby={`faq-tab-${idx}`}
+              data-faq-panel={idx}
+              class={idx === 0 ? "" : "hidden"}
+            >
+              <h3 class="text-lg font-bold tracking-tight text-ink">{item.q}</h3>
+              <p class="mt-3 text-base leading-relaxed text-muted">{item.a}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
   </div>
 </section>
+
+<script>
+  // Mobile accordion: one open at a time.
+  document.querySelectorAll<HTMLElement>("[data-faq-accordion]").forEach((root) => {
+    const items = Array.from(root.querySelectorAll<HTMLDetailsElement>("details"));
+    items.forEach((item) => {
+      item.addEventListener("toggle", () => {
+        if (item.open) items.forEach((other) => other !== item && (other.open = false));
+      });
+    });
+  });
+
+  // Desktop: question list drives the answer panel.
+  document.querySelectorAll<HTMLElement>("[data-faq-desktop]").forEach((root) => {
+    const buttons = Array.from(root.querySelectorAll<HTMLButtonElement>("[data-faq-btn]"));
+    const panels = Array.from(root.querySelectorAll<HTMLElement>("[data-faq-panel]"));
+    const activeClasses = [
+      "border-band-strong/60",
+      "bg-white",
+      "text-ink",
+      "shadow-[inset_3px_0_0_#005BFC,0_12px_30px_-22px_rgba(1,9,51,0.55)]",
+    ];
+    const idleClasses = ["border-transparent", "bg-offwhite", "text-muted", "hover:bg-white", "hover:text-ink"];
+
+    buttons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const idx = btn.dataset.faqBtn;
+        buttons.forEach((other) => {
+          const active = other === btn;
+          other.setAttribute("aria-selected", String(active));
+          other.classList.remove(...(active ? idleClasses : activeClasses));
+          other.classList.add(...(active ? activeClasses : idleClasses));
+        });
+        panels.forEach((panel) => panel.classList.toggle("hidden", panel.dataset.faqPanel !== idx));
+      });
+    });
+  });
+</script>

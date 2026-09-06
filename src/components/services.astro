@@ -1,59 +1,85 @@
 ---
-import { t, type Locale } from "@/i18n/utils";
+// Services: bento with exactly 4 cells (1 featured), each named in the
+// client's language and closed with a proof pointer instead of a CTA.
+import Icon from "@/components/icon.astro";
+import { getCompanyHome } from "@/data/company-home";
+import type { Locale } from "@/i18n/utils";
 
 interface Props {
   locale: Locale;
 }
 
 const { locale } = Astro.props;
-const i = t(locale);
+const i = getCompanyHome(locale);
+const [voice, chat, software, training] = i.services.items;
 
-const serviceIcons = [
-  // Search
-  `<svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>`,
-  // MessageCircle
-  `<svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>`,
-  // Clock
-  `<svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`,
-  // Zap
-  `<svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`,
-];
+const baseCard = "flex flex-col rounded-2xl border p-6 md:p-7";
 ---
 
-<section id="services" class="relative py-20 sm:py-28">
-  <div class="pointer-events-none absolute inset-0 gradient-mesh"></div>
+<section id="uslugi" class="scroll-mt-24 bg-white py-20 md:py-24">
+  <div class="mx-auto max-w-6xl px-6">
+    <div class="animate-on-scroll">
+      <h2 class="text-3xl font-bold tracking-tight text-ink md:text-4xl">{i.services.title}</h2>
+      <p class="mt-3 max-w-[60ch] text-base leading-relaxed text-muted md:text-lg">{i.services.subtitle}</p>
+    </div>
 
-  <div class="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-    <h2
-      class="animate-on-scroll mb-4 text-center text-3xl font-bold tracking-tight sm:text-4xl"
-    >
-      {i.services.title}
-    </h2>
-    <p
-      class="animate-on-scroll mx-auto mb-14 max-w-2xl text-center text-muted-foreground"
-    >
-      {i.services.subtitle}
-    </p>
+    <div class="animate-on-scroll mt-10 grid gap-4 md:grid-cols-3 md:gap-5">
+      {/* Featured: voice agents — band tint, double width */}
+      <article class:list={[baseCard, "border-band-strong/50 bg-gradient-to-br from-band to-band/40 md:col-span-2 md:p-8"]}>
+        <span class="grid h-11 w-11 place-items-center rounded-xl bg-white text-primary shadow-sm">
+          <Icon name={voice.icon} class="h-5 w-5" />
+        </span>
+        <h3 class="mt-5 text-xl font-bold tracking-tight text-ink">{voice.name}</h3>
+        <p class="mt-2 max-w-[52ch] text-[15px] leading-relaxed text-muted">{voice.text}</p>
+        <a
+          href={voice.proofHref}
+          target="_blank"
+          rel="noopener"
+          class="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-primary-deep hover:text-primary"
+        >
+          {voice.proofLabel}
+          <Icon name="external-link" class="h-3.5 w-3.5" />
+        </a>
+      </article>
 
-    <div class="grid gap-6 sm:grid-cols-2">
-      {
-        i.services.cards.map((card, idx) => (
-          <div
-            class="animate-on-scroll group rounded-xl border border-white/[0.06] bg-white/[0.03] p-6 transition-all hover:border-indigo-500/20 hover:bg-white/[0.05] sm:p-7"
-            style={`transition-delay: ${idx * 80}ms`}
-          >
-            <div class="mb-4 inline-flex rounded-lg border border-indigo-500/20 bg-indigo-500/10 p-2.5 text-indigo-400 transition-colors group-hover:bg-indigo-500/15">
-              <Fragment set:html={serviceIcons[idx]} />
-            </div>
-            <h3 class="mb-2 text-lg font-semibold text-foreground">
-              {card.title}
-            </h3>
-            <p class="text-[0.925rem] leading-relaxed text-muted-foreground">
-              {card.description}
-            </p>
-          </div>
-        ))
-      }
+      {/* Chat agents — white card, proof points at the live widget in the corner */}
+      <article class:list={[baseCard, "border-band-strong/40 bg-white shadow-sm"]}>
+        <span class="grid h-11 w-11 place-items-center rounded-xl bg-band text-primary-deep">
+          <Icon name={chat.icon} class="h-5 w-5" />
+        </span>
+        <h3 class="mt-5 text-lg font-bold tracking-tight text-ink">{chat.name}</h3>
+        <p class="mt-2 text-[15px] leading-relaxed text-muted">{chat.text}</p>
+        <p class="mt-auto pt-5 text-sm font-medium text-primary-deep">{chat.proofLabel}</p>
+      </article>
+
+      {/* Custom software — blueprint texture */}
+      <article
+        class:list={[baseCard, "border-band-strong/40 bg-white shadow-sm"]}
+        style="background-image: linear-gradient(to right, rgba(0,91,252,0.045) 1px, transparent 1px), linear-gradient(to bottom, rgba(0,91,252,0.045) 1px, transparent 1px); background-size: 34px 34px;"
+      >
+        <span class="grid h-11 w-11 place-items-center rounded-xl bg-band text-primary-deep">
+          <Icon name={software.icon} class="h-5 w-5" />
+        </span>
+        <h3 class="mt-5 text-lg font-bold tracking-tight text-ink">{software.name}</h3>
+        <p class="mt-2 text-[15px] leading-relaxed text-muted">{software.text}</p>
+        <a
+          href={software.proofHref}
+          class="mt-auto inline-flex items-center gap-1.5 pt-5 text-sm font-semibold text-primary-deep hover:text-primary"
+        >
+          {software.proofLabel}
+          <Icon name="arrow-right" class="h-3.5 w-3.5" />
+        </a>
+      </article>
+
+      {/* Training — wide, quiet tint */}
+      <article class:list={[baseCard, "border-band-strong/40 bg-offwhite md:col-span-2"]}>
+        <span class="grid h-11 w-11 place-items-center rounded-xl bg-white text-primary shadow-sm">
+          <Icon name={training.icon} class="h-5 w-5" />
+        </span>
+        <h3 class="mt-5 text-lg font-bold tracking-tight text-ink">{training.name}</h3>
+        <p class="mt-2 max-w-[52ch] text-[15px] leading-relaxed text-muted">{training.text}</p>
+        <p class="mt-auto pt-5 text-sm font-medium text-muted">{training.proofLabel}</p>
+      </article>
     </div>
   </div>
 </section>

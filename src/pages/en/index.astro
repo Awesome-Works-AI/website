@@ -1,19 +1,25 @@
 ---
-import Authority from "@/components/authority.astro";
-import Bottlenecks from "@/components/bottlenecks.astro";
-import Closing from "@/components/closing.astro";
+import ChatWidget from "@/components/chat-widget.astro";
+import Contact from "@/components/contact.astro";
+import Faq from "@/components/faq.astro";
 import Footer from "@/components/footer.astro";
 import Hero from "@/components/hero.astro";
-import HowItWorks from "@/components/how-it-works.astro";
 import Nav from "@/components/nav.astro";
-import Products from "@/components/projects-carousel.astro";
-import Questions from "@/components/questions.astro";
-import Socials from "@/components/socials.astro";
-import { getPersonalHome } from "@/data/personal-home";
+import Process from "@/components/process.astro";
+import Products from "@/components/products.astro";
+import Reviews from "@/components/reviews.astro";
+import Services from "@/components/services.astro";
+import { getCompanyHome } from "@/data/company-home";
+import { fetchGoogleReviews } from "@/data/google-reviews";
 import Base from "@/layouts/base.astro";
 
 const locale = "en";
-const home = getPersonalHome(locale);
+const home = getCompanyHome(locale);
+
+// Reviews render only with live Google data (no placeholders by design);
+// the #opinie nav anchor appears together with the section.
+const placeInfo = await fetchGoogleReviews();
+const hasReviews = (placeInfo?.reviews.length ?? 0) > 0;
 ---
 
 <Base
@@ -22,17 +28,18 @@ const home = getPersonalHome(locale);
   socialDescription={home.meta.socialDescription}
   locale={locale}
   includeFaqSchema={true}
+  preloadImages={[`/projects/callwise-${locale}.webp`]}
 >
-  <Nav locale={locale} />
+  <Nav locale={locale} showReviews={hasReviews} />
   <main>
     <Hero locale={locale} />
-    <Bottlenecks locale={locale} />
+    <Services locale={locale} />
     <Products locale={locale} />
-    <Authority locale={locale} />
-    <HowItWorks locale={locale} />
-    <Questions locale={locale} />
-    <Socials locale={locale} />
-    <Closing locale={locale} />
-    <Footer locale={locale} />
+    <Process locale={locale} />
+    {hasReviews && placeInfo && <Reviews locale={locale} placeInfo={placeInfo} />}
+    <Faq locale={locale} />
+    <Contact locale={locale} />
   </main>
+  <Footer locale={locale} />
+  <ChatWidget locale={locale} />
 </Base>

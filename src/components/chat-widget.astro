@@ -1,0 +1,322 @@
+---
+// Demo chat widget: a live sample of the "chat agents" category. Honest by
+// design — it introduces itself as a demo, answers from a local pool (no
+// network), and every exit leads to #kontakt. Hidden while the contact
+// section is on screen so it never competes with the real form.
+import Icon from "@/components/icon.astro";
+import { getCompanyHome } from "@/data/company-home";
+import type { Locale } from "@/i18n/utils";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const chat = getCompanyHome(locale).chat;
+
+const chatI18n = {
+  typingLabel: chat.typingLabel,
+  goToForm: chat.goToForm,
+  welcome: chat.welcome,
+  replies: chat.replies,
+};
+---
+
+<div data-chat-widget>
+  <script is:inline type="application/json" data-chat-i18n set:html={JSON.stringify(chatI18n)} />
+
+  <button type="button" data-chat-fab class="cw-fab" aria-label={chat.openLabel} aria-haspopup="dialog">
+    <Icon name="message-circle" class="h-6 w-6" />
+  </button>
+
+  <div data-chat-nudge class="cw-nudge" role="status" hidden>
+    <span>{chat.nudge}</span>
+    <button
+      type="button"
+      data-chat-nudge-dismiss
+      aria-label={chat.nudgeDismiss}
+      class="ml-2 inline-grid h-5 w-5 place-items-center rounded-full text-muted hover:bg-band hover:text-ink"
+    >
+      <Icon name="x" class="h-3 w-3" />
+    </button>
+  </div>
+
+  <section data-chat-panel class="cw-panel" role="dialog" aria-modal="true" aria-label={chat.dialogLabel} hidden>
+    <header class="flex items-center justify-between gap-3 border-b border-band-strong/40 bg-offwhite px-4 py-3">
+      <p class="font-mono text-xs font-semibold uppercase tracking-[0.14em] text-muted">{chat.header}</p>
+      <button
+        type="button"
+        data-chat-close
+        aria-label={chat.closeLabel}
+        class="grid h-11 w-11 place-items-center rounded-full text-muted transition hover:bg-band hover:text-ink"
+      >
+        <Icon name="x" class="h-5 w-5" />
+      </button>
+    </header>
+
+    <div data-chat-messages class="flex flex-1 flex-col gap-3 overflow-y-auto p-4" aria-live="polite"></div>
+
+    <form data-chat-form class="flex items-center gap-2 border-t border-band-strong/40 p-3">
+      <input
+        type="text"
+        data-chat-input
+        placeholder={chat.inputPlaceholder}
+        aria-label={chat.inputPlaceholder}
+        autocomplete="off"
+        class="h-11 w-full rounded-full border border-band-strong/70 bg-white px-4 text-[0.9375rem] text-ink placeholder:text-muted/60 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/15"
+      />
+      <button
+        type="submit"
+        aria-label={chat.sendLabel}
+        class="grid h-11 w-11 flex-none place-items-center rounded-full bg-gradient-to-br from-primary to-primary-deep text-white transition hover:brightness-95"
+      >
+        <Icon name="send" class="h-4 w-4" />
+      </button>
+    </form>
+  </section>
+</div>
+
+<script>
+  const HISTORY_KEY = "aw-chat-history";
+  const NUDGE_KEY = "aw-chat-nudge-shown";
+
+  interface ChatMessage {
+    role: "user" | "bot";
+    text: string;
+    cta?: boolean;
+  }
+
+  document.querySelectorAll<HTMLElement>("[data-chat-widget]").forEach((root) => {
+    const i18n = JSON.parse(root.querySelector("[data-chat-i18n]")?.textContent ?? "{}") as {
+      typingLabel: string;
+      goToForm: string;
+      welcome: string;
+      replies: string[];
+    };
+
+    const fab = root.querySelector<HTMLButtonElement>("[data-chat-fab]")!;
+    const nudge = root.querySelector<HTMLElement>("[data-chat-nudge]")!;
+    const nudgeDismiss = root.querySelector<HTMLButtonElement>("[data-chat-nudge-dismiss]")!;
+    const panel = root.querySelector<HTMLElement>("[data-chat-panel]")!;
+    const closeBtn = root.querySelector<HTMLButtonElement>("[data-chat-close]")!;
+    const messagesEl = root.querySelector<HTMLElement>("[data-chat-messages]")!;
+    const form = root.querySelector<HTMLFormElement>("[data-chat-form]")!;
+    const input = root.querySelector<HTMLInputElement>("[data-chat-input]")!;
+
+    let open = false;
+    let contactVisible = false;
+    let botBusy = false;
+    let botRepliesSinceCta = 0;
+    let pool: string[] = [];
+    const history: ChatMessage[] = readHistory();
+
+    function readHistory(): ChatMessage[] {
+      try {
+        const raw = sessionStorage.getItem(HISTORY_KEY);
+        if (raw) return JSON.parse(raw) as ChatMessage[];
+      } catch {
+        /* storage unavailable — start fresh */
+      }
+      return [];
+    }
+
+    function saveHistory() {
+      try {
+        sessionStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+      } catch {
+        /* ignore */
+      }
+    }
+
+    function refillPool() {
+      pool = [...i18n.replies].sort(() => Math.random() - 0.5);
+    }
+
+    function nextReply(): string {
+      if (pool.length === 0) refillPool();
+      return pool.pop() ?? i18n.replies[0];
+    }
+
+    function goToForm() {
+      closePanel();
+      document.getElementById("kontakt")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function renderMessage(msg: ChatMessage) {
+      const bubble = document.createElement("div");
+      bubble.className = msg.role === "user" ? "cw-msg-user" : "cw-msg-bot";
+      bubble.textContent = msg.text;
+      messagesEl.appendChild(bubble);
+      if (msg.cta) {
+        const cta = document.createElement("button");
+        cta.type = "button";
+        cta.className =
+          "self-start rounded-full border border-band-strong/70 bg-white px-4 py-2 text-sm font-semibold text-primary-deep transition hover:bg-band";
+        cta.textContent = i18n.goToForm;
+        cta.addEventListener("click", goToForm);
+        messagesEl.appendChild(cta);
+      }
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    }
+
+    function pushMessage(msg: ChatMessage) {
+      history.push(msg);
+      saveHistory();
+      renderMessage(msg);
+    }
+
+    function showTyping(): HTMLElement {
+      const typing = document.createElement("div");
+      typing.className = "cw-typing";
+      typing.innerHTML = "<span></span><span></span><span></span>";
+      const sr = document.createElement("span");
+      sr.className = "sr-only";
+      sr.textContent = i18n.typingLabel;
+      typing.appendChild(sr);
+      messagesEl.appendChild(typing);
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+      return typing;
+    }
+
+    function syncFab() {
+      fab.hidden = open || contactVisible;
+    }
+
+    function openPanel() {
+      if (open) return;
+      open = true;
+      hideNudge();
+      panel.hidden = false;
+      syncFab();
+      messagesEl.innerHTML = "";
+      if (history.length === 0) history.push({ role: "bot", text: i18n.welcome, cta: true });
+      history.forEach(renderMessage);
+      saveHistory();
+      if (window.matchMedia("(max-width: 767px)").matches) {
+        document.body.style.overflow = "hidden";
+      }
+      input.focus();
+    }
+
+    function closePanel() {
+      if (!open) return;
+      open = false;
+      panel.hidden = true;
+      document.body.style.overflow = "";
+      syncFab();
+      if (!contactVisible) fab.focus();
+    }
+
+    fab.addEventListener("click", openPanel);
+    closeBtn.addEventListener("click", closePanel);
+
+    panel.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        closePanel();
+        return;
+      }
+      // Focus trap
+      if (event.key === "Tab") {
+        const focusable = Array.from(
+          panel.querySelectorAll<HTMLElement>("button, input, [tabindex]:not([tabindex='-1'])")
+        ).filter((el) => !el.hidden && el.offsetParent !== null);
+        if (focusable.length === 0) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first.focus();
+        }
+      }
+    });
+
+    // Desktop only: click outside closes the panel.
+    document.addEventListener("click", (event) => {
+      if (!open || !window.matchMedia("(min-width: 768px)").matches) return;
+      const target = event.target as Node;
+      if (!panel.contains(target) && !fab.contains(target)) closePanel();
+    });
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const text = input.value.trim();
+      if (!text || botBusy) return;
+      input.value = "";
+      pushMessage({ role: "user", text });
+      botBusy = true;
+      const typing = showTyping();
+      const delay = 900 + Math.random() * 500;
+      setTimeout(() => {
+        typing.remove();
+        botRepliesSinceCta += 1;
+        const withCta = botRepliesSinceCta >= 2;
+        if (withCta) botRepliesSinceCta = 0;
+        pushMessage({ role: "bot", text: nextReply(), cta: withCta });
+        botBusy = false;
+      }, delay);
+    });
+
+    // Hide near the contact section — never compete with the real form.
+    const contact = document.getElementById("kontakt");
+    if (contact) {
+      new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            contactVisible = entry.isIntersecting;
+            if (contactVisible && open) closePanel();
+            if (contactVisible) hideNudge();
+            syncFab();
+          });
+        },
+        { threshold: 0.1 }
+      ).observe(contact);
+    }
+
+    // One-time nudge, ~15 s after landing.
+    let nudgeTimer: ReturnType<typeof setTimeout> | null = null;
+    function hideNudge() {
+      nudge.hidden = true;
+      if (nudgeTimer) clearTimeout(nudgeTimer);
+    }
+    let nudgeShown = false;
+    try {
+      nudgeShown = localStorage.getItem(NUDGE_KEY) === "1";
+    } catch {
+      /* ignore */
+    }
+    if (!nudgeShown) {
+      nudgeTimer = setTimeout(() => {
+        if (open || contactVisible) return;
+        nudge.hidden = false;
+        try {
+          localStorage.setItem(NUDGE_KEY, "1");
+        } catch {
+          /* ignore */
+        }
+        nudgeTimer = setTimeout(() => hideNudge(), 6000);
+      }, 15000);
+    }
+    nudgeDismiss.addEventListener("click", hideNudge);
+    nudge.addEventListener("click", (event) => {
+      if (event.target === nudge || (event.target as HTMLElement).tagName === "SPAN") {
+        hideNudge();
+        openPanel();
+      }
+    });
+
+    // Mobile: keep the input above the software keyboard.
+    const vv = window.visualViewport;
+    if (vv) {
+      vv.addEventListener("resize", () => {
+        if (!open || !window.matchMedia("(max-width: 767px)").matches) return;
+        const overlap = window.innerHeight - vv.height - vv.offsetTop;
+        panel.style.bottom = overlap > 0 ? `${overlap}px` : "";
+        messagesEl.scrollTop = messagesEl.scrollHeight;
+      });
+    }
+  });
+</script>

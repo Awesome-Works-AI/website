@@ -1,5 +1,8 @@
 ---
-import { getPersonalHome } from "@/data/personal-home";
+// In-house products: the "why us" proof. Diagonal band, exactly two
+// asymmetric cards (58/42), real screenshots, live links.
+import Icon from "@/components/icon.astro";
+import { getCompanyHome } from "@/data/company-home";
 import type { Locale } from "@/i18n/utils";
 
 interface Props {
@@ -7,129 +10,52 @@ interface Props {
 }
 
 const { locale } = Astro.props;
-const { products } = getPersonalHome(locale);
-const [featuredProduct, ...supportingProducts] = products.items;
-
-const supportThemes = {
-  metyra: "border-blue-400/25 bg-blue-400/[0.05]",
-  courseai: "border-sky-400/20 bg-sky-400/[0.05]",
-  goose: "border-white/[0.12] bg-white/[0.03]",
-  ask: "border-emerald-400/20 bg-emerald-400/[0.05]",
-  "ai-daily": "border-amber-400/20 bg-amber-400/[0.05]",
-} as const;
-
-const supportLogoTreatments = {
-  metyra: "absolute -right-6 -bottom-6 h-28 w-28 object-contain opacity-[0.16] sm:h-32 sm:w-32",
-  courseai: "absolute -right-6 -bottom-6 h-28 w-28 object-contain opacity-[0.16] sm:h-32 sm:w-32",
-  goose: "absolute -right-6 -bottom-6 h-28 w-28 object-contain opacity-[0.14] sm:h-32 sm:w-32",
-  ask: "absolute -right-8 -bottom-8 h-32 w-32 object-contain opacity-[0.14] sm:h-36 sm:w-36",
-  "ai-daily": "absolute -right-6 -bottom-6 h-28 w-28 object-contain opacity-[0.16] sm:h-32 sm:w-32",
-} as const;
-
-const isExternalHref = (href: string) => /^https?:\/\//i.test(href);
+const i = getCompanyHome(locale);
+const [odbiera, callwise] = i.products.items;
 ---
 
-<section id="work" class="relative flex min-h-[100svh] items-center border-t border-white/[0.06] px-5 py-20 sm:px-6 sm:py-24 lg:px-8">
-  <div class="presentation-shell">
-    <div class="grid gap-8 lg:grid-cols-12">
-      <div class="animate-on-scroll lg:col-span-4">
-        <div class="section-kicker">{products.eyebrow}</div>
-        <h2 class="section-title mt-4">{products.title}</h2>
-        {products.subtitle && <p class="section-copy mt-4 max-w-xl">{products.subtitle}</p>}
-      </div>
-
-      <article class="presentation-panel animate-on-scroll flex h-full flex-col lg:col-span-8 bg-[linear-gradient(135deg,rgba(99,102,241,0.12),rgba(255,255,255,0.03))]">
-        <img
-          src={featuredProduct.logoSrc}
-          alt=""
-          aria-hidden="true"
-          width="385"
-          height="392"
-          class="pointer-events-none absolute -right-8 top-1/2 h-48 w-48 -translate-y-1/2 object-contain opacity-[0.12] sm:h-64 sm:w-64"
-          loading="lazy"
-        />
-
-        <div class="relative z-10 flex h-full flex-col">
-          <div class="inline-flex items-center rounded-full border border-white/[0.08] bg-background/55 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">
-            {featuredProduct.note}
-          </div>
-
-          <div class="mt-5 flex flex-wrap items-center gap-4">
-            <h3 class="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
-              {featuredProduct.name}
-            </h3>
-          </div>
-          <p class="mt-5 max-w-3xl text-xl font-medium leading-tight text-foreground sm:text-2xl">
-            {featuredProduct.title}
-          </p>
-
-          <div class="mt-6 grid gap-3 sm:grid-cols-2">
-            {
-              ("bullets" in featuredProduct ? featuredProduct.bullets : []).map((bullet) => (
-                <div class="rounded-[1.25rem] border border-white/[0.08] bg-background/55 px-5 py-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
-                  {bullet}
-                </div>
-              ))
-            }
-          </div>
-
-          <div class="mt-auto pt-8">
-            <a
-              href={featuredProduct.href}
-              target={isExternalHref(featuredProduct.href) ? "_blank" : undefined}
-              rel={isExternalHref(featuredProduct.href) ? "noopener noreferrer" : undefined}
-              class="inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-3 text-sm font-semibold text-background transition-opacity hover:opacity-90"
-            >
-              <span>{featuredProduct.cta}</span>
-              <span aria-hidden="true">→</span>
-            </a>
-          </div>
-        </div>
-      </article>
+<section id="produkty" class="diag-band scroll-mt-10 bg-band">
+  <div class="mx-auto max-w-6xl px-6">
+    <div class="animate-on-scroll">
+      <p class="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-primary-deep">
+        [ {i.products.eyebrow} ]
+      </p>
+      <h2 class="mt-4 text-3xl font-bold tracking-tight text-ink md:text-4xl">{i.products.title}</h2>
+      <p class="mt-3 max-w-[60ch] text-base leading-relaxed text-muted md:text-lg">{i.products.subtitle}</p>
     </div>
 
-    <div class="mt-6 grid gap-4 lg:grid-cols-3">
+    <div class="animate-on-scroll mt-10 grid gap-5 lg:grid-cols-[0.58fr_0.42fr]">
       {
-        supportingProducts.map((item, index) => (
-          <article
-            class:list={[
-              "animate-on-scroll relative flex h-full flex-col overflow-hidden rounded-[1.75rem] border px-6 py-6 shadow-xl shadow-black/10",
-              supportThemes[item.id as keyof typeof supportThemes],
-            ]}
-            style={`transition-delay: ${80 + index * 70}ms`}
-          >
-            <img
-              src={item.logoSrc}
-              alt=""
-              aria-hidden="true"
-              width={item.id === "goose" ? "840" : "1024"}
-              height={item.id === "goose" ? "867" : "1024"}
-              class:list={[
-                "pointer-events-none",
-                supportLogoTreatments[item.id as keyof typeof supportLogoTreatments],
-              ]}
-              loading="lazy"
-            />
-
-            <div class="relative z-10 flex h-full flex-col">
-              <div class="text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground/65">
-                {item.label}
+        [odbiera, callwise].map((product) => (
+          <article class="flex flex-col overflow-hidden rounded-2xl border border-band-strong/50 bg-white shadow-[0_24px_60px_-32px_rgba(1,9,51,0.45)]">
+            <div class="overflow-hidden border-b border-band-strong/30">
+              <img
+                src={product.shot}
+                alt={product.shotAlt}
+                width="1280"
+                height="720"
+                class="product-shot-drift aspect-video w-full object-cover"
+                loading="lazy"
+              />
+            </div>
+            <div class="flex flex-1 flex-col p-6 md:p-7">
+              <div class="flex flex-wrap items-center justify-between gap-3">
+                <h3 class="text-xl font-bold tracking-tight text-ink">{product.name}</h3>
+                <p class="flex items-center gap-2 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-muted">
+                  <span class="status-dot" />
+                  {i.products.liveLabel}
+                </p>
               </div>
-              <h3 class="mt-4 text-2xl font-semibold tracking-tight text-foreground">{item.name}</h3>
-              <p class="mt-3 max-w-[18rem] text-sm leading-relaxed text-muted-foreground sm:text-base">
-                {item.description}
-              </p>
-              <div class="mt-auto pt-6">
-                <a
-                  href={item.href}
-                  target={isExternalHref(item.href) ? "_blank" : undefined}
-                  rel={isExternalHref(item.href) ? "noopener noreferrer" : undefined}
-                  class="inline-flex items-center gap-2 rounded-full bg-foreground px-5 py-2.5 text-sm font-semibold text-background transition-opacity hover:opacity-90"
-                >
-                  <span>{item.cta}</span>
-                  <span aria-hidden="true">→</span>
-                </a>
-              </div>
+              <p class="mt-2 text-[15px] leading-relaxed text-muted">{product.description}</p>
+              <a
+                href={product.href}
+                target="_blank"
+                rel="noopener"
+                class="mt-auto inline-flex items-center gap-1.5 pt-5 text-sm font-semibold text-primary-deep hover:text-primary"
+              >
+                {product.linkLabel}
+                <Icon name="external-link" class="h-3.5 w-3.5" />
+              </a>
             </div>
           </article>
         ))
