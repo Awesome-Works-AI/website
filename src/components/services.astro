@@ -24,7 +24,8 @@ const i = getCompanyHome(locale);
     </div>
   </div>
 
-  <div class="mt-10 space-y-8 md:mt-14 md:space-y-10">
+  {/* Ribbon spacing lives in .svc-panel CSS (negative margins tuck the slanted edges together) — no space-y here. */}
+  <div class="mt-10 md:mt-12">
     {
       i.services.items.map((item, idx) => {
         const fromLeft = idx % 2 === 0;

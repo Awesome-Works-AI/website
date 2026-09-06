@@ -112,65 +112,62 @@ summary::-webkit-details-marker {
 }
 
 /* ============================================================
- * Services rail — slanted panels ("rhombi") bleeding off
- * alternating screen edges; blue and white schemes alternate.
- * Desktop: skewX with counter-skewed content (vertical edges
- * lean the family way, descending left → right); the off-screen
- * edge hides its own slant. Mobile: full-bleed skewY bands.
+ * Services rail — ribbon panels cut with the section-transition
+ * slant (same clip grammar and --slant as .diag-band, so the
+ * angle matches the products → process handoff). Blue and band
+ * schemes alternate, panels anchor to alternating screen edges,
+ * and neighbours tuck close: parallel slanted edges run ~0.75rem
+ * apart. Sharp corners on purpose — these are rhombi, not cards.
  * ============================================================ */
 
+.svc-panel {
+  clip-path: polygon(0 0, 100% var(--slant), 100% 100%, 0 calc(100% - var(--slant)));
+  padding-top: calc(var(--slant) + 2.25rem);
+  padding-bottom: calc(var(--slant) + 2.25rem);
+}
+
+/* The next ribbon rides up under the previous one's slanted edge. */
+.svc-panel + .svc-panel {
+  margin-top: calc(0.75rem - var(--slant));
+}
+
 .svc-blue {
-  background-image: linear-gradient(120deg, var(--color-primary) 0%, var(--color-primary-deep) 80%);
-  box-shadow: 0 24px 60px -32px color-mix(in srgb, var(--color-primary-deep) 60%, transparent);
+  background-image: linear-gradient(120deg, var(--color-primary) 0%, var(--color-primary-deep) 82%);
+  color: #ffffff;
 }
 
 .svc-light {
-  background: #ffffff;
-  border: 1px solid color-mix(in srgb, var(--color-band-strong) 45%, transparent);
-  box-shadow: 0 18px 48px -34px color-mix(in srgb, var(--color-dark) 35%, transparent);
+  background: var(--color-band);
+  color: var(--color-ink);
 }
 
 @media (min-width: 768px) {
-  .svc-panel {
-    width: min(88%, 76rem);
-    transform: skewX(12deg);
-  }
-
   .svc-left {
-    margin-left: -3.5rem;
-    border-radius: 0 1.5rem 1.5rem 0;
+    width: 94%;
+    margin-right: auto;
   }
 
   .svc-right {
+    width: 94%;
     margin-left: auto;
-    margin-right: -3.5rem;
-    border-radius: 1.5rem 0 0 1.5rem;
   }
 
-  .svc-inner {
-    transform: skewX(-12deg);
-    padding: 3.5rem 5rem;
-  }
-
-  /* Align the counter-skewed content to the page grid (max-w-6xl = 72rem);
-   * the 3.5rem term compensates the panel's off-screen offset. */
+  /* Align content to the page grid (max-w-6xl = 72rem) on the flush side. */
   .svc-left .svc-inner {
-    padding-left: max(5rem, calc((100vw - 72rem) / 2 + 1.5rem + 3.5rem));
+    padding-left: max(2.5rem, calc((100vw - 72rem) / 2 + 1.5rem));
+    padding-right: 3.5rem;
   }
 
   .svc-right .svc-inner {
-    padding-right: max(5rem, calc((100vw - 72rem) / 2 + 1.5rem + 3.5rem));
+    padding-right: max(2.5rem, calc((100vw - 72rem) / 2 + 1.5rem));
+    padding-left: 3.5rem;
   }
 }
 
 @media (max-width: 767px) {
-  .svc-panel {
-    transform: skewY(2deg);
-  }
-
   .svc-inner {
-    transform: skewY(-2deg);
-    padding: 3rem 1.5rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
   }
 }
 
