@@ -86,7 +86,7 @@ const companyHome = {
           id: "training",
           icon: "graduation-cap",
           name: "Szkolenia AI",
-          text: "Warsztaty dla zespołów: narzędzia, agenci i bezpieczna praca z AI na co dzień. Twój zespół wychodzi z umiejętnościami, nie z notatkami.",
+          text: "Warsztaty dla zespołów: narzędzia, agenci i bezpieczna praca z AI na co dzień. Po warsztacie zespół umie korzystać z tych narzędzi w swojej pracy.",
           proofLabel: "Format: warsztaty na żywo, na waszych przykładach.",
           proofHref: "",
           featured: false,
@@ -159,7 +159,7 @@ const companyHome = {
         },
         {
           q: "Ile trwa wdrożenie i kiedy zobaczę pierwszą działającą wersję?",
-          a: "Pierwszą działającą wersję pokazujemy w trakcie wdrożenia, nie na końcu. Zakres dzielimy na etapy, a każdy etap kończy się czymś, co możesz kliknąć i ocenić. Harmonogram dostajesz razem z wyceną.",
+          a: "Pierwszą działającą wersję pokazujemy już w trakcie wdrożenia. Zakres dzielimy na etapy, a każdy etap kończy się czymś, co możesz kliknąć i ocenić. Harmonogram dostajesz razem z wyceną.",
         },
         {
           q: "Co z danymi: gdzie są przetwarzane i jak wygląda RODO?",
@@ -167,15 +167,15 @@ const companyHome = {
         },
         {
           q: "Czy utrzymujecie i rozwijacie system po wdrożeniu?",
-          a: "Tak, to nasz domyślny model współpracy. Własne produkty utrzymujemy na produkcji od lat i tak samo podchodzimy do systemów klientów: monitoring, poprawki i rozwój w stałym rytmie.",
+          a: "Tak, to nasz domyślny model współpracy. Własne produkty utrzymujemy na produkcji od lat i tak samo traktujemy systemy klientów po wdrożeniu.",
         },
         {
           q: "Pracujecie na naszych systemach czy budujecie od zera?",
-          a: "Jedno i drugie. Jeśli masz działający CRM, telefonię czy bazę wiedzy, podpinamy się do nich przez API. Od zera budujemy wtedy, gdy istniejące narzędzia blokują proces, a nie dlatego, że tak nam wygodniej.",
+          a: "Jedno i drugie. Jeśli masz działający CRM, telefonię czy bazę wiedzy, podpinamy się do nich przez API. Od zera budujemy wtedy, gdy istniejące narzędzia blokują proces.",
         },
         {
           q: "Jak wyglądają szkolenia AI: format i dla kogo?",
-          a: "Warsztaty na żywo, na przykładach z twojej firmy: narzędzia, agenci i zasady bezpiecznej pracy z AI. Zakres i wielkość grupy dopasowujemy do zespołu, od handlowców po zarząd.",
+          a: "Warsztaty na żywo, na przykładach z twojej firmy. Zakres i wielkość grupy dopasowujemy do zespołu, od handlowców po zarząd.",
         },
       ],
     },
@@ -246,10 +246,10 @@ const companyHome = {
       typingLabel: "Asystent pisze",
       goToForm: "Przejdź do formularza",
       welcome:
-        "Cześć! Jestem pokazową wersją agenta konwersacyjnego, takiego jak te, które budujemy dla klientów. Napisz coś albo od razu przejdź do formularza, a porozmawiasz z człowiekiem.",
+        "Cześć! Jestem wersją pokazową agenta konwersacyjnego. Takie agenty budujemy dla klientów. Napisz coś albo od razu przejdź do formularza, a porozmawiasz z człowiekiem.",
       replies: [
         "Jestem wersją pokazową, więc nie odpowiem sensownie na to pytanie. Człowiek odpowie w 24 godziny: zostaw kontakt w formularzu.",
-        "Dobre pytanie. Produkcyjna wersja takiego agenta odpowiedziałaby z twojej bazy wiedzy. Napisz do nas przez formularz, pokażemy jak.",
+        "Produkcyjna wersja takiego agenta odpowiedziałaby z twojej bazy wiedzy. Napisz do nas przez formularz, pokażemy jak.",
         "Tu kończy się demo, a zaczyna rozmowa z człowiekiem. Kliknij Porozmawiajmy albo napisz na hello@awesomeworks.ai.",
         "Nie mam dostępu do wiedzy o twojej sprawie, jestem tylko pokazem interfejsu. Formularz na dole strony trafia prosto do zespołu.",
         "Takiego agenta, tylko podpiętego do twoich danych, wdrażamy u klientów. Zostaw kontakt, opowiemy o szczegółach.",
@@ -261,9 +261,9 @@ const companyHome = {
     meta: {
       title: "AwesomeWorks | AI agents and custom software",
       description:
-        "Polish software house building AI agents: voice and chat agents, custom software, and AI training. Two products of our own in production. We reply within 24 hours.",
+        "Polish software house building AI agents: voice and chat agents, custom software, and AI training. Two in-house products in production. We reply within 24 hours.",
       socialDescription:
-        "Polish software house building AI agents. Voice agents, chat agents, custom software, and training. Two products of our own in production.",
+        "Polish software house building AI agents. Voice agents, chat agents, custom software, and training. Two in-house products in production.",
       ogImageAlt: "AwesomeWorks: AI agents and custom software",
     },
     nav: {
@@ -280,17 +280,17 @@ const companyHome = {
     hero: {
       title: "AI agents and custom software",
       subtitle:
-        "We design and run voice agents, chat agents, and custom software. Two products of our own run in production.",
+        "We design and run voice agents, chat agents, and custom software. Two of our own products run in production.",
       primaryCta: "Let's talk",
       secondaryCta: "See our products",
       liveLabel: "in production",
       mainShotAlt: "CallWise: sales call analysis dashboard",
       chipShotAlt: "odbiera.ai: AI voice receptionist landing page",
-      trust: ["100% Polish company", "2 products of our own in production", "deployments with paying clients"],
+      trust: ["100% Polish company", "2 in-house products in production", "deployments with paying clients"],
     },
     services: {
       title: "What we do",
-      subtitle: "We build systems that take over repetitive work and stay with you in production.",
+      subtitle: "We build systems that take over repetitive work, and we keep them running in production.",
       items: [
         {
           id: "voice",
@@ -323,7 +323,7 @@ const companyHome = {
           id: "training",
           icon: "graduation-cap",
           name: "AI training",
-          text: "Workshops for teams: tools, agents, and safe day-to-day work with AI. Your team walks out with skills, not notes.",
+          text: "Workshops for teams: tools, agents, and safe day-to-day work with AI. After the workshop your team knows how to use these tools in their own work.",
           proofLabel: "Format: live workshops, built on your own examples.",
           proofHref: "",
           featured: false,
@@ -332,7 +332,7 @@ const companyHome = {
     },
     products: {
       eyebrow: "products",
-      title: "We test it on ourselves before we ship it to you",
+      title: "We test things on ourselves before we ship them to you",
       subtitle: "Two products we built and run in-house, with paying customers in production.",
       liveLabel: "in production",
       items: [
@@ -362,7 +362,7 @@ const companyHome = {
       title: "How we work",
       steps: [
         {
-          title: "A conversation about your need",
+          title: "A conversation about what you need",
           text: "You tell us what should change in your company. No commitments and no slides.",
         },
         {
@@ -375,7 +375,7 @@ const companyHome = {
         },
         {
           title: "Maintenance and growth",
-          text: "After launch we stay: monitoring, fixing, and extending. The same way we care for our own products.",
+          text: "After launch we stay: we monitor, fix, and keep building, the same way we care for our own products.",
         },
       ],
       cta: "Let's talk",
@@ -396,34 +396,34 @@ const companyHome = {
         },
         {
           q: "How long does delivery take and when do I see the first working version?",
-          a: "We show the first working version during delivery, not at the end. The scope is split into stages, and every stage ends with something you can click and judge. The timeline comes with the quote.",
+          a: "We show the first working version while delivery is still underway. We split the scope into stages, and every stage ends with something you can click and judge. The timeline comes with the quote.",
         },
         {
           q: "What about data: where is it processed and how does GDPR work?",
-          a: "We keep infrastructure in the EU wherever possible and sign a data processing agreement (DPA) with clients. Processing scope, retention, and subprocessors are spelled out in the contract, and we design the architecture so your data does not leave it without control.",
+          a: "We keep infrastructure in the EU wherever possible and sign a data processing agreement (DPA) with clients. Processing scope, retention, and subprocessors are spelled out in the contract, and we design the architecture so your data stays under your control.",
         },
         {
           q: "Do you maintain and extend the system after launch?",
-          a: "Yes, that is our default way of working. We have kept our own products in production for years, and we treat client systems the same way: monitoring, fixes, and steady development.",
+          a: "Yes, that is our default way of working. We have kept our own products in production for years, and we treat client systems the same way after launch.",
         },
         {
           q: "Do you work on our systems or build from scratch?",
-          a: "Both. If you have a working CRM, telephony, or knowledge base, we connect to them through APIs. We build from scratch when existing tools block the process, not because it is easier for us.",
+          a: "Both. If you have a working CRM, telephony, or knowledge base, we connect to them through APIs. We build from scratch when existing tools block the process.",
         },
         {
           q: "What does AI training look like: format and audience?",
-          a: "Live workshops built on examples from your company: tools, agents, and the rules of safe work with AI. We match the scope and group size to your team, from sales reps to the board.",
+          a: "Live workshops built on examples from your company. We match the scope and group size to your team, from sales reps to the board.",
         },
       ],
     },
     contact: {
       eyebrow: "contact",
       title: "Let's talk about your project",
-      subtitle: "Tell us what you are coming with. We will come back with concrete questions, not a templated offer.",
+      subtitle: "Tell us what brings you here. We will come back with concrete questions, not a templated offer.",
       nextTitle: "What happens next",
       next: [
         "We reply within 24 hours.",
-        "We set up a short call about your need.",
+        "We set up a short call about what you need.",
         "You get a plan and a quote.",
       ],
       altLabel: "Prefer email?",
@@ -486,7 +486,7 @@ const companyHome = {
         "Hi! I am a demo version of the chat agents we build for clients. Write something, or go straight to the form and talk to a human.",
       replies: [
         "I am a demo, so I will not answer that question well. A human will, within 24 hours: leave your details in the form.",
-        "Good question. The production version of this agent would answer from your knowledge base. Reach us through the form and we will show you how.",
+        "The production version of this agent would answer from your knowledge base. Reach us through the form and we will show you how.",
         "This is where the demo ends and a human conversation starts. Click Let's talk or email hello@awesomeworks.ai.",
         "I have no access to your case, I am just a preview of the interface. The form at the bottom of the page goes straight to the team.",
         "We deploy agents like this one, wired to your data, for clients. Leave your details and we will walk you through it.",
