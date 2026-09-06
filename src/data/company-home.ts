@@ -57,6 +57,7 @@ const companyHome = {
       items: [
         {
           id: "voice",
+          icon: "audio-lines",
           name: "Agenci głosowi",
           text: "Odbierają telefony, umawiają terminy i odpowiadają na pytania klientów 24/7. Twoja recepcja nie ma kolejki i nie bierze wolnego.",
           proofLabel: "Tak działa nasz produkt odbiera.ai",
@@ -65,6 +66,7 @@ const companyHome = {
         },
         {
           id: "chat",
+          icon: "message-square",
           name: "Agenci konwersacyjni",
           text: "Czat na twojej stronie lub w aplikacji, podpięty do twojej bazy wiedzy. Odpowiada klientom, zanim zdążą napisać maila.",
           proofLabel: "Przykład? Otwórz czat demo w rogu ekranu.",
@@ -73,6 +75,7 @@ const companyHome = {
         },
         {
           id: "software",
+          icon: "cpu",
           name: "Oprogramowanie na zamówienie",
           text: "Aplikacje i systemy z AI, od projektu po wdrożenie. Dostajesz software dopasowany do procesu, nie proces dopasowany do softwaru.",
           proofLabel: "Zobacz produkty",
@@ -81,6 +84,7 @@ const companyHome = {
         },
         {
           id: "training",
+          icon: "graduation-cap",
           name: "Szkolenia AI",
           text: "Warsztaty dla zespołów: narzędzia, agenci i bezpieczna praca z AI na co dzień. Po warsztacie zespół umie korzystać z tych narzędzi w swojej pracy.",
           proofLabel: "Format: warsztaty na żywo, na waszych przykładach.",
@@ -290,6 +294,7 @@ const companyHome = {
       items: [
         {
           id: "voice",
+          icon: "audio-lines",
           name: "Voice agents",
           text: "They answer calls, book appointments, and handle customer questions 24/7. Your front desk has no queue and never takes a day off.",
           proofLabel: "This is how our product odbiera.ai works",
@@ -298,6 +303,7 @@ const companyHome = {
         },
         {
           id: "chat",
+          icon: "message-square",
           name: "Chat agents",
           text: "A chat on your website or in your app, wired to your knowledge base. It answers customers before they get around to writing an email.",
           proofLabel: "An example? Open the demo chat in the corner of this screen.",
@@ -306,6 +312,7 @@ const companyHome = {
         },
         {
           id: "software",
+          icon: "cpu",
           name: "Custom software",
           text: "Applications and AI systems, from design to deployment. You get software shaped around your process, not a process shaped around software.",
           proofLabel: "See our products",
@@ -314,6 +321,7 @@ const companyHome = {
         },
         {
           id: "training",
+          icon: "graduation-cap",
           name: "AI training",
           text: "Workshops for teams: tools, agents, and safe day-to-day work with AI. After the workshop your team knows how to use these tools in their own work.",
           proofLabel: "Format: live workshops, built on your own examples.",

@@ -2,7 +2,6 @@
 // Services: bento with exactly 4 cells (1 featured), each named in the
 // client's language and closed with a proof pointer instead of a CTA.
 import Icon from "@/components/icon.astro";
-import ServiceMark from "@/components/service-mark.astro";
 import { getCompanyHome } from "@/data/company-home";
 import type { Locale } from "@/i18n/utils";
 
@@ -29,7 +28,9 @@ const baseCard = "flex flex-col rounded-2xl border p-6 md:p-7";
     <div class="animate-on-scroll mt-10 grid gap-4 md:grid-cols-3 md:gap-5">
       {/* Featured: voice agents — band tint, double width */}
       <article class:list={[baseCard, "border-band-strong/50 bg-gradient-to-br from-band to-band/40 md:col-span-2 md:p-8"]}>
-        <ServiceMark name="voice" class="mark-live h-12 w-12 text-ink" />
+        <span class="grid h-11 w-11 place-items-center rounded-xl bg-white text-primary shadow-sm">
+          <Icon name={voice.icon} class="h-5 w-5" />
+        </span>
         <h3 class="mt-5 text-xl font-bold tracking-tight text-ink">{voice.name}</h3>
         <p class="mt-2 max-w-[52ch] text-[15px] leading-relaxed text-muted">{voice.text}</p>
         <a
@@ -45,7 +46,9 @@ const baseCard = "flex flex-col rounded-2xl border p-6 md:p-7";
 
       {/* Chat agents — white card, proof points at the live widget in the corner */}
       <article class:list={[baseCard, "border-band-strong/40 bg-white shadow-sm"]}>
-        <ServiceMark name="chat" class="h-12 w-12 text-ink" />
+        <span class="grid h-11 w-11 place-items-center rounded-xl bg-band text-primary-deep">
+          <Icon name={chat.icon} class="h-5 w-5" />
+        </span>
         <h3 class="mt-5 text-lg font-bold tracking-tight text-ink">{chat.name}</h3>
         <p class="mt-2 text-[15px] leading-relaxed text-muted">{chat.text}</p>
         {/* Opens the demo widget directly — the proof is one click away, not a hunt for the corner icon. */}
@@ -55,7 +58,7 @@ const baseCard = "flex flex-col rounded-2xl border p-6 md:p-7";
           class="mt-auto inline-flex items-center gap-1.5 self-start pt-5 text-left text-sm font-semibold text-primary-deep hover:text-primary"
         >
           {chat.proofLabel}
-          <ServiceMark name="chat-mini" class="h-3.5 w-3.5 flex-none" />
+          <Icon name="message-circle" class="h-3.5 w-3.5 flex-none" />
         </button>
       </article>
 
@@ -64,7 +67,9 @@ const baseCard = "flex flex-col rounded-2xl border p-6 md:p-7";
         class:list={[baseCard, "border-band-strong/40 bg-white shadow-sm"]}
         style="background-image: linear-gradient(to right, rgba(0,91,252,0.045) 1px, transparent 1px), linear-gradient(to bottom, rgba(0,91,252,0.045) 1px, transparent 1px); background-size: 34px 34px;"
       >
-        <ServiceMark name="software" class="h-12 w-12 text-ink" />
+        <span class="grid h-11 w-11 place-items-center rounded-xl bg-band text-primary-deep">
+          <Icon name={software.icon} class="h-5 w-5" />
+        </span>
         <h3 class="mt-5 text-lg font-bold tracking-tight text-ink">{software.name}</h3>
         <p class="mt-2 text-[15px] leading-relaxed text-muted">{software.text}</p>
         <a
@@ -78,7 +83,9 @@ const baseCard = "flex flex-col rounded-2xl border p-6 md:p-7";
 
       {/* Training — wide, quiet tint */}
       <article class:list={[baseCard, "border-band-strong/40 bg-offwhite md:col-span-2"]}>
-        <ServiceMark name="training" class="h-12 w-12 text-ink" />
+        <span class="grid h-11 w-11 place-items-center rounded-xl bg-white text-primary shadow-sm">
+          <Icon name={training.icon} class="h-5 w-5" />
+        </span>
         <h3 class="mt-5 text-lg font-bold tracking-tight text-ink">{training.name}</h3>
         <p class="mt-2 max-w-[52ch] text-[15px] leading-relaxed text-muted">{training.text}</p>
         <p class="mt-auto pt-5 text-sm font-medium text-muted">{training.proofLabel}</p>
