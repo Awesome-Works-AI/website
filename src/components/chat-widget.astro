@@ -4,6 +4,7 @@
 // network), and every exit leads to #kontakt. Hidden while the contact
 // section is on screen so it never competes with the real form.
 import Icon from "@/components/icon.astro";
+import ServiceMark from "@/components/service-mark.astro";
 import { getCompanyHome } from "@/data/company-home";
 import type { Locale } from "@/i18n/utils";
 
@@ -26,7 +27,7 @@ const chatI18n = {
   <script is:inline type="application/json" data-chat-i18n set:html={JSON.stringify(chatI18n)} />
 
   <button type="button" data-chat-fab class="cw-fab" aria-label={chat.openLabel} aria-haspopup="dialog">
-    <Icon name="message-circle" class="h-6 w-6" />
+    <ServiceMark name="chat-plane" class="h-6 w-6" />
   </button>
 
   <div data-chat-nudge class="cw-nudge" role="status" hidden>
