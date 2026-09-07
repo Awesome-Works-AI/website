@@ -1,6 +1,6 @@
 ---
-// In-house products: the "why us" proof. Diagonal band, exactly two
-// asymmetric cards (58/42), real screenshots, live links.
+// In-house products: the "why us" proof. Diagonal band, an asymmetric duo
+// (58/42) with a wide horizontal card below, real screenshots, live links.
 import Icon from "@/components/icon.astro";
 import { getCompanyHome } from "@/data/company-home";
 import type { Locale } from "@/i18n/utils";
@@ -11,7 +11,7 @@ interface Props {
 
 const { locale } = Astro.props;
 const i = getCompanyHome(locale);
-const [odbiera, callwise] = i.products.items;
+const [odbiera, callwise, courseai] = i.products.items;
 ---
 
 <section id="produkty" class="diag-band scroll-mt-10 bg-band">
@@ -63,5 +63,38 @@ const [odbiera, callwise] = i.products.items;
         ))
       }
     </div>
+
+    {/* Third product breaks the duo's rhythm: one wide horizontal card. */}
+    <article class="animate-on-scroll relative mt-5 flex flex-col overflow-hidden rounded-2xl border border-band-strong/50 bg-white shadow-[0_24px_60px_-32px_rgba(1,9,51,0.45)] transition-[border-color,box-shadow] duration-200 hover:border-band-strong/80 hover:shadow-[0_30px_70px_-30px_rgba(1,9,51,0.55)] md:flex-row">
+      <div class="overflow-hidden border-b border-band-strong/30 md:w-[42%] md:border-b-0 md:border-r">
+        <img
+          src={courseai.shot}
+          alt={courseai.shotAlt}
+          width="1280"
+          height="720"
+          class="product-shot-drift aspect-video h-full w-full object-cover"
+          loading="lazy"
+        />
+      </div>
+      <div class="flex flex-1 flex-col p-6 md:p-7">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <h3 class="text-xl font-bold tracking-tight text-ink">{courseai.name}</h3>
+          <p class="flex items-center gap-2 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-muted">
+            <span class="status-dot" />
+            {i.products.liveLabel}
+          </p>
+        </div>
+        <p class="mt-2 max-w-[60ch] text-[15px] leading-relaxed text-muted">{courseai.description}</p>
+        <a
+          href={courseai.href}
+          target="_blank"
+          rel="noopener"
+          class="mt-auto inline-flex items-center gap-1.5 pt-5 text-sm font-semibold text-primary-deep after:absolute after:inset-0 hover:text-primary"
+        >
+          {courseai.linkLabel}
+          <Icon name="external-link" class="h-3.5 w-3.5" />
+        </a>
+      </div>
+    </article>
   </div>
 </section>

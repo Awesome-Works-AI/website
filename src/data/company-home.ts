@@ -24,9 +24,9 @@ const companyHome = {
     meta: {
       title: "AwesomeWorks | Agenci AI i oprogramowanie na zamówienie",
       description:
-        "Polski software house od agentów AI: agenci głosowi i konwersacyjni, dedykowane oprogramowanie i szkolenia AI. Dwa własne produkty na produkcji. Odpowiadamy w 24 h.",
+        "Polski software house od agentów AI: agenci głosowi i konwersacyjni, dedykowane oprogramowanie i szkolenia AI. Trzy własne produkty na produkcji. Odpowiadamy w 24 h.",
       socialDescription:
-        "Polski software house od agentów AI. Agenci głosowi, konwersacyjni, dedykowany software i szkolenia. Dwa własne produkty na produkcji.",
+        "Polski software house od agentów AI. Agenci głosowi, konwersacyjni, dedykowany software i szkolenia. Trzy własne produkty na produkcji.",
       ogImageAlt: "AwesomeWorks: agenci AI i oprogramowanie na zamówienie",
     },
     nav: {
@@ -43,13 +43,13 @@ const companyHome = {
     hero: {
       title: "Agenci AI i oprogramowanie na zamówienie",
       subtitle:
-        "Projektujemy i utrzymujemy agentów głosowych, konwersacyjnych i dedykowany software. Dwa własne produkty działają na produkcji.",
+        "Projektujemy i utrzymujemy agentów głosowych, konwersacyjnych i dedykowany software. Trzy własne produkty działają na produkcji.",
       primaryCta: "Porozmawiajmy",
       secondaryCta: "Zobacz produkty",
       liveLabel: "na produkcji",
       mainShotAlt: "CallWise: panel analizy rozmów sprzedażowych",
       chipShotAlt: "odbiera.ai: strona AI recepcjonistki głosowej",
-      trust: ["100% polska firma", "2 własne produkty na produkcji", "wdrożenia u płacących klientów"],
+      trust: ["100% polska firma", "3 własne produkty na produkcji", "wdrożenia u płacących klientów"],
     },
     services: {
       title: "Co robimy",
@@ -110,7 +110,7 @@ const companyHome = {
     products: {
       eyebrow: "produkty",
       title: "Testujemy na sobie, zanim wdrożymy u ciebie",
-      subtitle: "Dwa produkty, które zbudowaliśmy i utrzymujemy in-house, z płacącymi klientami na produkcji.",
+      subtitle: "Trzy produkty, które zbudowaliśmy i utrzymujemy in-house.",
       liveLabel: "na produkcji",
       items: [
         {
@@ -132,6 +132,16 @@ const companyHome = {
           shotAlt: "CallWise: panel analizy rozmów sprzedażowych",
           href: callwiseUrl("pl"),
           linkLabel: "callwise.awesomeworks.ai",
+        },
+        {
+          id: "courseai",
+          name: "CourseAI",
+          description:
+            "Kurs online AI codingu. Uczymy budować oprogramowanie z agentami AI na realnych projektach, nie na slajdach.",
+          shot: "/projects/courseai-pl.webp",
+          shotAlt: "CourseAI: platforma kursu AI codingu",
+          href: "https://course.awesomeworks.ai/",
+          linkLabel: "course.awesomeworks.ai",
         },
       ],
     },
@@ -275,9 +285,9 @@ const companyHome = {
     meta: {
       title: "AwesomeWorks | AI agents and custom software",
       description:
-        "Polish software house building AI agents: voice and chat agents, custom software, and AI training. Two in-house products in production. We reply within 24 hours.",
+        "Polish software house building AI agents: voice and chat agents, custom software, and AI training. Three in-house products in production. We reply within 24 hours.",
       socialDescription:
-        "Polish software house building AI agents. Voice agents, chat agents, custom software, and training. Two in-house products in production.",
+        "Polish software house building AI agents. Voice agents, chat agents, custom software, and training. Three in-house products in production.",
       ogImageAlt: "AwesomeWorks: AI agents and custom software",
     },
     nav: {
@@ -294,13 +304,13 @@ const companyHome = {
     hero: {
       title: "AI agents and custom software",
       subtitle:
-        "We design and run voice agents, chat agents, and custom software. Two of our own products run in production.",
+        "We design and run voice agents, chat agents, and custom software. Three of our own products run in production.",
       primaryCta: "Let's talk",
       secondaryCta: "See our products",
       liveLabel: "in production",
       mainShotAlt: "CallWise: sales call analysis dashboard",
       chipShotAlt: "odbiera.ai: AI voice receptionist landing page",
-      trust: ["100% Polish company", "2 in-house products in production", "deployments with paying clients"],
+      trust: ["100% Polish company", "3 in-house products in production", "deployments with paying clients"],
     },
     services: {
       title: "What we do",
@@ -361,7 +371,7 @@ const companyHome = {
     products: {
       eyebrow: "products",
       title: "We test things on ourselves before we ship them to you",
-      subtitle: "Two products we built and run in-house, with paying customers in production.",
+      subtitle: "Three products we built and run in-house.",
       liveLabel: "in production",
       items: [
         {
@@ -383,6 +393,16 @@ const companyHome = {
           shotAlt: "CallWise: sales call analysis dashboard",
           href: callwiseUrl("en"),
           linkLabel: "callwise.awesomeworks.ai",
+        },
+        {
+          id: "courseai",
+          name: "CourseAI",
+          description:
+            "An online AI-coding course. We teach building software with AI agents on real projects, not slides.",
+          shot: "/projects/courseai-en.webp",
+          shotAlt: "CourseAI: AI-coding course platform",
+          href: "https://course.awesomeworks.ai/en/",
+          linkLabel: "course.awesomeworks.ai",
         },
       ],
     },
