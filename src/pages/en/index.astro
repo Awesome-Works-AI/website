@@ -8,7 +8,8 @@ import Nav from "@/components/nav.astro";
 import Process from "@/components/process.astro";
 import Products from "@/components/products.astro";
 import Reviews from "@/components/reviews.astro";
-import Services from "@/components/services.astro";
+import ServicesSticky from "@/components/services-sticky.astro";
+import ServicesCascade from "@/components/services-cascade.astro";
 import { getCompanyHome } from "@/data/company-home";
 import { fetchGoogleReviews } from "@/data/google-reviews";
 import Base from "@/layouts/base.astro";
@@ -33,7 +34,8 @@ const hasReviews = (placeInfo?.reviews.length ?? 0) > 0;
   <Nav locale={locale} showReviews={hasReviews} />
   <main>
     <Hero locale={locale} />
-    <Services locale={locale} />
+    <ServicesSticky locale={locale} />
+    <ServicesCascade locale={locale} />
     <Products locale={locale} />
     <Process locale={locale} />
     {hasReviews && placeInfo && <Reviews locale={locale} placeInfo={placeInfo} />}

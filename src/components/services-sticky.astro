@@ -1,0 +1,150 @@
+---
+// Services, variant A ("sticky stage"): the robot stays pinned on one side
+// while the five service blocks scroll past on the other; the illustration
+// crossfades to whichever block sits in the middle of the viewport. Mobile
+// falls back to a plain stack with the artwork in flow.
+import Icon from "@/components/icon.astro";
+import { getCompanyHome } from "@/data/company-home";
+import type { Locale } from "@/i18n/utils";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const i = getCompanyHome(locale);
+---
+
+<section id="uslugi" class="scroll-mt-24 bg-white py-20 md:py-24">
+  <div class="mx-auto max-w-6xl px-6">
+    <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-band-strong">[ wariant A · sticky stage ]</p>
+    <div class="animate-on-scroll mt-3">
+      <h2 class="text-3xl font-bold tracking-tight text-ink md:text-4xl">{i.services.title}</h2>
+      <p class="mt-3 max-w-[60ch] text-base leading-relaxed text-muted md:text-lg">{i.services.subtitle}</p>
+    </div>
+
+    <div data-stage-root class="mt-6 md:mt-10 md:grid md:grid-cols-[0.9fr_1.1fr] md:gap-16">
+      {/* Sticky stage (desktop): all robots stacked, active one visible */}
+      <div class="hidden md:block">
+        <div class="sticky top-28 grid h-[calc(100vh-14rem)] place-items-center">
+          <div class="stage-blob" aria-hidden="true"></div>
+          {
+            i.services.items.map((item, idx) => (
+              <img
+                data-stage-img
+                src={item.image}
+                alt={item.imageAlt || item.name}
+                class="stage-img"
+                style={idx === 0 ? "opacity:1" : "opacity:0"}
+                loading="lazy"
+                decoding="async"
+              />
+            ))
+          }
+        </div>
+      </div>
+
+      {/* Scrolling service blocks */}
+      <div>
+        {
+          i.services.items.map((item, idx) => {
+            const proofClass =
+              "mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-primary-deep hover:text-primary";
+            return (
+              <div data-stage-block data-idx={idx} class="stage-block flex flex-col justify-center py-10 md:min-h-[52vh] md:py-0">
+                <img
+                  src={item.image}
+                  alt={item.imageAlt || item.name}
+                  class="mb-6 max-h-48 w-auto self-center md:hidden"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <p class="font-mono text-xs font-semibold tracking-[0.14em] text-band-strong">
+                  {String(idx + 1).padStart(2, "0")}
+                </p>
+                <h3 class="mt-2 text-2xl font-bold tracking-tight text-ink md:text-3xl">{item.name}</h3>
+                <p class="mt-3 max-w-[52ch] text-[15px] leading-relaxed text-muted md:text-base">{item.text}</p>
+                {item.id === "chat" ? (
+                  <button type="button" data-open-chat class:list={[proofClass, "self-start text-left"]}>
+                    {item.proofLabel}
+                    <Icon name="message-circle" class="h-3.5 w-3.5 flex-none" />
+                  </button>
+                ) : item.proofHref ? (
+                  <a href={item.proofHref} target="_blank" rel="noopener" class:list={[proofClass, "self-start"]}>
+                    {item.proofLabel}
+                    <Icon name="external-link" class="h-3.5 w-3.5 flex-none" />
+                  </a>
+                ) : (
+                  <p class="mt-5 text-sm font-medium text-muted">{item.proofLabel}</p>
+                )}
+              </div>
+            );
+          })
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .stage-blob {
+    position: absolute;
+    inset: 18%;
+    border-radius: 50%;
+    background: radial-gradient(circle at 45% 40%, var(--color-band), transparent 70%);
+    filter: blur(40px);
+  }
+
+  .stage-img {
+    grid-area: 1 / 1;
+    position: relative;
+    max-height: min(56vh, 26rem);
+    width: auto;
+    transition: opacity 0.55s ease;
+    filter: drop-shadow(0 22px 32px color-mix(in srgb, var(--color-dark) 22%, transparent));
+  }
+
+  @media (min-width: 768px) {
+    .stage-block {
+      opacity: 0.35;
+      transition: opacity 0.3s ease;
+    }
+
+    .stage-block.is-active {
+      opacity: 1;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .stage-img,
+    .stage-block {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-stage-root]").forEach((root) => {
+    const imgs = [...root.querySelectorAll<HTMLElement>("[data-stage-img]")];
+    const blocks = [...root.querySelectorAll<HTMLElement>("[data-stage-block]")];
+
+    const activate = (idx: number) => {
+      imgs.forEach((img, j) => {
+        img.style.opacity = j === idx ? "1" : "0";
+      });
+      blocks.forEach((block, j) => block.classList.toggle("is-active", j === idx));
+    };
+
+    // A block becomes active when it crosses the middle band of the viewport.
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) activate(Number((entry.target as HTMLElement).dataset.idx));
+        });
+      },
+      { rootMargin: "-45% 0px -45% 0px" }
+    );
+    blocks.forEach((block) => io.observe(block));
+    activate(0);
+  });
+</script>
