@@ -18,9 +18,16 @@ const i = getCompanyHome(locale);
 const rows = [{ label: "Intro" }, ...i.services.items.map((item) => ({ label: item.name }))];
 ---
 
-{/* pt-[51px] = exact height of the fixed top bar (24px logo + 2x12px padding + 3px border) */}
-<section id="uslugi" data-hero-root class="flex scroll-mt-[51px] flex-col bg-offwhite pt-[51px] lg:min-h-[100svh]">
-  <div class="grid flex-1 lg:grid-cols-[3fr_2fr]">
+{/* Desktop: the wrapper is one viewport per index entry; the hero pins inside
+    it and scroll walks the index (sentinels + IO, no wheel hijack). After the
+    last entry the pin releases and the page scrolls on. Mobile: no pinning. */}
+<section id="uslugi" data-hero-root class="relative scroll-mt-[51px] lg:h-[600svh]">
+  <div class="pointer-events-none absolute inset-x-0 top-0 hidden lg:block" aria-hidden="true">
+    {rows.map((_, idx) => <div data-hero-sentinel data-idx={idx} class="h-[100svh]" />)}
+  </div>
+  {/* pt-[51px] = exact height of the fixed top bar (24px logo + 2x12px padding + 3px border) */}
+  <div class="flex flex-col bg-offwhite pt-[51px] lg:sticky lg:top-0 lg:h-[100svh]">
+  <div class="grid flex-1 lg:min-h-0 lg:grid-cols-[3fr_2fr]">
     {/* Left: the swapping panel (Intro by default) + the persistent CTA */}
     <div
       class="flex flex-col items-start justify-center gap-7 px-6 py-16 md:py-20 lg:gap-8 lg:border-r-[3px] lg:border-ink lg:px-10"
@@ -118,6 +125,7 @@ const rows = [{ label: "Intro" }, ...i.services.items.map((item) => ({ label: it
       ))
     }
   </ul>
+  </div>
 </section>
 
 <style>
@@ -154,17 +162,44 @@ const rows = [{ label: "Intro" }, ...i.services.items.map((item) => ({ label: it
     const host = root.querySelector<HTMLElement>("[data-hero-panels]")!;
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
-    const activate = (idx: number, scroll: boolean) => {
+    const sentinels = [...root.querySelectorAll<HTMLElement>("[data-hero-sentinel]")];
+    const pinned = window.matchMedia("(min-width: 1024px)").matches;
+
+    const activate = (idx: number) => {
       tabs.forEach((tab, j) => tab.setAttribute("aria-current", j === idx ? "true" : "false"));
       panels.forEach((panel) => {
         panel.hidden = Number(panel.dataset.idx) !== idx;
       });
-      // On mobile the index sits below the panel — bring the swapped content back into view.
-      if (scroll) host.scrollIntoView({ block: "nearest", behavior: reducedMotion.matches ? "auto" : "smooth" });
     };
 
+    // Clicking a row jumps the scroll position to that entry's sentinel, so
+    // click and scroll stay one mechanism on desktop; mobile swaps in place.
+    const goTo = (idx: number) => {
+      if (pinned) {
+        const top = root.getBoundingClientRect().top + window.scrollY + idx * window.innerHeight + 8;
+        window.scrollTo({ top, behavior: reducedMotion.matches ? "auto" : "smooth" });
+      } else {
+        activate(idx);
+        host.scrollIntoView({ block: "nearest", behavior: reducedMotion.matches ? "auto" : "smooth" });
+      }
+    };
+
+    if (pinned) {
+      // Scroll drives the index: a sentinel crossing the viewport's middle
+      // band activates its entry (no wheel hijack, native scrolling only).
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) activate(Number((entry.target as HTMLElement).dataset.idx));
+          });
+        },
+        { rootMargin: "-45% 0px -45% 0px" }
+      );
+      sentinels.forEach((sentinel) => io.observe(sentinel));
+    }
+
     tabs.forEach((tab, idx) => {
-      tab.addEventListener("click", () => activate(idx, true));
+      tab.addEventListener("click", () => goTo(idx));
       tab.addEventListener("keydown", (event) => {
         const delta =
           event.key === "ArrowDown" || event.key === "ArrowRight"
@@ -176,8 +211,9 @@ const rows = [{ label: "Intro" }, ...i.services.items.map((item) => ({ label: it
         event.preventDefault();
         const next = (idx + delta + tabs.length) % tabs.length;
         tabs[next].focus();
-        activate(next, false);
+        goTo(next);
       });
     });
+    activate(0);
   });
 </script>
