@@ -24,7 +24,7 @@ const companyHome = {
     meta: {
       title: "AwesomeWorks | Agenci AI i oprogramowanie na zamówienie",
       description:
-        "Polski software house od agentów AI: agenci głosowi i konwersacyjni, dedykowane oprogramowanie i szkolenia AI. Trzy własne produkty na produkcji. Odpowiadamy w 24 h.",
+        "Polski software house od agentów AI: agenci głosowi i konwersacyjni, dedykowane oprogramowanie i szkolenia AI. Trzy własne produkty na produkcji. Darmowy audyt AI na start.",
       socialDescription:
         "Polski software house od agentów AI. Agenci głosowi, konwersacyjni, dedykowany software i szkolenia. Trzy własne produkty na produkcji.",
       ogImageAlt: "AwesomeWorks: agenci AI i oprogramowanie na zamówienie",
@@ -38,13 +38,13 @@ const companyHome = {
         { id: "faq", label: "FAQ", href: "#faq" },
       ],
       reviewsLink: { id: "opinie", label: "Opinie", href: "#opinie" },
-      cta: "Porozmawiajmy",
+      cta: "Darmowy audyt AI",
     },
     hero: {
       title: "Agenci AI i oprogramowanie na zamówienie",
       subtitle:
-        "Projektujemy i utrzymujemy agentów głosowych, konwersacyjnych i dedykowany software. Trzy własne produkty działają na produkcji.",
-      primaryCta: "Porozmawiajmy",
+        "Projektujemy i utrzymujemy agentów głosowych, konwersacyjnych i dedykowany software. Zacznij od darmowego audytu AI twojej firmy.",
+      primaryCta: "Darmowy audyt AI",
       secondaryCta: "Zobacz produkty",
       liveLabel: "na produkcji",
       mainShotAlt: "CallWise: panel analizy rozmów sprzedażowych",
@@ -165,7 +165,7 @@ const companyHome = {
           text: "Po starcie zostajemy: monitorujemy, poprawiamy i rozwijamy. Tak samo dbamy o własne produkty.",
         },
       ],
-      cta: "Porozmawiajmy",
+      cta: "Darmowy audyt AI",
     },
     reviews: {
       eyebrow: "opinie",
@@ -177,6 +177,10 @@ const companyHome = {
     faq: {
       title: "Pytania przed decyzją",
       items: [
+        {
+          q: "Na czym polega darmowy audyt AI?",
+          a: "To krótka analiza twoich procesów: sprawdzamy, gdzie powtarzalna praca zjada czas zespołu i co realnie przejmie agent albo automatyzacja. Kończy się listą konkretnych rekomendacji, za którą nic nie płacisz.",
+        },
         {
           q: "Ile kosztuje wdrożenie agenta albo projektu?",
           a: "Koszt zależy od zakresu: liczby procesów, integracji i tego, czy budujemy od zera, czy na twoich systemach. Po pierwszej rozmowie dostajesz wycenę z konkretnym zakresem i harmonogramem, zanim podejmiesz jakąkolwiek decyzję.",
@@ -205,13 +209,13 @@ const companyHome = {
     },
     contact: {
       eyebrow: "kontakt",
-      title: "Porozmawiajmy o twoim projekcie",
+      title: "Zacznij od darmowego audytu AI",
       subtitle: "Napisz, z czym przychodzisz. Wrócimy z konkretnymi pytaniami, nie z gotową ofertą z szablonu.",
       nextTitle: "Co dalej",
       next: [
         "Odpowiadamy w ciągu 24 godzin.",
-        "Umawiamy krótką rozmowę o twojej potrzebie.",
-        "Dostajesz plan i wycenę.",
+        "Robimy darmowy audyt AI: patrzymy na twoje procesy i wskazujemy, co przejmie agent albo automatyzacja.",
+        "Dostajesz plan i wycenę wdrożenia.",
       ],
       altLabel: "Wolisz maila?",
       email: "hello@awesomeworks.ai",
@@ -274,7 +278,7 @@ const companyHome = {
       replies: [
         "Jestem wersją pokazową, więc nie odpowiem sensownie na to pytanie. Człowiek odpowie w 24 godziny: zostaw kontakt w formularzu.",
         "Produkcyjna wersja takiego agenta odpowiedziałaby z twojej bazy wiedzy. Napisz do nas przez formularz, pokażemy jak.",
-        "Tu kończy się demo, a zaczyna rozmowa z człowiekiem. Kliknij Porozmawiajmy albo napisz na hello@awesomeworks.ai.",
+        "Tu kończy się demo, a zaczyna rozmowa z człowiekiem. Umów darmowy audyt przez formularz albo napisz na hello@awesomeworks.ai.",
         "Nie mam dostępu do wiedzy o twojej sprawie, jestem tylko pokazem interfejsu. Formularz na dole strony trafia prosto do zespołu.",
         "Takiego agenta, tylko podpiętego do twoich danych, wdrażamy u klientów. Zostaw kontakt, opowiemy o szczegółach.",
         "Rozumiem mniej, niż udaję. Prawdziwy projekt zaczyna się od rozmowy: zostaw kontakt w formularzu, odezwiemy się w 24 godziny.",
@@ -285,7 +289,7 @@ const companyHome = {
     meta: {
       title: "AwesomeWorks | AI agents and custom software",
       description:
-        "Polish software house building AI agents: voice and chat agents, custom software, and AI training. Three in-house products in production. We reply within 24 hours.",
+        "Polish software house building AI agents: voice and chat agents, custom software, and AI training. Three in-house products in production. Start with a free AI audit.",
       socialDescription:
         "Polish software house building AI agents. Voice agents, chat agents, custom software, and training. Three in-house products in production.",
       ogImageAlt: "AwesomeWorks: AI agents and custom software",
@@ -299,13 +303,13 @@ const companyHome = {
         { id: "faq", label: "FAQ", href: "#faq" },
       ],
       reviewsLink: { id: "opinie", label: "Reviews", href: "#opinie" },
-      cta: "Let's talk",
+      cta: "Free AI audit",
     },
     hero: {
       title: "AI agents and custom software",
       subtitle:
-        "We design and run voice agents, chat agents, and custom software. Three of our own products run in production.",
-      primaryCta: "Let's talk",
+        "We design and run voice agents, chat agents, and custom software. Start with a free AI audit of your company.",
+      primaryCta: "Free AI audit",
       secondaryCta: "See our products",
       liveLabel: "in production",
       mainShotAlt: "CallWise: sales call analysis dashboard",
@@ -426,7 +430,7 @@ const companyHome = {
           text: "After launch we stay: we monitor, fix, and keep building, the same way we care for our own products.",
         },
       ],
-      cta: "Let's talk",
+      cta: "Free AI audit",
     },
     reviews: {
       eyebrow: "reviews",
@@ -438,6 +442,10 @@ const companyHome = {
     faq: {
       title: "Questions before you decide",
       items: [
+        {
+          q: "What does the free AI audit cover?",
+          a: "A short analysis of your processes: we check where repetitive work eats your team's time and what an agent or automation can realistically take over. It ends with a list of concrete recommendations, and you pay nothing for it.",
+        },
         {
           q: "How much does an agent or a project cost?",
           a: "The cost depends on scope: the number of processes, integrations, and whether we build from scratch or on top of your systems. After the first call you get a quote with a concrete scope and timeline, before you decide anything.",
@@ -466,12 +474,12 @@ const companyHome = {
     },
     contact: {
       eyebrow: "contact",
-      title: "Let's talk about your project",
+      title: "Start with a free AI audit",
       subtitle: "Tell us what brings you here. We will come back with concrete questions, not a templated offer.",
       nextTitle: "What happens next",
       next: [
         "We reply within 24 hours.",
-        "We set up a short call about what you need.",
+        "We run a free AI audit: we look at your processes and point out what an agent or automation can take over.",
         "You get a plan and a quote.",
       ],
       altLabel: "Prefer email?",
@@ -535,7 +543,7 @@ const companyHome = {
       replies: [
         "I am a demo, so I will not answer that question well. A human will, within 24 hours: leave your details in the form.",
         "The production version of this agent would answer from your knowledge base. Reach us through the form and we will show you how.",
-        "This is where the demo ends and a human conversation starts. Click Let's talk or email hello@awesomeworks.ai.",
+        "This is where the demo ends and a human conversation starts. Book the free AI audit through the form or email hello@awesomeworks.ai.",
         "I have no access to your case, I am just a preview of the interface. The form at the bottom of the page goes straight to the team.",
         "We deploy agents like this one, wired to your data, for clients. Leave your details and we will walk you through it.",
         "I understand less than I pretend to. Real projects start with a conversation: leave your details in the form and we reply within 24 hours.",
