@@ -147,11 +147,11 @@ summary::-webkit-details-marker {
   }
 
   .svc-wrap-left .svc-art {
-    right: max(7rem, 19%);
+    right: max(9rem, 26%);
   }
 
   .svc-wrap-right .svc-art {
-    left: max(7rem, 19%);
+    left: max(6rem, 16%);
   }
 }
 
