@@ -41,7 +41,7 @@ const companyHome = {
       cta: "Darmowy audyt AI",
     },
     hero: {
-      title: "Agenci AI i oprogramowanie na zamówienie",
+      title: "Systemy AI dla biznesu.",
       subtitle:
         "Projektujemy i utrzymujemy agentów głosowych, konwersacyjnych i dedykowany software. Zacznij od darmowego audytu AI twojej firmy.",
       primaryCta: "Darmowy audyt AI",
@@ -306,7 +306,7 @@ const companyHome = {
       cta: "Free AI audit",
     },
     hero: {
-      title: "AI agents and custom software",
+      title: "AI systems for business.",
       subtitle:
         "We design and run voice agents, chat agents, and custom software. Start with a free AI audit of your company.",
       primaryCta: "Free AI audit",
