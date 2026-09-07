@@ -49,7 +49,7 @@ const companyHome = {
       liveLabel: "na produkcji",
       mainShotAlt: "CallWise: panel analizy rozmów sprzedażowych",
       chipShotAlt: "odbiera.ai: strona AI recepcjonistki głosowej",
-      trust: ["100% polska firma", "3 własne produkty na produkcji", "wdrożenia u płacących klientów"],
+      trust: ["100% polska firma", "działający system co sprint", "utrzymanie i rozwój po starcie"],
     },
     services: {
       title: "Co robimy",
@@ -109,7 +109,7 @@ const companyHome = {
     },
     products: {
       eyebrow: "produkty",
-      title: "Testujemy na sobie, zanim wdrożymy u ciebie",
+      title: "Przykładowe wdrożenia",
       subtitle: "Trzy produkty, które zbudowaliśmy i utrzymujemy in-house.",
       liveLabel: "na produkcji",
       items: [
@@ -314,7 +314,7 @@ const companyHome = {
       liveLabel: "in production",
       mainShotAlt: "CallWise: sales call analysis dashboard",
       chipShotAlt: "odbiera.ai: AI voice receptionist landing page",
-      trust: ["100% Polish company", "3 in-house products in production", "deployments with paying clients"],
+      trust: ["100% Polish company", "a working system every sprint", "maintenance and growth after launch"],
     },
     services: {
       title: "What we do",
@@ -374,7 +374,7 @@ const companyHome = {
     },
     products: {
       eyebrow: "products",
-      title: "We test things on ourselves before we ship them to you",
+      title: "Example deployments",
       subtitle: "Three products we built and run in-house.",
       liveLabel: "in production",
       items: [
