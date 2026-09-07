@@ -147,11 +147,11 @@ summary::-webkit-details-marker {
   }
 
   .svc-wrap-left .svc-art {
-    right: max(3rem, 7%);
+    right: max(5rem, 13%);
   }
 
   .svc-wrap-right .svc-art {
-    left: max(3rem, 7%);
+    left: max(5rem, 13%);
   }
 }
 
@@ -178,12 +178,12 @@ summary::-webkit-details-marker {
 
   /* Align content to the page grid (max-w-6xl = 72rem) on the flush side. */
   .svc-left .svc-inner {
-    padding-left: max(2.5rem, calc((100vw - 72rem) / 2 + 1.5rem));
+    padding-left: max(4rem, calc((100vw - 72rem) / 2 + 5rem));
     padding-right: 3.5rem;
   }
 
   .svc-right .svc-inner {
-    padding-right: max(2.5rem, calc((100vw - 72rem) / 2 + 1.5rem));
+    padding-right: max(4rem, calc((100vw - 72rem) / 2 + 5rem));
     padding-left: 3.5rem;
   }
 }
