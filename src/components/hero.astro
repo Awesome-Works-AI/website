@@ -67,9 +67,13 @@ const rows = [{ label: "Intro" }, ...i.services.items.map((item) => ({ label: it
                   <p class="text-base font-bold text-ink">{item.proofLabel}</p>
                 )}
               </div>
-              <div class="hidden border-[3px] border-ink bg-white p-4 lg:block">
-                <img src={item.image} alt={item.imageAlt} class="h-44 w-auto" loading="lazy" decoding="async" />
-              </div>
+              <img
+                src={item.image}
+                alt={item.imageAlt}
+                class="hidden h-64 w-auto lg:block xl:h-72"
+                loading="lazy"
+                decoding="async"
+              />
             </div>
           ))
         }
