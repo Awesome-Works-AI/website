@@ -41,14 +41,12 @@ const companyHome = {
       cta: "Darmowy audyt AI",
     },
     hero: {
+      eyebrow: "// software house od agentów AI",
       title: "Systemy AI dla biznesu.",
       subtitle:
         "Projektujemy i utrzymujemy agentów głosowych, konwersacyjnych i dedykowany software. Zacznij od darmowego audytu AI twojej firmy.",
       primaryCta: "Darmowy audyt AI",
       secondaryCta: "Zobacz produkty",
-      liveLabel: "na produkcji",
-      mainShotAlt: "CallWise: panel analizy rozmów sprzedażowych",
-      chipShotAlt: "odbiera.ai: strona AI recepcjonistki głosowej",
       trust: ["100% polska firma", "działający system co sprint", "utrzymanie i rozwój po starcie"],
     },
     services: {
@@ -306,14 +304,12 @@ const companyHome = {
       cta: "Free AI audit",
     },
     hero: {
+      eyebrow: "// software house building AI agents",
       title: "AI systems for business.",
       subtitle:
         "We design and run voice agents, chat agents, and custom software. Start with a free AI audit of your company.",
       primaryCta: "Free AI audit",
       secondaryCta: "See our products",
-      liveLabel: "in production",
-      mainShotAlt: "CallWise: sales call analysis dashboard",
-      chipShotAlt: "odbiera.ai: AI voice receptionist landing page",
       trust: ["100% Polish company", "a working system every sprint", "maintenance and growth after launch"],
     },
     services: {

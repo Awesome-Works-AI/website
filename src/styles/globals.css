@@ -237,62 +237,15 @@ summary::-webkit-details-marker {
   animation: pulse-dot 2.2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
-/* ============================================================
- * Hero backdrop — drifting accent glow blobs behind the shots.
- * ============================================================ */
-
-.hero-blob {
-  border-radius: 50%;
-  filter: blur(64px);
-  animation: hero-blob-drift 26s ease-in-out infinite alternate;
-}
-
-@keyframes hero-blob-drift {
-  from {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-  to {
-    transform: translate3d(28px, -20px, 0) scale(1.08);
-  }
-}
-
-/* Hero asset parallax: the main shot drifts slower than the chip.
+/* Product shot parallax: a gentle scroll-driven drift.
  * CSS scroll-driven only; browsers without support stay static. */
 @supports (animation-timeline: view()) {
   @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
-    .hero-parallax-slow {
-      animation: hero-drift-slow linear both;
-      animation-timeline: view();
-      animation-range: entry 0% exit 100%;
-    }
-    .hero-parallax-fast {
-      animation: hero-drift-fast linear both;
-      animation-timeline: view();
-      animation-range: entry 0% exit 100%;
-    }
     .product-shot-drift {
       animation: product-drift linear both;
       animation-timeline: view();
       animation-range: entry 0% exit 100%;
     }
-  }
-}
-
-@keyframes hero-drift-slow {
-  from {
-    transform: translateY(14px);
-  }
-  to {
-    transform: translateY(-14px);
-  }
-}
-
-@keyframes hero-drift-fast {
-  from {
-    transform: translateY(30px);
-  }
-  to {
-    transform: translateY(-30px);
   }
 }
 
@@ -483,9 +436,6 @@ summary::-webkit-details-marker {
   .btn-dot::after {
     animation: none;
     opacity: 0;
-  }
-  .hero-blob {
-    animation: none !important;
   }
   .animate-on-scroll {
     opacity: 1;
