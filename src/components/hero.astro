@@ -21,9 +21,9 @@ const rows = [{ label: "Intro" }, ...i.services.items.map((item) => ({ label: it
 {/* Desktop: the wrapper is one viewport per index entry; the hero pins inside
     it and scroll walks the index (sentinels + IO, no wheel hijack). After the
     last entry the pin releases and the page scrolls on. Mobile: no pinning. */}
-<section id="uslugi" data-hero-root class="relative scroll-mt-[51px] lg:h-[600svh]">
+<section id="uslugi" data-hero-root class="relative scroll-mt-[51px] lg:h-[350svh]">
   <div class="pointer-events-none absolute inset-x-0 top-0 hidden lg:block" aria-hidden="true">
-    {rows.map((_, idx) => <div data-hero-sentinel data-idx={idx} class="h-[100svh]" />)}
+    {rows.map((_, idx) => <div data-hero-sentinel data-idx={idx} class="h-[50svh]" />)}
   </div>
   {/* pt-[51px] = exact height of the fixed top bar (24px logo + 2x12px padding + 3px border) */}
   <div class="flex flex-col bg-offwhite pt-[51px] lg:sticky lg:top-0 lg:h-[100svh]">
@@ -176,7 +176,9 @@ const rows = [{ label: "Intro" }, ...i.services.items.map((item) => ({ label: it
     // click and scroll stay one mechanism on desktop; mobile swaps in place.
     const goTo = (idx: number) => {
       if (pinned) {
-        const top = root.getBoundingClientRect().top + window.scrollY + idx * window.innerHeight + 8;
+        // Half-viewport steps; land the target sentinel's center in the IO band.
+        const rootTop = root.getBoundingClientRect().top + window.scrollY;
+        const top = Math.max(rootTop, rootTop + (idx * 0.5 - 0.25) * window.innerHeight + 8);
         window.scrollTo({ top, behavior: reducedMotion.matches ? "auto" : "smooth" });
       } else {
         activate(idx);
