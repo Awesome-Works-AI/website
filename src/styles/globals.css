@@ -127,8 +127,32 @@ summary::-webkit-details-marker {
 }
 
 /* The next ribbon rides up under the previous one's slanted edge. */
-.svc-panel + .svc-panel {
+.svc-wrap + .svc-wrap {
   margin-top: calc(0.75rem - var(--slant));
+}
+
+/* Artwork layer — bigger than its ribbon, spilling over the neighbours.
+ * Lives outside the clipped panel; z-index lifts it above every ribbon
+ * in the rail, drop-shadow separates it from whichever scheme it crosses. */
+@media (min-width: 768px) {
+  .svc-art {
+    position: absolute;
+    top: 50%;
+    z-index: 10;
+    height: min(128%, 26rem);
+    width: auto;
+    transform: translateY(-50%);
+    pointer-events: none;
+    filter: drop-shadow(0 22px 32px color-mix(in srgb, var(--color-dark) 28%, transparent));
+  }
+
+  .svc-wrap-left .svc-art {
+    right: max(3rem, 7%);
+  }
+
+  .svc-wrap-right .svc-art {
+    left: max(3rem, 7%);
+  }
 }
 
 .svc-blue {

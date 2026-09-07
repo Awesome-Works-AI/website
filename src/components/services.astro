@@ -28,20 +28,36 @@ const i = getCompanyHome(locale);
   <div class="mt-10 md:mt-12">
     {
       i.services.items.map((item, idx) => {
-        const fromLeft = idx % 2 === 0;
-        const onBlue = fromLeft;
+        // Sides and schemes are decoupled on purpose: the artwork robots face
+        // inward with this anchoring, while blue still opens the rail.
+        const fromLeft = idx % 2 === 1;
+        const onBlue = idx % 2 === 0;
         const proofInteractive = onBlue
           ? "mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-white underline decoration-white/40 underline-offset-4 hover:decoration-white"
           : "mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-primary-deep hover:text-primary";
         return (
           <article
-            class:list={[
-              "svc-panel animate-on-scroll",
-              fromLeft ? "svc-left" : "svc-right",
-              onBlue ? "svc-blue" : "svc-light",
-            ]}
+            class:list={["svc-wrap animate-on-scroll relative", fromLeft ? "svc-wrap-left" : "svc-wrap-right"]}
           >
-            <div class="svc-inner md:grid md:grid-cols-[1.1fr_0.9fr] md:items-center md:gap-12">
+            {/* Desktop artwork sits OUTSIDE the clipped panel so it can spill
+                over the neighbouring ribbons (clip-path would cut it inside). */}
+            {item.image && (
+              <img
+                src={item.image}
+                alt={item.imageAlt || item.name}
+                class="svc-art hidden md:block"
+                loading="lazy"
+                decoding="async"
+              />
+            )}
+            <div
+              class:list={[
+                "svc-panel",
+                fromLeft ? "svc-left" : "svc-right",
+                onBlue ? "svc-blue" : "svc-light",
+              ]}
+            >
+              <div class="svc-inner md:grid md:grid-cols-[1.05fr_0.95fr] md:items-center md:gap-12">
               <div class:list={[!fromLeft && "md:order-2"]}>
                 <h3 class:list={["text-xl font-bold tracking-tight md:text-2xl", onBlue ? "text-white" : "text-ink"]}>
                   {item.name}
@@ -75,9 +91,11 @@ const i = getCompanyHome(locale);
                   </p>
                 )}
               </div>
+              {/* Mobile keeps the artwork in flow (inside the clip); on md+ the
+                  spacer column reserves room under the absolute artwork. */}
               <div
                 class:list={[
-                  "mt-8 flex items-center justify-center md:mt-0",
+                  "mt-8 flex items-center justify-center md:mt-0 md:min-h-[14rem]",
                   !fromLeft && "md:order-1",
                   onBlue ? "text-white/80" : "text-primary",
                 ]}
@@ -86,13 +104,14 @@ const i = getCompanyHome(locale);
                   <img
                     src={item.image}
                     alt={item.imageAlt || item.name}
-                    class="max-h-56 w-auto md:max-h-64"
+                    class="max-h-56 w-auto md:hidden"
                     loading="lazy"
                     decoding="async"
                   />
                 ) : (
                   <Icon name={item.icon} class="h-16 w-16 md:h-20 md:w-20" />
                 )}
+              </div>
               </div>
             </div>
           </article>
