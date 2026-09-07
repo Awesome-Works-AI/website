@@ -1,0 +1,176 @@
+---
+// Services, variant C ("interactive scene"): one big slanted stage. Service
+// names sit as a vertical list on the left; picking one swaps the robot
+// (crossfade) and the description on the stage. Whole section ≈ one viewport.
+// Mobile: the list becomes a horizontally scrollable chip row above the stage.
+import Icon from "@/components/icon.astro";
+import { getCompanyHome } from "@/data/company-home";
+import type { Locale } from "@/i18n/utils";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const i = getCompanyHome(locale);
+---
+
+<section id="uslugi-c" class="scroll-mt-24 overflow-x-clip bg-white py-20 md:py-24">
+  <div class="mx-auto max-w-6xl px-6">
+    <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-band-strong">[ wariant C · interaktywna scena ]</p>
+    <div class="animate-on-scroll mt-3">
+      <h2 class="text-3xl font-bold tracking-tight text-ink md:text-4xl">{i.services.title}</h2>
+      <p class="mt-3 max-w-[60ch] text-base leading-relaxed text-muted md:text-lg">{i.services.subtitle}</p>
+    </div>
+  </div>
+
+  <div data-scene-root class="scene mt-10 md:mt-12">
+    <div class="mx-auto grid max-w-6xl gap-6 px-6 lg:grid-cols-[0.4fr_0.6fr] lg:items-center lg:gap-12">
+      {/* Service picker */}
+      <div class="scene-list flex gap-2 overflow-x-auto pb-2 lg:flex-col lg:gap-1 lg:overflow-visible lg:pb-0" role="list">
+        {
+          i.services.items.map((item, idx) => (
+            <button
+              type="button"
+              data-scene-tab
+              data-idx={idx}
+              aria-current={idx === 0 ? "true" : "false"}
+              class="scene-tab flex flex-none items-baseline gap-3 rounded-full px-4 py-2.5 text-left lg:rounded-xl lg:px-4 lg:py-3"
+            >
+              <span class="font-mono text-[11px] font-semibold tracking-[0.12em]">{String(idx + 1).padStart(2, "0")}</span>
+              <span class="text-[15px] font-semibold tracking-tight lg:text-lg">{item.name}</span>
+            </button>
+          ))
+        }
+      </div>
+
+      {/* Stage: robot crossfade + per-service description */}
+      <div class="grid gap-6 lg:grid-cols-[auto_1fr] lg:items-center lg:gap-10">
+        <div class="scene-stage grid place-items-center">
+          {
+            i.services.items.map((item, idx) => (
+              <img
+                data-scene-img
+                src={item.image}
+                alt={item.imageAlt || item.name}
+                class="scene-img"
+                style={idx === 0 ? "opacity:1" : "opacity:0"}
+                loading="lazy"
+                decoding="async"
+              />
+            ))
+          }
+        </div>
+        <div class="scene-panels">
+          {
+            i.services.items.map((item, idx) => {
+              const proofClass =
+                "mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-white underline decoration-white/40 underline-offset-4 hover:decoration-white";
+              return (
+                <div data-scene-panel data-idx={idx} hidden={idx !== 0}>
+                  <p class="max-w-[46ch] text-[15px] leading-relaxed text-white/90 md:text-base">{item.text}</p>
+                  {item.id === "chat" ? (
+                    <button type="button" data-open-chat class:list={[proofClass, "text-left"]}>
+                      {item.proofLabel}
+                      <Icon name="message-circle" class="h-3.5 w-3.5 flex-none" />
+                    </button>
+                  ) : item.proofHref ? (
+                    <a href={item.proofHref} target="_blank" rel="noopener" class={proofClass}>
+                      {item.proofLabel}
+                      <Icon name="external-link" class="h-3.5 w-3.5 flex-none" />
+                    </a>
+                  ) : (
+                    <p class="mt-5 text-sm font-medium text-white/80">{item.proofLabel}</p>
+                  )}
+                </div>
+              );
+            })
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* The stage is a family diagonal band: slanted top and bottom, blue ramp. */
+  .scene {
+    clip-path: polygon(0 0, 100% var(--slant), 100% 100%, 0 calc(100% - var(--slant)));
+    padding-top: calc(var(--slant) + 2.5rem);
+    padding-bottom: calc(var(--slant) + 2.5rem);
+    background-image: linear-gradient(120deg, var(--color-primary) 0%, var(--color-primary-deep) 85%);
+  }
+
+  .scene-tab {
+    color: rgb(255 255 255 / 0.65);
+    transition: color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+  }
+
+  .scene-tab:hover {
+    color: #ffffff;
+  }
+
+  .scene-tab[aria-current="true"] {
+    background: rgb(255 255 255 / 0.12);
+    color: #ffffff;
+  }
+
+  @media (min-width: 1024px) {
+    .scene-tab[aria-current="true"] {
+      transform: translateX(6px);
+    }
+  }
+
+  .scene-stage {
+    min-height: 15rem;
+  }
+
+  .scene-img {
+    grid-area: 1 / 1;
+    max-height: min(42vh, 19rem);
+    width: auto;
+    transition: opacity 0.45s ease;
+    filter: drop-shadow(0 22px 32px rgb(0 0 0 / 0.35));
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .scene-tab,
+    .scene-img {
+      transition: none;
+    }
+
+    .scene-tab[aria-current="true"] {
+      transform: none;
+    }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-scene-root]").forEach((root) => {
+    const tabs = [...root.querySelectorAll<HTMLButtonElement>("[data-scene-tab]")];
+    const imgs = [...root.querySelectorAll<HTMLElement>("[data-scene-img]")];
+    const panels = [...root.querySelectorAll<HTMLElement>("[data-scene-panel]")];
+
+    const activate = (idx: number) => {
+      tabs.forEach((tab, j) => tab.setAttribute("aria-current", j === idx ? "true" : "false"));
+      imgs.forEach((img, j) => {
+        img.style.opacity = j === idx ? "1" : "0";
+      });
+      panels.forEach((panel, j) => {
+        panel.hidden = j !== idx;
+      });
+    };
+
+    tabs.forEach((tab, idx) => {
+      tab.addEventListener("click", () => activate(idx));
+      tab.addEventListener("keydown", (event) => {
+        const delta = event.key === "ArrowDown" || event.key === "ArrowRight" ? 1 : event.key === "ArrowUp" || event.key === "ArrowLeft" ? -1 : 0;
+        if (!delta) return;
+        event.preventDefault();
+        const next = (idx + delta + tabs.length) % tabs.length;
+        tabs[next].focus();
+        activate(next);
+      });
+    });
+  });
+</script>

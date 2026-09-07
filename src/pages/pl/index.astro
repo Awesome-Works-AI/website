@@ -10,6 +10,7 @@ import Products from "@/components/products.astro";
 import Reviews from "@/components/reviews.astro";
 import ServicesSticky from "@/components/services-sticky.astro";
 import ServicesCascade from "@/components/services-cascade.astro";
+import ServicesScene from "@/components/services-scene.astro";
 import { getCompanyHome } from "@/data/company-home";
 import { fetchGoogleReviews } from "@/data/google-reviews";
 import Base from "@/layouts/base.astro";
@@ -36,6 +37,7 @@ const hasReviews = (placeInfo?.reviews.length ?? 0) > 0;
     <Hero locale={locale} />
     <ServicesSticky locale={locale} />
     <ServicesCascade locale={locale} />
+    <ServicesScene locale={locale} />
     <Products locale={locale} />
     <Process locale={locale} />
     {hasReviews && placeInfo && <Reviews locale={locale} placeInfo={placeInfo} />}
