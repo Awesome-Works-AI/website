@@ -14,8 +14,6 @@ interface Props {
   ogImage?: string;
   socialDescription?: string;
   includeFaqSchema?: boolean;
-  /** Image URLs to preload (LCP: the hero product shot). */
-  preloadImages?: string[];
 }
 
 const {
@@ -25,7 +23,6 @@ const {
   ogImage,
   socialDescription,
   includeFaqSchema = false,
-  preloadImages = [],
 } = Astro.props;
 const altLocale = locale === "en" ? "pl" : "en";
 const siteBase = Astro.site?.href ?? "https://awesomeworks.ai";
@@ -195,8 +192,6 @@ const faqJsonLd = includeFaqSchema
     <meta name="twitter:image:alt" content={ogImageAlt} />
 
     <link rel="image_src" href={ogImageAbsolute} />
-
-    {preloadImages.map((href) => <link rel="preload" as="image" href={href} fetchpriority="high" />)}
 
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />

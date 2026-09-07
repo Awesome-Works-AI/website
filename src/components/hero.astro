@@ -1,7 +1,9 @@
 ---
-// Hero: asymmetric split — display value prop left, real product shots right
-// (CallWise dominant + odbiera.ai chip with the semantic "live" square),
-// closed by the full-bleed ink trust strip. Only true facts, no invented numbers.
+// Hero (brutal blok): full-bleed two-column grid split by a 3px rule.
+// Left: display headline, subtext, one primary CTA with the hard shadow.
+// Right: a numbered index of the five services (rows anchor to #uslugi;
+// one row inverts to cobalt, the rest invert to ink on hover). Closed by
+// the full-bleed ink trust strip. Only true facts, no invented numbers.
 import Icon from "@/components/icon.astro";
 import { getCompanyHome } from "@/data/company-home";
 import type { Locale } from "@/i18n/utils";
@@ -12,72 +14,86 @@ interface Props {
 
 const { locale } = Astro.props;
 const i = getCompanyHome(locale);
-const mainShot = `/projects/callwise-${locale}.webp`;
-const chipShot = `/projects/odbiera-${locale}.webp`;
+// The single cobalt-inverted index row (visual accent, per the artboard).
+const accentIdx = 1;
 ---
 
-<section class="bg-offwhite">
-  <div class="mx-auto max-w-6xl px-6 pb-16 pt-24 md:pb-20 md:pt-28">
-    <div class="grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14">
-      <div>
-        <h1
-          class="font-display text-4xl uppercase leading-[0.98] tracking-tight text-ink [text-wrap:balance] md:text-6xl lg:text-7xl"
-        >
-          {i.hero.title}
-        </h1>
-        <p class="mt-6 max-w-[44ch] text-lg font-medium leading-normal text-ink">{i.hero.subtitle}</p>
-        <div class="mt-8 flex flex-wrap items-center gap-4">
-          <a href="#kontakt" class="btn-primary">
-            {i.hero.primaryCta}
-            <Icon name="arrow-right" class="h-4 w-4" />
-          </a>
-          <a href="#produkty" class="btn-ghost">{i.hero.secondaryCta}</a>
-        </div>
-      </div>
-
-      {/* Hero asset: real screenshots in hard 3px frames */}
-      <div class="relative mx-auto w-full max-w-[34rem] pb-10 pl-6 lg:mx-0 lg:max-w-none">
-        <div class="border-[3px] border-ink bg-white">
-          <img
-            src={mainShot}
-            alt={i.hero.mainShotAlt}
-            width="1280"
-            height="720"
-            class="aspect-[16/10] w-full object-cover object-top"
-            loading="eager"
-            fetchpriority="high"
-          />
-        </div>
-        <div class="absolute -bottom-2 left-0 w-[46%] border-[3px] border-ink bg-white">
-          <img
-            src={chipShot}
-            alt={i.hero.chipShotAlt}
-            width="1280"
-            height="720"
-            class="aspect-[16/9] w-full object-cover object-top"
-            loading="eager"
-          />
-          <p
-            class="flex items-center gap-2 border-t-[3px] border-ink px-3 py-2 text-[10px] font-bold uppercase tracking-[0.14em] text-ink"
-          >
-            <span class="status-dot"></span>
-            {i.hero.liveLabel}
-          </p>
-        </div>
-      </div>
+{/* pt-[51px] = exact height of the fixed top bar (24px logo + 2x12px padding + 3px border) */}
+<section class="flex flex-col bg-offwhite pt-[51px] lg:min-h-[100svh]">
+  <div class="grid flex-1 lg:grid-cols-[3fr_2fr]">
+    {/* Value prop: display headline + single primary CTA */}
+    <div
+      class="flex flex-col items-start justify-center gap-7 px-6 py-16 md:py-20 lg:gap-8 lg:border-r-[3px] lg:border-ink lg:px-10"
+    >
+      <h1
+        class="font-display text-5xl uppercase leading-[0.98] tracking-tight text-ink [text-wrap:balance] md:text-6xl lg:text-[clamp(4.5rem,6.4vw,5.75rem)]"
+      >
+        {i.hero.title}
+      </h1>
+      <p class="max-w-[44ch] text-lg font-medium leading-normal text-ink">{i.hero.subtitle}</p>
+      <a href="#kontakt" class="btn-primary">
+        {i.hero.primaryCta}
+        <Icon name="arrow-right" class="h-4 w-4" />
+      </a>
     </div>
+
+    {/* Service index: full-height rows divided by 3px rules, anchoring to #uslugi */}
+    <nav class="flex flex-col border-t-[3px] border-ink lg:border-t-0" aria-label={i.services.title}>
+      {
+        i.services.items.map((item, idx) => (
+          <a
+            href="#uslugi"
+            class:list={[
+              "hero-row flex flex-1 items-center gap-3 px-6 py-4 lg:gap-4 lg:px-8 lg:py-0",
+              idx < i.services.items.length - 1 && "border-b-[3px] border-ink",
+              idx === accentIdx && "hero-row-accent",
+            ]}
+          >
+            <span class="font-display text-base lg:text-lg" aria-hidden="true">
+              {String(idx + 1).padStart(2, "0")}
+            </span>
+            <span class="text-lg font-bold lg:text-xl">{item.name}</span>
+          </a>
+        ))
+      }
+    </nav>
   </div>
 
   {/* Trust strip: real facts only, full-bleed ink band */}
-  <div class="border-t-[3px] border-ink bg-ink">
-    <ul
-      class="mx-auto flex max-w-6xl flex-col px-6 py-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-10 sm:py-0"
-    >
-      {
-        i.hero.trust.map((fact) => (
-          <li class="py-1 text-xs font-bold uppercase tracking-[0.1em] text-offwhite sm:py-4">{fact}</li>
-        ))
-      }
-    </ul>
-  </div>
+  <ul class="flex flex-col border-t-[3px] border-ink bg-ink py-3 sm:flex-row sm:py-0">
+    {
+      i.hero.trust.map((fact) => (
+        <li class="px-6 py-1 text-xs font-bold uppercase tracking-[0.1em] text-offwhite sm:py-4 lg:px-10">
+          {fact}
+        </li>
+      ))
+    }
+  </ul>
 </section>
+
+<style>
+  /* Row states: idle white, hover inverts to ink; the accent row sits cobalt. */
+  .hero-row {
+    background: #ffffff;
+    color: var(--color-ink);
+    transition:
+      background 0.15s ease,
+      color 0.15s ease;
+  }
+
+  .hero-row:hover {
+    background: var(--color-ink);
+    color: #ffffff;
+  }
+
+  .hero-row-accent {
+    background: var(--color-cobalt);
+    color: #ffffff;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-row {
+      transition: none;
+    }
+  }
+</style>
