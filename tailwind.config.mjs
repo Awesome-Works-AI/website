@@ -1,29 +1,18 @@
 /** @type {import('tailwindcss').Config} */
-// Brand family tokens (shared with odbiera.ai): electric blue on offwhite,
-// navy ink, band tints for diagonal stripes. One palette for every page.
+// Brutal-block tokens: warm paper ground, near-black ink, one cobalt accent,
+// white for raised blocks. Four colors, no tints, no gradients.
 export default {
   content: ["./src/**/*.{astro,html,js,jsx,md,mdx,ts,tsx}"],
   theme: {
     extend: {
       colors: {
-        offwhite: "#F6F8FF",
-        ink: "#010933",
-        muted: "#4A5478",
-        primary: {
-          DEFAULT: "#005BFC",
-          bright: "#3B82FF",
-          deep: "#0046C7",
-        },
-        dark: "#010933",
-        band: {
-          DEFAULT: "#E7EEFF",
-          strong: "#9DBCFF",
-        },
-        danger: "#B91C1C",
+        offwhite: "#F2F2EE",
+        ink: "#0A0A0A",
+        cobalt: "#0038FF",
       },
       fontFamily: {
-        sans: ['"Inter Variable"', "Inter", "system-ui", "Segoe UI", "Roboto", "sans-serif"],
-        mono: ['"IBM Plex Mono"', "ui-monospace", "SFMono-Regular", "Menlo", "monospace"],
+        sans: ["Archivo", "system-ui", "Segoe UI", "Roboto", "sans-serif"],
+        display: ['"Archivo Black"', "Archivo", "system-ui", "sans-serif"],
       },
     },
   },

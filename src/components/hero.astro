@@ -1,7 +1,7 @@
 ---
-// Hero: asymmetric split — value prop left, real product shots right
-// (CallWise dominant + odbiera.ai chip with the semantic "live" dot),
-// closed by the mono trust strip. Only true facts, no invented numbers.
+// Hero: asymmetric split — display value prop left, real product shots right
+// (CallWise dominant + odbiera.ai chip with the semantic "live" square),
+// closed by the full-bleed ink trust strip. Only true facts, no invented numbers.
 import Icon from "@/components/icon.astro";
 import { getCompanyHome } from "@/data/company-home";
 import type { Locale } from "@/i18n/utils";
@@ -16,27 +16,17 @@ const mainShot = `/projects/callwise-${locale}.webp`;
 const chipShot = `/projects/odbiera-${locale}.webp`;
 ---
 
-<section class="relative overflow-hidden bg-offwhite">
-  {/* Backdrop: drifting glow blobs + one slanted light accent behind the shots */}
-  <div class="pointer-events-none absolute inset-0" aria-hidden="true">
-    <div class="hero-blob absolute -top-24 right-[-10%] h-[28rem] w-[28rem] bg-band-strong/40"></div>
-    <div class="hero-blob absolute bottom-[-20%] right-[22%] h-[22rem] w-[22rem] bg-primary-bright/20 [animation-delay:-9s]"></div>
-    <div
-      class="absolute right-[-5%] top-[38%] hidden h-[2px] w-[55%] rotate-[2.5deg] bg-gradient-to-r from-transparent via-band-strong/70 to-transparent lg:block"
-    >
-    </div>
-  </div>
-
-  <div class="relative mx-auto max-w-6xl px-6 pb-14 pt-28 md:pb-16 lg:pt-32">
+<section class="bg-offwhite">
+  <div class="mx-auto max-w-6xl px-6 pb-16 pt-24 md:pb-20 md:pt-28">
     <div class="grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14">
       <div>
         <h1
-          class="text-5xl font-bold leading-[1.04] tracking-tight text-ink [text-wrap:balance] md:text-6xl lg:text-7xl"
+          class="font-display text-4xl uppercase leading-[0.98] tracking-tight text-ink [text-wrap:balance] md:text-6xl lg:text-7xl"
         >
           {i.hero.title}
         </h1>
-        <p class="mt-5 max-w-[46ch] text-lg leading-relaxed text-muted">{i.hero.subtitle}</p>
-        <div class="mt-8 flex flex-wrap items-center gap-3">
+        <p class="mt-6 max-w-[44ch] text-lg font-medium leading-normal text-ink">{i.hero.subtitle}</p>
+        <div class="mt-8 flex flex-wrap items-center gap-4">
           <a href="#kontakt" class="btn-primary">
             {i.hero.primaryCta}
             <Icon name="arrow-right" class="h-4 w-4" />
@@ -45,11 +35,9 @@ const chipShot = `/projects/odbiera-${locale}.webp`;
         </div>
       </div>
 
-      {/* Hero asset: real screenshots in glass frames */}
+      {/* Hero asset: real screenshots in hard 3px frames */}
       <div class="relative mx-auto w-full max-w-[34rem] pb-10 pl-6 lg:mx-0 lg:max-w-none">
-        <div
-          class="hero-parallax-slow overflow-hidden rounded-2xl border border-band-strong/60 bg-white shadow-[0_30px_70px_-30px_rgba(1,9,51,0.4)]"
-        >
+        <div class="border-[3px] border-ink bg-white">
           <img
             src={mainShot}
             alt={i.hero.mainShotAlt}
@@ -60,9 +48,7 @@ const chipShot = `/projects/odbiera-${locale}.webp`;
             fetchpriority="high"
           />
         </div>
-        <div
-          class="hero-parallax-fast absolute -bottom-2 left-0 w-[46%] overflow-hidden rounded-xl border border-band-strong/60 bg-white shadow-[0_20px_50px_-24px_rgba(1,9,51,0.5)]"
-        >
+        <div class="absolute -bottom-2 left-0 w-[46%] border-[3px] border-ink bg-white">
           <img
             src={chipShot}
             alt={i.hero.chipShotAlt}
@@ -71,19 +57,27 @@ const chipShot = `/projects/odbiera-${locale}.webp`;
             class="aspect-[16/9] w-full object-cover object-top"
             loading="eager"
           />
-          <p class="flex items-center gap-2 px-3 py-2 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-muted">
+          <p
+            class="flex items-center gap-2 border-t-[3px] border-ink px-3 py-2 text-[10px] font-bold uppercase tracking-[0.14em] text-ink"
+          >
             <span class="status-dot"></span>
             {i.hero.liveLabel}
           </p>
         </div>
       </div>
     </div>
+  </div>
 
-    {/* Trust strip: real facts only */}
+  {/* Trust strip: real facts only, full-bleed ink band */}
+  <div class="border-t-[3px] border-ink bg-ink">
     <ul
-      class="mt-14 flex flex-col gap-2 border-t border-band-strong/40 pt-6 font-mono text-xs font-medium uppercase tracking-[0.12em] text-muted sm:flex-row sm:flex-wrap sm:gap-0 sm:[&>li+li]:ml-8 sm:[&>li+li]:border-l sm:[&>li+li]:border-band-strong/50 sm:[&>li+li]:pl-8"
+      class="mx-auto flex max-w-6xl flex-col px-6 py-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-10 sm:py-0"
     >
-      {i.hero.trust.map((fact) => <li>{fact}</li>)}
+      {
+        i.hero.trust.map((fact) => (
+          <li class="py-1 text-xs font-bold uppercase tracking-[0.1em] text-offwhite sm:py-4">{fact}</li>
+        ))
+      }
     </ul>
   </div>
 </section>

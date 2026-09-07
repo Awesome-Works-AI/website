@@ -3,25 +3,15 @@
 @tailwind utilities;
 
 /* ============================================================
- * Brand tokens as CSS vars — used by the custom classes below.
- * Same values as tailwind.config.mjs (the family palette shared
- * with odbiera.ai). Fonts load via @fontsource imports in base.astro.
+ * Brutal-block tokens as CSS vars — used by the custom classes
+ * below. Same values as tailwind.config.mjs. Fonts load via
+ * @fontsource Archivo imports in base.astro.
  * ============================================================ */
 
 :root {
-  --color-offwhite: #f6f8ff;
-  --color-ink: #010933;
-  --color-muted: #4a5478;
-  --color-primary: #005bfc;
-  --color-primary-bright: #3b82ff;
-  --color-primary-deep: #0046c7;
-  --color-dark: #010933;
-  --color-band: #e7eeff;
-  --color-band-strong: #9dbcff;
-  --color-danger: #b91c1c;
-
-  /* One consistent slant: every diagonal edge descends left → right. */
-  --slant: clamp(2rem, 4vw, 3.5rem);
+  --color-paper: #f2f2ee;
+  --color-ink: #0a0a0a;
+  --color-cobalt: #0038ff;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -36,15 +26,14 @@ body {
 }
 
 ::selection {
-  background: var(--color-band-strong);
-  color: var(--color-dark);
+  background: var(--color-cobalt);
+  color: #ffffff;
 }
 
-/* Brand-consistent keyboard focus (links, buttons, summary) */
+/* Brand-consistent keyboard focus (links, buttons, summary) — square. */
 :focus-visible {
-  outline: 2px solid var(--color-primary);
+  outline: 3px solid var(--color-cobalt);
   outline-offset: 2px;
-  border-radius: 2px;
 }
 
 /* Safari still renders the default disclosure triangle on flex summaries */
@@ -59,86 +48,48 @@ summary::-webkit-details-marker {
 }
 
 /* ============================================================
- * Diagonal section bands (family signature; ≤ 3 slanted edges
- * per page: Products top+bottom, Contact top).
- * ============================================================ */
-
-/* Full band: slanted top + bottom (band stripe between white sections) */
-.diag-band {
-  clip-path: polygon(0 0, 100% var(--slant), 100% 100%, 0 calc(100% - var(--slant)));
-  padding-top: calc(var(--slant) + 4rem);
-  padding-bottom: calc(var(--slant) + 4rem);
-}
-
-/* Slanted top only (the dark closing block: contact + footer) */
-.diag-top {
-  clip-path: polygon(0 0, 100% var(--slant), 100% 100%, 0 100%);
-  padding-top: calc(var(--slant) + 4rem);
-}
-
-/* ============================================================
  * Status dot — semantic "live in production" indicator only.
+ * Static cobalt square (no pulse: motion is functional-only).
  * ============================================================ */
 
 .status-dot {
-  position: relative;
   display: inline-block;
-  width: 8px;
-  height: 8px;
-  border-radius: 9999px;
-  background: var(--color-primary);
+  width: 9px;
+  height: 9px;
+  background: var(--color-cobalt);
   flex: none;
 }
 
-.status-dot::after {
-  content: "";
-  position: absolute;
-  inset: -4px;
-  border-radius: 9999px;
-  background: color-mix(in srgb, var(--color-primary) 35%, transparent);
-  animation: pulse-dot 2.2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
-@keyframes pulse-dot {
-  0%,
-  100% {
-    transform: scale(0.5);
-    opacity: 0.9;
-  }
-  50% {
-    transform: scale(1.4);
-    opacity: 0;
-  }
-}
-
 /* ============================================================
- * Buttons — conversion accent, full pill. Gradient is weighted
- * toward the dark end so white text keeps AA contrast.
+ * Buttons — conversion accent. Hard offset shadow lives ONLY on
+ * .btn-primary (plus chat FAB + chat panel); :active pushes the
+ * button into its shadow.
  * ============================================================ */
 
 .btn-primary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  border-radius: 9999px;
-  padding: 0.875rem 1.75rem;
+  gap: 0.6rem;
+  border: 3px solid var(--color-ink);
+  padding: 0.85rem 1.75rem;
   font-size: 0.9375rem;
-  font-weight: 600;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
   color: #ffffff;
-  background-image: linear-gradient(135deg, var(--color-primary-bright), var(--color-primary) 40%, var(--color-primary-deep));
-  box-shadow: 0 8px 24px -8px color-mix(in srgb, var(--color-primary-deep) 55%, transparent);
-  transition: box-shadow 0.2s ease, filter 0.2s ease, transform 0.2s ease;
+  background: var(--color-cobalt);
+  box-shadow: 6px 6px 0 var(--color-ink);
+  transition: background 0.15s ease, transform 0.1s ease, box-shadow 0.1s ease;
 }
 
 .btn-primary:hover:not(:disabled) {
-  filter: brightness(0.94);
-  box-shadow: 0 10px 28px -8px color-mix(in srgb, var(--color-primary-deep) 65%, transparent);
-  transform: translateY(-1px);
+  background: var(--color-ink);
 }
 
 .btn-primary:active:not(:disabled) {
-  transform: translateY(1px);
+  transform: translate(6px, 6px);
+  box-shadow: 0 0 0 var(--color-ink);
 }
 
 .btn-primary:disabled {
@@ -150,28 +101,29 @@ summary::-webkit-details-marker {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  border-radius: 9999px;
-  padding: 0.875rem 1.75rem;
+  gap: 0.6rem;
+  border: 3px solid var(--color-ink);
+  padding: 0.85rem 1.75rem;
   font-size: 0.9375rem;
-  font-weight: 600;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
   color: var(--color-ink);
   background: #ffffff;
-  border: 1px solid var(--color-band-strong);
-  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  transition: background 0.15s ease, color 0.15s ease, transform 0.1s ease;
 }
 
 .btn-ghost:hover {
-  background: var(--color-band);
-  border-color: var(--color-primary);
+  background: var(--color-ink);
+  color: #ffffff;
 }
 
 .btn-ghost:active {
-  transform: translateY(1px);
+  transform: translate(2px, 2px);
 }
 
 /* ============================================================
- * Contact form helpers — honeypot + in-flight CTA dot.
+ * Contact form helpers — honeypot + in-flight CTA square.
  * ============================================================ */
 
 /* Honeypot: offscreen instead of display:none so naive bots still "see"
@@ -185,112 +137,26 @@ summary::-webkit-details-marker {
   opacity: 0;
 }
 
-/* White pulsing dot inside the primary CTA while the request is in flight.
- * Display comes from utilities on the element (hidden / inline-block). */
+/* White blinking square inside the primary CTA while the request is in
+ * flight. Display comes from utilities on the element (hidden / inline-block). */
 .btn-dot {
-  position: relative;
   width: 8px;
   height: 8px;
-  border-radius: 9999px;
   background: #ffffff;
   flex: none;
+  animation: blink-square 1s steps(1) infinite;
 }
 
-.btn-dot::after {
-  content: "";
-  position: absolute;
-  inset: -4px;
-  border-radius: 9999px;
-  background: rgb(255 255 255 / 0.45);
-  animation: pulse-dot 2.2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
-/* ============================================================
- * Hero backdrop — drifting glow blobs behind the product shots.
- * ============================================================ */
-
-.hero-blob {
-  border-radius: 50%;
-  filter: blur(64px);
-  animation: hero-blob-drift 26s ease-in-out infinite alternate;
-}
-
-@keyframes hero-blob-drift {
-  from {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-  to {
-    transform: translate3d(28px, -20px, 0) scale(1.08);
-  }
-}
-
-/* Hero asset parallax: the main shot drifts slower than the chip.
- * CSS scroll-driven only; browsers without support stay static. */
-@supports (animation-timeline: view()) {
-  @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
-    .hero-parallax-slow {
-      animation: hero-drift-slow linear both;
-      animation-timeline: view();
-      animation-range: entry 0% exit 100%;
-    }
-    .hero-parallax-fast {
-      animation: hero-drift-fast linear both;
-      animation-timeline: view();
-      animation-range: entry 0% exit 100%;
-    }
-    .product-shot-drift {
-      animation: product-drift linear both;
-      animation-timeline: view();
-      animation-range: entry 0% exit 100%;
-    }
-  }
-}
-
-@keyframes hero-drift-slow {
-  from {
-    transform: translateY(14px);
-  }
-  to {
-    transform: translateY(-14px);
-  }
-}
-
-@keyframes hero-drift-fast {
-  from {
-    transform: translateY(30px);
-  }
-  to {
-    transform: translateY(-30px);
-  }
-}
-
-@keyframes product-drift {
-  from {
-    transform: translateY(6px);
-  }
-  to {
-    transform: translateY(-6px);
+@keyframes blink-square {
+  50% {
+    opacity: 0.25;
   }
 }
 
 /* ============================================================
- * Scroll reveal — IO adds .visible once (script in base.astro).
- * ============================================================ */
-
-.animate-on-scroll {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-}
-
-.animate-on-scroll.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* ============================================================
- * Chat widget (demo assistant) — FAB, panel / mobile sheet,
- * bubbles in the family style. z-ladder: nav 50 > panel 45 > FAB 40.
+ * Chat widget (demo assistant) — square FAB, bordered panel /
+ * mobile sheet, rectangular bubbles. z-ladder: nav 50 > panel 45
+ * > FAB 40.
  * ============================================================ */
 
 .cw-fab {
@@ -302,11 +168,11 @@ summary::-webkit-details-marker {
   place-items: center;
   width: 56px;
   height: 56px;
-  border-radius: 9999px;
+  border: 3px solid var(--color-ink);
   color: #ffffff;
-  background-image: linear-gradient(135deg, var(--color-primary-bright), var(--color-primary) 40%, var(--color-primary-deep));
-  box-shadow: 0 10px 28px -10px color-mix(in srgb, var(--color-primary-deep) 70%, transparent);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background: var(--color-cobalt);
+  box-shadow: 6px 6px 0 var(--color-ink);
+  transition: background 0.15s ease, transform 0.1s ease, box-shadow 0.1s ease;
 }
 
 @media (min-width: 768px) {
@@ -317,34 +183,32 @@ summary::-webkit-details-marker {
 }
 
 .cw-fab:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 14px 32px -10px color-mix(in srgb, var(--color-primary-deep) 80%, transparent);
+  background: var(--color-ink);
 }
 
 .cw-fab:active {
-  transform: translateY(1px);
+  transform: translate(6px, 6px);
+  box-shadow: 0 0 0 var(--color-ink);
 }
 
 .cw-nudge {
   position: fixed;
   right: 16px;
-  bottom: calc(84px + env(safe-area-inset-bottom, 0px));
+  bottom: calc(92px + env(safe-area-inset-bottom, 0px));
   z-index: 40;
   max-width: 14rem;
-  border-radius: 1rem 1rem 0.25rem 1rem;
-  border: 1px solid color-mix(in srgb, var(--color-band-strong) 60%, transparent);
+  border: 3px solid var(--color-ink);
   background: #ffffff;
   padding: 0.6rem 0.9rem;
   font-size: 0.875rem;
+  font-weight: 500;
   color: var(--color-ink);
-  box-shadow: 0 14px 34px -18px color-mix(in srgb, var(--color-dark) 45%, transparent);
-  animation: cw-in 0.3s ease-out both;
 }
 
 @media (min-width: 768px) {
   .cw-nudge {
     right: 24px;
-    bottom: 92px;
+    bottom: 100px;
   }
 }
 
@@ -355,13 +219,15 @@ summary::-webkit-details-marker {
   flex-direction: column;
   overflow: hidden;
   background: #ffffff;
-  border: 1px solid color-mix(in srgb, var(--color-band-strong) 50%, transparent);
-  box-shadow: 0 26px 60px -30px color-mix(in srgb, var(--color-dark) 55%, transparent);
-  animation: cw-in 0.25s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  border: 3px solid var(--color-ink);
+  box-shadow: 6px 6px 0 var(--color-ink);
   /* Mobile: bottom sheet */
   inset: auto 0 0 0;
   height: 85dvh;
-  border-radius: 1rem 1rem 0 0;
+  border-left: 0;
+  border-right: 0;
+  border-bottom: 0;
+  box-shadow: none;
 }
 
 @media (min-width: 768px) {
@@ -369,26 +235,15 @@ summary::-webkit-details-marker {
     inset: auto 24px 24px auto;
     width: 360px;
     height: min(560px, 80vh);
-    border-radius: 1rem;
-  }
-}
-
-@keyframes cw-in {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+    border: 3px solid var(--color-ink);
+    box-shadow: 6px 6px 0 var(--color-ink);
   }
 }
 
 .cw-msg-user {
   align-self: flex-end;
   max-width: 85%;
-  border-radius: 1rem 1rem 0.25rem 1rem;
-  background: var(--color-dark);
+  background: var(--color-ink);
   color: #ffffff;
   padding: 0.7rem 1.05rem;
   font-size: 0.9375rem;
@@ -398,8 +253,7 @@ summary::-webkit-details-marker {
 .cw-msg-bot {
   align-self: flex-start;
   max-width: 90%;
-  border-radius: 0.25rem 1rem 1rem 1rem;
-  background: var(--color-band);
+  background: var(--color-paper);
   color: var(--color-ink);
   padding: 0.7rem 1.05rem;
   font-size: 0.9375rem;
@@ -411,16 +265,14 @@ summary::-webkit-details-marker {
   align-items: center;
   gap: 0.3rem;
   align-self: flex-start;
-  border-radius: 0.25rem 1rem 1rem 1rem;
-  background: var(--color-band);
+  background: var(--color-paper);
   padding: 0.85rem 1rem;
 }
 
 .cw-typing span {
   width: 0.4rem;
   height: 0.4rem;
-  border-radius: 9999px;
-  background: var(--color-primary);
+  background: var(--color-cobalt);
   opacity: 0.4;
   animation: cw-typing-bounce 1s ease-in-out infinite;
 }
@@ -450,24 +302,16 @@ summary::-webkit-details-marker {
  * ============================================================ */
 
 @media (prefers-reduced-motion: reduce) {
-  .status-dot::after,
-  .btn-dot::after {
+  .btn-dot {
     animation: none;
-    opacity: 0;
   }
-  .hero-blob {
-    animation: none !important;
-  }
-  .animate-on-scroll {
-    opacity: 1;
-    transform: none;
+  .btn-primary,
+  .btn-ghost,
+  .cw-fab {
     transition: none;
-  }
-  .cw-panel,
-  .cw-nudge {
-    animation: none;
   }
   .cw-typing span {
     animation: none;
+    opacity: 1;
   }
 }

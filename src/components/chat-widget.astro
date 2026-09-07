@@ -35,20 +35,20 @@ const chatI18n = {
       type="button"
       data-chat-nudge-dismiss
       aria-label={chat.nudgeDismiss}
-      class="ml-2 inline-grid h-5 w-5 place-items-center rounded-full text-muted hover:bg-band hover:text-ink"
+      class="ml-2 inline-grid h-5 w-5 place-items-center text-ink transition-colors hover:bg-ink hover:text-white"
     >
       <Icon name="x" class="h-3 w-3" />
     </button>
   </div>
 
   <section data-chat-panel class="cw-panel" role="dialog" aria-modal="true" aria-label={chat.dialogLabel} hidden>
-    <header class="flex items-center justify-between gap-3 border-b border-band-strong/40 bg-offwhite px-4 py-3">
-      <p class="font-mono text-xs font-semibold uppercase tracking-[0.14em] text-muted">{chat.header}</p>
+    <header class="flex items-center justify-between gap-3 border-b-[3px] border-ink bg-offwhite px-4 py-3">
+      <p class="text-xs font-bold uppercase tracking-[0.14em] text-ink">{chat.header}</p>
       <button
         type="button"
         data-chat-close
         aria-label={chat.closeLabel}
-        class="grid h-11 w-11 place-items-center rounded-full text-muted transition hover:bg-band hover:text-ink"
+        class="grid h-11 w-11 place-items-center text-ink transition-colors hover:bg-ink hover:text-white"
       >
         <Icon name="x" class="h-5 w-5" />
       </button>
@@ -56,19 +56,19 @@ const chatI18n = {
 
     <div data-chat-messages class="flex flex-1 flex-col gap-3 overflow-y-auto p-4" aria-live="polite"></div>
 
-    <form data-chat-form class="flex items-center gap-2 border-t border-band-strong/40 p-3">
+    <form data-chat-form class="flex items-center gap-2 border-t-[3px] border-ink p-3">
       <input
         type="text"
         data-chat-input
         placeholder={chat.inputPlaceholder}
         aria-label={chat.inputPlaceholder}
         autocomplete="off"
-        class="h-11 w-full rounded-full border border-band-strong/70 bg-white px-4 text-[0.9375rem] text-ink placeholder:text-muted/60 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/15"
+        class="h-11 w-full border-[3px] border-ink bg-white px-4 text-[0.9375rem] text-ink placeholder:text-ink/60 focus:border-cobalt focus:outline-none"
       />
       <button
         type="submit"
         aria-label={chat.sendLabel}
-        class="grid h-11 w-11 flex-none place-items-center rounded-full bg-gradient-to-br from-primary to-primary-deep text-white transition hover:brightness-95"
+        class="grid h-11 w-11 flex-none place-items-center border-[3px] border-ink bg-cobalt text-white transition-colors hover:bg-ink"
       >
         <Icon name="send" class="h-4 w-4" />
       </button>
@@ -151,7 +151,7 @@ const chatI18n = {
         const cta = document.createElement("button");
         cta.type = "button";
         cta.className =
-          "self-start rounded-full border border-band-strong/70 bg-white px-4 py-2 text-sm font-semibold text-primary-deep transition hover:bg-band";
+          "self-start border-[3px] border-ink bg-white px-4 py-2 text-sm font-bold text-ink transition-colors hover:bg-ink hover:text-white";
         cta.textContent = i18n.goToForm;
         cta.addEventListener("click", goToForm);
         messagesEl.appendChild(cta);

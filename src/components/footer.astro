@@ -1,6 +1,6 @@
 ---
-// Footer: continuation of the dark contact band. Company data, section
-// anchors, product links, privacy + socials (icons only, no card grid).
+// Footer: continuation of the ink closing block, separated by a 3px white
+// rule. Company data, section anchors, product links, privacy + socials.
 import Icon from "@/components/icon.astro";
 import { getCompanyHome, privacyPath } from "@/data/company-home";
 import { getLocalePath, type Locale } from "@/i18n/utils";
@@ -16,25 +16,25 @@ const homePath = getLocalePath(locale);
 const privacyHref = privacyPath(locale);
 ---
 
-<footer class="bg-dark text-white/70">
-  <div class="mx-auto max-w-6xl px-6 pb-8 pt-4">
-    <div class="grid gap-10 border-t border-white/10 pt-10 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
+<footer class="border-t-[3px] border-white bg-ink text-offwhite">
+  <div class="mx-auto max-w-6xl px-6 pb-8 pt-12">
+    <div class="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
       <div>
-        <a href={homePath} class="inline-flex items-center gap-2">
+        <a href={homePath} class="inline-flex items-center gap-2.5">
           <img src="/logo.png" alt="" width="28" height="28" class="h-7 w-7" loading="lazy" />
-          <span class="text-base font-bold tracking-tight text-white">AwesomeWorks</span>
+          <span class="font-display text-[15px] uppercase tracking-tight text-white">AwesomeWorks</span>
         </a>
         <p class="mt-4 max-w-[36ch] text-sm leading-relaxed">{f.brandLine}</p>
-        <p class="mt-4 text-xs leading-relaxed text-white/50">{f.legalLine}</p>
+        <p class="mt-4 text-xs leading-relaxed">{f.legalLine}</p>
       </div>
 
       <nav aria-label={f.companyTitle}>
-        <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-white/50">{f.companyTitle}</p>
+        <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-white">{f.companyTitle}</p>
         <ul class="mt-4 space-y-2.5">
           {
             f.companyLinks.map((link) => (
               <li>
-                <a href={`${homePath}${link.href}`} class="text-sm transition hover:text-white">
+                <a href={`${homePath}${link.href}`} class="text-sm underline-offset-4 hover:text-white hover:underline">
                   {link.label}
                 </a>
               </li>
@@ -44,12 +44,17 @@ const privacyHref = privacyPath(locale);
       </nav>
 
       <nav aria-label={f.productsTitle}>
-        <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-white/50">{f.productsTitle}</p>
+        <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-white">{f.productsTitle}</p>
         <ul class="mt-4 space-y-2.5">
           {
             f.productLinks.map((link) => (
               <li>
-                <a href={link.href} target="_blank" rel="noopener" class="text-sm transition hover:text-white">
+                <a
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener"
+                  class="text-sm underline-offset-4 hover:text-white hover:underline"
+                >
                   {link.label}
                 </a>
               </li>
@@ -59,10 +64,10 @@ const privacyHref = privacyPath(locale);
       </nav>
 
       <div>
-        <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-white/50">{f.legalTitle}</p>
+        <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-white">{f.legalTitle}</p>
         <ul class="mt-4 space-y-2.5">
           <li>
-            <a href={privacyHref} class="text-sm transition hover:text-white">{f.privacyLabel}</a>
+            <a href={privacyHref} class="text-sm underline-offset-4 hover:text-white hover:underline">{f.privacyLabel}</a>
           </li>
         </ul>
         <ul class="mt-5 flex items-center gap-3">
@@ -74,7 +79,7 @@ const privacyHref = privacyPath(locale);
                   target="_blank"
                   rel="noopener"
                   aria-label={social.name}
-                  class="grid h-9 w-9 place-items-center rounded-full border border-white/15 text-white/70 transition hover:border-white/40 hover:text-white"
+                  class="grid h-10 w-10 place-items-center border-[3px] border-white text-white transition-colors hover:bg-white hover:text-ink"
                 >
                   <Icon name={social.icon} class="h-4 w-4" />
                 </a>
@@ -85,6 +90,6 @@ const privacyHref = privacyPath(locale);
       </div>
     </div>
 
-    <p class="mt-10 border-t border-white/10 pt-6 text-xs text-white/50">{f.copyright}</p>
+    <p class="mt-12 pt-6 text-xs">{f.copyright}</p>
   </div>
 </footer>
