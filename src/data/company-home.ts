@@ -68,8 +68,8 @@ const companyHome = {
         {
           id: "voice",
           icon: "audio-lines",
-          image: "",
-          imageAlt: "",
+          image: "/services/voice-assistant.png",
+          imageAlt: "Ilustracja agenta głosowego odbierającego telefon",
           name: "Agenci głosowi",
           text: "Odbierają telefony, umawiają terminy i odpowiadają na pytania klientów 24/7. Twoja recepcja nie ma kolejki i nie bierze wolnego.",
           proofLabel: "Tak działa nasz produkt odbiera.ai",
@@ -78,8 +78,8 @@ const companyHome = {
         {
           id: "chat",
           icon: "message-square",
-          image: "",
-          imageAlt: "",
+          image: "/services/chat-assistant.png",
+          imageAlt: "Ilustracja agenta konwersacyjnego w oknie czatu",
           name: "Agenci konwersacyjni",
           text: "Czat na twojej stronie lub w aplikacji, podpięty do twojej bazy wiedzy. Odpowiada klientom, zanim zdążą napisać maila.",
           proofLabel: "Przykład? Otwórz czat demo w rogu ekranu.",
@@ -319,8 +319,8 @@ const companyHome = {
         {
           id: "voice",
           icon: "audio-lines",
-          image: "",
-          imageAlt: "",
+          image: "/services/voice-assistant.png",
+          imageAlt: "Illustration of a voice agent answering a phone call",
           name: "Voice agents",
           text: "They answer calls, book appointments, and handle customer questions 24/7. Your front desk has no queue and never takes a day off.",
           proofLabel: "This is how our product odbiera.ai works",
@@ -329,8 +329,8 @@ const companyHome = {
         {
           id: "chat",
           icon: "message-square",
-          image: "",
-          imageAlt: "",
+          image: "/services/chat-assistant.png",
+          imageAlt: "Illustration of a chat agent in a conversation window",
           name: "Chat agents",
           text: "A chat on your website or in your app, wired to your knowledge base. It answers customers before they get around to writing an email.",
           proofLabel: "An example? Open the demo chat in the corner of this screen.",
