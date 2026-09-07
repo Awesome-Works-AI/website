@@ -1,5 +1,5 @@
 ---
-import "@fontsource-variable/inter";
+import "@fontsource-variable/space-grotesk";
 import "@fontsource/ibm-plex-mono/400.css";
 import "@fontsource/ibm-plex-mono/500.css";
 import "@fontsource/ibm-plex-mono/600.css";
@@ -160,7 +160,7 @@ const faqJsonLd = includeFaqSchema
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="generator" content={Astro.generator} />
-    <meta name="theme-color" content="#F6F8FF" />
+    <meta name="theme-color" content="#070D26" />
 
     <title>{title}</title>
     <meta name="description" content={description} />
@@ -208,8 +208,12 @@ const faqJsonLd = includeFaqSchema
       faqJsonLd && <script is:inline type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
     }
   </head>
-  <body class="min-h-[100dvh] overflow-x-hidden bg-offwhite font-sans text-ink">
-    <slot />
+  <body class="min-h-[100dvh] overflow-x-hidden bg-night font-sans text-white">
+    {/* Fixed engineering grid behind the whole page (Blueprint signature). */}
+    <div class="blueprint-grid" aria-hidden="true"></div>
+    <div class="relative">
+      <slot />
+    </div>
     <script>
       const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       const targets = document.querySelectorAll(".animate-on-scroll");

@@ -2,7 +2,7 @@
 // FAQ: B2B objections (cost, time, data, maintenance) answered before the form.
 // Desktop: the question list drives an AI-chat panel — the picked question
 // lands as the visitor's bubble and the answer "arrives" after a short typing
-// indicator (family pattern). Mobile: accordion, one open at a time.
+// indicator. Mobile: accordion, one open at a time.
 import Icon from "@/components/icon.astro";
 import { getCompanyHome } from "@/data/company-home";
 import type { Locale } from "@/i18n/utils";
@@ -16,20 +16,20 @@ const i = getCompanyHome(locale);
 const first = i.faq.items[0];
 ---
 
-<section id="faq" class="scroll-mt-24 bg-white py-20 pb-24 md:py-24 md:pb-28">
+<section id="faq" class="scroll-mt-24 border-t border-primary/20 py-20 pb-24 md:py-24 md:pb-28">
   <div class="mx-auto max-w-6xl px-6">
-    <h2 class="animate-on-scroll text-3xl font-bold tracking-tight text-ink md:text-4xl">{i.faq.title}</h2>
+    <h2 class="animate-on-scroll text-3xl font-bold tracking-tight text-white md:text-4xl">{i.faq.title}</h2>
 
     {/* Mobile: accordion */}
     <div class="animate-on-scroll mt-8 space-y-3 lg:hidden" data-faq-accordion>
       {
         i.faq.items.map((item) => (
-          <details class="group rounded-xl border border-band-strong/40 bg-offwhite px-5 py-4">
-            <summary class="flex cursor-pointer list-none items-center justify-between gap-4 text-[15px] font-semibold text-ink">
+          <details class="group border border-primary/25 bg-[var(--surface)] px-5 py-4">
+            <summary class="flex cursor-pointer list-none items-center justify-between gap-4 text-[15px] font-semibold text-white">
               {item.q}
-              <Icon name="chevron-down" class="h-4 w-4 flex-none text-muted transition-transform group-open:rotate-180" />
+              <Icon name="chevron-down" class="h-4 w-4 flex-none text-white/45 transition-transform group-open:rotate-180" />
             </summary>
-            <p class="mt-3 text-[15px] leading-relaxed text-muted">{item.a}</p>
+            <p class="mt-3 text-[15px] leading-relaxed text-white/65">{item.a}</p>
           </details>
         ))
       }
@@ -51,10 +51,10 @@ const first = i.faq.items[0];
               data-q={item.q}
               data-a={item.a}
               class:list={[
-                "rounded-xl border px-5 py-4 text-left text-[15px] font-semibold leading-snug transition",
+                "border px-5 py-4 text-left text-[15px] font-semibold leading-snug transition",
                 idx === 0
-                  ? "border-band-strong/60 bg-white text-ink shadow-[inset_3px_0_0_#005BFC,0_12px_30px_-22px_rgba(1,9,51,0.55)]"
-                  : "border-transparent bg-offwhite text-muted hover:bg-white hover:text-ink",
+                  ? "border-primary/60 bg-primary/10 text-white shadow-[inset_2px_0_0_#3B82FF]"
+                  : "border-primary/20 bg-transparent text-white/60 hover:border-primary/40 hover:text-white",
               ]}
             >
               {item.q}
@@ -63,19 +63,16 @@ const first = i.faq.items[0];
         }
       </div>
 
-      <div class="fq-panel sticky top-24" role="tabpanel" id="faq-panel" aria-labelledby="faq-tab-0">
+      <div class="fq-panel hud-corners sticky top-24" role="tabpanel" id="faq-panel" aria-labelledby="faq-tab-0">
         <div class="fq-bar">
-          <span class="fq-dot"></span>
-          <span class="fq-dot"></span>
-          <span class="fq-dot"></span>
-          <span class="ml-2 font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-muted">AwesomeWorks · FAQ</span>
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-white/45">AwesomeWorks · FAQ</span>
         </div>
         {/* Server renders the first exchange so the panel works without JS. */}
         <div class="fq-thread" data-faq-thread aria-live="polite">
           <div class="fq-user is-in">{first.q}</div>
           <div class="fq-agent is-in">
             <span class="fq-avatar" aria-hidden="true">
-              <Icon name="message-circle" class="h-4 w-4 text-primary-deep" />
+              <Icon name="message-circle" class="h-4 w-4 text-primary" />
             </span>
             <p>{first.a}</p>
           </div>
@@ -91,30 +88,18 @@ const first = i.faq.items[0];
   .fq-panel {
     display: flex;
     flex-direction: column;
-    overflow: hidden;
     min-height: 24rem;
-    border: 1px solid color-mix(in srgb, var(--color-band-strong) 50%, transparent);
-    border-radius: 1rem;
-    background: #ffffff;
-    box-shadow:
-      0 1px 2px color-mix(in srgb, var(--color-dark) 6%, transparent),
-      0 26px 60px -34px color-mix(in srgb, var(--color-dark) 42%, transparent);
+    border: 1px solid var(--line-strong);
+    background: var(--surface);
+    box-shadow: 0 26px 60px -34px rgba(0, 0, 0, 0.7);
   }
 
   .fq-bar {
     display: flex;
     align-items: center;
-    gap: 0.45rem;
     padding: 0.7rem 1rem;
-    border-bottom: 1px solid color-mix(in srgb, var(--color-band-strong) 35%, transparent);
-    background: color-mix(in srgb, var(--color-band) 40%, #ffffff);
-  }
-
-  .fq-dot {
-    width: 0.5rem;
-    height: 0.5rem;
-    border-radius: 9999px;
-    background: color-mix(in srgb, var(--color-dark) 16%, transparent);
+    border-bottom: 1px solid var(--line-soft);
+    background: rgba(59, 130, 255, 0.05);
   }
 
   .fq-thread {
@@ -124,17 +109,16 @@ const first = i.faq.items[0];
     gap: 1rem;
     padding: 1.5rem;
     background-image:
-      linear-gradient(to right, color-mix(in srgb, var(--color-primary) 4%, transparent) 1px, transparent 1px),
-      linear-gradient(to bottom, color-mix(in srgb, var(--color-primary) 4%, transparent) 1px, transparent 1px);
+      linear-gradient(to right, rgba(59, 130, 255, 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(59, 130, 255, 0.05) 1px, transparent 1px);
     background-size: 34px 34px;
   }
 
   .fq-user {
     align-self: flex-end;
     max-width: 85%;
-    border-radius: 1rem 1rem 0.25rem 1rem;
-    background: var(--color-dark);
-    color: #ffffff;
+    background: var(--color-accent);
+    color: var(--color-night);
     padding: 0.7rem 1.05rem;
     font-size: 0.9375rem;
     font-weight: 500;
@@ -154,8 +138,8 @@ const first = i.faq.items[0];
     align-items: center;
     gap: 0.3rem;
     align-self: flex-start;
-    border-radius: 1rem 1rem 1rem 0.25rem;
-    background: var(--color-band);
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid var(--line-soft);
     padding: 0.85rem 1rem;
   }
 
@@ -163,7 +147,7 @@ const first = i.faq.items[0];
     width: 0.4rem;
     height: 0.4rem;
     border-radius: 9999px;
-    background: var(--color-primary);
+    background: var(--color-accent);
     opacity: 0.4;
     animation: fq-typing 1s ease-in-out infinite;
   }
@@ -209,18 +193,17 @@ const first = i.faq.items[0];
     place-items: center;
     width: 1.85rem;
     height: 1.85rem;
-    border-radius: 0.6rem;
-    background: color-mix(in srgb, var(--color-band) 60%, #ffffff);
-    border: 1px solid color-mix(in srgb, var(--color-band-strong) 50%, transparent);
+    background: rgba(59, 130, 255, 0.12);
+    border: 1px solid var(--line-strong);
   }
 
   .fq-agent p {
-    border-radius: 0.25rem 1rem 1rem 1rem;
-    background: var(--color-band);
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid var(--line-soft);
     padding: 0.8rem 1.05rem;
     font-size: 0.9375rem;
     line-height: 1.6;
-    color: var(--color-ink);
+    color: rgba(255, 255, 255, 0.9);
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -257,13 +240,8 @@ const first = i.faq.items[0];
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     let pending: number | undefined;
 
-    const activeClasses = [
-      "border-band-strong/60",
-      "bg-white",
-      "text-ink",
-      "shadow-[inset_3px_0_0_#005BFC,0_12px_30px_-22px_rgba(1,9,51,0.55)]",
-    ];
-    const idleClasses = ["border-transparent", "bg-offwhite", "text-muted", "hover:bg-white", "hover:text-ink"];
+    const activeClasses = ["border-primary/60", "bg-primary/10", "text-white", "shadow-[inset_2px_0_0_#3B82FF]"];
+    const idleClasses = ["border-primary/20", "bg-transparent", "text-white/60", "hover:border-primary/40", "hover:text-white"];
 
     const showAnswer = (answer: string) => {
       const agent = document.createElement("div");

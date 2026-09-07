@@ -1,5 +1,5 @@
 ---
-// Locale switch pill (mono, family style) — lives inside the nav pill.
+// Locale switch (mono, Blueprint style) — lives inside the HUD nav bar.
 import type { Locale } from "@/i18n/utils";
 
 interface Props {
@@ -14,7 +14,7 @@ const altLocale: Locale = locale === "pl" ? "en" : "pl";
 
 <a
   href={altPath}
-  class="inline-flex h-9 items-center rounded-full px-3 font-mono text-[11px] font-semibold tracking-wide text-primary-deep transition hover:bg-band hover:text-dark"
+  class="inline-flex h-9 items-center px-3 font-mono text-[11px] font-semibold tracking-wide text-primary transition hover:bg-primary/10 hover:text-white"
   aria-label={altLocale === "en" ? "Switch to English" : "Przełącz na polski"}
 >
   {altLocale.toUpperCase()}

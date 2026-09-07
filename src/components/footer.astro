@@ -1,5 +1,5 @@
 ---
-// Footer: continuation of the dark contact band. Company data, section
+// Footer: closing HUD block on the page ground. Company data, section
 // anchors, product links, privacy + socials (icons only, no card grid).
 import Icon from "@/components/icon.astro";
 import { getCompanyHome, privacyPath } from "@/data/company-home";
@@ -16,20 +16,20 @@ const homePath = getLocalePath(locale);
 const privacyHref = privacyPath(locale);
 ---
 
-<footer class="bg-dark text-white/70">
-  <div class="mx-auto max-w-6xl px-6 pb-8 pt-4">
-    <div class="grid gap-10 border-t border-white/10 pt-10 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
+<footer class="border-t border-primary/20 text-white/65">
+  <div class="mx-auto max-w-6xl px-6 pb-8 pt-10">
+    <div class="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
       <div>
-        <a href={homePath} class="inline-flex items-center gap-2">
+        <a href={homePath} class="inline-flex items-center gap-2.5">
           <img src="/logo.png" alt="" width="28" height="28" class="h-7 w-7" loading="lazy" />
-          <span class="text-base font-bold tracking-tight text-white">AwesomeWorks</span>
+          <span class="font-mono text-sm font-semibold tracking-tight text-white">AwesomeWorks</span>
         </a>
         <p class="mt-4 max-w-[36ch] text-sm leading-relaxed">{f.brandLine}</p>
-        <p class="mt-4 text-xs leading-relaxed text-white/50">{f.legalLine}</p>
+        <p class="mt-4 text-xs leading-relaxed text-white/45">{f.legalLine}</p>
       </div>
 
       <nav aria-label={f.companyTitle}>
-        <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-white/50">{f.companyTitle}</p>
+        <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-white/45">{f.companyTitle}</p>
         <ul class="mt-4 space-y-2.5">
           {
             f.companyLinks.map((link) => (
@@ -44,7 +44,7 @@ const privacyHref = privacyPath(locale);
       </nav>
 
       <nav aria-label={f.productsTitle}>
-        <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-white/50">{f.productsTitle}</p>
+        <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-white/45">{f.productsTitle}</p>
         <ul class="mt-4 space-y-2.5">
           {
             f.productLinks.map((link) => (
@@ -59,7 +59,7 @@ const privacyHref = privacyPath(locale);
       </nav>
 
       <div>
-        <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-white/50">{f.legalTitle}</p>
+        <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-white/45">{f.legalTitle}</p>
         <ul class="mt-4 space-y-2.5">
           <li>
             <a href={privacyHref} class="text-sm transition hover:text-white">{f.privacyLabel}</a>
@@ -74,7 +74,7 @@ const privacyHref = privacyPath(locale);
                   target="_blank"
                   rel="noopener"
                   aria-label={social.name}
-                  class="grid h-9 w-9 place-items-center rounded-full border border-white/15 text-white/70 transition hover:border-white/40 hover:text-white"
+                  class="grid h-9 w-9 place-items-center border border-primary/35 text-white/65 transition hover:border-primary hover:text-white"
                 >
                   <Icon name={social.icon} class="h-4 w-4" />
                 </a>
@@ -85,6 +85,6 @@ const privacyHref = privacyPath(locale);
       </div>
     </div>
 
-    <p class="mt-10 border-t border-white/10 pt-6 text-xs text-white/50">{f.copyright}</p>
+    <p class="mt-10 border-t border-primary/20 pt-6 text-xs text-white/45">{f.copyright}</p>
   </div>
 </footer>

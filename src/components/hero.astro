@@ -16,13 +16,13 @@ const mainShot = `/projects/callwise-${locale}.webp`;
 const chipShot = `/projects/odbiera-${locale}.webp`;
 ---
 
-<section class="relative overflow-hidden bg-offwhite">
-  {/* Backdrop: drifting glow blobs + one slanted light accent behind the shots */}
+<section class="relative overflow-hidden">
+  {/* Backdrop: drifting accent glows + one horizontal hairline behind the shots */}
   <div class="pointer-events-none absolute inset-0" aria-hidden="true">
-    <div class="hero-blob absolute -top-24 right-[-10%] h-[28rem] w-[28rem] bg-band-strong/40"></div>
-    <div class="hero-blob absolute bottom-[-20%] right-[22%] h-[22rem] w-[22rem] bg-primary-bright/20 [animation-delay:-9s]"></div>
+    <div class="hero-blob absolute -top-24 right-[-10%] h-[28rem] w-[28rem] bg-primary/15"></div>
+    <div class="hero-blob absolute bottom-[-20%] right-[22%] h-[22rem] w-[22rem] bg-primary/10 [animation-delay:-9s]"></div>
     <div
-      class="absolute right-[-5%] top-[38%] hidden h-[2px] w-[55%] rotate-[2.5deg] bg-gradient-to-r from-transparent via-band-strong/70 to-transparent lg:block"
+      class="absolute right-[-5%] top-[38%] hidden h-px w-[55%] bg-gradient-to-r from-transparent via-primary/40 to-transparent lg:block"
     >
     </div>
   </div>
@@ -31,11 +31,11 @@ const chipShot = `/projects/odbiera-${locale}.webp`;
     <div class="grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14">
       <div>
         <h1
-          class="text-5xl font-bold leading-[1.04] tracking-tight text-ink [text-wrap:balance] md:text-6xl lg:text-7xl"
+          class="text-5xl font-bold leading-[1.04] tracking-tight text-white [text-wrap:balance] md:text-6xl lg:text-7xl"
         >
           {i.hero.title}
         </h1>
-        <p class="mt-5 max-w-[46ch] text-lg leading-relaxed text-muted">{i.hero.subtitle}</p>
+        <p class="mt-5 max-w-[46ch] text-lg leading-relaxed text-white/65">{i.hero.subtitle}</p>
         <div class="mt-8 flex flex-wrap items-center gap-3">
           <a href="#kontakt" class="btn-primary">
             {i.hero.primaryCta}
@@ -45,10 +45,10 @@ const chipShot = `/projects/odbiera-${locale}.webp`;
         </div>
       </div>
 
-      {/* Hero asset: real screenshots in glass frames */}
+      {/* Hero asset: real screenshots in HUD frames */}
       <div class="relative mx-auto w-full max-w-[34rem] pb-10 pl-6 lg:mx-0 lg:max-w-none">
         <div
-          class="hero-parallax-slow overflow-hidden rounded-2xl border border-band-strong/60 bg-white shadow-[0_30px_70px_-30px_rgba(1,9,51,0.4)]"
+          class="hero-parallax-slow hud-corners relative border border-primary/35 bg-night shadow-[0_30px_70px_-30px_rgba(59,130,255,0.35)]"
         >
           <img
             src={mainShot}
@@ -61,7 +61,7 @@ const chipShot = `/projects/odbiera-${locale}.webp`;
           />
         </div>
         <div
-          class="hero-parallax-fast absolute -bottom-2 left-0 w-[46%] overflow-hidden rounded-xl border border-band-strong/60 bg-white shadow-[0_20px_50px_-24px_rgba(1,9,51,0.5)]"
+          class="hero-parallax-fast absolute -bottom-2 left-0 w-[46%] border border-primary/35 bg-night shadow-[0_20px_50px_-24px_rgba(0,0,0,0.8)]"
         >
           <img
             src={chipShot}
@@ -71,7 +71,7 @@ const chipShot = `/projects/odbiera-${locale}.webp`;
             class="aspect-[16/9] w-full object-cover object-top"
             loading="eager"
           />
-          <p class="flex items-center gap-2 px-3 py-2 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-muted">
+          <p class="flex items-center gap-2 px-3 py-2 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-white/50">
             <span class="status-dot"></span>
             {i.hero.liveLabel}
           </p>
@@ -79,11 +79,11 @@ const chipShot = `/projects/odbiera-${locale}.webp`;
       </div>
     </div>
 
-    {/* Trust strip: real facts only */}
+    {/* Trust strip: real facts only, mono brackets (Blueprint signature) */}
     <ul
-      class="mt-14 flex flex-col gap-2 border-t border-band-strong/40 pt-6 font-mono text-xs font-medium uppercase tracking-[0.12em] text-muted sm:flex-row sm:flex-wrap sm:gap-0 sm:[&>li+li]:ml-8 sm:[&>li+li]:border-l sm:[&>li+li]:border-band-strong/50 sm:[&>li+li]:pl-8"
+      class="mt-14 flex flex-col gap-2 border-t border-primary/20 pt-6 font-mono text-xs font-medium uppercase tracking-[0.12em] text-white/45 sm:flex-row sm:flex-wrap sm:gap-x-10 sm:gap-y-2"
     >
-      {i.hero.trust.map((fact) => <li>{fact}</li>)}
+      {i.hero.trust.map((fact) => <li>[ {fact} ]</li>)}
     </ul>
   </div>
 </section>

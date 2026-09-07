@@ -14,22 +14,22 @@ const { locale } = Astro.props;
 const i = getCompanyHome(locale);
 ---
 
-<section id="proces" class="scroll-mt-24 bg-white py-20 md:py-24">
+<section id="proces" class="scroll-mt-24 border-t border-primary/20 py-20 md:py-24">
   <div class="mx-auto max-w-6xl px-6">
-    <h2 class="animate-on-scroll text-3xl font-bold tracking-tight text-ink md:text-4xl">{i.process.title}</h2>
+    <h2 class="animate-on-scroll text-3xl font-bold tracking-tight text-white md:text-4xl">{i.process.title}</h2>
 
     <div class="animate-on-scroll relative mt-12">
       {/* Rail connector: one line behind the step markers (vertical on mobile, horizontal on md) */}
-      <div class="absolute left-5 top-0 h-full w-px bg-band-strong/50 md:left-0 md:top-5 md:h-px md:w-full" aria-hidden="true"></div>
+      <div class="absolute left-5 top-0 h-full w-px bg-primary/25 md:left-0 md:top-5 md:h-px md:w-full" aria-hidden="true"></div>
       <ol class="grid gap-10 md:grid-cols-4 md:gap-6">
         {
           i.process.steps.map((step, idx) => (
             <li class="relative pl-16 md:pl-0 md:pt-16">
-              <span class="absolute left-0 top-0 grid h-10 w-10 place-items-center rounded-full border border-band-strong/60 bg-offwhite font-mono text-sm font-semibold text-primary-deep">
-                {idx + 1}
+              <span class="absolute left-0 top-0 grid h-10 w-10 place-items-center border border-primary/35 bg-night font-mono text-sm font-semibold text-primary">
+                {String(idx + 1).padStart(2, "0")}
               </span>
-              <h3 class="text-lg font-bold tracking-tight text-ink">{step.title}</h3>
-              <p class="mt-2 text-[15px] leading-relaxed text-muted">{step.text}</p>
+              <h3 class="text-lg font-bold tracking-tight text-white">{step.title}</h3>
+              <p class="mt-2 text-[15px] leading-relaxed text-white/65">{step.text}</p>
             </li>
           ))
         }

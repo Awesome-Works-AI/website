@@ -3,25 +3,22 @@
 @tailwind utilities;
 
 /* ============================================================
- * Brand tokens as CSS vars — used by the custom classes below.
- * Same values as tailwind.config.mjs (the family palette shared
- * with odbiera.ai). Fonts load via @fontsource imports in base.astro.
+ * "Blueprint noc" tokens as CSS vars — used by the custom
+ * classes below. Same values as tailwind.config.mjs. Fonts load
+ * via @fontsource imports in base.astro.
  * ============================================================ */
 
 :root {
-  --color-offwhite: #f6f8ff;
-  --color-ink: #010933;
-  --color-muted: #4a5478;
-  --color-primary: #005bfc;
-  --color-primary-bright: #3b82ff;
-  --color-primary-deep: #0046c7;
-  --color-dark: #010933;
-  --color-band: #e7eeff;
-  --color-band-strong: #9dbcff;
-  --color-danger: #b91c1c;
+  --color-night: #070d26;
+  --color-accent: #3b82ff;
+  --color-accent-deep: #0046c7;
+  --color-danger: #ff6b6b;
 
-  /* One consistent slant: every diagonal edge descends left → right. */
-  --slant: clamp(2rem, 4vw, 3.5rem);
+  /* Engineering-grid line + panel border tints. */
+  --grid-line: rgba(59, 130, 255, 0.07);
+  --line-soft: rgba(59, 130, 255, 0.2);
+  --line-strong: rgba(59, 130, 255, 0.35);
+  --surface: rgba(7, 13, 38, 0.6);
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -36,15 +33,14 @@ body {
 }
 
 ::selection {
-  background: var(--color-band-strong);
-  color: var(--color-dark);
+  background: var(--color-accent);
+  color: var(--color-night);
 }
 
 /* Brand-consistent keyboard focus (links, buttons, summary) */
 :focus-visible {
-  outline: 2px solid var(--color-primary);
+  outline: 2px solid var(--color-accent);
   outline-offset: 2px;
-  border-radius: 2px;
 }
 
 /* Safari still renders the default disclosure triangle on flex summaries */
@@ -59,21 +55,51 @@ summary::-webkit-details-marker {
 }
 
 /* ============================================================
- * Diagonal section bands (family signature; ≤ 3 slanted edges
- * per page: Products top+bottom, Contact top).
+ * Blueprint grid — one fixed 48px engineering grid behind the
+ * whole page (base.astro renders the layer; sections stay
+ * transparent so it shows through everywhere).
  * ============================================================ */
 
-/* Full band: slanted top + bottom (band stripe between white sections) */
-.diag-band {
-  clip-path: polygon(0 0, 100% var(--slant), 100% 100%, 0 calc(100% - var(--slant)));
-  padding-top: calc(var(--slant) + 4rem);
-  padding-bottom: calc(var(--slant) + 4rem);
+.blueprint-grid {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+  background-size: 48px 48px;
 }
 
-/* Slanted top only (the dark closing block: contact + footer) */
-.diag-top {
-  clip-path: polygon(0 0, 100% var(--slant), 100% 100%, 0 100%);
-  padding-top: calc(var(--slant) + 4rem);
+/* ============================================================
+ * HUD corners — the page signature. Two 2px accent L-brackets
+ * (top-left + bottom-right) on key panels: hero frame, product
+ * cards, terminal, FAQ panel, contact form card.
+ * Host must be position:relative and must NOT clip overflow
+ * (the brackets sit on the 1px border line).
+ * ============================================================ */
+
+.hud-corners::before,
+.hud-corners::after {
+  content: "";
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  pointer-events: none;
+}
+
+.hud-corners::before {
+  top: -1px;
+  left: -1px;
+  border-top: 2px solid var(--color-accent);
+  border-left: 2px solid var(--color-accent);
+}
+
+.hud-corners::after {
+  bottom: -1px;
+  right: -1px;
+  border-bottom: 2px solid var(--color-accent);
+  border-right: 2px solid var(--color-accent);
 }
 
 /* ============================================================
@@ -86,7 +112,7 @@ summary::-webkit-details-marker {
   width: 8px;
   height: 8px;
   border-radius: 9999px;
-  background: var(--color-primary);
+  background: var(--color-accent);
   flex: none;
 }
 
@@ -95,7 +121,7 @@ summary::-webkit-details-marker {
   position: absolute;
   inset: -4px;
   border-radius: 9999px;
-  background: color-mix(in srgb, var(--color-primary) 35%, transparent);
+  background: rgba(59, 130, 255, 0.35);
   animation: pulse-dot 2.2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
@@ -112,8 +138,9 @@ summary::-webkit-details-marker {
 }
 
 /* ============================================================
- * Buttons — conversion accent, full pill. Gradient is weighted
- * toward the dark end so white text keeps AA contrast.
+ * Buttons — rectangular, mono uppercase (Blueprint signature).
+ * Primary: solid accent with night text (5.3:1 on #3B82FF).
+ * Ghost: accent-tinted outline, light text.
  * ============================================================ */
 
 .btn-primary {
@@ -121,19 +148,20 @@ summary::-webkit-details-marker {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  border-radius: 9999px;
-  padding: 0.875rem 1.75rem;
-  font-size: 0.9375rem;
+  padding: 0.9375rem 1.75rem;
+  font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.8125rem;
   font-weight: 600;
-  color: #ffffff;
-  background-image: linear-gradient(135deg, var(--color-primary-bright), var(--color-primary) 40%, var(--color-primary-deep));
-  box-shadow: 0 8px 24px -8px color-mix(in srgb, var(--color-primary-deep) 55%, transparent);
-  transition: box-shadow 0.2s ease, filter 0.2s ease, transform 0.2s ease;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-night);
+  background: var(--color-accent);
+  transition: filter 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
 }
 
 .btn-primary:hover:not(:disabled) {
-  filter: brightness(0.94);
-  box-shadow: 0 10px 28px -8px color-mix(in srgb, var(--color-primary-deep) 65%, transparent);
+  filter: brightness(1.08);
+  box-shadow: 0 12px 32px -12px rgba(59, 130, 255, 0.55);
   transform: translateY(-1px);
 }
 
@@ -151,19 +179,22 @@ summary::-webkit-details-marker {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  border-radius: 9999px;
-  padding: 0.875rem 1.75rem;
-  font-size: 0.9375rem;
-  font-weight: 600;
-  color: var(--color-ink);
-  background: #ffffff;
-  border: 1px solid var(--color-band-strong);
-  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  padding: 0.875rem 1.625rem;
+  font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.75);
+  background: transparent;
+  border: 1px solid rgba(59, 130, 255, 0.5);
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
 }
 
 .btn-ghost:hover {
-  background: var(--color-band);
-  border-color: var(--color-primary);
+  background: rgba(59, 130, 255, 0.12);
+  border-color: var(--color-accent);
+  color: #ffffff;
 }
 
 .btn-ghost:active {
@@ -185,14 +216,15 @@ summary::-webkit-details-marker {
   opacity: 0;
 }
 
-/* White pulsing dot inside the primary CTA while the request is in flight.
+/* Pulsing dot inside the primary CTA while the request is in flight
+ * (night-on-accent, same contrast pair as the CTA label).
  * Display comes from utilities on the element (hidden / inline-block). */
 .btn-dot {
   position: relative;
   width: 8px;
   height: 8px;
   border-radius: 9999px;
-  background: #ffffff;
+  background: var(--color-night);
   flex: none;
 }
 
@@ -201,12 +233,12 @@ summary::-webkit-details-marker {
   position: absolute;
   inset: -4px;
   border-radius: 9999px;
-  background: rgb(255 255 255 / 0.45);
+  background: rgba(7, 13, 38, 0.45);
   animation: pulse-dot 2.2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
 /* ============================================================
- * Hero backdrop — drifting glow blobs behind the product shots.
+ * Hero backdrop — drifting accent glow blobs behind the shots.
  * ============================================================ */
 
 .hero-blob {
@@ -290,7 +322,7 @@ summary::-webkit-details-marker {
 
 /* ============================================================
  * Chat widget (demo assistant) — FAB, panel / mobile sheet,
- * bubbles in the family style. z-ladder: nav 50 > panel 45 > FAB 40.
+ * bubbles in the Blueprint style. z-ladder: nav 50 > panel 45 > FAB 40.
  * ============================================================ */
 
 .cw-fab {
@@ -302,11 +334,10 @@ summary::-webkit-details-marker {
   place-items: center;
   width: 56px;
   height: 56px;
-  border-radius: 9999px;
-  color: #ffffff;
-  background-image: linear-gradient(135deg, var(--color-primary-bright), var(--color-primary) 40%, var(--color-primary-deep));
-  box-shadow: 0 10px 28px -10px color-mix(in srgb, var(--color-primary-deep) 70%, transparent);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  color: var(--color-night);
+  background: var(--color-accent);
+  box-shadow: 0 10px 28px -10px rgba(59, 130, 255, 0.6);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
 }
 
 @media (min-width: 768px) {
@@ -318,7 +349,8 @@ summary::-webkit-details-marker {
 
 .cw-fab:hover {
   transform: translateY(-1px);
-  box-shadow: 0 14px 32px -10px color-mix(in srgb, var(--color-primary-deep) 80%, transparent);
+  filter: brightness(1.08);
+  box-shadow: 0 14px 32px -10px rgba(59, 130, 255, 0.7);
 }
 
 .cw-fab:active {
@@ -331,13 +363,12 @@ summary::-webkit-details-marker {
   bottom: calc(84px + env(safe-area-inset-bottom, 0px));
   z-index: 40;
   max-width: 14rem;
-  border-radius: 1rem 1rem 0.25rem 1rem;
-  border: 1px solid color-mix(in srgb, var(--color-band-strong) 60%, transparent);
-  background: #ffffff;
+  border: 1px solid var(--line-strong);
+  background: #0b1330;
   padding: 0.6rem 0.9rem;
   font-size: 0.875rem;
-  color: var(--color-ink);
-  box-shadow: 0 14px 34px -18px color-mix(in srgb, var(--color-dark) 45%, transparent);
+  color: #ffffff;
+  box-shadow: 0 14px 34px -18px rgba(0, 0, 0, 0.7);
   animation: cw-in 0.3s ease-out both;
 }
 
@@ -354,14 +385,13 @@ summary::-webkit-details-marker {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  background: #ffffff;
-  border: 1px solid color-mix(in srgb, var(--color-band-strong) 50%, transparent);
-  box-shadow: 0 26px 60px -30px color-mix(in srgb, var(--color-dark) 55%, transparent);
+  background: #0b1330;
+  border: 1px solid var(--line-strong);
+  box-shadow: 0 26px 60px -30px rgba(0, 0, 0, 0.8);
   animation: cw-in 0.25s cubic-bezier(0.2, 0.8, 0.2, 1) both;
   /* Mobile: bottom sheet */
   inset: auto 0 0 0;
   height: 85dvh;
-  border-radius: 1rem 1rem 0 0;
 }
 
 @media (min-width: 768px) {
@@ -369,7 +399,6 @@ summary::-webkit-details-marker {
     inset: auto 24px 24px auto;
     width: 360px;
     height: min(560px, 80vh);
-    border-radius: 1rem;
   }
 }
 
@@ -387,20 +416,20 @@ summary::-webkit-details-marker {
 .cw-msg-user {
   align-self: flex-end;
   max-width: 85%;
-  border-radius: 1rem 1rem 0.25rem 1rem;
-  background: var(--color-dark);
-  color: #ffffff;
+  background: var(--color-accent);
+  color: var(--color-night);
   padding: 0.7rem 1.05rem;
   font-size: 0.9375rem;
+  font-weight: 500;
   line-height: 1.45;
 }
 
 .cw-msg-bot {
   align-self: flex-start;
   max-width: 90%;
-  border-radius: 0.25rem 1rem 1rem 1rem;
-  background: var(--color-band);
-  color: var(--color-ink);
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid var(--line-soft);
+  color: rgba(255, 255, 255, 0.9);
   padding: 0.7rem 1.05rem;
   font-size: 0.9375rem;
   line-height: 1.55;
@@ -411,8 +440,8 @@ summary::-webkit-details-marker {
   align-items: center;
   gap: 0.3rem;
   align-self: flex-start;
-  border-radius: 0.25rem 1rem 1rem 1rem;
-  background: var(--color-band);
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid var(--line-soft);
   padding: 0.85rem 1rem;
 }
 
@@ -420,7 +449,7 @@ summary::-webkit-details-marker {
   width: 0.4rem;
   height: 0.4rem;
   border-radius: 9999px;
-  background: var(--color-primary);
+  background: var(--color-accent);
   opacity: 0.4;
   animation: cw-typing-bounce 1s ease-in-out infinite;
 }

@@ -1,6 +1,6 @@
 ---
-// In-house products: the "why us" proof. Diagonal band, an asymmetric duo
-// (58/42) with a wide horizontal card below, real screenshots, live links.
+// In-house products: the "why us" proof. An asymmetric duo (58/42) with a
+// wide horizontal card below; HUD-framed cards, real screenshots, live links.
 import Icon from "@/components/icon.astro";
 import { getCompanyHome } from "@/data/company-home";
 import type { Locale } from "@/i18n/utils";
@@ -12,23 +12,26 @@ interface Props {
 const { locale } = Astro.props;
 const i = getCompanyHome(locale);
 const [odbiera, callwise, courseai] = i.products.items;
+
+const card =
+  "hud-corners relative flex flex-col border border-primary/35 bg-[var(--surface)] transition-[border-color,box-shadow] duration-200 hover:border-primary/60 hover:shadow-[0_24px_60px_-32px_rgba(59,130,255,0.45)]";
 ---
 
-<section id="produkty" class="diag-band scroll-mt-10 bg-band">
+<section id="produkty" class="scroll-mt-24 border-t border-primary/20 py-20 md:py-24">
   <div class="mx-auto max-w-6xl px-6">
     <div class="animate-on-scroll">
-      <p class="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-primary-deep">
+      <p class="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-primary">
         [ {i.products.eyebrow} ]
       </p>
-      <h2 class="mt-4 text-3xl font-bold tracking-tight text-ink md:text-4xl">{i.products.title}</h2>
-      <p class="mt-3 max-w-[60ch] text-base leading-relaxed text-muted md:text-lg">{i.products.subtitle}</p>
+      <h2 class="mt-4 text-3xl font-bold tracking-tight text-white md:text-4xl">{i.products.title}</h2>
+      <p class="mt-3 max-w-[60ch] text-base leading-relaxed text-white/65 md:text-lg">{i.products.subtitle}</p>
     </div>
 
     <div class="animate-on-scroll mt-10 grid gap-5 lg:grid-cols-[0.58fr_0.42fr]">
       {
         [odbiera, callwise].map((product) => (
-          <article class="relative flex flex-col overflow-hidden rounded-2xl border border-band-strong/50 bg-white shadow-[0_24px_60px_-32px_rgba(1,9,51,0.45)] transition-[border-color,box-shadow] duration-200 hover:border-band-strong/80 hover:shadow-[0_30px_70px_-30px_rgba(1,9,51,0.55)]">
-            <div class="overflow-hidden border-b border-band-strong/30">
+          <article class={card}>
+            <div class="border-b border-primary/20">
               <img
                 src={product.shot}
                 alt={product.shotAlt}
@@ -40,20 +43,20 @@ const [odbiera, callwise, courseai] = i.products.items;
             </div>
             <div class="flex flex-1 flex-col p-6 md:p-7">
               <div class="flex flex-wrap items-center justify-between gap-3">
-                <h3 class="text-xl font-bold tracking-tight text-ink">{product.name}</h3>
-                <p class="flex items-center gap-2 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-muted">
+                <h3 class="text-xl font-bold tracking-tight text-white">{product.name}</h3>
+                <p class="flex items-center gap-2 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-white/45">
                   <span class="status-dot" />
                   {i.products.liveLabel}
                 </p>
               </div>
-              <p class="mt-2 text-[15px] leading-relaxed text-muted">{product.description}</p>
+              <p class="mt-2 text-[15px] leading-relaxed text-white/65">{product.description}</p>
               {/* Stretched link: the whole card (screenshot included) is the click target,
                   so the hover elevation is an honest affordance. */}
               <a
                 href={product.href}
                 target="_blank"
                 rel="noopener"
-                class="mt-auto inline-flex items-center gap-1.5 pt-5 text-sm font-semibold text-primary-deep after:absolute after:inset-0 hover:text-primary"
+                class="mt-auto inline-flex items-center gap-1.5 pt-5 text-sm font-semibold text-primary after:absolute after:inset-0 hover:text-white"
               >
                 {product.linkLabel}
                 <Icon name="external-link" class="h-3.5 w-3.5" />
@@ -65,8 +68,8 @@ const [odbiera, callwise, courseai] = i.products.items;
     </div>
 
     {/* Third product breaks the duo's rhythm: one wide horizontal card. */}
-    <article class="animate-on-scroll relative mt-5 flex flex-col overflow-hidden rounded-2xl border border-band-strong/50 bg-white shadow-[0_24px_60px_-32px_rgba(1,9,51,0.45)] transition-[border-color,box-shadow] duration-200 hover:border-band-strong/80 hover:shadow-[0_30px_70px_-30px_rgba(1,9,51,0.55)] md:flex-row">
-      <div class="overflow-hidden border-b border-band-strong/30 md:w-[42%] md:border-b-0 md:border-r">
+    <article class:list={["animate-on-scroll mt-5 md:flex-row", card]}>
+      <div class="border-b border-primary/20 md:w-[42%] md:border-b-0 md:border-r">
         <img
           src={courseai.shot}
           alt={courseai.shotAlt}
@@ -78,18 +81,18 @@ const [odbiera, callwise, courseai] = i.products.items;
       </div>
       <div class="flex flex-1 flex-col p-6 md:p-7">
         <div class="flex flex-wrap items-center justify-between gap-3">
-          <h3 class="text-xl font-bold tracking-tight text-ink">{courseai.name}</h3>
-          <p class="flex items-center gap-2 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-muted">
+          <h3 class="text-xl font-bold tracking-tight text-white">{courseai.name}</h3>
+          <p class="flex items-center gap-2 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-white/45">
             <span class="status-dot" />
             {i.products.liveLabel}
           </p>
         </div>
-        <p class="mt-2 max-w-[60ch] text-[15px] leading-relaxed text-muted">{courseai.description}</p>
+        <p class="mt-2 max-w-[60ch] text-[15px] leading-relaxed text-white/65">{courseai.description}</p>
         <a
           href={courseai.href}
           target="_blank"
           rel="noopener"
-          class="mt-auto inline-flex items-center gap-1.5 pt-5 text-sm font-semibold text-primary-deep after:absolute after:inset-0 hover:text-primary"
+          class="mt-auto inline-flex items-center gap-1.5 pt-5 text-sm font-semibold text-primary after:absolute after:inset-0 hover:text-white"
         >
           {courseai.linkLabel}
           <Icon name="external-link" class="h-3.5 w-3.5" />
