@@ -58,7 +58,7 @@ const companyHome = {
         {
           id: "automation",
           icon: "workflow",
-          image: "/services/automation.png",
+          image: "/services/automation.webp",
           imageAlt: "Ilustracja automatycznego przepływu pracy",
           name: "Automatyzacje AI",
           text: "Łączymy narzędzia, które już masz, w przepływy, które robią robotę same: dokumenty, maile, CRM, raporty. Rutyna przestaje zjadać dzień zespołu.",
@@ -68,7 +68,7 @@ const companyHome = {
         {
           id: "voice",
           icon: "audio-lines",
-          image: "/services/voice-assistant.png",
+          image: "/services/voice-assistant.webp",
           imageAlt: "Ilustracja agenta głosowego odbierającego telefon",
           name: "Agenci głosowi",
           text: "Odbierają telefony, umawiają terminy i odpowiadają na pytania klientów 24/7. Twoja recepcja nie ma kolejki i nie bierze wolnego.",
@@ -78,7 +78,7 @@ const companyHome = {
         {
           id: "chat",
           icon: "message-square",
-          image: "/services/chat-assistant.png",
+          image: "/services/chat-assistant.webp",
           imageAlt: "Ilustracja agenta konwersacyjnego w oknie czatu",
           name: "Agenci konwersacyjni",
           text: "Czat na twojej stronie lub w aplikacji, podpięty do twojej bazy wiedzy. Odpowiada klientom, zanim zdążą napisać maila.",
@@ -88,7 +88,7 @@ const companyHome = {
         {
           id: "data",
           icon: "cpu",
-          image: "/services/data-analysis.png",
+          image: "/services/data-analysis.webp",
           imageAlt: "Ilustracja analizy danych",
           name: "Analiza danych",
           text: "Łączymy dane z twoich systemów i przepuszczamy przez AI: transkrypcje, oceny, trendy, raporty. Decyzje podejmujesz na liczbach, nie na przeczuciu.",
@@ -98,7 +98,7 @@ const companyHome = {
         {
           id: "training",
           icon: "graduation-cap",
-          image: "/services/training.png",
+          image: "/services/training.webp",
           imageAlt: "Ilustracja warsztatu szkoleniowego z AI",
           name: "Szkolenia AI",
           text: "Warsztaty dla zespołów: narzędzia, agenci i bezpieczna praca z AI na co dzień. Po warsztacie zespół umie korzystać z tych narzędzi w swojej pracy.",
@@ -309,7 +309,7 @@ const companyHome = {
         {
           id: "automation",
           icon: "workflow",
-          image: "/services/automation.png",
+          image: "/services/automation.webp",
           imageAlt: "Illustration of an automated workflow",
           name: "AI automations",
           text: "We connect the tools you already use into flows that do the work on their own: documents, email, CRM, reports. Routine stops eating your team's day.",
@@ -319,7 +319,7 @@ const companyHome = {
         {
           id: "voice",
           icon: "audio-lines",
-          image: "/services/voice-assistant.png",
+          image: "/services/voice-assistant.webp",
           imageAlt: "Illustration of a voice agent answering a phone call",
           name: "Voice agents",
           text: "They answer calls, book appointments, and handle customer questions 24/7. Your front desk has no queue and never takes a day off.",
@@ -329,7 +329,7 @@ const companyHome = {
         {
           id: "chat",
           icon: "message-square",
-          image: "/services/chat-assistant.png",
+          image: "/services/chat-assistant.webp",
           imageAlt: "Illustration of a chat agent in a conversation window",
           name: "Chat agents",
           text: "A chat on your website or in your app, wired to your knowledge base. It answers customers before they get around to writing an email.",
@@ -339,7 +339,7 @@ const companyHome = {
         {
           id: "data",
           icon: "cpu",
-          image: "/services/data-analysis.png",
+          image: "/services/data-analysis.webp",
           imageAlt: "Illustration of data analysis",
           name: "Data analysis",
           text: "We connect data from your systems and run AI over it: transcripts, scoring, trends, reports. You decide on numbers, not gut feeling.",
@@ -349,7 +349,7 @@ const companyHome = {
         {
           id: "training",
           icon: "graduation-cap",
-          image: "/services/training.png",
+          image: "/services/training.webp",
           imageAlt: "Illustration of an AI training workshop",
           name: "AI training",
           text: "Workshops for teams: tools, agents, and safe day-to-day work with AI. After the workshop your team knows how to use these tools in their own work.",
