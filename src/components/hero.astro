@@ -176,32 +176,24 @@ const rows = [{ label: "Intro" }, ...i.services.items.map((item) => ({ label: it
     animation: hero-rise 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) both;
   }
 
-  /* No skew, tiny overshoot — a crisp slide, not jelly. */
+  /* Straight ease-out slides, no overshoot. */
   @keyframes hero-dash {
-    0% {
+    from {
       transform: translate(120px, -50%);
       opacity: 0;
     }
-    75% {
-      transform: translate(-6px, -50%);
-      opacity: 0.2;
-    }
-    100% {
+    to {
       transform: translate(0, -50%);
       opacity: 0.2;
     }
   }
 
   @keyframes hero-rise {
-    0% {
+    from {
       transform: translateY(28px);
       opacity: 0;
     }
-    75% {
-      transform: translateY(-3px);
-      opacity: 1;
-    }
-    100% {
+    to {
       transform: none;
       opacity: 1;
     }
