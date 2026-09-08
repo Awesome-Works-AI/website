@@ -135,7 +135,16 @@ const rows = [{ label: "Intro" }, ...i.services.items.map((item) => ({ label: it
             <span class="text-lg font-bold">{item.name}</span>
             <Icon name="chevron-down" class="ml-auto h-4 w-4 flex-none transition-transform group-open:rotate-180" />
           </summary>
-          <div class="flex flex-col items-start gap-4 border-t-[3px] border-ink bg-white px-6 py-6">
+          <div class="relative isolate overflow-hidden border-t-[3px] border-ink bg-white">
+            {/* Full panel like desktop: hazed robot backdrop under halo text. */}
+            <img
+              src={item.image}
+              alt={item.imageAlt}
+              class="pointer-events-none absolute right-0 top-1/2 -z-10 h-52 w-auto max-w-none -translate-y-1/2 opacity-20"
+              loading="lazy"
+              decoding="async"
+            />
+            <div class="hero-halo flex min-h-[13rem] flex-col items-start justify-center gap-4 px-6 py-6">
             <p class="text-[15px] font-medium leading-normal text-ink">{item.text}</p>
             {item.id === "chat" ? (
               <button
@@ -158,6 +167,7 @@ const rows = [{ label: "Intro" }, ...i.services.items.map((item) => ({ label: it
             ) : (
               <p class="text-[15px] font-bold text-ink">{item.proofLabel}</p>
             )}
+            </div>
           </div>
         </details>
       ))
