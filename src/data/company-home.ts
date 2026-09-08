@@ -119,8 +119,6 @@ const companyHome = {
           name: "odbiera.ai",
           description:
             "AI recepcjonistka głosowa dla firm. Odbiera telefony, umawia terminy i potwierdza je SMS-em, także po godzinach.",
-          shot: "/projects/odbiera-pl.webp",
-          shotAlt: "odbiera.ai: strona produktu AI recepcjonistki",
           href: odbieraUrl("pl"),
           linkLabel: "odbiera.ai",
         },
@@ -129,8 +127,6 @@ const companyHome = {
           name: "CallWise",
           description:
             "AI Call Scoring dla zespołów sprzedaży. Każda rozmowa handlowa zamienia się w transkrypcję, ocenę i zadania w CRM.",
-          shot: "/projects/callwise-pl.webp",
-          shotAlt: "CallWise: panel analizy rozmów sprzedażowych",
           href: callwiseUrl("pl"),
           linkLabel: "callwise.awesomeworks.ai",
         },
@@ -139,8 +135,6 @@ const companyHome = {
           name: "CourseAI",
           description:
             "Kurs online AI codingu. Uczymy budować oprogramowanie z agentami AI na realnych projektach, nie na slajdach.",
-          shot: "/projects/courseai-pl.webp",
-          shotAlt: "CourseAI: platforma kursu AI codingu",
           href: "https://course.awesomeworks.ai/",
           linkLabel: "course.awesomeworks.ai",
         },
@@ -172,7 +166,6 @@ const companyHome = {
       eyebrow: "opinie",
       title: "Co mówią klienci",
       onGoogle: "na Google",
-      reviewsCount: "opinii",
       seeOnGoogle: "Zobacz w Google",
     },
     faq: {
@@ -385,8 +378,6 @@ const companyHome = {
           name: "odbiera.ai",
           description:
             "An AI voice receptionist for businesses. It answers calls, books appointments, and confirms them by SMS, after hours too.",
-          shot: "/projects/odbiera-en.webp",
-          shotAlt: "odbiera.ai: AI receptionist product page",
           href: odbieraUrl("en"),
           linkLabel: "odbiera.ai",
         },
@@ -395,8 +386,6 @@ const companyHome = {
           name: "CallWise",
           description:
             "AI Call Scoring for sales teams. Every sales call turns into a transcript, a score, and tasks in the CRM.",
-          shot: "/projects/callwise-en.webp",
-          shotAlt: "CallWise: sales call analysis dashboard",
           href: callwiseUrl("en"),
           linkLabel: "callwise.awesomeworks.ai",
         },
@@ -405,8 +394,6 @@ const companyHome = {
           name: "CourseAI",
           description:
             "An online AI-coding course. We teach building software with AI agents on real projects, not slides.",
-          shot: "/projects/courseai-en.webp",
-          shotAlt: "CourseAI: AI-coding course platform",
           href: "https://course.awesomeworks.ai/en/",
           linkLabel: "course.awesomeworks.ai",
         },
@@ -438,7 +425,6 @@ const companyHome = {
       eyebrow: "reviews",
       title: "What clients say",
       onGoogle: "on Google",
-      reviewsCount: "reviews",
       seeOnGoogle: "See on Google",
     },
     faq: {
