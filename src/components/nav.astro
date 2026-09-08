@@ -1,54 +1,61 @@
 ---
-import LanguagePicker from "./language-picker.astro";
-import { getPersonalHome } from "@/data/personal-home";
-import type { Locale } from "@/i18n/utils";
+// Full-width top bar (brutal block): brand segment left, nav segments right,
+// every segment divided by a 3px rule; the single CTA is a cobalt segment.
+// Anchors (desktop), locale switch, and the CTA → #kontakt stay unchanged.
+import LanguagePicker from "@/components/language-picker.astro";
+import { getCompanyHome } from "@/data/company-home";
+import { getLocalePath, type Locale } from "@/i18n/utils";
 
 interface Props {
   locale: Locale;
+  /** Path of this page in the other locale (defaults to the localized home). */
+  altPath?: string;
+  /** Legal/sub pages: no section anchors, CTA points at the home contact form. */
+  minimal?: boolean;
+  /** Adds the #opinie anchor only while the reviews section is live. */
+  showReviews?: boolean;
 }
 
-const { locale } = Astro.props;
-const home = getPersonalHome(locale);
-const currentPath = Astro.url.pathname;
-const homeHref = `/${locale}/`;
-const isHomePage = currentPath === "/" || new RegExp(`^/${locale}/?$`).test(currentPath);
+const { locale, altPath, minimal = false, showReviews = false } = Astro.props;
+const i = getCompanyHome(locale);
+const homePath = getLocalePath(locale);
+const altLocale: Locale = locale === "pl" ? "en" : "pl";
+const resolvedAltPath = altPath ?? getLocalePath(altLocale);
+const contactHref = minimal ? `${homePath}#kontakt` : "#kontakt";
 
-const brand = home.nav.brand ?? "Rafał Łazicki";
-const brandInitials = brand
-  .split(/\s+/)
-  .map((part) => part[0])
-  .filter(Boolean)
-  .slice(0, 2)
-  .join("");
-
-const ctaLabel = home.nav.cta;
-const ctaHref = home.hero.primaryHref;
-const ctaIsExternal = /^(https?:|mailto:)/.test(ctaHref);
+const links = showReviews
+  ? [...i.nav.links.slice(0, 3), i.nav.reviewsLink, ...i.nav.links.slice(3)]
+  : [...i.nav.links];
 ---
 
-<header
-  class="pointer-events-none fixed inset-x-0 top-3 z-50 flex items-center justify-between gap-3 px-3 sm:top-4 sm:px-6"
-  aria-label="Primary"
->
-  <a
-    href={homeHref}
-    class="pointer-events-auto inline-flex items-center gap-2 rounded-full border border-white/[0.10] bg-background/65 px-3 py-1.5 shadow-lg shadow-black/30 backdrop-blur-xl transition hover:border-white/20 hover:bg-background/85 sm:py-2"
-  >
-    <span class="grid h-6 w-6 place-items-center rounded-full bg-foreground text-[10px] font-black uppercase tracking-tight text-background">
-      {brandInitials}
-    </span>
-    <span class="hidden text-sm font-semibold tracking-tight text-foreground sm:inline">{brand}</span>
-  </a>
-
-  <div class="pointer-events-auto inline-flex items-center gap-2 rounded-full border border-white/[0.10] bg-background/65 p-1 pl-3 shadow-lg shadow-black/30 backdrop-blur-xl">
-    <LanguagePicker currentLocale={locale} />
-    <a
-      href={ctaHref}
-      target={ctaIsExternal ? "_blank" : undefined}
-      rel={ctaIsExternal ? "noopener noreferrer" : undefined}
-      class="inline-flex h-9 items-center rounded-full bg-red-600 px-4 text-xs font-semibold uppercase tracking-[0.14em] text-white shadow-md shadow-red-500/30 transition hover:bg-red-500 sm:text-sm sm:tracking-[0.08em]"
-    >
-      {ctaLabel}
+<header class="fixed inset-x-0 top-0 z-50 border-b-[3px] border-ink bg-offwhite" aria-label="Primary">
+  <div class="flex items-stretch justify-between">
+    {/* Brand segment */}
+    <a href={homePath} class="flex items-center gap-2.5 border-r-[3px] border-ink px-4 py-3 md:px-6">
+      <img src="/logo.png" alt="" width="24" height="24" class="h-6 w-6" />
+      <span class="hidden font-display text-[15px] uppercase tracking-tight text-ink sm:inline">{i.nav.brand}</span>
     </a>
+
+    {/* Nav segments: anchors + language switch + CTA */}
+    <nav class="flex items-stretch">
+      {
+        !minimal &&
+          links.map((link) => (
+            <a
+              href={link.href}
+              class="hidden items-center border-l-[3px] border-ink px-5 text-[13px] font-bold uppercase tracking-wide text-ink transition-colors hover:bg-ink hover:text-white lg:flex"
+            >
+              {link.label}
+            </a>
+          ))
+      }
+      <LanguagePicker locale={locale} altPath={resolvedAltPath} />
+      <a
+        href={contactHref}
+        class="flex items-center border-l-[3px] border-ink bg-cobalt px-3 text-[13px] font-bold uppercase tracking-wide text-white transition-colors hover:bg-ink md:px-6"
+      >
+        {i.nav.cta}
+      </a>
+    </nav>
   </div>
 </header>

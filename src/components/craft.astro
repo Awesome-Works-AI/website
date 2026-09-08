@@ -1,0 +1,35 @@
+---
+// Custom-software manifesto: one full-bleed statement band between the hero
+// and the products. Statement left, supporting copy and a pointer to the
+// process on the right, split by the 3px rule like the hero grid.
+import Icon from "@/components/icon.astro";
+import { getCompanyHome } from "@/data/company-home";
+import type { Locale } from "@/i18n/utils";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const i = getCompanyHome(locale);
+---
+
+<section class="border-b-[3px] border-ink bg-white">
+  <div class="grid lg:grid-cols-[3fr_2fr]">
+    <div class="flex items-center px-6 py-16 md:py-20 lg:border-r-[3px] lg:border-ink lg:px-10">
+      <h2 class="font-display text-4xl uppercase leading-[1.02] tracking-tight text-ink [text-wrap:balance] md:text-5xl lg:text-6xl">
+        {i.craft.title}
+      </h2>
+    </div>
+    <div class="flex flex-col items-start justify-center gap-6 border-t-[3px] border-ink px-6 py-10 lg:border-t-0 lg:px-8 lg:py-16">
+      <p class="max-w-[44ch] text-lg font-medium leading-normal text-ink">{i.craft.text}</p>
+      <a
+        href="#proces"
+        class="inline-flex items-center gap-1.5 text-base font-bold text-ink underline decoration-cobalt decoration-[3px] underline-offset-4 hover:text-cobalt"
+      >
+        {i.craft.linkLabel}
+        <Icon name="arrow-right" class="h-4 w-4 flex-none" />
+      </a>
+    </div>
+  </div>
+</section>

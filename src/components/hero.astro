@@ -1,5 +1,12 @@
 ---
-import { getPersonalHome } from "@/data/personal-home";
+// Hero (brutal blok): full-bleed two-column grid split by a 3px rule.
+// Right: a numbered index — 00 Intro plus the five services. Left: the
+// panel the index controls; Intro holds the headline, each service row
+// swaps in its name, description, proof, and robot. This IS the services
+// surface (#uslugi) — there is no separate section. Closed by the
+// full-bleed ink trust strip. Only true facts, no invented numbers.
+import Icon from "@/components/icon.astro";
+import { getCompanyHome } from "@/data/company-home";
 import type { Locale } from "@/i18n/utils";
 
 interface Props {
@@ -7,66 +14,282 @@ interface Props {
 }
 
 const { locale } = Astro.props;
-const { hero } = getPersonalHome(locale);
-const isPrimaryExternal = /^(https?:|mailto:)/.test(hero.primaryHref);
-const isSecondaryExternal = /^(https?:|mailto:)/.test(hero.secondaryHref);
-const hasSecondaryCta = Boolean(hero.secondaryCta && hero.secondaryHref);
+const i = getCompanyHome(locale);
+const rows = [{ label: "Intro" }, ...i.services.items.map((item) => ({ label: item.name }))];
 ---
 
-<section id="top" class="relative flex min-h-[100svh] items-center overflow-hidden px-5 pb-16 pt-20 sm:px-6 sm:pt-24 lg:px-8">
-  <div class="pointer-events-none absolute inset-0 gradient-mesh-strong"></div>
-  <div class="pointer-events-none absolute inset-x-0 top-0 h-64 bg-[radial-gradient(circle_at_top,rgba(99,102,241,0.16),transparent_55%)]"></div>
-
-  <div class="presentation-shell pt-4">
-    <div class="presentation-panel animate-on-scroll max-w-5xl">
-      <div class="max-w-4xl">
-        <div class="section-kicker">{hero.eyebrow}</div>
-        <h1 class="mt-4 max-w-4xl text-[2.125rem] font-semibold tracking-tight text-foreground sm:text-6xl lg:text-7xl">
-          {hero.title}
-        </h1>
-        <p class="mt-6 max-w-3xl text-base leading-relaxed text-muted-foreground sm:text-xl">
-          {hero.subtitle}
-        </p>
-
-        <div class="mt-8 flex flex-col items-start gap-3">
-          <a
-            href={hero.primaryHref}
-            target={isPrimaryExternal ? "_blank" : undefined}
-            rel={isPrimaryExternal ? "noopener noreferrer" : undefined}
-            class="inline-flex items-center rounded-full bg-red-600 px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-red-500/30 transition hover:bg-red-500 hover:shadow-red-500/50 sm:text-base"
-          >
-            {hero.primaryCta}
-            <span aria-hidden="true" class="ml-2">→</span>
-          </a>
-          {
-            "primarySublabel" in hero && (hero as any).primarySublabel && (
-              <p class="text-xs text-muted-foreground sm:text-sm">{(hero as any).primarySublabel}</p>
-            )
-          }
-          {
-            hasSecondaryCta && (
-              <a
-                href={hero.secondaryHref}
-                target={isSecondaryExternal ? "_blank" : undefined}
-                rel={isSecondaryExternal ? "noopener noreferrer" : undefined}
-                class="mt-2 inline-flex items-center rounded-full border border-white/[0.12] bg-white/[0.04] px-6 py-3 text-sm font-semibold text-foreground transition-colors hover:bg-white/[0.08]"
-              >
-                {hero.secondaryCta}
-              </a>
-            )
-          }
-          {
-            hero.storyCta && hero.storyHref && (
-              <a
-                href={hero.storyHref}
-                class="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-              >
-                <span>{hero.storyCta}</span>
-              </a>
-            )
-          }
+{/* Desktop: the wrapper is one viewport per index entry; the hero pins inside
+    it and scroll walks the index (sentinels + IO, no wheel hijack). After the
+    last entry the pin releases and the page scrolls on. Mobile: no pinning. */}
+<section id="uslugi" data-hero-root class="relative scroll-mt-[51px] lg:h-[350svh]">
+  {/* pt-[51px] = exact height of the fixed top bar (24px logo + 2x12px padding + 3px border) */}
+  <div class="flex flex-col bg-offwhite pt-[51px] lg:sticky lg:top-0 lg:h-[100svh]">
+  <div class="grid flex-1 lg:min-h-0 lg:grid-cols-[3fr_2fr]">
+    {/* Left: the swapping panel (Intro by default) + the persistent CTA */}
+    <div
+      class="relative isolate flex flex-col items-start justify-center gap-7 overflow-hidden px-6 py-16 md:py-20 lg:gap-8 lg:border-r-[3px] lg:border-ink lg:px-10"
+    >
+      <div data-hero-panels class="w-full" aria-live="polite">
+        <div data-hero-panel data-idx="0" class="w-full">
+          <div class="hero-halo flex flex-col items-start gap-7 lg:gap-8">
+            <h1
+              class="font-display text-5xl uppercase leading-[0.98] tracking-tight text-ink [text-wrap:balance] md:text-6xl lg:text-[clamp(4.5rem,6.4vw,5.75rem)]"
+            >
+              {i.hero.title}
+            </h1>
+            <p class="max-w-[44ch] text-lg font-medium leading-normal text-ink">{i.hero.subtitle}</p>
+          </div>
+          <img
+            src="/services/hello.webp"
+            alt=""
+            class="pointer-events-none absolute right-0 top-1/2 -z-10 h-64 w-auto max-w-none -translate-y-1/2 opacity-20 md:h-80 xl:h-96"
+            loading="eager"
+            decoding="async"
+          />
         </div>
+        {
+          i.services.items.map((item, k) => (
+            <div data-hero-panel data-idx={k + 1} hidden class="w-full">
+              <div class="hero-halo flex flex-col items-start gap-5">
+                <p class="font-display text-lg text-cobalt" aria-hidden="true">
+                  {String(k + 1).padStart(2, "0")}
+                </p>
+                <h2 class="font-display text-4xl uppercase leading-[1.02] tracking-tight text-ink md:text-5xl">
+                  {item.name}
+                </h2>
+                <p class="max-w-[44ch] text-lg font-medium leading-normal text-ink">{item.text}</p>
+                {item.id === "chat" ? (
+                  <button
+                    type="button"
+                    data-open-chat
+                    class="text-left text-base font-bold text-ink underline decoration-cobalt decoration-[3px] underline-offset-4 hover:text-cobalt"
+                  >
+                    {item.proofLabel}
+                  </button>
+                ) : item.proofHref ? (
+                  <a
+                    href={item.proofHref}
+                    target="_blank"
+                    rel="noopener"
+                    class="inline-flex items-center gap-1.5 text-base font-bold text-ink underline decoration-cobalt decoration-[3px] underline-offset-4 hover:text-cobalt"
+                  >
+                    {item.proofLabel}
+                    <Icon name="external-link" class="h-3.5 w-3.5 flex-none" />
+                  </a>
+                ) : (
+                  <p class="text-base font-bold text-ink">{item.proofLabel}</p>
+                )}
+              </div>
+              {/* Hazed backdrop robot: fixed aspect (max-w-none beats the
+                  preflight max-width squish), clipped by the column. */}
+              <img
+                src={item.image}
+                alt={item.imageAlt}
+                class="pointer-events-none absolute right-0 top-1/2 -z-10 h-64 w-auto max-w-none -translate-y-1/2 opacity-20 md:h-80 xl:h-96"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+          ))
+        }
       </div>
+      <a href="#kontakt" class="btn-primary">
+        {i.hero.primaryCta}
+        <Icon name="arrow-right" class="h-4 w-4" />
+      </a>
+    </div>
+
+    {/* Right: the index driving the left panel */}
+    <div class="flex flex-col border-t-[3px] border-ink lg:border-t-0" role="list" aria-label={i.services.title}>
+      {
+        rows.map((row, idx) => (
+          <button
+            type="button"
+            data-hero-tab
+            data-idx={idx}
+            aria-current={idx === 0 ? "true" : "false"}
+            class:list={[
+              "hero-row flex flex-1 items-center gap-3 px-6 py-4 text-left lg:gap-4 lg:px-8 lg:py-0",
+              idx < rows.length - 1 && "border-b-[3px] border-ink",
+            ]}
+          >
+            <span class="font-display text-base lg:text-lg" aria-hidden="true">
+              {String(idx).padStart(2, "0")}
+            </span>
+            <span class="text-lg font-bold lg:text-xl">{row.label}</span>
+          </button>
+        ))
+      }
     </div>
   </div>
+
+  {/* Trust strip: real facts only, full-bleed ink band */}
+  <ul class="flex flex-col border-t-[3px] border-ink bg-ink py-3 sm:flex-row sm:py-0">
+    {
+      i.hero.trust.map((fact) => (
+        <li class="px-6 py-1 text-xs font-bold uppercase tracking-[0.1em] text-offwhite sm:py-4 lg:px-10">
+          {fact}
+        </li>
+      ))
+    }
+  </ul>
+  </div>
 </section>
+
+<style>
+  /* Row states: idle white, hover inverts to ink; the active row sits cobalt. */
+  .hero-row {
+    background: #ffffff;
+    color: var(--color-ink);
+    transition:
+      background 0.15s ease,
+      color 0.15s ease;
+  }
+
+  .hero-row:hover {
+    background: var(--color-ink);
+    color: #ffffff;
+  }
+
+  .hero-row[aria-current="true"] {
+    background: var(--color-cobalt);
+    color: #ffffff;
+  }
+
+  /* White halo lifting panel text off the hazed backdrop robot. */
+  .hero-halo {
+    text-shadow:
+      0 1px 2px rgb(255 255 255 / 0.95),
+      0 0 10px rgb(255 255 255 / 0.95),
+      0 0 24px rgb(255 255 255 / 0.9),
+      0 0 42px rgb(255 255 255 / 0.75);
+  }
+
+  /* Step-change feedback: a revealed panel replays these (display toggling
+   * restarts CSS animations) — the robot dashes in from the right with a
+   * slight skew and overshoot, the text rises under it. */
+  [data-hero-panel] img {
+    animation: hero-dash 0.42s cubic-bezier(0.22, 0.85, 0.3, 1) both;
+  }
+
+  [data-hero-panel] .hero-halo {
+    animation: hero-rise 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  }
+
+  /* Straight ease-out slides, no overshoot. */
+  @keyframes hero-dash {
+    from {
+      transform: translate(120px, -50%);
+      opacity: 0;
+    }
+    to {
+      transform: translate(0, -50%);
+      opacity: 0.2;
+    }
+  }
+
+  @keyframes hero-rise {
+    from {
+      transform: translateY(28px);
+      opacity: 0;
+    }
+    to {
+      transform: none;
+      opacity: 1;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-row {
+      transition: none;
+    }
+
+    [data-hero-panel] img,
+    [data-hero-panel] .hero-halo {
+      animation: none;
+    }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-hero-root]").forEach((root) => {
+    const tabs = [...root.querySelectorAll<HTMLButtonElement>("[data-hero-tab]")];
+    const panels = [...root.querySelectorAll<HTMLElement>("[data-hero-panel]")];
+    const host = root.querySelector<HTMLElement>("[data-hero-panels]")!;
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    const pinned = window.matchMedia("(min-width: 1024px)").matches;
+    let current = 0;
+
+    const activate = (idx: number) => {
+      if (idx === current) return;
+      current = idx;
+      tabs.forEach((tab, j) => tab.setAttribute("aria-current", j === idx ? "true" : "false"));
+      panels.forEach((panel) => {
+        panel.hidden = Number(panel.dataset.idx) !== idx;
+      });
+    };
+
+    // Clicking a row jumps the scroll position to that entry's sentinel, so
+    // click and scroll stay one mechanism on desktop; mobile swaps in place.
+    const goTo = (idx: number) => {
+      if (pinned) {
+        // Half-viewport steps; land the target sentinel's center in the IO band.
+        const rootTop = root.getBoundingClientRect().top + window.scrollY;
+        const top = Math.max(rootTop, rootTop + (idx * 0.5 - 0.25) * window.innerHeight + 8);
+        window.scrollTo({ top, behavior: reducedMotion.matches ? "auto" : "smooth" });
+      } else {
+        activate(idx);
+        host.scrollIntoView({ block: "nearest", behavior: reducedMotion.matches ? "auto" : "smooth" });
+      }
+    };
+
+    if (pinned) {
+      // Scroll drives the index: the active entry is computed directly from
+      // the pin progress in an rAF loop, so no step can be skipped or fire
+      // twice on fast scrolling. The loop runs only while the hero is on
+      // screen (IO gates it); native scrolling, no wheel hijack.
+      const step = () => 0.5 * window.innerHeight;
+      let running = false;
+
+      const tick = () => {
+        if (!running) return;
+        const progress = -root.getBoundingClientRect().top;
+        const idx = Math.min(tabs.length - 1, Math.max(0, Math.floor((progress + step() / 2) / step())));
+        activate(idx);
+        requestAnimationFrame(tick);
+      };
+
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          const visible = entry.isIntersecting;
+          if (visible && !running) {
+            running = true;
+            requestAnimationFrame(tick);
+          } else if (!visible) {
+            running = false;
+          }
+        });
+      });
+      io.observe(root);
+    }
+
+    tabs.forEach((tab, idx) => {
+      tab.addEventListener("click", () => goTo(idx));
+      tab.addEventListener("keydown", (event) => {
+        const delta =
+          event.key === "ArrowDown" || event.key === "ArrowRight"
+            ? 1
+            : event.key === "ArrowUp" || event.key === "ArrowLeft"
+              ? -1
+              : 0;
+        if (!delta) return;
+        event.preventDefault();
+        const next = (idx + delta + tabs.length) % tabs.length;
+        tabs[next].focus();
+        goTo(next);
+      });
+    });
+    activate(0);
+  });
+</script>

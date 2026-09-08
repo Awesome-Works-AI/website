@@ -2,161 +2,323 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Self-hosted Space Grotesk (variable 300–700) — avoids the render-blocking
-   Google Fonts stylesheet + third-party connection. latin covers EN; latin-ext
-   covers Polish diacritics. */
-@font-face {
-  font-family: "Space Grotesk";
-  font-style: normal;
-  font-weight: 300 700;
-  font-display: swap;
-  src: url("/fonts/space-grotesk-latin.woff2") format("woff2");
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
-    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
-    U+2212, U+2215, U+FEFF, U+FFFD;
-}
-@font-face {
-  font-family: "Space Grotesk";
-  font-style: normal;
-  font-weight: 300 700;
-  font-display: swap;
-  src: url("/fonts/space-grotesk-latin-ext.woff2") format("woff2");
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7,
-    U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF,
-    U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+/* ============================================================
+ * Brutal-block tokens as CSS vars — used by the custom classes
+ * below. Same values as tailwind.config.mjs. Fonts load via
+ * @fontsource Archivo imports in base.astro.
+ * ============================================================ */
+
+:root {
+  --color-paper: #f2f2ee;
+  --color-ink: #0a0a0a;
+  --color-cobalt: #0038ff;
 }
 
-@layer base {
-  :root {
-    --background: 240 20% 97%;
-    --foreground: 240 25% 10%;
-    --card: 0 0% 100%;
-    --card-foreground: 240 25% 10%;
-    --primary: 239 84% 67%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 240 25% 95%;
-    --secondary-foreground: 240 30% 20%;
-    --muted: 240 15% 93%;
-    --muted-foreground: 240 10% 45%;
-    --accent: 160 59% 52%;
-    --accent-foreground: 160 50% 15%;
-    --border: 240 20% 92%;
-    --input: 240 15% 90%;
-    --ring: 239 84% 67%;
-    --radius: 0.75rem;
-  }
-
-  .dark {
-    --background: 240 30% 4%;
-    --foreground: 240 5% 95%;
-    --card: 240 20% 8%;
-    --card-foreground: 240 5% 95%;
-    --primary: 239 84% 72%;
-    --primary-foreground: 240 20% 6%;
-    --secondary: 240 15% 12%;
-    --secondary-foreground: 240 5% 90%;
-    --muted: 240 15% 14%;
-    --muted-foreground: 240 10% 55%;
-    --accent: 160 59% 57%;
-    --accent-foreground: 160 40% 80%;
-    --border: 240 15% 16%;
-    --input: 240 15% 16%;
-    --ring: 239 84% 72%;
-  }
-}
-
-@layer base {
-  * {
-    @apply border-border;
-  }
+@media (prefers-reduced-motion: no-preference) {
   html {
     scroll-behavior: smooth;
   }
-  body {
-    @apply bg-background text-foreground antialiased;
-    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--color-cobalt);
+  color: #ffffff;
+}
+
+/* Brand-consistent keyboard focus (links, buttons, summary) — square. */
+:focus-visible {
+  outline: 3px solid var(--color-cobalt);
+  outline-offset: 2px;
+}
+
+/* Safari still renders the default disclosure triangle on flex summaries */
+summary::-webkit-details-marker {
+  display: none;
+}
+
+/* The chat widget toggles visibility via the hidden attribute; keep it
+ * authoritative over any class-level display rule. */
+[hidden] {
+  display: none !important;
+}
+
+/* ============================================================
+ * Status dot — semantic "live in production" indicator only.
+ * Static cobalt square (no pulse: motion is functional-only).
+ * ============================================================ */
+
+.status-dot {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  background: var(--color-cobalt);
+  flex: none;
+}
+
+/* ============================================================
+ * Buttons — conversion accent. Hard offset shadow lives ONLY on
+ * .btn-primary (plus chat FAB + chat panel); :active pushes the
+ * button into its shadow.
+ * ============================================================ */
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  border: 3px solid var(--color-ink);
+  padding: 0.85rem 1.75rem;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #ffffff;
+  background: var(--color-cobalt);
+  box-shadow: 6px 6px 0 var(--color-ink);
+  transition: background 0.15s ease, transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--color-ink);
+}
+
+.btn-primary:active:not(:disabled) {
+  transform: translate(6px, 6px);
+  box-shadow: 0 0 0 var(--color-ink);
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  border: 3px solid var(--color-ink);
+  padding: 0.85rem 1.75rem;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-ink);
+  background: #ffffff;
+  transition: background 0.15s ease, color 0.15s ease, transform 0.1s ease;
+}
+
+.btn-ghost:hover {
+  background: var(--color-ink);
+  color: #ffffff;
+}
+
+.btn-ghost:active {
+  transform: translate(2px, 2px);
+}
+
+/* ============================================================
+ * Contact form helpers — honeypot + in-flight CTA square.
+ * ============================================================ */
+
+/* Honeypot: offscreen instead of display:none so naive bots still "see"
+ * and fill it; people never do (aria-hidden + tabindex=-1 keep it out
+ * of AT / tab order). */
+.hp-field {
+  position: absolute;
+  left: -9999px;
+  height: 0;
+  width: 0;
+  opacity: 0;
+}
+
+/* White blinking square inside the primary CTA while the request is in
+ * flight. Display comes from utilities on the element (hidden / inline-block). */
+.btn-dot {
+  width: 8px;
+  height: 8px;
+  background: #ffffff;
+  flex: none;
+  animation: blink-square 1s steps(1) infinite;
+}
+
+@keyframes blink-square {
+  50% {
+    opacity: 0.25;
   }
 }
 
-@layer utilities {
-  .presentation-slide {
-    @apply relative flex min-h-[100svh] items-center overflow-hidden px-5 py-24 sm:px-6 lg:px-8;
+/* ============================================================
+ * Chat widget (demo assistant) — square FAB, bordered panel /
+ * mobile sheet, rectangular bubbles. z-ladder: nav 50 > panel 45
+ * > FAB 40.
+ * ============================================================ */
+
+.cw-fab {
+  position: fixed;
+  right: 16px;
+  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  z-index: 40;
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border: 3px solid var(--color-ink);
+  color: #ffffff;
+  background: var(--color-cobalt);
+  box-shadow: 6px 6px 0 var(--color-ink);
+  transition: background 0.15s ease, transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+@media (min-width: 768px) {
+  .cw-fab {
+    right: 24px;
+    bottom: 24px;
   }
-  .presentation-shell {
-    @apply relative mx-auto flex w-full max-w-6xl flex-col;
+}
+
+.cw-fab:hover {
+  background: var(--color-ink);
+}
+
+.cw-fab:active {
+  transform: translate(6px, 6px);
+  box-shadow: 0 0 0 var(--color-ink);
+}
+
+.cw-nudge {
+  position: fixed;
+  right: 16px;
+  bottom: calc(92px + env(safe-area-inset-bottom, 0px));
+  z-index: 40;
+  max-width: 14rem;
+  border: 3px solid var(--color-ink);
+  background: #ffffff;
+  padding: 0.6rem 0.9rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-ink);
+}
+
+@media (min-width: 768px) {
+  .cw-nudge {
+    right: 24px;
+    bottom: 100px;
   }
-  .presentation-panel {
-    @apply relative overflow-hidden rounded-[2rem] border border-white/[0.08] bg-white/[0.03] p-8 shadow-2xl shadow-black/20 sm:p-10 lg:p-12;
+}
+
+.cw-panel {
+  position: fixed;
+  z-index: 45;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: #ffffff;
+  border: 3px solid var(--color-ink);
+  box-shadow: 6px 6px 0 var(--color-ink);
+  /* Mobile: bottom sheet */
+  inset: auto 0 0 0;
+  height: 85dvh;
+  border-left: 0;
+  border-right: 0;
+  border-bottom: 0;
+  box-shadow: none;
+}
+
+@media (min-width: 768px) {
+  .cw-panel {
+    inset: auto 24px 24px auto;
+    width: 360px;
+    height: min(560px, 80vh);
+    border: 3px solid var(--color-ink);
+    box-shadow: 6px 6px 0 var(--color-ink);
   }
-  .section-kicker {
-    @apply text-[11px] font-semibold uppercase tracking-[0.28em] text-muted-foreground/70;
-  }
-  .section-title {
-    @apply text-[1.75rem] font-semibold tracking-tight text-foreground sm:text-5xl;
-  }
-  .section-copy {
-    @apply text-[15px] leading-relaxed text-muted-foreground sm:text-lg;
-  }
-  .glass {
-    @apply border border-white/[0.06] bg-white/[0.04] shadow-lg shadow-black/20 backdrop-blur-xl;
-  }
-  .glass-subtle {
-    @apply border border-white/[0.04] bg-white/[0.02] backdrop-blur-md;
-  }
-  .glow-sm {
-    box-shadow:
-      0 0 15px -3px hsl(var(--primary) / 0.15),
-      0 0 6px -4px hsl(var(--primary) / 0.1);
-  }
-  .glow-primary {
-    box-shadow:
-      0 0 20px -5px hsl(var(--primary) / 0.3),
-      0 4px 6px -4px hsl(var(--primary) / 0.1);
-  }
-  .gradient-mesh {
-    background-image:
-      radial-gradient(at 20% 20%, hsl(239 84% 67% / 0.08) 0px, transparent 60%),
-      radial-gradient(at 80% 40%, hsl(160 59% 52% / 0.06) 0px, transparent 60%),
-      radial-gradient(at 50% 90%, hsl(239 60% 55% / 0.05) 0px, transparent 60%);
-  }
-  .gradient-mesh-strong {
-    background-image:
-      radial-gradient(at 20% 20%, hsl(239 84% 67% / 0.15) 0px, transparent 50%),
-      radial-gradient(at 80% 30%, hsl(160 59% 52% / 0.10) 0px, transparent 50%),
-      radial-gradient(at 40% 80%, hsl(239 60% 55% / 0.08) 0px, transparent 50%);
-  }
-  .text-gradient {
-    @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(135deg, hsl(239 84% 72%), hsl(160 59% 57%), hsl(239 60% 80%));
-  }
-  .animate-on-scroll {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-  }
-  .animate-on-scroll.visible {
-    opacity: 1;
+}
+
+.cw-msg-user {
+  align-self: flex-end;
+  max-width: 85%;
+  background: var(--color-ink);
+  color: #ffffff;
+  padding: 0.7rem 1.05rem;
+  font-size: 0.9375rem;
+  line-height: 1.45;
+}
+
+.cw-msg-bot {
+  align-self: flex-start;
+  max-width: 90%;
+  background: var(--color-paper);
+  color: var(--color-ink);
+  padding: 0.7rem 1.05rem;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+}
+
+.cw-typing {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  align-self: flex-start;
+  background: var(--color-paper);
+  padding: 0.85rem 1rem;
+}
+
+.cw-typing span {
+  width: 0.4rem;
+  height: 0.4rem;
+  background: var(--color-cobalt);
+  opacity: 0.4;
+  animation: cw-typing-bounce 1s ease-in-out infinite;
+}
+
+.cw-typing span:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.cw-typing span:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+@keyframes cw-typing-bounce {
+  0%,
+  100% {
+    opacity: 0.35;
     transform: translateY(0);
   }
-  .rail-link {
-    @apply flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.26em] transition-colors;
-    color: hsl(var(--muted-foreground) / 0.42);
+  50% {
+    opacity: 1;
+    transform: translateY(-3px);
   }
-  .rail-link:hover {
-    @apply text-foreground;
+}
+
+/* ============================================================
+ * Reduced motion — collapse to static states.
+ * ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-dot {
+    animation: none;
   }
-  .rail-link-line {
-    @apply h-px w-6 transition-all duration-200;
-    background-color: rgb(255 255 255 / 0.18);
+  .btn-primary,
+  .btn-ghost,
+  .cw-fab {
+    transition: none;
   }
-  .rail-link:hover .rail-link-line {
-    @apply w-8;
-    background-color: rgb(255 255 255 / 0.4);
+  .cw-typing span {
+    animation: none;
+    opacity: 1;
   }
-  .rail-link.is-active {
-    @apply text-foreground;
-  }
-  .rail-link.is-active .rail-link-line {
-    @apply w-10 bg-foreground;
-  }
+}
+
+/* No rubber-band overscroll at the page edges — with the pinned hero the
+ * top bounce reads as a glitch in the index mechanic. */
+html,
+body {
+  overscroll-behavior-y: none;
 }

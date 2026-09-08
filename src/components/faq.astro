@@ -1,47 +1,302 @@
 ---
-import { t, type Locale } from "@/i18n/utils";
+// FAQ: B2B objections (cost, time, data, maintenance) answered before the form.
+// Desktop: the question list drives an AI-chat panel — the picked question
+// lands as the visitor's bubble and the answer "arrives" after a short typing
+// indicator. Mobile: accordion, one open at a time.
+import Icon from "@/components/icon.astro";
+import { getCompanyHome } from "@/data/company-home";
+import type { Locale } from "@/i18n/utils";
 
 interface Props {
   locale: Locale;
 }
 
 const { locale } = Astro.props;
-const i = t(locale);
+const i = getCompanyHome(locale);
+const first = i.faq.items[0];
 ---
 
-<section id="faq" class="relative border-t border-white/[0.06] py-20 sm:py-28">
-  <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-    <h2
-      class="animate-on-scroll mb-12 text-center text-3xl font-bold tracking-tight sm:text-4xl"
-    >
-      {i.faq.title}
-    </h2>
+<section id="faq" class="scroll-mt-16 bg-white py-20 pb-24 md:py-24 md:pb-28">
+  <div class="mx-auto max-w-6xl px-6">
+    <h2 class="font-display text-3xl uppercase tracking-tight text-ink md:text-4xl">{i.faq.title}</h2>
 
-    <div class="animate-on-scroll space-y-3">
+    {/* Mobile: accordion */}
+    <div class="mt-8 space-y-3 lg:hidden" data-faq-accordion>
       {
         i.faq.items.map((item) => (
-          <details class="group rounded-xl border border-white/[0.06] bg-white/[0.03] transition-colors open:border-indigo-500/20 open:bg-white/[0.05]">
-            <summary class="flex cursor-pointer items-center justify-between px-6 py-5 text-left text-base font-medium text-foreground transition-colors hover:text-indigo-400 [&::-webkit-details-marker]:hidden">
-              <span class="pr-4">{item.q}</span>
-              <svg
-                class="h-5 w-5 flex-shrink-0 text-muted-foreground transition-transform group-open:rotate-45"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <line x1="12" y1="5" x2="12" y2="19" />
-                <line x1="5" y1="12" x2="19" y2="12" />
-              </svg>
+          <details class="group border-[3px] border-ink bg-white px-5 py-4">
+            <summary class="flex cursor-pointer list-none items-center justify-between gap-4 text-[15px] font-bold text-ink">
+              {item.q}
+              <Icon name="chevron-down" class="h-4 w-4 flex-none text-ink transition-transform group-open:rotate-180" />
             </summary>
-            <div class="px-6 pb-5">
-              <p class="leading-relaxed text-muted-foreground">{item.a}</p>
-            </div>
+            <p class="mt-3 text-[15px] leading-relaxed text-ink">{item.a}</p>
           </details>
         ))
       }
     </div>
+
+    {/* Desktop: question list + AI-chat answer panel */}
+    <div class="mt-10 hidden gap-8 lg:grid lg:grid-cols-[0.44fr_0.56fr] lg:items-start" data-faq-desktop>
+      <div class="flex flex-col border-[3px] border-ink" role="tablist" aria-label="FAQ">
+        {
+          i.faq.items.map((item, idx) => (
+            <button
+              type="button"
+              role="tab"
+              id={`faq-tab-${idx}`}
+              aria-controls="faq-panel"
+              aria-selected={idx === 0 ? "true" : "false"}
+              tabindex={idx === 0 ? 0 : -1}
+              data-faq-btn={idx}
+              data-q={item.q}
+              data-a={item.a}
+              class:list={[
+                "border-b-[3px] border-ink px-5 py-4 text-left text-[15px] font-bold leading-snug transition-colors last:border-b-0",
+                idx === 0 ? "bg-cobalt text-white" : "bg-white text-ink hover:bg-ink hover:text-white",
+              ]}
+            >
+              {item.q}
+            </button>
+          ))
+        }
+      </div>
+
+      <div class="fq-panel sticky top-24" role="tabpanel" id="faq-panel" aria-labelledby="faq-tab-0">
+        <div class="fq-bar">
+          <span class="text-[11px] font-bold uppercase tracking-[0.14em] text-ink">AwesomeWorks · FAQ</span>
+        </div>
+        {/* Server renders the first exchange so the panel works without JS. */}
+        <div class="fq-thread" data-faq-thread aria-live="polite">
+          <div class="fq-user is-in">{first.q}</div>
+          <div class="fq-agent is-in">
+            <span class="fq-avatar" aria-hidden="true">
+              <Icon name="message-circle" class="h-4 w-4 text-cobalt" />
+            </span>
+            <p>{first.a}</p>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
+
+<style is:global>
+  /* FAQ chat panel — classes are global because the thread is re-rendered
+   * by script (Astro's scope attribute would not reach created nodes). */
+  .fq-panel {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-height: 24rem;
+    border: 3px solid var(--color-ink);
+    background: #ffffff;
+  }
+
+  .fq-bar {
+    display: flex;
+    align-items: center;
+    padding: 0.7rem 1rem;
+    border-bottom: 3px solid var(--color-ink);
+    background: var(--color-paper);
+  }
+
+  .fq-thread {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1.5rem;
+  }
+
+  .fq-user {
+    align-self: flex-end;
+    max-width: 85%;
+    background: var(--color-ink);
+    color: #ffffff;
+    padding: 0.7rem 1.05rem;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    line-height: 1.45;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .fq-user.is-in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .fq-typing {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    align-self: flex-start;
+    background: var(--color-paper);
+    padding: 0.85rem 1rem;
+  }
+
+  .fq-typing span {
+    width: 0.4rem;
+    height: 0.4rem;
+    background: var(--color-cobalt);
+    opacity: 0.4;
+    animation: fq-typing 1s ease-in-out infinite;
+  }
+
+  .fq-typing span:nth-child(2) {
+    animation-delay: 0.15s;
+  }
+
+  .fq-typing span:nth-child(3) {
+    animation-delay: 0.3s;
+  }
+
+  @keyframes fq-typing {
+    0%,
+    100% {
+      opacity: 0.35;
+      transform: translateY(0);
+    }
+    50% {
+      opacity: 1;
+      transform: translateY(-3px);
+    }
+  }
+
+  .fq-agent {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    max-width: 94%;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .fq-agent.is-in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .fq-avatar {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 1.85rem;
+    height: 1.85rem;
+    border: 3px solid var(--color-ink);
+    background: #ffffff;
+  }
+
+  .fq-agent p {
+    background: var(--color-paper);
+    padding: 0.8rem 1.05rem;
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--color-ink);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .fq-user,
+    .fq-agent {
+      transition: none;
+      opacity: 1;
+      transform: none;
+    }
+
+    .fq-typing span {
+      animation: none;
+      opacity: 1;
+    }
+  }
+</style>
+
+<script>
+  // Mobile accordion: one open at a time.
+  document.querySelectorAll<HTMLElement>("[data-faq-accordion]").forEach((root) => {
+    const items = Array.from(root.querySelectorAll<HTMLDetailsElement>("details"));
+    items.forEach((item) => {
+      item.addEventListener("toggle", () => {
+        if (item.open) items.forEach((other) => other !== item && (other.open = false));
+      });
+    });
+  });
+
+  // Desktop: picking a question plays it as a chat exchange.
+  document.querySelectorAll<HTMLElement>("[data-faq-desktop]").forEach((root) => {
+    const buttons = Array.from(root.querySelectorAll<HTMLButtonElement>("[data-faq-btn]"));
+    const panel = root.querySelector<HTMLElement>("#faq-panel")!;
+    const thread = root.querySelector<HTMLElement>("[data-faq-thread]")!;
+    const avatarTemplate = thread.querySelector<HTMLElement>(".fq-avatar")!.cloneNode(true) as HTMLElement;
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let pending: number | undefined;
+
+    const activeClasses = ["bg-cobalt", "text-white"];
+    const idleClasses = ["bg-white", "text-ink", "hover:bg-ink", "hover:text-white"];
+
+    const showAnswer = (answer: string) => {
+      const agent = document.createElement("div");
+      agent.className = "fq-agent";
+      agent.appendChild(avatarTemplate.cloneNode(true));
+      const p = document.createElement("p");
+      p.textContent = answer;
+      agent.appendChild(p);
+      thread.appendChild(agent);
+      requestAnimationFrame(() => agent.classList.add("is-in"));
+    };
+
+    const select = (btn: HTMLButtonElement) => {
+      window.clearTimeout(pending);
+      buttons.forEach((other) => {
+        const active = other === btn;
+        other.setAttribute("aria-selected", String(active));
+        other.tabIndex = active ? 0 : -1;
+        other.classList.remove(...(active ? idleClasses : activeClasses));
+        other.classList.add(...(active ? activeClasses : idleClasses));
+      });
+      panel.setAttribute("aria-labelledby", btn.id);
+
+      thread.innerHTML = "";
+      const user = document.createElement("div");
+      user.className = "fq-user";
+      user.textContent = btn.dataset.q ?? "";
+      thread.appendChild(user);
+      requestAnimationFrame(() => user.classList.add("is-in"));
+
+      const answer = btn.dataset.a ?? "";
+      if (reducedMotion.matches) {
+        showAnswer(answer);
+        return;
+      }
+      const typing = document.createElement("div");
+      typing.className = "fq-typing";
+      typing.innerHTML = "<span></span><span></span><span></span>";
+      pending = window.setTimeout(() => {
+        typing.remove();
+        showAnswer(answer);
+      }, 650);
+      thread.appendChild(typing);
+    };
+
+    buttons.forEach((btn, idx) => {
+      btn.addEventListener("click", () => select(btn));
+      // Tabs keyboard pattern: arrows move between questions, Home/End jump.
+      btn.addEventListener("keydown", (event) => {
+        const targets: Record<string, number> = {
+          ArrowDown: (idx + 1) % buttons.length,
+          ArrowRight: (idx + 1) % buttons.length,
+          ArrowUp: (idx - 1 + buttons.length) % buttons.length,
+          ArrowLeft: (idx - 1 + buttons.length) % buttons.length,
+          Home: 0,
+          End: buttons.length - 1,
+        };
+        const next = targets[event.key];
+        if (next === undefined) return;
+        event.preventDefault();
+        buttons[next].focus();
+        select(buttons[next]);
+      });
+    });
+  });
+</script>

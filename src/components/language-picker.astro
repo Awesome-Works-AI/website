@@ -1,21 +1,21 @@
 ---
+// Locale switch segment (brutal block) — lives inside the top bar.
 import type { Locale } from "@/i18n/utils";
 
 interface Props {
-  currentLocale: Locale;
+  locale: Locale;
+  /** Path of this page in the other locale. */
+  altPath: string;
 }
 
-const { currentLocale } = Astro.props;
-const otherLocale = currentLocale === "en" ? "pl" : "en";
-const otherLabel = currentLocale === "en" ? "PL" : "EN";
-const currentPath = Astro.url.pathname;
-const localizedPath = /^\/(pl|en)(?=\/|$)/.test(currentPath) ? currentPath : `/${currentLocale}/`;
-const alternatePath = localizedPath.replace(/^\/(pl|en)(?=\/|$)/, `/${otherLocale}`);
+const { locale, altPath } = Astro.props;
+const altLocale: Locale = locale === "pl" ? "en" : "pl";
 ---
 
 <a
-  href={alternatePath}
-  class="inline-flex items-center text-[10px] font-semibold uppercase tracking-[0.28em] text-muted-foreground/60 transition-colors hover:text-foreground"
+  href={altPath}
+  class="flex items-center border-l-[3px] border-ink px-3 text-[13px] font-bold uppercase tracking-wide text-ink transition-colors hover:bg-ink hover:text-white md:px-4"
+  aria-label={altLocale === "en" ? "Switch to English" : "Przełącz na polski"}
 >
-  <span>{otherLabel}</span>
+  {altLocale.toUpperCase()}
 </a>

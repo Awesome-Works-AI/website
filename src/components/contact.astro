@@ -1,397 +1,235 @@
 ---
-import { t, type Locale } from "@/i18n/utils";
-import { countries } from "@/data/countries";
+// Contact: the page's single conversion point. Ink closing block, white form
+// block, "what happens next" beside it, email as fallback.
+// POST goes to the shared public contact endpoint (lead lands in CallWise);
+// the `page` field tells the backend it came from awesomeworks.ai.
+import Icon from "@/components/icon.astro";
+import { getCompanyHome, privacyPath } from "@/data/company-home";
+import type { Locale } from "@/i18n/utils";
 
 interface Props {
   locale: Locale;
 }
 
 const { locale } = Astro.props;
-const i = t(locale);
-const countriesJson = JSON.stringify(countries);
-const founder = i.team.members[0];
+const i = getCompanyHome(locale);
+const c = i.contact;
+const privacyHref = privacyPath(locale);
+
+const formI18n = {
+  submit: c.form.submit,
+  submitLoading: c.form.submitLoading,
+  errors: c.form.errors,
+};
+
+const field =
+  "mt-1.5 h-12 w-full border-[3px] border-ink bg-white px-4 text-[0.95rem] text-ink placeholder:text-ink/60 focus:border-cobalt focus:outline-none";
+const label = "block text-sm font-bold text-ink";
 ---
 
-<section id="contact" class="relative border-t border-white/[0.06] py-20 sm:py-28">
-  <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-    <div class="animate-on-scroll max-w-3xl">
-      <h2 class="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-        {i.contact.title}
-      </h2>
-      <p class="mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-        {i.contact.subtitle}
-      </p>
-    </div>
+<section id="kontakt" class="scroll-mt-16 bg-ink pb-20 pt-16 md:pb-24 md:pt-20">
+  <div class="mx-auto max-w-6xl px-6">
+    {/* Mobile stacks in conversion order (header → form → next steps → email);
+        on lg the form block spans both rows of the right column. */}
+    <div class="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:grid-rows-[auto_1fr] lg:items-start lg:gap-x-16 lg:gap-y-10">
+      <div class="lg:col-start-1 lg:row-start-1 lg:pt-6">
+        <p class="text-xs font-bold uppercase tracking-[0.18em] text-offwhite">{c.eyebrow}</p>
+        <h2 class="mt-5 max-w-xl font-display text-3xl uppercase tracking-tight text-white md:text-5xl">{c.title}</h2>
+        <p class="mt-4 max-w-xl text-lg leading-relaxed text-offwhite">{c.subtitle}</p>
+      </div>
 
-    <div class="mt-12">
-      <div class="animate-on-scroll grid gap-10 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
-        <!-- Info side -->
-        <div class="space-y-6">
-          <div class="rounded-[2rem] border border-white/[0.06] bg-white/[0.04] p-6 shadow-2xl shadow-black/20">
-            <div class="flex items-start gap-4">
-              <img
-                src={founder.photo}
-                alt={founder.name}
-                class="h-16 w-16 flex-none rounded-2xl border border-white/[0.08] object-cover object-center"
-                width="64"
-                height="64"
-                loading="lazy"
-              />
-              <div>
-                <div class="text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground/55">
-                  {i.contact.calendly_label}
-                </div>
-                <div class="mt-2 text-lg font-semibold text-foreground">{founder.name}</div>
-                <div class="text-sm text-primary">{i.founder.role}</div>
-                <p class="mt-3 text-sm leading-relaxed text-muted-foreground">
-                  {i.contact.founderCue}
-                </p>
-              </div>
-            </div>
-
-            <h3 class="mt-6 text-xl font-semibold text-foreground">{i.contact.call_title}</h3>
-            <p class="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
-              {i.contact.call_summary}
-            </p>
-
-            <div class="mt-6 divide-y divide-white/[0.08] border-t border-white/[0.08]">
-              {
-                i.contact.call_points.map((point, idx) => (
-                  <div class="py-4 first:pt-0 last:pb-0">
-                    <div class="text-sm font-mono text-muted-foreground/45">
-                      {String(idx + 1).padStart(2, "0")}
-                    </div>
-                    <p class="mt-1 text-sm leading-relaxed text-muted-foreground">{point}</p>
-                  </div>
-                ))
-              }
-            </div>
-
-            <a
-              href="https://calendly.com/hello-awesomeworks/30min"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="mt-8 inline-flex items-center rounded-full bg-indigo-500 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-indigo-400"
-            >
-              {i.contact.founderCta}
-            </a>
-          </div>
-
-          <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
-            <a
-              href="mailto:hello@awesomeworks.ai"
-              class="rounded-[1.5rem] border border-white/[0.06] bg-white/[0.03] p-5 transition-colors hover:border-indigo-500/20 hover:bg-white/[0.05]"
-            >
-              <div class="text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground/55">
-                {i.contact.email_label}
-              </div>
-              <div class="mt-3 text-base font-semibold text-foreground">hello@awesomeworks.ai</div>
-              <p class="mt-2 text-sm leading-relaxed text-muted-foreground">
-                {i.contact.async_body}
-              </p>
-            </a>
-
-            <div class="rounded-[1.5rem] border border-white/[0.06] bg-white/[0.03] p-5">
-              <div class="text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground/55">
-                {i.contact.response_label}
-              </div>
-              <div class="mt-3 text-base font-semibold text-foreground">{i.contact.response_title}</div>
-              <p class="mt-2 text-sm leading-relaxed text-muted-foreground">
-                {i.contact.response_body}
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Form side -->
-        <div class="rounded-[2rem] border border-white/[0.06] bg-white/[0.03] p-6 sm:p-8">
-          <h3 class="mb-5 text-lg font-semibold text-foreground">
-            {i.contact.form_title}
-          </h3>
-          <form
-            action="https://api.web3forms.com/submit"
-            method="POST"
-            class="space-y-4"
-          >
-            <input type="hidden" name="access_key" value="96db43d4-48ed-482a-9186-a1527a1b7833" />
-            <input type="hidden" name="redirect" value={`https://awesomeworks.ai/${locale}/`} />
-            <input type="hidden" name="subject" value="New contact from awesomeworks.ai" />
-
-            <div>
-              <label for="name" class="mb-1.5 block text-sm font-medium text-foreground">
-                {i.contact.form_name}
-              </label>
+      <div class="bg-white p-6 md:p-8 lg:col-start-2 lg:row-start-1 lg:row-span-2">
+        <form class="contact-form" novalidate data-contact-form>
+          <script is:inline type="application/json" data-contact-i18n set:html={JSON.stringify(formI18n)} />
+          <div class="grid gap-5 sm:grid-cols-2">
+            <label class="sm:col-span-2">
+              <span class={label}>{c.form.name} <span aria-hidden="true">*</span></span>
+              <input type="text" name="name" autocomplete="name" required class={field} />
+            </label>
+            <label class="sm:col-span-2">
+              <span class={label}>{c.form.company}</span>
               <input
                 type="text"
-                id="name"
-                name="name"
-                required
-                class="w-full rounded-lg border border-white/[0.08] bg-white/[0.04] px-4 py-2.5 text-sm text-foreground placeholder-muted-foreground/50 outline-none transition-colors focus:border-indigo-500/40 focus:ring-1 focus:ring-indigo-500/20"
-                placeholder={i.contact.form_name}
+                name="company"
+                autocomplete="organization"
+                placeholder={c.form.companyPlaceholder}
+                class={field}
               />
-            </div>
-
-            <div>
-              <label for="email" class="mb-1.5 block text-sm font-medium text-foreground">
-                {i.contact.form_email}
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                required
-                class="w-full rounded-lg border border-white/[0.08] bg-white/[0.04] px-4 py-2.5 text-sm text-foreground placeholder-muted-foreground/50 outline-none transition-colors focus:border-indigo-500/40 focus:ring-1 focus:ring-indigo-500/20"
-                placeholder={i.contact.form_email}
-              />
-            </div>
-
-            <!-- Phone -->
-            <div>
-              <label for="phone-input" class="mb-1.5 block text-sm font-medium text-foreground">
-                {i.contact.form_phone}
-              </label>
-              <div class="relative flex">
-                <button
-                  type="button"
-                  id="country-selector"
-                  class="flex items-center gap-1.5 rounded-l-lg border border-r-0 border-white/[0.08] bg-white/[0.06] px-3 py-2.5 text-sm text-foreground transition-colors hover:bg-white/[0.08] focus:border-indigo-500/40 focus:ring-1 focus:ring-indigo-500/20 focus:outline-none shrink-0"
-                  aria-expanded="false"
-                  aria-haspopup="listbox"
-                >
-                  <span id="selected-flag" class="text-lg leading-none">🇵🇱</span>
-                  <span id="selected-dial" class="text-xs text-muted-foreground">+48</span>
-                  <svg class="h-3 w-3 text-muted-foreground" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 5l3 3 3-3"/></svg>
-                </button>
-                <input
-                  type="tel"
-                  id="phone-input"
-                  autocomplete="tel-national"
-                  inputmode="numeric"
-                  class="w-full min-w-0 rounded-r-lg border border-white/[0.08] bg-white/[0.04] px-4 py-2.5 text-sm text-foreground placeholder-muted-foreground/50 outline-none transition-colors focus:border-indigo-500/40 focus:ring-1 focus:ring-indigo-500/20"
-                  placeholder={i.contact.form_phone_placeholder}
-                />
-                <input type="hidden" id="phone-hidden" name="phone" value="" />
-                <div
-                  id="country-dropdown"
-                  class="absolute left-0 top-full z-50 mt-1 hidden w-72 overflow-hidden rounded-xl border border-white/[0.08] bg-background/95 shadow-xl backdrop-blur-xl"
-                  role="listbox"
-                >
-                  <div class="border-b border-white/[0.06] p-2">
-                    <input
-                      type="text"
-                      id="country-search"
-                      class="w-full rounded-lg border border-white/[0.06] bg-white/[0.04] px-3 py-2 text-sm text-foreground placeholder-muted-foreground/50 outline-none focus:border-indigo-500/40"
-                      placeholder={i.contact.form_phone_search}
-                    />
-                  </div>
-                  <div id="country-list" class="max-h-48 overflow-y-auto overscroll-contain"></div>
-                </div>
-              </div>
-            </div>
-
-            <div>
-              <label for="message" class="mb-1.5 block text-sm font-medium text-foreground">
-                {i.contact.form_message}
-              </label>
-              <textarea
-                id="message"
-                name="message"
-                rows="4"
-                required
-                class="w-full rounded-lg border border-white/[0.08] bg-white/[0.04] px-4 py-2.5 text-sm text-foreground placeholder-muted-foreground/50 outline-none transition-colors focus:border-indigo-500/40 focus:ring-1 focus:ring-indigo-500/20 resize-none"
-                placeholder={i.contact.form_message}
+            </label>
+            <label>
+              <span class={label}>{c.form.phone} <span aria-hidden="true">*</span></span>
+              <input type="tel" name="phone" inputmode="tel" autocomplete="tel" placeholder="+48 600 000 000" required class={field} />
+            </label>
+            <label>
+              <span class={label}>{c.form.email} <span aria-hidden="true">*</span></span>
+              <input type="email" name="email" autocomplete="email" required class={field} />
+            </label>
+            <label class="sm:col-span-2">
+              <span class={label}>{c.form.message}</span>
+              <textarea name="message" rows="4" placeholder={c.form.messagePlaceholder} class:list={[field, "h-auto py-3"]}
               ></textarea>
-            </div>
+            </label>
+          </div>
+          {/* Honeypot — bots fill it and get a fake success from the backend. */}
+          <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp-field" />
 
-            <button
-              type="submit"
-              class="w-full rounded-full bg-indigo-500 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-indigo-400"
-            >
-              {i.contact.form_submit}
-            </button>
-          </form>
-        </div>
+          <button type="submit" class="btn-primary mt-6 w-full sm:w-auto">
+            <Icon name="arrow-right" class="h-4 w-4" />
+            <span class="btn-dot hidden" data-contact-dot aria-hidden="true"></span>
+            <span data-contact-label>{c.form.submit}</span>
+          </button>
+          <p class="mt-3 text-xs leading-snug text-ink">
+            {c.form.consentPre}<a
+              href={privacyHref}
+              class="underline decoration-cobalt underline-offset-2 hover:text-cobalt">{c.form.consentLink}</a
+            >.
+          </p>
+          <p
+            class="mt-4 hidden bg-cobalt px-4 py-3 text-sm font-bold leading-snug text-white"
+            data-contact-success
+            role="status"
+            aria-live="polite"
+          >
+            {c.form.success}
+          </p>
+          <p
+            class="mt-4 hidden border-[3px] border-ink px-4 py-3 text-sm font-bold leading-snug text-ink"
+            data-contact-error
+            role="alert"
+            aria-live="polite"
+          >
+          </p>
+        </form>
+      </div>
+
+      <div class="lg:col-start-1 lg:row-start-2">
+        <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-white">
+          {c.nextTitle}
+        </p>
+        <ol class="mt-4 max-w-xl space-y-3">
+          {
+            c.next.map((step, idx) => (
+              <li class="flex items-start gap-3">
+                <span class="grid h-8 w-8 flex-none place-items-center border-[3px] border-white font-display text-xs text-white">
+                  {String(idx + 1).padStart(2, "0")}
+                </span>
+                <span class="text-[0.95rem] leading-relaxed text-offwhite">{step}</span>
+              </li>
+            ))
+          }
+        </ol>
+
+        <p class="mt-8 text-sm text-offwhite">
+          {c.altLabel}
+          <a
+            href={`mailto:${c.email}?subject=AwesomeWorks`}
+            class="ml-1 inline-flex items-center gap-1.5 font-bold text-white underline underline-offset-4"
+          >
+            <Icon name="mail" class="h-4 w-4" />
+            {c.email}
+          </a>
+        </p>
       </div>
     </div>
   </div>
 </section>
 
-<script define:vars={{ countriesJson }}>
-  (function () {
-    const countries = JSON.parse(countriesJson);
-    const selectorBtn = document.getElementById("country-selector");
-    const flagEl = document.getElementById("selected-flag");
-    const dialEl = document.getElementById("selected-dial");
-    const phoneInput = document.getElementById("phone-input");
-    const hiddenInput = document.getElementById("phone-hidden");
-    const dropdown = document.getElementById("country-dropdown");
-    const searchInput = document.getElementById("country-search");
-    const listEl = document.getElementById("country-list");
+<script>
+  const API_BASE = (
+    import.meta.env.PUBLIC_AWESOMEBOT_API_BASE || "https://app.odbiera.ai/api"
+  ).replace(/\/+$/, "");
+  const FETCH_TIMEOUT_MS = 12_000;
 
-    let currentDial = "48";
-    let isOpen = false;
+  type ErrorKey = "required" | "email" | "phone" | "capacity" | "generic";
 
-    // --- Format phone: space every 3 digits, max 15 ---
-    function formatPhone(digits) {
-      const d = digits.slice(0, 15);
-      let out = "";
-      for (let i = 0; i < d.length; i++) {
-        if (i > 0 && i % 3 === 0) out += " ";
-        out += d[i];
+  const ERROR_KEY_BY_CODE: Record<string, ErrorKey> = {
+    invalid_email: "email",
+    invalid_phone: "phone",
+    missing_fields: "required",
+    ip_daily_limit: "capacity",
+    daily_cap_reached: "capacity",
+  };
+
+  document.querySelectorAll<HTMLFormElement>("[data-contact-form]").forEach((form) => {
+    const i18n = JSON.parse(form.querySelector("[data-contact-i18n]")?.textContent ?? "{}") as {
+      submit: string;
+      submitLoading: string;
+      errors: Record<ErrorKey, string>;
+    };
+
+    const button = form.querySelector<HTMLButtonElement>("button[type='submit']");
+    const icon = button?.querySelector("svg");
+    const dot = button?.querySelector<HTMLElement>("[data-contact-dot]");
+    const label = button?.querySelector<HTMLElement>("[data-contact-label]");
+    const success = form.querySelector<HTMLElement>("[data-contact-success]");
+    const error = form.querySelector<HTMLElement>("[data-contact-error]");
+    const value = (name: string) => (form.elements.namedItem(name) as HTMLInputElement | null)?.value.trim() ?? "";
+
+    const setBusy = (busy: boolean) => {
+      icon?.classList.toggle("hidden", busy);
+      dot?.classList.toggle("hidden", !busy);
+      dot?.classList.toggle("inline-block", busy);
+      if (label) label.textContent = busy ? i18n.submitLoading : i18n.submit;
+      if (button) button.disabled = busy;
+      button?.setAttribute("aria-busy", String(busy));
+    };
+
+    const showError = (key: ErrorKey) => {
+      success?.classList.add("hidden");
+      if (error) {
+        error.textContent = i18n.errors[key];
+        error.classList.remove("hidden");
       }
-      return out;
-    }
+    };
 
-    // --- Sync hidden input ---
-    function syncHidden() {
-      const digits = phoneInput.value.replace(/\D/g, "");
-      hiddenInput.value = digits ? "+" + currentDial + " " + formatPhone(digits) : "";
-    }
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      if (button?.disabled) return;
 
-    // --- Render country list ---
-    function renderList(filter) {
-      const q = (filter || "").toLowerCase();
-      const filtered = q
-        ? countries.filter(
-            (c) =>
-              c.name.toLowerCase().includes(q) ||
-              c.dial.includes(q) ||
-              c.code.toLowerCase().includes(q)
-          )
-        : countries;
+      const name = value("name");
+      const phone = value("phone");
+      const email = value("email");
+      if (!name || !phone || !email) return showError("required");
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return showError("email");
+      if (phone.replace(/\D/g, "").length < 9) return showError("phone");
 
-      listEl.innerHTML = filtered
-        .map(
-          (c) =>
-            '<button type="button" class="flex w-full items-center gap-3 px-3 py-2 text-sm text-foreground transition-colors hover:bg-white/[0.06]" data-dial="' +
-            c.dial +
-            '" data-flag="' +
-            c.flag +
-            '" data-code="' +
-            c.code +
-            '"><span class="text-lg leading-none">' +
-            c.flag +
-            '</span><span class="flex-1 text-left">' +
-            c.name +
-            '</span><span class="text-xs text-muted-foreground">+' +
-            c.dial +
-            "</span></button>"
-        )
-        .join("");
-    }
-
-    // --- Toggle dropdown ---
-    function openDropdown() {
-      dropdown.classList.remove("hidden");
-      selectorBtn.setAttribute("aria-expanded", "true");
-      isOpen = true;
-      searchInput.value = "";
-      renderList("");
-      requestAnimationFrame(() => searchInput.focus());
-    }
-
-    function closeDropdown() {
-      dropdown.classList.add("hidden");
-      selectorBtn.setAttribute("aria-expanded", "false");
-      isOpen = false;
-    }
-
-    // --- Select country ---
-    function selectCountry(dial, flag) {
-      currentDial = dial;
-      flagEl.textContent = flag;
-      dialEl.textContent = "+" + dial;
-      closeDropdown();
-      phoneInput.focus();
-      syncHidden();
-    }
-
-    // --- Event: toggle selector ---
-    selectorBtn.addEventListener("click", function (e) {
-      e.preventDefault();
-      isOpen ? closeDropdown() : openDropdown();
-    });
-
-    // --- Event: country list click ---
-    listEl.addEventListener("click", function (e) {
-      const btn = e.target.closest("[data-dial]");
-      if (btn) selectCountry(btn.dataset.dial, btn.dataset.flag);
-    });
-
-    // --- Event: search ---
-    searchInput.addEventListener("input", function () {
-      renderList(searchInput.value);
-    });
-
-    // --- Event: close on outside click ---
-    document.addEventListener("click", function (e) {
-      if (isOpen && !dropdown.contains(e.target) && !selectorBtn.contains(e.target)) {
-        closeDropdown();
-      }
-    });
-
-    // --- Event: close on Escape ---
-    document.addEventListener("keydown", function (e) {
-      if (e.key === "Escape" && isOpen) closeDropdown();
-    });
-
-    // --- Event: phone input (format live) ---
-    phoneInput.addEventListener("input", function () {
-      const raw = phoneInput.value.replace(/\D/g, "").slice(0, 15);
-      const formatted = formatPhone(raw);
-
-      // Preserve cursor position
-      const sel = phoneInput.selectionStart;
-      const prevLen = phoneInput.value.length;
-      phoneInput.value = formatted;
-      const diff = phoneInput.value.length - prevLen;
-      phoneInput.setSelectionRange(sel + diff, sel + diff);
-
-      syncHidden();
-    });
-
-    // --- Event: paste handling ---
-    phoneInput.addEventListener("paste", function (e) {
-      e.preventDefault();
-      let text = (e.clipboardData || window.clipboardData).getData("text");
-      let digits = text.replace(/\D/g, "");
-
-      // Try to detect country code from pasted number
-      if (text.trim().startsWith("+") || digits.length > 12) {
-        for (let i = 0; i < countries.length; i++) {
-          const c = countries[i];
-          const dialClean = c.dial.replace(/-/g, "");
-          if (digits.startsWith(dialClean)) {
-            selectCountry(c.dial, c.flag);
-            digits = digits.slice(dialClean.length);
-            break;
-          }
+      error?.classList.add("hidden");
+      setBusy(true);
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
+      try {
+        const res = await fetch(`${API_BASE}/v1/public/contact`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name,
+            company: value("company"),
+            phone,
+            email,
+            message: value("message"),
+            locale: document.documentElement.lang === "en" ? "en" : "pl",
+            page: window.location.pathname,
+            website: value("website"),
+          }),
+          signal: controller.signal,
+        });
+        if (res.status === 202) {
+          form.querySelectorAll<HTMLElement>("input, textarea, button").forEach((el) => {
+            (el as HTMLInputElement).disabled = true;
+          });
+          success?.classList.remove("hidden");
+          success?.scrollIntoView({ block: "nearest", behavior: "smooth" });
+          return;
         }
-      }
-
-      digits = digits.slice(0, 15);
-      phoneInput.value = formatPhone(digits);
-      syncHidden();
-    });
-
-    // --- Event: prevent non-numeric keys ---
-    phoneInput.addEventListener("keydown", function (e) {
-      // Allow: backspace, delete, tab, escape, enter, arrows, home, end
-      if (
-        [8, 9, 13, 27, 46].includes(e.keyCode) ||
-        (e.keyCode >= 35 && e.keyCode <= 40) ||
-        ((e.ctrlKey || e.metaKey) && [65, 67, 86, 88, 90].includes(e.keyCode))
-      ) {
-        return;
-      }
-      // Block non-digit
-      if (e.key.length === 1 && !/\d/.test(e.key)) {
-        e.preventDefault();
+        const body = await res.json().catch(() => null);
+        const code = body?.detail?.code;
+        showError((typeof code === "string" && ERROR_KEY_BY_CODE[code]) || "generic");
+      } catch {
+        showError("generic");
+      } finally {
+        clearTimeout(timeout);
+        if (!(button?.disabled && success && !success.classList.contains("hidden"))) setBusy(false);
       }
     });
-
-    // Init
-    renderList("");
-    syncHidden();
-  })();
+  });
 </script>
