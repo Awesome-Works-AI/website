@@ -38,13 +38,13 @@ const companyHome = {
         { id: "faq", label: "FAQ", href: "#faq" },
       ],
       reviewsLink: { id: "opinie", label: "Opinie", href: "#opinie" },
-      cta: "Darmowy audyt AI",
+      cta: "Zacznij teraz",
     },
     hero: {
       title: "Systemy AI dla biznesu.",
       subtitle:
         "Projektujemy i utrzymujemy agentów głosowych, konwersacyjnych i dedykowany software. Zacznij od darmowego audytu AI twojej firmy.",
-      primaryCta: "Darmowy audyt AI",
+      primaryCta: "Zacznij teraz",
       trust: ["100% polska firma", "działający system co sprint", "utrzymanie i rozwój po starcie"],
     },
     services: {
@@ -160,7 +160,7 @@ const companyHome = {
           text: "Po starcie zostajemy: monitorujemy, poprawiamy i rozwijamy. Tak samo dbamy o własne produkty.",
         },
       ],
-      cta: "Darmowy audyt AI",
+      cta: "Zacznij teraz",
     },
     reviews: {
       eyebrow: "opinie",
@@ -297,13 +297,13 @@ const companyHome = {
         { id: "faq", label: "FAQ", href: "#faq" },
       ],
       reviewsLink: { id: "opinie", label: "Reviews", href: "#opinie" },
-      cta: "Free AI audit",
+      cta: "Start now",
     },
     hero: {
       title: "AI systems for business.",
       subtitle:
         "We design and run voice agents, chat agents, and custom software. Start with a free AI audit of your company.",
-      primaryCta: "Free AI audit",
+      primaryCta: "Start now",
       trust: ["100% Polish company", "a working system every sprint", "maintenance and growth after launch"],
     },
     services: {
@@ -419,7 +419,7 @@ const companyHome = {
           text: "After launch we stay: we monitor, fix, and keep building, the same way we care for our own products.",
         },
       ],
-      cta: "Free AI audit",
+      cta: "Start now",
     },
     reviews: {
       eyebrow: "reviews",
