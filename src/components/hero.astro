@@ -27,7 +27,7 @@ const rows = [{ label: "Intro" }, ...i.services.items.map((item) => ({ label: it
   <div class="grid flex-1 lg:min-h-0 lg:grid-cols-[3fr_2fr]">
     {/* Left: the swapping panel (Intro by default) + the persistent CTA */}
     <div
-      class="flex flex-col items-start justify-center gap-7 px-6 py-16 md:py-20 lg:gap-8 lg:border-r-[3px] lg:border-ink lg:px-10"
+      class="relative isolate flex flex-col items-start justify-center gap-7 overflow-hidden px-6 py-16 md:py-20 lg:gap-8 lg:border-r-[3px] lg:border-ink lg:px-10"
     >
       <div data-hero-panels class="w-full" aria-live="polite">
         <div data-hero-panel data-idx="0" class="flex flex-col gap-7 lg:gap-8">
@@ -40,7 +40,7 @@ const rows = [{ label: "Intro" }, ...i.services.items.map((item) => ({ label: it
         </div>
         {
           i.services.items.map((item, k) => (
-            <div data-hero-panel data-idx={k + 1} hidden class="grid w-full items-center gap-8 lg:grid-cols-[1fr_auto]">
+            <div data-hero-panel data-idx={k + 1} hidden class="w-full">
               <div class="flex flex-col items-start gap-5">
                 <p class="font-display text-lg text-cobalt" aria-hidden="true">
                   {String(k + 1).padStart(2, "0")}
@@ -71,10 +71,12 @@ const rows = [{ label: "Intro" }, ...i.services.items.map((item) => ({ label: it
                   <p class="text-base font-bold text-ink">{item.proofLabel}</p>
                 )}
               </div>
+              {/* Hazed backdrop robot: fixed aspect (max-w-none beats the
+                  preflight max-width squish), clipped by the column. */}
               <img
                 src={item.image}
                 alt={item.imageAlt}
-                class="hidden h-64 w-auto lg:block xl:h-72"
+                class="pointer-events-none absolute right-0 top-1/2 -z-10 h-64 w-auto max-w-none -translate-y-1/2 opacity-20 md:h-80 xl:h-96"
                 loading="lazy"
                 decoding="async"
               />
