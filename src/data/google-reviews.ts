@@ -34,8 +34,10 @@ export function getGoogleReviewUrl(): string {
  * Requires "Places API (New)" enabled in Google Cloud Console.
  */
 export async function fetchGoogleReviews(): Promise<GooglePlaceInfo | null> {
-  const apiKey = import.meta.env.GOOGLE_API_KEY;
-  const placeId = import.meta.env.GOOGLE_PLACE_ID;
+  // .env files surface here via import.meta.env, but CI passes the secrets as
+  // shell env vars, which Vite does not expose unprefixed — hence the fallback.
+  const apiKey = import.meta.env.GOOGLE_API_KEY ?? process.env.GOOGLE_API_KEY;
+  const placeId = import.meta.env.GOOGLE_PLACE_ID ?? process.env.GOOGLE_PLACE_ID;
 
   if (!apiKey || !placeId) {
     console.warn(
