@@ -22,12 +22,12 @@ const socialLinks = [
 const companyHome = {
   pl: {
     meta: {
-      title: "AwesomeWorks | Agenci AI i oprogramowanie na zamówienie",
+      title: "AwesomeWorks | Systemy AI dla biznesu",
       description:
         "Polski software house od agentów AI: agenci głosowi i konwersacyjni, dedykowane oprogramowanie i szkolenia AI. Trzy własne produkty na produkcji. Darmowy audyt AI na start.",
       socialDescription:
         "Polski software house od agentów AI. Agenci głosowi, konwersacyjni, dedykowany software i szkolenia. Trzy własne produkty na produkcji.",
-      ogImageAlt: "AwesomeWorks: agenci AI i oprogramowanie na zamówienie",
+      ogImageAlt: "AwesomeWorks: systemy AI dla biznesu",
     },
     nav: {
       brand: "AwesomeWorks",
@@ -281,12 +281,12 @@ const companyHome = {
   },
   en: {
     meta: {
-      title: "AwesomeWorks | AI agents and custom software",
+      title: "AwesomeWorks | AI systems for business",
       description:
         "Polish software house building AI agents: voice and chat agents, custom software, and AI training. Three in-house products in production. Start with a free AI audit.",
       socialDescription:
         "Polish software house building AI agents. Voice agents, chat agents, custom software, and training. Three in-house products in production.",
-      ogImageAlt: "AwesomeWorks: AI agents and custom software",
+      ogImageAlt: "AwesomeWorks: AI systems for business",
     },
     nav: {
       brand: "AwesomeWorks",
