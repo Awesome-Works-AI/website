@@ -27,7 +27,7 @@ const rows = [{ label: "Intro" }, ...i.services.items.map((item) => ({ label: it
   <div class="grid flex-1 lg:min-h-0 lg:grid-cols-[3fr_2fr]">
     {/* Left: the swapping panel (Intro by default) + the persistent CTA */}
     <div
-      class="relative isolate flex flex-col items-start justify-center gap-7 overflow-hidden px-6 py-16 md:py-20 lg:gap-8 lg:border-r-[3px] lg:border-ink lg:px-10"
+      class="relative isolate hidden flex-col items-start justify-center gap-7 overflow-hidden px-6 py-16 md:py-20 lg:flex lg:gap-8 lg:border-r-[3px] lg:border-ink lg:px-10"
     >
       <div data-hero-panels class="w-full" aria-live="polite">
         <div data-hero-panel data-idx="0" class="w-full">
@@ -123,50 +123,82 @@ const rows = [{ label: "Intro" }, ...i.services.items.map((item) => ({ label: it
     </div>
   </div>
 
-  {/* Mobile: the index works as an accordion under the intro (one open at a time). */}
+  {/* Mobile: the whole hero is the accordion — 00 Intro (open by default)
+      plus the services; every panel carries the full desktop formatting
+      (display title, halo text, backdrop robot, CTA or proof). */}
   <div class="border-t-[3px] border-ink lg:hidden" data-hero-accordion>
     {
-      i.services.items.map((item, k) => (
-        <details class="group border-b-[3px] border-ink last:border-b-0">
+      [
+        {
+          key: "intro",
+          num: "00",
+          label: "Intro",
+          title: i.hero.title,
+          text: i.hero.subtitle,
+          image: "/services/hello.webp",
+          imageAlt: "",
+          proofLabel: "",
+          proofHref: "",
+          isChat: false,
+        },
+        ...i.services.items.map((item, k) => ({
+          key: item.id,
+          num: String(k + 1).padStart(2, "0"),
+          label: item.name,
+          title: item.name,
+          text: item.text,
+          image: item.image,
+          imageAlt: item.imageAlt,
+          proofLabel: item.proofLabel,
+          proofHref: item.proofHref,
+          isChat: item.id === "chat",
+        })),
+      ].map((row, idx) => (
+        <details class="group border-b-[3px] border-ink last:border-b-0" open={idx === 0}>
           <summary class="hero-row flex cursor-pointer list-none items-center gap-3 px-6 py-4">
             <span class="font-display text-base" aria-hidden="true">
-              {String(k + 1).padStart(2, "0")}
+              {row.num}
             </span>
-            <span class="text-lg font-bold">{item.name}</span>
+            <span class="text-lg font-bold">{row.label}</span>
             <Icon name="chevron-down" class="ml-auto h-4 w-4 flex-none transition-transform group-open:rotate-180" />
           </summary>
           <div class="relative isolate overflow-hidden border-t-[3px] border-ink bg-white">
-            {/* Full panel like desktop: hazed robot backdrop under halo text. */}
             <img
-              src={item.image}
-              alt={item.imageAlt}
-              class="pointer-events-none absolute right-0 top-1/2 -z-10 h-52 w-auto max-w-none -translate-y-1/2 opacity-20"
-              loading="lazy"
+              src={row.image}
+              alt={row.imageAlt}
+              class="pointer-events-none absolute right-0 top-1/2 -z-10 h-56 w-auto max-w-none -translate-y-1/2 opacity-20"
+              loading={idx === 0 ? "eager" : "lazy"}
               decoding="async"
             />
-            <div class="hero-halo flex min-h-[13rem] flex-col items-start justify-center gap-4 px-6 py-6">
-            <p class="text-[15px] font-medium leading-normal text-ink">{item.text}</p>
-            {item.id === "chat" ? (
-              <button
-                type="button"
-                data-open-chat
-                class="text-left text-[15px] font-bold text-ink underline decoration-cobalt decoration-[3px] underline-offset-4"
-              >
-                {item.proofLabel}
-              </button>
-            ) : item.proofHref ? (
-              <a
-                href={item.proofHref}
-                target="_blank"
-                rel="noopener"
-                class="inline-flex items-center gap-1.5 text-[15px] font-bold text-ink underline decoration-cobalt decoration-[3px] underline-offset-4"
-              >
-                {item.proofLabel}
-                <Icon name="external-link" class="h-3.5 w-3.5 flex-none" />
-              </a>
-            ) : (
-              <p class="text-[15px] font-bold text-ink">{item.proofLabel}</p>
-            )}
+            <div class="hero-halo flex min-h-[15rem] flex-col items-start justify-center gap-4 px-6 py-7">
+              <p class="font-display text-3xl uppercase leading-[1.02] tracking-tight text-ink [text-wrap:balance]">{row.title}</p>
+              <p class="text-[15px] font-medium leading-normal text-ink">{row.text}</p>
+              {row.key === "intro" ? (
+                <a href="#kontakt" class="btn-primary">
+                  {i.hero.primaryCta}
+                  <Icon name="arrow-right" class="h-4 w-4" />
+                </a>
+              ) : row.isChat ? (
+                <button
+                  type="button"
+                  data-open-chat
+                  class="text-left text-[15px] font-bold text-ink underline decoration-cobalt decoration-[3px] underline-offset-4"
+                >
+                  {row.proofLabel}
+                </button>
+              ) : row.proofHref ? (
+                <a
+                  href={row.proofHref}
+                  target="_blank"
+                  rel="noopener"
+                  class="inline-flex items-center gap-1.5 text-[15px] font-bold text-ink underline decoration-cobalt decoration-[3px] underline-offset-4"
+                >
+                  {row.proofLabel}
+                  <Icon name="external-link" class="h-3.5 w-3.5 flex-none" />
+                </a>
+              ) : (
+                <p class="text-[15px] font-bold text-ink">{row.proofLabel}</p>
+              )}
             </div>
           </div>
         </details>
