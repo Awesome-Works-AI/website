@@ -3,6 +3,7 @@ import ChatWidget from "@/components/chat-widget.astro";
 import Contact from "@/components/contact.astro";
 import Faq from "@/components/faq.astro";
 import Footer from "@/components/footer.astro";
+import Craft from "@/components/craft.astro";
 import Hero from "@/components/hero.astro";
 import Nav from "@/components/nav.astro";
 import Process from "@/components/process.astro";
@@ -31,6 +32,7 @@ const hasReviews = (placeInfo?.reviews.length ?? 0) > 0;
   <Nav locale={locale} showReviews={hasReviews} />
   <main>
     <Hero locale={locale} />
+    <Craft locale={locale} />
     <Products locale={locale} />
     <Process locale={locale} />
     {hasReviews && placeInfo && <Reviews locale={locale} placeInfo={placeInfo} />}

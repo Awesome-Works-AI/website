@@ -103,10 +103,15 @@ const companyHome = {
         },
       ],
     },
+    craft: {
+      title: "Wykonujemy dedykowane oprogramowanie.",
+      text: "Aplikacje i systemy z AI, od projektu po wdrożenie i utrzymanie. Dostajesz software dopasowany do procesu, nie proces dopasowany do softwaru.",
+      linkLabel: "Zobacz, jak pracujemy",
+    },
     products: {
       eyebrow: "produkty",
-      title: "Przykładowe wdrożenia",
-      subtitle: "Trzy produkty, które zbudowaliśmy i utrzymujemy in-house.",
+      title: "Rozwijamy własne produkty.",
+      subtitle: "odbiera.ai, CallWise i CourseAI: na produkcji, z prawdziwymi użytkownikami.",
       liveLabel: "na produkcji",
       items: [
         {
@@ -364,10 +369,15 @@ const companyHome = {
         },
       ],
     },
+    craft: {
+      title: "We build custom software.",
+      text: "Applications and AI systems, from design through delivery and maintenance. You get software shaped around your process, not a process shaped around software.",
+      linkLabel: "See how we work",
+    },
     products: {
       eyebrow: "products",
-      title: "Example deployments",
-      subtitle: "Three products we built and run in-house.",
+      title: "We grow our own products.",
+      subtitle: "odbiera.ai, CallWise, and CourseAI: in production, with real users.",
       liveLabel: "in production",
       items: [
         {
