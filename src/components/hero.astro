@@ -99,8 +99,8 @@ const rows = [{ label: "Intro" }, ...i.services.items.map((item) => ({ label: it
       </a>
     </div>
 
-    {/* Right: the index driving the left panel */}
-    <div class="flex flex-col border-t-[3px] border-ink lg:border-t-0" role="list" aria-label={i.services.title}>
+    {/* Right (desktop only): the index driving the left panel */}
+    <div class="hidden flex-col lg:flex" role="list" aria-label={i.services.title}>
       {
         rows.map((row, idx) => (
           <button
@@ -121,6 +121,47 @@ const rows = [{ label: "Intro" }, ...i.services.items.map((item) => ({ label: it
         ))
       }
     </div>
+  </div>
+
+  {/* Mobile: the index works as an accordion under the intro (one open at a time). */}
+  <div class="border-t-[3px] border-ink lg:hidden" data-hero-accordion>
+    {
+      i.services.items.map((item, k) => (
+        <details class="group border-b-[3px] border-ink last:border-b-0">
+          <summary class="hero-row flex cursor-pointer list-none items-center gap-3 px-6 py-4">
+            <span class="font-display text-base" aria-hidden="true">
+              {String(k + 1).padStart(2, "0")}
+            </span>
+            <span class="text-lg font-bold">{item.name}</span>
+            <Icon name="chevron-down" class="ml-auto h-4 w-4 flex-none transition-transform group-open:rotate-180" />
+          </summary>
+          <div class="flex flex-col items-start gap-4 border-t-[3px] border-ink bg-white px-6 py-6">
+            <p class="text-[15px] font-medium leading-normal text-ink">{item.text}</p>
+            {item.id === "chat" ? (
+              <button
+                type="button"
+                data-open-chat
+                class="text-left text-[15px] font-bold text-ink underline decoration-cobalt decoration-[3px] underline-offset-4"
+              >
+                {item.proofLabel}
+              </button>
+            ) : item.proofHref ? (
+              <a
+                href={item.proofHref}
+                target="_blank"
+                rel="noopener"
+                class="inline-flex items-center gap-1.5 text-[15px] font-bold text-ink underline decoration-cobalt decoration-[3px] underline-offset-4"
+              >
+                {item.proofLabel}
+                <Icon name="external-link" class="h-3.5 w-3.5 flex-none" />
+              </a>
+            ) : (
+              <p class="text-[15px] font-bold text-ink">{item.proofLabel}</p>
+            )}
+          </div>
+        </details>
+      ))
+    }
   </div>
 
   {/* Trust strip: real facts only, full-bleed ink band */}
@@ -152,6 +193,12 @@ const rows = [{ label: "Intro" }, ...i.services.items.map((item) => ({ label: it
   }
 
   .hero-row[aria-current="true"] {
+    background: var(--color-cobalt);
+    color: #ffffff;
+  }
+
+  /* Mobile accordion: the open row inverts to cobalt like the active tab. */
+  details[open] > summary.hero-row {
     background: var(--color-cobalt);
     color: #ffffff;
   }
@@ -215,8 +262,15 @@ const rows = [{ label: "Intro" }, ...i.services.items.map((item) => ({ label: it
   document.querySelectorAll<HTMLElement>("[data-hero-root]").forEach((root) => {
     const tabs = [...root.querySelectorAll<HTMLButtonElement>("[data-hero-tab]")];
     const panels = [...root.querySelectorAll<HTMLElement>("[data-hero-panel]")];
-    const host = root.querySelector<HTMLElement>("[data-hero-panels]")!;
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    // Mobile accordion: one open at a time.
+    const items = [...root.querySelectorAll<HTMLDetailsElement>("[data-hero-accordion] details")];
+    items.forEach((item) => {
+      item.addEventListener("toggle", () => {
+        if (item.open) items.forEach((other) => other !== item && (other.open = false));
+      });
+    });
 
     const pinned = window.matchMedia("(min-width: 1024px)").matches;
     let current = 0;
@@ -238,9 +292,6 @@ const rows = [{ label: "Intro" }, ...i.services.items.map((item) => ({ label: it
         const rootTop = root.getBoundingClientRect().top + window.scrollY;
         const top = Math.max(rootTop, rootTop + (idx * 0.5 - 0.25) * window.innerHeight + 8);
         window.scrollTo({ top, behavior: reducedMotion.matches ? "auto" : "smooth" });
-      } else {
-        activate(idx);
-        host.scrollIntoView({ block: "nearest", behavior: reducedMotion.matches ? "auto" : "smooth" });
       }
     };
 

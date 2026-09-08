@@ -75,7 +75,7 @@ const organizationJsonLd = {
   name: "AwesomeWorks",
   legalName: "Awesome Works AI Rafał Łazicki",
   url: siteBase,
-  logo: new URL("/logo.png", siteBase).href,
+  logo: new URL("/brand/monogram.png", siteBase).href,
   image: ogImageAbsolute,
   description: description,
   foundingDate: "2021",
@@ -186,6 +186,7 @@ const faqJsonLd = includeFaqSchema
     />
 
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@awesomeworksai" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={resolvedSocialDescription} />
     <meta name="twitter:image" content={ogImageAbsolute} />

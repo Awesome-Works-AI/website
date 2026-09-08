@@ -321,4 +321,7 @@ summary::-webkit-details-marker {
 html,
 body {
   overscroll-behavior-y: none;
+  /* clip, not hidden: hidden would make body a scroll container and break
+   * the hero's position: sticky. */
+  overflow-x: clip;
 }
