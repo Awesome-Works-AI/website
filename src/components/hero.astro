@@ -30,13 +30,22 @@ const rows = [{ label: "Intro" }, ...i.services.items.map((item) => ({ label: it
       class="relative isolate flex flex-col items-start justify-center gap-7 overflow-hidden px-6 py-16 md:py-20 lg:gap-8 lg:border-r-[3px] lg:border-ink lg:px-10"
     >
       <div data-hero-panels class="w-full" aria-live="polite">
-        <div data-hero-panel data-idx="0" class="flex flex-col gap-7 lg:gap-8">
-          <h1
-            class="font-display text-5xl uppercase leading-[0.98] tracking-tight text-ink [text-wrap:balance] md:text-6xl lg:text-[clamp(4.5rem,6.4vw,5.75rem)]"
-          >
-            {i.hero.title}
-          </h1>
-          <p class="max-w-[44ch] text-lg font-medium leading-normal text-ink">{i.hero.subtitle}</p>
+        <div data-hero-panel data-idx="0" class="w-full">
+          <div class="hero-halo flex flex-col items-start gap-7 lg:gap-8">
+            <h1
+              class="font-display text-5xl uppercase leading-[0.98] tracking-tight text-ink [text-wrap:balance] md:text-6xl lg:text-[clamp(4.5rem,6.4vw,5.75rem)]"
+            >
+              {i.hero.title}
+            </h1>
+            <p class="max-w-[44ch] text-lg font-medium leading-normal text-ink">{i.hero.subtitle}</p>
+          </div>
+          <img
+            src="/services/hello.webp"
+            alt=""
+            class="pointer-events-none absolute right-0 top-1/2 -z-10 h-64 w-auto max-w-none -translate-y-1/2 opacity-20 md:h-80 xl:h-96"
+            loading="eager"
+            decoding="async"
+          />
         </div>
         {
           i.services.items.map((item, k) => (
