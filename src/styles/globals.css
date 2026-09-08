@@ -315,3 +315,10 @@ summary::-webkit-details-marker {
     opacity: 1;
   }
 }
+
+/* No rubber-band overscroll at the page edges — with the pinned hero the
+ * top bounce reads as a glitch in the index mechanic. */
+html,
+body {
+  overscroll-behavior-y: none;
+}
