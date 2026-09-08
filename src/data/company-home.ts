@@ -111,7 +111,7 @@ const companyHome = {
     products: {
       eyebrow: "produkty",
       title: "Rozwijamy własne produkty.",
-      subtitle: "odbiera.ai, CallWise i CourseAI: na produkcji, z prawdziwymi użytkownikami.",
+      subtitle: "Produkty realnie przyspieszające twoją pracę.",
       liveLabel: "na produkcji",
       items: [
         {
@@ -370,7 +370,7 @@ const companyHome = {
     products: {
       eyebrow: "products",
       title: "We grow our own products.",
-      subtitle: "odbiera.ai, CallWise, and CourseAI: in production, with real users.",
+      subtitle: "Products that genuinely speed up your work.",
       liveLabel: "in production",
       items: [
         {
