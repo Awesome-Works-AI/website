@@ -264,13 +264,41 @@ const rows = [{ label: "Intro" }, ...i.services.items.map((item) => ({ label: it
     const panels = [...root.querySelectorAll<HTMLElement>("[data-hero-panel]")];
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
-    // Mobile accordion: one open at a time.
+    // Mobile accordion: one open at a time (taps included).
     const items = [...root.querySelectorAll<HTMLDetailsElement>("[data-hero-accordion] details")];
     items.forEach((item) => {
       item.addEventListener("toggle", () => {
         if (item.open) items.forEach((other) => other !== item && (other.open = false));
       });
     });
+
+    // Scroll drives the accordion: a row crossing the upper viewport band
+    // opens itself and closes the rest. Collapsing content above the band
+    // would yank the page up, so the lost height is scrolled back in the
+    // same frame.
+    if (items.length && !window.matchMedia("(min-width: 1024px)").matches) {
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            const target = entry.target as HTMLDetailsElement;
+            if (target.open) return;
+            let delta = 0;
+            items.forEach((other) => {
+              if (other !== target && other.open) {
+                const summaryH = other.querySelector("summary")?.getBoundingClientRect().height ?? 0;
+                if (other.getBoundingClientRect().top < 0) delta += other.getBoundingClientRect().height - summaryH;
+                other.open = false;
+              }
+            });
+            target.open = true;
+            if (delta) window.scrollBy(0, -delta);
+          });
+        },
+        { rootMargin: "-30% 0px -55% 0px" }
+      );
+      items.forEach((item) => io.observe(item));
+    }
 
     const pinned = window.matchMedia("(min-width: 1024px)").matches;
     let current = 0;

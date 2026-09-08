@@ -321,7 +321,11 @@ summary::-webkit-details-marker {
 html,
 body {
   overscroll-behavior-y: none;
-  /* clip, not hidden: hidden would make body a scroll container and break
-   * the hero's position: sticky. */
-  overflow-x: clip;
+}
+
+/* Horizontal overflow is blocked on body only: it propagates to the viewport
+ * (html stays visible), so vertical scrolling and the hero's position: sticky
+ * keep working — clip on html killed document scrolling on iOS WebKit. */
+body {
+  overflow-x: hidden;
 }
