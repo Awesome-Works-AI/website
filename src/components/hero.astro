@@ -58,15 +58,7 @@ const rows = [{ label: "Intro" }, ...i.services.items.map((item) => ({ label: it
                   {item.name}
                 </h2>
                 <p class="max-w-[44ch] text-lg font-medium leading-normal text-ink">{item.text}</p>
-                {item.id === "chat" ? (
-                  <button
-                    type="button"
-                    data-open-chat
-                    class="text-left text-base font-bold text-ink underline decoration-cobalt decoration-[3px] underline-offset-4 hover:text-cobalt"
-                  >
-                    {item.proofLabel}
-                  </button>
-                ) : item.proofHref ? (
+                {item.proofHref ? (
                   <a
                     href={item.proofHref}
                     target="_blank"
@@ -145,7 +137,6 @@ const rows = [{ label: "Intro" }, ...i.services.items.map((item) => ({ label: it
           imageAlt: "",
           proofLabel: "",
           proofHref: "",
-          isChat: false,
         },
         ...i.services.items.map((item, k) => ({
           key: item.id,
@@ -157,7 +148,6 @@ const rows = [{ label: "Intro" }, ...i.services.items.map((item) => ({ label: it
           imageAlt: item.imageAlt,
           proofLabel: item.proofLabel,
           proofHref: item.proofHref,
-          isChat: item.id === "chat",
         })),
       ].map((row, idx) => (
         <details class="group border-b-[3px] border-ink last:border-b-0" open={idx === 0}>
@@ -184,14 +174,6 @@ const rows = [{ label: "Intro" }, ...i.services.items.map((item) => ({ label: it
                   {i.hero.primaryCta}
                   <Icon name="arrow-right" class="h-4 w-4" />
                 </a>
-              ) : row.isChat ? (
-                <button
-                  type="button"
-                  data-open-chat
-                  class="text-left text-[15px] font-bold text-ink underline decoration-cobalt decoration-[3px] underline-offset-4"
-                >
-                  {row.proofLabel}
-                </button>
               ) : row.proofHref ? (
                 <a
                   href={row.proofHref}

@@ -78,7 +78,7 @@ const companyHome = {
           imageAlt: "Ilustracja agenta konwersacyjnego w oknie czatu",
           name: "Agenci konwersacyjni",
           text: "Czat na twojej stronie lub w aplikacji, podpięty do twojej bazy wiedzy. Odpowiada klientom, zanim zdążą napisać maila.",
-          proofLabel: "Przykład? Otwórz czat demo w rogu ekranu.",
+          proofLabel: "Pokażemy ci go w akcji na darmowym audycie.",
           proofHref: "",
         },
         {
@@ -357,7 +357,7 @@ const companyHome = {
           imageAlt: "Illustration of a chat agent in a conversation window",
           name: "Chat agents",
           text: "A chat on your website or in your app, wired to your knowledge base. It answers customers before they get around to writing an email.",
-          proofLabel: "An example? Open the demo chat in the corner of this screen.",
+          proofLabel: "We will show it in action on the free AI audit.",
           proofHref: "",
         },
         {

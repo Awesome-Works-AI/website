@@ -1,5 +1,4 @@
 ---
-import ChatWidget from "@/components/chat-widget.astro";
 import Contact from "@/components/contact.astro";
 import Faq from "@/components/faq.astro";
 import Footer from "@/components/footer.astro";
@@ -40,5 +39,4 @@ const hasReviews = (placeInfo?.reviews.length ?? 0) > 0;
     <Contact locale={locale} />
   </main>
   <Footer locale={locale} />
-  <ChatWidget locale={locale} />
 </Base>
