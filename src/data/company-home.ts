@@ -199,6 +199,26 @@ const companyHome = {
           q: "Jak wyglądają szkolenia AI: format i dla kogo?",
           a: "Warsztaty na żywo, na przykładach z twojej firmy. Zakres i wielkość grupy dopasowujemy do zespołu, od handlowców po zarząd.",
         },
+        {
+          q: "Czy agent głosowy może odbierać na moim obecnym numerze?",
+          a: "Tak. Najczęściej ustawiamy u operatora przekierowanie z twojego numeru na numer agenta, więc po twojej stronie nic się nie zmienia. Agent może też dostać nowy, dedykowany numer.",
+        },
+        {
+          q: "Czy agent przekaże rozmowę do człowieka?",
+          a: "Tak. Ustalamy, do kogo przekazywać, w jakich godzinach i w jakich sytuacjach. Poza godzinami pracy agent zbiera kontakt i temat sprawy, a ty oddzwaniasz.",
+        },
+        {
+          q: "Czy widzę, co agent robił?",
+          a: "Każda rozmowa zostawia ślad: nagranie, transkrypcję i podsumowanie w panelu. Wiesz, kto dzwonił, o czym rozmawiał i co agent ustalił.",
+        },
+        {
+          q: "Z jakimi narzędziami się integrujecie?",
+          a: "Z tym, na czym pracujesz: CRM, kalendarze, skrzynki mailowe, telefonia, systemy rezerwacyjne. Łączymy się przez API, a tam, gdzie go brakuje, budujemy własny łącznik.",
+        },
+        {
+          q: "Co, jeśli agent się pomyli?",
+          a: "Agent działa w zdefiniowanych granicach: wie, czego nie wie, i w takich sytuacjach przekazuje sprawę człowiekowi zamiast zgadywać. Każdą rozmowę możesz sprawdzić, a poprawki wdrażamy w ramach utrzymania.",
+        },
       ],
     },
     contact: {
@@ -457,6 +477,26 @@ const companyHome = {
         {
           q: "What does AI training look like: format and audience?",
           a: "Live workshops built on examples from your company. We match the scope and group size to your team, from sales reps to the board.",
+        },
+        {
+          q: "Can the voice agent answer on my current phone number?",
+          a: "Yes. Usually we set up forwarding from your number to the agent's number at your carrier, so nothing changes on your side. The agent can also get a new, dedicated number.",
+        },
+        {
+          q: "Will the agent hand a call over to a human?",
+          a: "Yes. We define who to hand over to, at what hours, and in which situations. Outside working hours the agent takes the contact details and the topic, and you call back.",
+        },
+        {
+          q: "Can I see what the agent did?",
+          a: "Every call leaves a trail: a recording, a transcript, and a summary in the panel. You know who called, what they talked about, and what the agent arranged.",
+        },
+        {
+          q: "Which tools do you integrate with?",
+          a: "Whatever you work on: CRM, calendars, mailboxes, telephony, booking systems. We connect through APIs, and where one is missing, we build our own connector.",
+        },
+        {
+          q: "What if the agent gets something wrong?",
+          a: "The agent works within defined boundaries: it knows what it does not know, and in those situations it hands the case to a human instead of guessing. You can review every call, and fixes ship as part of maintenance.",
         },
       ],
     },
