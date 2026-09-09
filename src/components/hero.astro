@@ -93,7 +93,7 @@ const rows = [{ label: "Intro" }, ...i.services.items.map((item) => ({ label: it
           ))
         }
       </div>
-      <a href="#kontakt" class="btn-primary btn-signal relative">
+      <a href="#kontakt" class="btn-primary">
         {i.hero.primaryCta}
         <Icon name="arrow-right" class="h-4 w-4" />
       </a>
@@ -180,7 +180,7 @@ const rows = [{ label: "Intro" }, ...i.services.items.map((item) => ({ label: it
               <p class="font-display text-3xl uppercase leading-[1.02] tracking-tight text-ink [text-wrap:balance]">{row.title}</p>
               <p class="text-[15px] font-medium leading-normal text-ink">{row.text}</p>
               {row.key === "intro" ? (
-                <a href="#kontakt" class="btn-primary btn-signal relative">
+                <a href="#kontakt" class="btn-primary">
                   {i.hero.primaryCta}
                   <Icon name="arrow-right" class="h-4 w-4" />
                 </a>
@@ -211,17 +211,6 @@ const rows = [{ label: "Intro" }, ...i.services.items.map((item) => ({ label: it
       ))
     }
   </div>
-
-  {/* Scroll cue: the pin is invisible until you move, so name the gesture.
-      Clicking skips the remaining steps straight to the next section. */}
-  <a
-    href="#software"
-    data-hero-cue
-    class="scroll-cue absolute bottom-20 left-1/2 z-10 hidden -translate-x-1/2 flex-col items-center gap-1 font-mono text-[11px] font-bold uppercase tracking-[0.2em] text-ink lg:flex"
-  >
-    {locale === "en" ? "keep scrolling" : "scrolluj dalej"}
-    <Icon name="chevron-down" class="h-4 w-4" />
-  </a>
 
   {/* Trust strip: real facts only, full-bleed ink band */}
   <ul class="flex flex-col border-t-[3px] border-ink bg-ink py-3 sm:flex-row sm:py-0">
@@ -305,60 +294,11 @@ const rows = [{ label: "Intro" }, ...i.services.items.map((item) => ({ label: it
     }
   }
 
-  /* CTA signal: a rectangular echo grows out of the button and fades. */
-  .btn-signal::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border: 3px solid var(--color-cobalt);
-    pointer-events: none;
-    animation: btn-signal 2.6s ease-out infinite;
-  }
-
-  @keyframes btn-signal {
-    0% {
-      transform: scale(1);
-      opacity: 0.65;
-    }
-    70%,
-    100% {
-      transform: scale(1.18, 1.55);
-      opacity: 0;
-    }
-  }
-
-  /* Scroll cue bobs gently; hover goes cobalt like the other links. */
-  .scroll-cue :global(svg) {
-    animation: cue-bob 1.8s ease-in-out infinite;
-  }
-
-  .scroll-cue:hover {
-    color: var(--color-cobalt);
-  }
-
-  @keyframes cue-bob {
-    0%,
-    100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(6px);
-    }
-  }
-
   @media (prefers-reduced-motion: reduce) {
     .hero-row {
       transition: none;
     }
 
-    .btn-signal::after {
-      animation: none;
-      opacity: 0;
-    }
-
-    .scroll-cue :global(svg) {
-      animation: none;
-    }
 
     [data-hero-panel] img,
     [data-hero-panel] .hero-halo {
@@ -455,12 +395,6 @@ const rows = [{ label: "Intro" }, ...i.services.items.map((item) => ({ label: it
         tabs[next].focus();
         goTo(next);
       });
-    });
-    const cue = root.querySelector<HTMLAnchorElement>("[data-hero-cue]");
-    cue?.addEventListener("click", (event) => {
-      if (!pinned || current >= tabs.length - 1) return;
-      event.preventDefault();
-      goTo(current + 1);
     });
     activate(0);
   });
