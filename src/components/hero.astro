@@ -24,10 +24,10 @@ const rows = [{ label: "Intro" }, ...i.services.items.map((item) => ({ label: it
 <section id="uslugi" data-hero-root class="relative scroll-mt-[51px] lg:h-[350svh]">
   {/* pt-[51px] = exact height of the fixed top bar (24px logo + 2x12px padding + 3px border) */}
   <div class="relative flex flex-col bg-offwhite pt-[51px] lg:sticky lg:top-0 lg:h-[100svh]">
-  <div class="grid flex-1 lg:min-h-0 lg:grid-cols-[3fr_2fr]">
+  <div class="grid flex-1 lg:min-h-0 lg:grid-cols-[3fr_auto_2fr]">
     {/* Left: the swapping panel (Intro by default) + the persistent CTA */}
     <div
-      class="relative isolate hidden flex-col items-start justify-center gap-7 overflow-hidden px-6 py-16 md:py-20 lg:flex lg:gap-8 lg:border-r-[3px] lg:border-ink lg:px-10"
+      class="relative isolate hidden flex-col items-start justify-center gap-7 overflow-hidden px-6 py-16 md:py-20 lg:flex lg:gap-8 lg:px-10"
     >
       <div data-hero-panels class="w-full" aria-live="polite">
         <div data-hero-panel data-idx="0" class="w-full">
@@ -97,6 +97,12 @@ const rows = [{ label: "Intro" }, ...i.services.items.map((item) => ({ label: it
         {i.hero.primaryCta}
         <Icon name="arrow-right" class="h-4 w-4" />
       </a>
+    </div>
+
+    {/* Pin progress: a chunky cobalt scrollbar between panel and index,
+        continuous feedback that scrolling IS doing something. */}
+    <div class="relative hidden w-[14px] border-x-[3px] border-ink bg-white lg:block" aria-hidden="true">
+      <div data-hero-progress class="absolute inset-x-0 top-0 bg-cobalt" style="height: 0%"></div>
     </div>
 
     {/* Right (desktop only): the index driving the left panel */}
@@ -210,6 +216,7 @@ const rows = [{ label: "Intro" }, ...i.services.items.map((item) => ({ label: it
       Clicking skips the remaining steps straight to the next section. */}
   <a
     href="#software"
+    data-hero-cue
     class="scroll-cue absolute bottom-20 left-1/2 z-10 hidden -translate-x-1/2 flex-col items-center gap-1 font-mono text-[11px] font-bold uppercase tracking-[0.2em] text-ink lg:flex"
   >
     {locale === "en" ? "keep scrolling" : "scrolluj dalej"}
@@ -405,11 +412,17 @@ const rows = [{ label: "Intro" }, ...i.services.items.map((item) => ({ label: it
       const step = () => 0.5 * window.innerHeight;
       let running = false;
 
+      const fill = root.querySelector<HTMLElement>("[data-hero-progress]");
       const tick = () => {
         if (!running) return;
         const progress = -root.getBoundingClientRect().top;
         const idx = Math.min(tabs.length - 1, Math.max(0, Math.floor((progress + step() / 2) / step())));
         activate(idx);
+        if (fill) {
+          const travel = root.offsetHeight - window.innerHeight;
+          const p = Math.min(1, Math.max(0, travel > 0 ? progress / travel : 0));
+          fill.style.height = `${(p * 100).toFixed(2)}%`;
+        }
         requestAnimationFrame(tick);
       };
 
@@ -442,6 +455,12 @@ const rows = [{ label: "Intro" }, ...i.services.items.map((item) => ({ label: it
         tabs[next].focus();
         goTo(next);
       });
+    });
+    const cue = root.querySelector<HTMLAnchorElement>("[data-hero-cue]");
+    cue?.addEventListener("click", (event) => {
+      if (!pinned || current >= tabs.length - 1) return;
+      event.preventDefault();
+      goTo(current + 1);
     });
     activate(0);
   });
