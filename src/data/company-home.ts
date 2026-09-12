@@ -5,10 +5,10 @@ const odbieraUrl = (locale: Locale) => (locale === "en" ? "https://odbiera.ai/en
 const callwiseUrl = (locale: Locale) => `https://callwise.awesomeworks.ai/${locale}/`;
 
 const githubUrl = "https://github.com/Raff-dev";
-const xUrl = "https://x.com/awesomeworksai";
+const instagramUrl = "https://instagram.com/makeitagentic";
 const linkedinUrl = "https://linkedin.com/in/rlazicki";
 
-export const organizationSameAs = [linkedinUrl, githubUrl, xUrl] as const;
+export const organizationSameAs = [linkedinUrl, githubUrl, instagramUrl] as const;
 export const personSameAs = [linkedinUrl, githubUrl] as const;
 
 export const privacyPath = (locale: Locale) => (locale === "en" ? "/en/privacy/" : "/pl/prywatnosc/");
@@ -16,7 +16,7 @@ export const privacyPath = (locale: Locale) => (locale === "en" ? "/en/privacy/"
 const socialLinks = [
   { icon: "linkedin", name: "LinkedIn", href: linkedinUrl },
   { icon: "github", name: "GitHub", href: githubUrl },
-  { icon: "x-brand", name: "X", href: xUrl },
+  { icon: "instagram", name: "Instagram", href: instagramUrl },
 ] as const;
 
 const companyHome = {
