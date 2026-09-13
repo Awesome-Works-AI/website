@@ -7,13 +7,35 @@ import Icon from "@/components/icon.astro";
 import { getCompanyHome, privacyPath } from "@/data/company-home";
 import type { Locale } from "@/i18n/utils";
 
-interface Props {
-  locale: Locale;
+interface Channel {
+  icon: string;
+  label: string;
+  href: string;
+  external?: boolean;
 }
 
-const { locale } = Astro.props;
+interface Props {
+  locale: Locale;
+  /** Sub pages (e.g. a person's card): own header + "what happens next" copy;
+      the form itself, its labels, and the endpoint stay shared. */
+  copy?: {
+    eyebrow: string;
+    title: string;
+    subtitle: string;
+    next: readonly string[];
+  };
+  /** Direct channels rendered beside the form (email, Calendly, phone).
+      Replaces the default "prefer email?" fallback line. */
+  channels?: { title: string; items: readonly Channel[] };
+}
+
+const { locale, copy, channels } = Astro.props;
 const i = getCompanyHome(locale);
 const c = i.contact;
+const eyebrow = copy?.eyebrow ?? c.eyebrow;
+const title = copy?.title ?? c.title;
+const subtitle = copy?.subtitle ?? c.subtitle;
+const next = copy?.next ?? c.next;
 const privacyHref = privacyPath(locale);
 
 const formI18n = {
@@ -33,9 +55,9 @@ const label = "block text-sm font-bold text-ink";
         on lg the form block spans both rows of the right column. */}
     <div class="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:grid-rows-[auto_1fr] lg:items-start lg:gap-x-16 lg:gap-y-10">
       <div class="lg:col-start-1 lg:row-start-1 lg:pt-6">
-        <p class="text-xs font-bold uppercase tracking-[0.18em] text-offwhite">{c.eyebrow}</p>
-        <h2 class="mt-5 max-w-xl font-display text-3xl uppercase tracking-tight text-white md:text-5xl">{c.title}</h2>
-        <p class="mt-4 max-w-xl text-lg leading-relaxed text-offwhite">{c.subtitle}</p>
+        <p class="text-xs font-bold uppercase tracking-[0.18em] text-offwhite">{eyebrow}</p>
+        <h2 class="mt-5 max-w-xl font-display text-3xl uppercase tracking-tight text-white md:text-5xl">{title}</h2>
+        <p class="mt-4 max-w-xl text-lg leading-relaxed text-offwhite">{subtitle}</p>
       </div>
 
       <div class="bg-white p-6 md:p-8 lg:col-start-2 lg:row-start-1 lg:row-span-2">
@@ -108,7 +130,7 @@ const label = "block text-sm font-bold text-ink";
         </p>
         <ol class="mt-4 max-w-xl space-y-3">
           {
-            c.next.map((step, idx) => (
+            next.map((step, idx) => (
               <li class="flex items-start gap-3">
                 <span class="grid h-8 w-8 flex-none place-items-center border-[3px] border-white font-display text-xs text-white">
                   {String(idx + 1).padStart(2, "0")}
@@ -119,16 +141,41 @@ const label = "block text-sm font-bold text-ink";
           }
         </ol>
 
-        <p class="mt-8 text-sm text-offwhite">
-          {c.altLabel}
-          <a
-            href={`mailto:${c.email}?subject=AwesomeWorks`}
-            class="ml-1 inline-flex items-center gap-1.5 font-bold text-white underline underline-offset-4"
-          >
-            <Icon name="mail" class="h-4 w-4" />
-            {c.email}
-          </a>
-        </p>
+        {
+          channels ? (
+            <div class="mt-8">
+              <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-white">{channels.title}</p>
+              <ul class="mt-4 space-y-3">
+                {channels.items.map((channel) => (
+                  <li>
+                    <a
+                      href={channel.href}
+                      target={channel.external ? "_blank" : undefined}
+                      rel={channel.external ? "noopener" : undefined}
+                      class="inline-flex items-center gap-3 text-[0.95rem] font-bold text-white underline decoration-cobalt decoration-[3px] underline-offset-4 hover:text-cobalt"
+                    >
+                      <span class="grid h-8 w-8 flex-none place-items-center border-[3px] border-white text-white">
+                        <Icon name={channel.icon} class="h-4 w-4" />
+                      </span>
+                      {channel.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : (
+            <p class="mt-8 text-sm text-offwhite">
+              {c.altLabel}
+              <a
+                href={`mailto:${c.email}?subject=AwesomeWorks`}
+                class="ml-1 inline-flex items-center gap-1.5 font-bold text-white underline underline-offset-4"
+              >
+                <Icon name="mail" class="h-4 w-4" />
+                {c.email}
+              </a>
+            </p>
+          )
+        }
       </div>
     </div>
   </div>
