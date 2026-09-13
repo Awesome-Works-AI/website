@@ -1,12 +1,11 @@
 ---
 // Founder's business card (English twin of /people/rafal/). Same sections:
-// hero → booking → socials stage → career axis → selected projects → the shared contact form.
+// hero → booking → socials stage → career axis → the shared contact form.
 import Contact from "@/components/contact.astro";
 import Footer from "@/components/footer.astro";
 import Nav from "@/components/nav.astro";
 import PeopleBooking from "@/components/people/booking.astro";
 import PeopleHero from "@/components/people/hero.astro";
-import PeopleProjects from "@/components/people/projects.astro";
 import PeopleSocials from "@/components/people/socials.astro";
 import PeopleTimeline from "@/components/people/timeline.astro";
 import { getPeopleRafal, peopleRafalPath } from "@/data/people-rafal";
@@ -24,7 +23,6 @@ const altPath = peopleRafalPath("pl");
     <PeopleBooking locale={locale} />
     <PeopleSocials locale={locale} />
     <PeopleTimeline locale={locale} />
-    <PeopleProjects locale={locale} />
     <Contact
       locale={locale}
       copy={p.contact}

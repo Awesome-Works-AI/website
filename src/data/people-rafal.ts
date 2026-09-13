@@ -120,19 +120,6 @@ const peopleRafal = {
         },
       ],
     },
-    projects: {
-      eyebrow: "projekty",
-      title: "Wybrane projekty.",
-      items: [
-        "Analiza wymagań, integracje z systemami zewnętrznymi i skrypty w Pythonie automatyzujące procesy.",
-        "Dedykowane moduły Odoo i REST API pod indywidualne potrzeby klientów, plus techniczny consulting.",
-        "Pipeline'y przetwarzające duże wolumeny danych i CI/CD dla wieloetapowych systemów; potem kategoryzacja treści reklamowych z użyciem LLM, RAG i wyszukiwania wektorowego.",
-        "Projekt GenAI dla klienta: systemy LLM z narzędziami do analizy danych i wsparcia decyzji na Azure, z CI/CD i testami nadzorowanymi przez LLM.",
-        "Konwersacyjny interfejs do analizy finansowej: LangGraph, RAG, serwery MCP i ewaluacja RAGAS, wdrażane na Azure Kubernetes Service.",
-        "CallWise analizuje rozmowy sprzedażowe end-to-end, żeby handlowcy domykali więcej; odbiera.ai odbiera telefony po polsku 24/7, żeby żaden klient nie trafił na pocztę głosową.",
-        "Płatna platforma kursowa o wieloagentowym AI engineeringu, mentoring i wystąpienia o AI w cyklu wytwarzania oprogramowania.",
-      ],
-    },
     contact: {
       eyebrow: "kontakt",
       title: "Porozmawiajmy.",
@@ -242,19 +229,6 @@ const peopleRafal = {
           company: "MakeItAgentic",
           role: "AI engineering mentoring",
         },
-      ],
-    },
-    projects: {
-      eyebrow: "projects",
-      title: "Selected projects.",
-      items: [
-        "Requirements analysis, integrations with external systems, and Python scripts automating processes.",
-        "Custom Odoo modules and REST APIs tailored to individual customers, plus technical consulting.",
-        "Batch pipelines over large data volumes and CI/CD for multi-stage systems; then ad-content categorization with LLMs, RAG, and vector search.",
-        "A GenAI project for a client: tool-using LLM systems for data analysis and decision support on Azure, with CI/CD and LLM-supervised tests.",
-        "A conversational interface for financial analysis: LangGraph, RAG, MCP servers, and RAGAS evaluation, deployed on Azure Kubernetes Service.",
-        "CallWise analyzes sales calls end to end so reps close more; odbiera.ai answers phone calls in Polish 24/7 so no customer lands in voicemail.",
-        "A paid course platform on multi-agent AI engineering, mentoring, and talks on AI in the software delivery cycle.",
       ],
     },
     contact: {
