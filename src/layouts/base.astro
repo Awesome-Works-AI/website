@@ -17,6 +17,10 @@ interface Props {
   /** Pages outside the /pl/ + /en/ prefix scheme (e.g. /people/rafal/):
       the explicit path of this page in the other locale, for hreflang. */
   altPath?: string;
+  /** Keeps the page out of search indexes (error pages). */
+  noindex?: boolean;
+  /** Page ground: paper (default) or ink for full-dark surfaces. */
+  theme?: "paper" | "ink";
 }
 
 const {
@@ -27,6 +31,8 @@ const {
   socialDescription,
   includeFaqSchema = false,
   altPath: explicitAltPath,
+  noindex = false,
+  theme = "paper",
 } = Astro.props;
 const altLocale = locale === "en" ? "pl" : "en";
 const siteBase = Astro.site?.href ?? "https://awesomeworks.ai";
@@ -166,7 +172,8 @@ const faqJsonLd = includeFaqSchema
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="generator" content={Astro.generator} />
-    <meta name="theme-color" content="#F2F2EE" />
+    <meta name="theme-color" content={theme === "ink" ? "#000000" : "#F2F2EE"} />
+    {noindex && <meta name="robots" content="noindex" />}
 
     <title>{title}</title>
     <meta name="description" content={description} />
@@ -213,7 +220,12 @@ const faqJsonLd = includeFaqSchema
       faqJsonLd && <script is:inline type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
     }
   </head>
-  <body class="min-h-[100dvh] overflow-x-hidden bg-offwhite font-sans text-ink">
+  <body
+    class:list={[
+      "min-h-[100dvh] overflow-x-hidden font-sans",
+      theme === "ink" ? "bg-black text-offwhite" : "bg-offwhite text-ink",
+    ]}
+  >
     <slot />
   </body>
 </html>

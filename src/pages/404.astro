@@ -1,0 +1,102 @@
+---
+// Single 404 for the whole domain (GitHub Pages serves dist/404.html for every
+// unknown path). Both locales ship in the HTML; PL is visible by default and a
+// tiny inline script swaps to EN when the path has an /en/ segment. The image
+// already carries "404" + "Not Found", so the copy says something else.
+import Footer from "@/components/footer.astro";
+import Nav from "@/components/nav.astro";
+import Base from "@/layouts/base.astro";
+import { getLocalePath, type Locale } from "@/i18n/utils";
+
+const copy: Record<
+  Locale,
+  { title: string; text: string; home: string; contact: string; imageAlt: string; description: string }
+> = {
+  pl: {
+    title: "Ta strona się odłączyła.",
+    text: "Adres jest błędny albo strona już nie istnieje. Wróć na stronę główną — albo napisz, jeśli szukasz czegoś konkretnego.",
+    home: "Wróć na stronę główną",
+    contact: "Napisz do nas",
+    imageAlt: "Smutny robot z odłączoną wtyczką obok świecącej liczby 404",
+    description: "Strona, której szukasz, nie istnieje.",
+  },
+  en: {
+    title: "This page got unplugged.",
+    text: "The address is wrong or the page no longer exists. Head back home — or drop us a line if you were looking for something specific.",
+    home: "Back to the homepage",
+    contact: "Contact us",
+    imageAlt: "A sad robot with an unplugged cable next to a glowing 404",
+    description: "The page you are looking for does not exist.",
+  },
+};
+
+const locales: Locale[] = ["pl", "en"];
+---
+
+<Base title="404 · AwesomeWorks" description={copy.pl.description} locale="pl" noindex={true} theme="ink">
+  {
+    locales.map((locale) => {
+      const c = copy[locale];
+      const homePath = getLocalePath(locale);
+      const altPath = getLocalePath(locale === "pl" ? "en" : "pl");
+      return (
+        <div data-locale={locale} hidden={locale !== "pl"}>
+          <Nav locale={locale} minimal={true} altPath={altPath} />
+          <main class="bg-black pt-[51px]">
+            <section class="mx-auto flex max-w-5xl flex-col items-center px-6 pb-20 pt-6 text-center md:pb-28 md:pt-10">
+              <img
+                src="/404/not-found.webp"
+                srcset="/404/not-found-768w.webp 768w, /404/not-found.webp 1536w"
+                sizes="(min-width: 1024px) 880px, 100vw"
+                width="1536"
+                height="1024"
+                alt={c.imageAlt}
+                class="not-found-art w-full max-w-[880px]"
+                loading="eager"
+                decoding="async"
+              />
+              <h1 class="-mt-4 max-w-[18ch] font-display text-3xl uppercase leading-[1.02] tracking-tight text-white [text-wrap:balance] sm:text-4xl md:-mt-8 md:text-5xl">
+                {c.title}
+              </h1>
+              <p class="mt-5 max-w-[46ch] text-base font-medium leading-relaxed text-offwhite md:text-lg">{c.text}</p>
+              <div class="mt-8 flex flex-col items-center gap-5 sm:flex-row sm:gap-8">
+                <a href={homePath} class="btn-primary w-full sm:w-auto">
+                  {c.home}
+                </a>
+                <a
+                  href={`${homePath}#kontakt`}
+                  class="text-base font-bold text-white underline decoration-cobalt decoration-[3px] underline-offset-4 hover:text-cobalt"
+                >
+                  {c.contact}
+                </a>
+              </div>
+            </section>
+          </main>
+          <Footer locale={locale} />
+        </div>
+      );
+    })
+  }
+
+  <script is:inline>
+    // Progressive enhancement: PL is the no-JS default; an /en/ segment
+    // anywhere in the path (/en/…, /metyra/en/…) switches the visible copy.
+    (function () {
+      var wanted = /(^|\/)en(\/|$)/.test(window.location.pathname) ? "en" : "pl";
+      var blocks = document.querySelectorAll("[data-locale]");
+      for (var k = 0; k < blocks.length; k++) {
+        blocks[k].hidden = blocks[k].getAttribute("data-locale") !== wanted;
+      }
+      document.documentElement.lang = wanted;
+    })();
+  </script>
+</Base>
+
+<style>
+  /* The glow reaches the artwork's left/right edges; fade them into the
+   * black ground so the frame never reads as a rectangle. */
+  .not-found-art {
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent);
+    mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent);
+  }
+</style>
