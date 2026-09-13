@@ -40,7 +40,7 @@ const peopleRafal = {
       name: "Rafał Łazicki",
       title: "Senior AI Engineer · founder AwesomeWorks",
       bio: [
-        "Buduję systemy AI dla firm: agentów głosowych, agentów konwersacyjnych i dedykowany software, który zostaje na produkcji.",
+        "Buduję systemy AI dla firm: agentów głosowych, agentów konwersacyjnych i dedykowany software, który zdejmuje z ludzi powtarzalną pracę i zwraca im czas.",
         "Jako założyciel AwesomeWorks rozwijam własne produkty: CallWise (AI Call Scoring), odbiera.ai (recepcjonistka głosowa) i CourseAI (kurs AI codingu).",
       ],
       primaryCta: "Zobacz, co robimy",
@@ -50,7 +50,7 @@ const peopleRafal = {
       photo: "/people/rafal.webp",
       photoSmall: "/people/rafal-560w.webp",
       photoAlt: "Rafał Łazicki",
-      facts: ["Warszawa", "Python · FastAPI · LLM", "3 produkty na produkcji"],
+      facts: ["Warszawa", "Python · FastAPI · LLM", "Twój czas z powrotem"],
     },
     socials: { items: socialItems },
     booking: {
@@ -60,8 +60,8 @@ const peopleRafal = {
     },
     timeline: {
       eyebrow: "droga",
-      title: "Od developera do własnych produktów AI.",
-      subtitle: "Etapy, które zbudowały to, co dziś robię w AwesomeWorks.",
+      title: "Buduję systemy AI dziś, które jutro zwrócą Ci Twój czas.",
+      subtitle: "Lata praktyki w Pythonie, danych i LLM, które dziś pracują dla Twojej firmy.",
       presentLabel: "dziś",
       items: [
         {
@@ -123,7 +123,7 @@ const peopleRafal = {
         "Pipeline'y przetwarzające duże wolumeny danych i CI/CD dla wieloetapowych systemów; potem kategoryzacja treści reklamowych z użyciem LLM, RAG i wyszukiwania wektorowego.",
         "Projekt GenAI dla klienta: systemy LLM z narzędziami do analizy danych i wsparcia decyzji na Azure, z CI/CD i testami nadzorowanymi przez LLM.",
         "Konwersacyjny interfejs do analizy finansowej: LangGraph, RAG, serwery MCP i ewaluacja RAGAS, wdrażane na Azure Kubernetes Service.",
-        "Dwa produkty SaaS na produkcji: CallWise analizuje rozmowy sprzedażowe end-to-end, odbiera.ai odbiera telefony po polsku 24/7.",
+        "CallWise analizuje rozmowy sprzedażowe end-to-end, żeby handlowcy domykali więcej; odbiera.ai odbiera telefony po polsku 24/7, żeby żaden klient nie trafił na pocztę głosową.",
         "Płatna platforma kursowa o wieloagentowym AI engineeringu, mentoring i wystąpienia o AI w cyklu wytwarzania oprogramowania.",
       ],
     },
@@ -158,7 +158,7 @@ const peopleRafal = {
       name: "Rafał Łazicki",
       title: "Senior AI Engineer · founder of AwesomeWorks",
       bio: [
-        "I build AI systems for business: voice agents, chat agents, and custom software that stays in production.",
+        "I build AI systems for business: voice agents, chat agents, and custom software that takes repetitive work off your people and gives them their time back.",
         "As the founder of AwesomeWorks I grow our own products: CallWise (AI Call Scoring), odbiera.ai (AI voice receptionist), and CourseAI (an AI-coding course).",
       ],
       primaryCta: "See what we do",
@@ -168,7 +168,7 @@ const peopleRafal = {
       photo: "/people/rafal.webp",
       photoSmall: "/people/rafal-560w.webp",
       photoAlt: "Rafał Łazicki",
-      facts: ["Warsaw", "Python · FastAPI · LLM", "3 products in production"],
+      facts: ["Warsaw", "Python · FastAPI · LLM", "Your time back"],
     },
     socials: { items: socialItems },
     booking: {
@@ -178,8 +178,8 @@ const peopleRafal = {
     },
     timeline: {
       eyebrow: "path",
-      title: "From developer to my own AI products.",
-      subtitle: "The stages that built what I do at AwesomeWorks today.",
+      title: "Building AI systems today that give you your time back tomorrow.",
+      subtitle: "Years of Python, data and LLM practice that now work for your business.",
       presentLabel: "now",
       items: [
         {
@@ -241,7 +241,7 @@ const peopleRafal = {
         "Batch pipelines over large data volumes and CI/CD for multi-stage systems; then ad-content categorization with LLMs, RAG, and vector search.",
         "A GenAI project for a client: tool-using LLM systems for data analysis and decision support on Azure, with CI/CD and LLM-supervised tests.",
         "A conversational interface for financial analysis: LangGraph, RAG, MCP servers, and RAGAS evaluation, deployed on Azure Kubernetes Service.",
-        "Two SaaS products in production: CallWise analyzes sales calls end to end, odbiera.ai answers phone calls in Polish 24/7.",
+        "CallWise analyzes sales calls end to end so reps close more; odbiera.ai answers phone calls in Polish 24/7 so no customer lands in voicemail.",
         "A paid course platform on multi-agent AI engineering, mentoring, and talks on AI in the software delivery cycle.",
       ],
     },
