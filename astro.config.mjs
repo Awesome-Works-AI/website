@@ -41,6 +41,9 @@ export default defineConfig({
     "/awesomebot/en/terms": "https://odbiera.ai/en/terms",
     "/awesomebot/en/privacy": "https://odbiera.ai/en/privacy",
     "/awesomebot/en/subprocessors": "https://odbiera.ai/en/subprocessors",
+    // The founder page is served in Polish directly at /people/rafal/ (QR target,
+    // no redirect hop); the /pl/ prefix stays reachable for the language switcher.
+    "/pl/people/rafal": "/people/rafal/",
   },
   i18n: {
     defaultLocale: "en",
