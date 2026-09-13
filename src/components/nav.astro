@@ -14,18 +14,23 @@ interface Props {
   minimal?: boolean;
   /** Adds the #opinie anchor only while the reviews section is live. */
   showReviews?: boolean;
+  /** Sub pages with their own sections: replaces the home anchors. */
+  links?: readonly { label: string; href: string }[];
+  /** Sub pages with their own contact form: CTA label + target override. */
+  cta?: { label: string; href: string };
 }
 
-const { locale, altPath, minimal = false, showReviews = false } = Astro.props;
+const { locale, altPath, minimal = false, showReviews = false, links: ownLinks, cta } = Astro.props;
 const i = getCompanyHome(locale);
 const homePath = getLocalePath(locale);
 const altLocale: Locale = locale === "pl" ? "en" : "pl";
 const resolvedAltPath = altPath ?? getLocalePath(altLocale);
-const contactHref = minimal ? `${homePath}#kontakt` : "#kontakt";
+const contactHref = cta?.href ?? (minimal ? `${homePath}#kontakt` : "#kontakt");
+const ctaLabel = cta?.label ?? i.nav.cta;
 
-const links = showReviews
-  ? [...i.nav.links.slice(0, 3), i.nav.reviewsLink, ...i.nav.links.slice(3)]
-  : [...i.nav.links];
+const links =
+  ownLinks ??
+  (showReviews ? [...i.nav.links.slice(0, 3), i.nav.reviewsLink, ...i.nav.links.slice(3)] : [...i.nav.links]);
 ---
 
 <header class="fixed inset-x-0 top-0 z-50 border-b-[3px] border-ink bg-offwhite" aria-label="Primary">
@@ -54,7 +59,7 @@ const links = showReviews
         href={contactHref}
         class="flex items-center border-l-[3px] border-ink bg-cobalt px-3 text-[13px] font-bold uppercase tracking-wide text-white transition-colors hover:bg-ink md:px-6"
       >
-        {i.nav.cta}
+        {ctaLabel}
       </a>
     </nav>
   </div>

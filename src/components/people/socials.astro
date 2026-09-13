@@ -1,0 +1,53 @@
+---
+// Socials stage: one full-viewport section with the three profile links as
+// big square blocks centered on the page (80px, 96px from sm). Brutal
+// translation of the former round-button stage: 3px ink borders, no radius,
+// hover inverts to cobalt. Icons come from the shared monocolor set.
+import Icon from "@/components/icon.astro";
+import { getPeopleRafal } from "@/data/people-rafal";
+import type { Locale } from "@/i18n/utils";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const s = getPeopleRafal(locale).socials;
+---
+
+<section
+  id="sociale"
+  class="flex min-h-[100svh] scroll-mt-16 flex-col items-center justify-center border-b-[3px] border-ink bg-offwhite px-6 py-20"
+>
+  <div class="text-center">
+    <p class="flex items-center justify-center gap-3 text-xs font-bold uppercase tracking-[0.18em] text-cobalt">
+      <span class="font-display text-base" aria-hidden="true">02</span>
+      {s.eyebrow}
+    </p>
+    <h2 class="mt-4 font-display text-3xl uppercase tracking-tight text-ink md:text-4xl">{s.title}</h2>
+  </div>
+
+  <ul class="mt-14 flex flex-wrap items-start justify-center gap-8 sm:gap-12">
+    {
+      s.items.map((item) => (
+        <li>
+          <a
+            href={item.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={item.name}
+            class="group flex w-28 flex-col items-center gap-4 sm:w-32"
+          >
+            <span class="grid h-20 w-20 place-items-center border-[3px] border-ink bg-white text-ink transition-colors group-hover:bg-cobalt group-hover:text-white sm:h-24 sm:w-24">
+              <Icon name={item.icon} class="h-10 w-10 sm:h-12 sm:w-12" />
+            </span>
+            <span class="flex flex-col items-center gap-1 text-center">
+              <span class="text-sm font-bold uppercase tracking-wide text-ink group-hover:text-cobalt">{item.name}</span>
+              <span class="text-xs text-ink">{item.meta}</span>
+            </span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</section>

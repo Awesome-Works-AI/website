@@ -14,6 +14,9 @@ interface Props {
   ogImage?: string;
   socialDescription?: string;
   includeFaqSchema?: boolean;
+  /** Pages outside the /pl/ + /en/ prefix scheme (e.g. /people/rafal/):
+      the explicit path of this page in the other locale, for hreflang. */
+  altPath?: string;
 }
 
 const {
@@ -23,13 +26,19 @@ const {
   ogImage,
   socialDescription,
   includeFaqSchema = false,
+  altPath: explicitAltPath,
 } = Astro.props;
 const altLocale = locale === "en" ? "pl" : "en";
 const siteBase = Astro.site?.href ?? "https://awesomeworks.ai";
 const canonicalUrl = new URL(Astro.url.pathname, siteBase);
-const localizedPath = /^\/(pl|en)(?=\/|$)/.test(Astro.url.pathname) ? Astro.url.pathname : `/${locale}/`;
-const altPath = localizedPath.replace(/^\/(pl|en)(?=\/|$)/, `/${altLocale}`);
-const defaultPath = localizedPath.replace(/^\/(pl|en)(?=\/|$)/, "/en");
+const isPrefixed = /^\/(pl|en)(?=\/|$)/.test(Astro.url.pathname);
+const localizedPath = isPrefixed ? Astro.url.pathname : `/${locale}/`;
+const altPath = explicitAltPath ?? localizedPath.replace(/^\/(pl|en)(?=\/|$)/, `/${altLocale}`);
+const defaultPath = explicitAltPath
+  ? locale === "en"
+    ? Astro.url.pathname
+    : explicitAltPath
+  : localizedPath.replace(/^\/(pl|en)(?=\/|$)/, "/en");
 const altUrl = new URL(altPath, siteBase);
 const defaultUrl = new URL(defaultPath, siteBase);
 const ogImageAbsolute = new URL(ogImage ?? "/og-image.png", siteBase).href;
