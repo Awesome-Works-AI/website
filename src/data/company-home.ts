@@ -24,9 +24,9 @@ const companyHome = {
     meta: {
       title: "AwesomeWorks | Systemy AI dla biznesu",
       description:
-        "Polski software house od agentów AI: agenci głosowi i konwersacyjni, dedykowane oprogramowanie i szkolenia AI. Trzy własne produkty na produkcji. Darmowy audyt AI na start.",
+        "Polski software house od agentów AI: agenty głosowe i konwersacyjne, dedykowane oprogramowanie i szkolenia AI. Systemy, które zwracają zespołom czas. Darmowy audyt AI na start.",
       socialDescription:
-        "Polski software house od agentów AI. Agenci głosowi, konwersacyjni, dedykowany software i szkolenia. Trzy własne produkty na produkcji.",
+        "Polski software house od agentów AI. Agenty głosowe, konwersacyjne, dedykowany software i szkolenia. Systemy, które zwracają zespołom czas.",
       ogImageAlt: "AwesomeWorks: systemy AI dla biznesu",
     },
     nav: {
@@ -43,13 +43,13 @@ const companyHome = {
     hero: {
       title: "Systemy AI dla biznesu.",
       subtitle:
-        "Projektujemy i utrzymujemy agentów głosowych, konwersacyjnych i dedykowany software. Zacznij od darmowego audytu AI twojej firmy.",
+        "Projektujemy i utrzymujemy agenty głosowe, konwersacyjne i dedykowany software. Zacznij od darmowego audytu AI twojej firmy.",
       primaryCta: "Zacznij teraz",
       trust: ["100% polska firma", "działający system co sprint", "utrzymanie i rozwój po starcie"],
     },
     services: {
       title: "Co robimy",
-      subtitle: "Budujemy systemy, które przejmują powtarzalną pracę i zostają z tobą na produkcji.",
+      subtitle: "Budujemy systemy, które przejmują powtarzalną pracę i zwracają twojemu zespołowi czas.",
       items: [
         {
           id: "automation",
@@ -66,7 +66,7 @@ const companyHome = {
           icon: "audio-lines",
           image: "/services/voice-assistant.webp",
           imageAlt: "Ilustracja agenta głosowego odbierającego telefon",
-          name: "Agenci głosowi",
+          name: "Agenty głosowe",
           text: "Odbierają telefony, umawiają terminy i odpowiadają na pytania klientów 24/7. Twoja recepcja nie ma kolejki i nie bierze wolnego.",
           proofLabel: "Tak działa nasz produkt odbiera.ai",
           proofHref: "https://odbiera.ai/",
@@ -76,7 +76,7 @@ const companyHome = {
           icon: "message-square",
           image: "/services/chat-assistant.webp",
           imageAlt: "Ilustracja agenta konwersacyjnego w oknie czatu",
-          name: "Agenci konwersacyjni",
+          name: "Agenty konwersacyjne",
           text: "Czat na twojej stronie lub w aplikacji, podpięty do twojej bazy wiedzy. Odpowiada klientom, zanim zdążą napisać maila.",
           proofLabel: "Pokażemy ci go w akcji na darmowym audycie.",
           proofHref: "",
@@ -97,7 +97,7 @@ const companyHome = {
           image: "/services/training.webp",
           imageAlt: "Ilustracja warsztatu szkoleniowego z AI",
           name: "Szkolenia AI",
-          text: "Warsztaty dla zespołów: narzędzia, agenci i bezpieczna praca z AI na co dzień. Po warsztacie zespół umie korzystać z tych narzędzi w swojej pracy.",
+          text: "Warsztaty dla zespołów: narzędzia, agenty i bezpieczna praca z AI na co dzień. Po warsztacie zespół umie korzystać z tych narzędzi w swojej pracy.",
           proofLabel: "Format: warsztaty na żywo, na waszych przykładach.",
           proofHref: "",
         },
@@ -304,9 +304,9 @@ const companyHome = {
     meta: {
       title: "AwesomeWorks | AI systems for business",
       description:
-        "Polish software house building AI agents: voice and chat agents, custom software, and AI training. Three in-house products in production. Start with a free AI audit.",
+        "Polish software house building AI agents: voice and chat agents, custom software, and AI training. Systems that give teams their time back. Start with a free AI audit.",
       socialDescription:
-        "Polish software house building AI agents. Voice agents, chat agents, custom software, and training. Three in-house products in production.",
+        "Polish software house building AI agents. Voice agents, chat agents, custom software, and training. Systems that give teams their time back.",
       ogImageAlt: "AwesomeWorks: AI systems for business",
     },
     nav: {
@@ -329,7 +329,7 @@ const companyHome = {
     },
     services: {
       title: "What we do",
-      subtitle: "We build systems that take over repetitive work, and we keep them running in production.",
+      subtitle: "We build systems that take over repetitive work and give your team its time back.",
       items: [
         {
           id: "automation",
