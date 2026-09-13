@@ -26,7 +26,7 @@ const peopleRafal = {
     meta: {
       title: "Rafał Łazicki | Senior AI Engineer, founder AwesomeWorks",
       description:
-        "Rafał Łazicki: Senior AI Engineer i założyciel AwesomeWorks. Buduje systemy AI dla firm: agentów głosowych, konwersacyjnych i dedykowany software. Twórca CallWise, odbiera.ai i CourseAI.",
+        "Rafał Łazicki: Senior AI Engineer i założyciel AwesomeWorks. Buduje systemy AI dla firm: agenty AI oraz automatyzacje, które zwracają zespołom czas. Twórca CallWise, odbiera.ai i CourseAI.",
     },
     nav: {
       links: [
@@ -39,10 +39,7 @@ const peopleRafal = {
     hero: {
       name: "Rafał Łazicki",
       title: "Senior AI Engineer · founder AwesomeWorks",
-      bio: [
-        "Buduję systemy AI dla firm: agentów głosowych, agentów konwersacyjnych i dedykowany software, który zdejmuje z ludzi powtarzalną pracę i zwraca im czas.",
-        "Jako założyciel AwesomeWorks rozwijam własne produkty: CallWise (AI Call Scoring), odbiera.ai (recepcjonistka głosowa) i CourseAI (kurs AI codingu).",
-      ],
+      bio: ["Buduję systemy AI dla firm: agenty AI oraz automatyzacje, które zdejmują z ludzi powtarzalną pracę i zwracają im czas."],
       primaryCta: "Zobacz, co robimy",
       primaryHref: "/pl/",
       secondaryCta: "Napisz",
@@ -163,10 +160,7 @@ const peopleRafal = {
     hero: {
       name: "Rafał Łazicki",
       title: "Senior AI Engineer · founder of AwesomeWorks",
-      bio: [
-        "I build AI systems for business: voice agents, chat agents, and custom software that takes repetitive work off your people and gives them their time back.",
-        "As the founder of AwesomeWorks I grow our own products: CallWise (AI Call Scoring), odbiera.ai (AI voice receptionist), and CourseAI (an AI-coding course).",
-      ],
+      bio: ["I build AI systems for business: AI agents and automations that take repetitive work off your people and give them their time back."],
       primaryCta: "See what we do",
       primaryHref: "/en/",
       secondaryCta: "Write to me",
