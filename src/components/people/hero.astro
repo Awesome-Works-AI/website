@@ -1,7 +1,8 @@
 ---
-// Person hero (brutal block): two-column grid split by a 3px rule — name,
-// title, bio and both CTAs on the left; the portrait as a full-height block
-// on the right. Closed by the ink fact strip (true facts only).
+// Person hero (brutal block): one full-viewport stage. Name, title, bio and
+// both CTAs on the left; the portrait hangs free on the right as a framed,
+// slightly tilted print with a hard ink shadow — the whole photo stays
+// visible (natural 3:4 ratio, never cropped). Closed by the ink fact strip.
 import Icon from "@/components/icon.astro";
 import { getPeopleRafal } from "@/data/people-rafal";
 import type { Locale } from "@/i18n/utils";
@@ -15,13 +16,11 @@ const h = getPeopleRafal(locale).hero;
 ---
 
 {/* pt-[51px] = exact height of the fixed top bar (24px logo + 2x12px padding + 3px border) */}
-<section class="border-b-[3px] border-ink bg-offwhite pt-[51px]">
-  <div class="grid lg:grid-cols-[3fr_2fr]">
-    <div class="flex flex-col items-start justify-center gap-7 px-6 py-16 md:py-20 lg:gap-8 lg:px-10 lg:py-24">
-      <p class="flex items-center gap-3 text-xs font-bold uppercase tracking-[0.18em] text-cobalt">
-        <span class="font-display text-base" aria-hidden="true">01</span>
-        {h.eyebrow}
-      </p>
+<section class="flex min-h-[100svh] flex-col border-b-[3px] border-ink bg-offwhite pt-[51px]">
+  <div
+    class="mx-auto flex w-full max-w-6xl flex-1 flex-col items-center justify-center gap-12 px-6 py-14 lg:flex-row lg:items-center lg:justify-between lg:gap-16 lg:px-10 lg:py-16"
+  >
+    <div class="flex w-full flex-col items-start gap-7 lg:max-w-[36rem] lg:gap-8">
       <div class="flex flex-col gap-4">
         <h1
           class="font-display text-5xl uppercase leading-[0.98] tracking-tight text-ink [text-wrap:balance] md:text-6xl lg:text-[clamp(4rem,6vw,5.5rem)]"
@@ -45,18 +44,18 @@ const h = getPeopleRafal(locale).hero;
       </div>
     </div>
 
-    {/* Portrait block: full-bleed in its column, clipped square, 3px rule to the left on desktop. */}
-    <div class="relative min-h-[22rem] border-t-[3px] border-ink bg-white lg:min-h-0 lg:border-l-[3px] lg:border-t-0">
+    {/* Framed print hanging free in the layout: full photo, 3px ink frame, hard shadow, slight tilt. */}
+    <figure class="w-52 shrink-0 -rotate-2 sm:w-64 lg:w-[21rem] xl:w-[23rem]">
       <img
         src={h.photo}
         alt={h.photoAlt}
         width="1246"
         height="1662"
-        class="absolute inset-0 h-full w-full object-cover object-top"
+        class="block h-auto w-full border-[3px] border-ink bg-white shadow-[12px_12px_0_0_#131320]"
         loading="eager"
         decoding="async"
       />
-    </div>
+    </figure>
   </div>
 
   <ul class="flex flex-col border-t-[3px] border-ink bg-ink py-3 sm:flex-row sm:py-0">

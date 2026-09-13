@@ -1,8 +1,8 @@
 ---
-// Career timeline: one vertical 3px ink axis with square cobalt markers,
-// oldest stage first so the axis runs into "today" right above the contact
-// block. Every entry = years, company, role, one sentence of outcome; the
-// facts come from the CV only (see data/people-rafal.ts).
+// Career timeline: one vertical 3px ink axis with square markers, newest
+// stage first (the current one, marked cobalt, sits at the top). Every entry
+// = years, company, role, one sentence of outcome; the facts come from the
+// CV only (see data/people-rafal.ts, stored oldest → newest).
 import { getPeopleRafal } from "@/data/people-rafal";
 import type { Locale } from "@/i18n/utils";
 
@@ -12,6 +12,7 @@ interface Props {
 
 const { locale } = Astro.props;
 const t = getPeopleRafal(locale).timeline;
+const items = [...t.items].reverse();
 
 const years = (from: string, to: string) => {
   if (!to) return `${from} → ${t.presentLabel}`;
@@ -23,29 +24,26 @@ const years = (from: string, to: string) => {
 <section id="droga" class="scroll-mt-16 border-b-[3px] border-ink bg-white py-20 md:py-24">
   <div class="mx-auto max-w-6xl px-6">
     <div>
-      <p class="flex items-center gap-3 text-xs font-bold uppercase tracking-[0.18em] text-cobalt">
-        <span class="font-display text-base" aria-hidden="true">03</span>
-        {t.eyebrow}
-      </p>
+      <p class="text-xs font-bold uppercase tracking-[0.18em] text-cobalt">{t.eyebrow}</p>
       <h2 class="mt-4 font-display text-3xl uppercase tracking-tight text-ink md:text-4xl">{t.title}</h2>
       <p class="mt-4 max-w-[60ch] text-base leading-relaxed text-ink md:text-lg">{t.subtitle}</p>
     </div>
 
     <ol class="relative mt-14 ml-2 border-l-[3px] border-ink md:ml-0">
       {
-        t.items.map((item, idx) => (
+        items.map((item, idx) => (
           <li
             class:list={[
               "relative pl-8 md:grid md:grid-cols-[11rem_1fr] md:gap-10 md:pl-12",
-              idx < t.items.length - 1 ? "pb-12 md:pb-14" : "pb-2",
+              idx < items.length - 1 ? "pb-12 md:pb-14" : "pb-2",
             ]}
           >
-            {/* Square marker sitting on the axis; the last (current) one is cobalt. */}
+            {/* Square marker sitting on the axis; the first (current) one is cobalt. */}
             <span
               aria-hidden="true"
               class:list={[
                 "absolute -left-[12px] top-1 h-[21px] w-[21px] border-[3px] border-ink",
-                idx === t.items.length - 1 ? "bg-cobalt" : "bg-white",
+                idx === 0 ? "bg-cobalt" : "bg-white",
               ]}
             />
             <p class="font-display text-xl leading-none text-ink md:text-2xl">{years(item.from, item.to)}</p>
