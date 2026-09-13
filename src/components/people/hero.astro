@@ -1,6 +1,6 @@
 ---
 // Person hero (brutal block): one full-viewport stage. Name, title, bio and
-// both CTAs on the left; the portrait hangs free on the right as a framed,
+// the single CTA on the left; the portrait hangs free on the right as a framed,
 // slightly tilted print with a hard ink shadow — the whole photo stays
 // visible (square, never cropped). Closed by the ink fact strip.
 import Icon from "@/components/icon.astro";
@@ -35,10 +35,6 @@ const h = getPeopleRafal(locale).hero;
       <div class="flex flex-wrap items-center gap-4">
         <a href={h.primaryHref} class="btn-primary">
           {h.primaryCta}
-          <Icon name="arrow-right" class="h-4 w-4" />
-        </a>
-        <a href={h.secondaryHref} class="btn-ghost">
-          {h.secondaryCta}
           <Icon name="mail" class="h-4 w-4" />
         </a>
       </div>
