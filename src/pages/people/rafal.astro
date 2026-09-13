@@ -1,13 +1,14 @@
 ---
 // Founder's business card (Polish) — the QR code on the physical card points
 // here, so this page lives unprefixed at /people/rafal/; the English twin is
-// /en/people/rafal/. Sections: hero → socials stage → career timeline → booking →
-// the shared contact form (lead lands in CallWise, `page` = this pathname).
+// /en/people/rafal/. Sections: hero → booking → socials stage → career axis →
+// selected projects → the shared contact form (lead lands in CallWise, `page` = this pathname).
 import Contact from "@/components/contact.astro";
 import Footer from "@/components/footer.astro";
 import Nav from "@/components/nav.astro";
 import PeopleBooking from "@/components/people/booking.astro";
 import PeopleHero from "@/components/people/hero.astro";
+import PeopleProjects from "@/components/people/projects.astro";
 import PeopleSocials from "@/components/people/socials.astro";
 import PeopleTimeline from "@/components/people/timeline.astro";
 import { getPeopleRafal, peopleRafalPath } from "@/data/people-rafal";
@@ -22,9 +23,10 @@ const altPath = peopleRafalPath("en");
   <Nav locale={locale} altPath={altPath} links={p.nav.links} cta={{ label: p.nav.cta, href: "#umow" }} />
   <main>
     <PeopleHero locale={locale} />
+    <PeopleBooking locale={locale} />
     <PeopleSocials locale={locale} />
     <PeopleTimeline locale={locale} />
-    <PeopleBooking locale={locale} />
+    <PeopleProjects locale={locale} />
     <Contact
       locale={locale}
       copy={p.contact}

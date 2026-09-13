@@ -33,7 +33,7 @@ const h = getPeopleRafal(locale).hero;
         {h.bio.map((line) => <p class="text-lg font-medium leading-normal text-ink">{line}</p>)}
       </div>
       <div class="flex flex-wrap items-center gap-4">
-        <a href={h.primaryHref} target="_blank" rel="noopener" class="btn-primary">
+        <a href={h.primaryHref} class="btn-primary">
           {h.primaryCta}
           <Icon name="arrow-right" class="h-4 w-4" />
         </a>
