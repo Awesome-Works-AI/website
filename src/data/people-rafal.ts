@@ -71,6 +71,13 @@ const peopleRafal = {
           role: "mgr inż. · informatyka, data science",
         },
         {
+          // Internship year is not in the CV; `from` only orders the cloud (axis starts at 2018 anyway).
+          from: "2019",
+          to: "2019",
+          company: "Deloitte",
+          role: "Software Engineer Intern",
+        },
+        {
           from: "2020",
           to: "2021",
           company: "enxoo",
@@ -86,7 +93,13 @@ const peopleRafal = {
           from: "2022",
           to: "2025",
           company: "Gemius",
-          role: "Python Developer / DevOps → Generative AI Engineer",
+          role: "Python Developer / DevOps",
+        },
+        {
+          from: "2024",
+          to: "2025",
+          company: "Gemius",
+          role: "Generative AI Engineer",
         },
         {
           from: "2025",
@@ -182,6 +195,13 @@ const peopleRafal = {
           role: "M.Eng. · Computer Science, Data Science",
         },
         {
+          // Internship year is not in the CV; `from` only orders the cloud (axis starts at 2018 anyway).
+          from: "2019",
+          to: "2019",
+          company: "Deloitte",
+          role: "Software Engineer Intern",
+        },
+        {
           from: "2020",
           to: "2021",
           company: "enxoo",
@@ -197,7 +217,13 @@ const peopleRafal = {
           from: "2022",
           to: "2025",
           company: "Gemius",
-          role: "Python Developer / DevOps → Generative AI Engineer",
+          role: "Python Developer / DevOps",
+        },
+        {
+          from: "2024",
+          to: "2025",
+          company: "Gemius",
+          role: "Generative AI Engineer",
         },
         {
           from: "2025",
