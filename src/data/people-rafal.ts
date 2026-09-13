@@ -16,9 +16,9 @@ const linkedinUrl = "https://linkedin.com/in/rlazicki";
 export const peopleRafalPath = (locale: Locale) => (locale === "en" ? "/en/people/rafal/" : "/people/rafal/");
 
 const socialItems = [
-  { icon: "linkedin", name: "LinkedIn", meta: "linkedin.com/in/rlazicki", href: linkedinUrl },
-  { icon: "github", name: "GitHub", meta: "github.com/Raff-dev", href: githubUrl },
-  { icon: "instagram", name: "Instagram", meta: "@makeitagentic", href: instagramUrl },
+  { icon: "linkedin", name: "LinkedIn", href: linkedinUrl },
+  { icon: "github", name: "GitHub", href: githubUrl },
+  { icon: "instagram", name: "Instagram", href: instagramUrl },
 ] as const;
 
 const peopleRafal = {
@@ -32,11 +32,11 @@ const peopleRafal = {
       links: [
         { id: "sociale", label: "Sociale", href: "#sociale" },
         { id: "droga", label: "Droga", href: "#droga" },
+        { id: "kontakt", label: "Kontakt", href: "#kontakt" },
       ],
       cta: "Umów rozmowę",
     },
     hero: {
-      eyebrow: "wizytówka",
       name: "Rafał Łazicki",
       title: "Senior AI Engineer · founder AwesomeWorks",
       bio: [
@@ -51,10 +51,11 @@ const peopleRafal = {
       photoAlt: "Rafał Łazicki",
       facts: ["Warszawa", "Python · FastAPI · LLM", "3 produkty na produkcji"],
     },
-    socials: {
-      eyebrow: "sociale",
-      title: "Znajdziesz mnie tutaj.",
-      items: socialItems,
+    socials: { items: socialItems },
+    booking: {
+      cta: "Umów rozmowę",
+      href: calendlyUrl,
+      note: "30 minut w Calendly. Bez zobowiązań i bez slajdów.",
     },
     timeline: {
       eyebrow: "droga",
@@ -136,11 +137,11 @@ const peopleRafal = {
       links: [
         { id: "sociale", label: "Socials", href: "#sociale" },
         { id: "droga", label: "Path", href: "#droga" },
+        { id: "kontakt", label: "Contact", href: "#kontakt" },
       ],
       cta: "Book a call",
     },
     hero: {
-      eyebrow: "business card",
       name: "Rafał Łazicki",
       title: "Senior AI Engineer · founder of AwesomeWorks",
       bio: [
@@ -155,10 +156,11 @@ const peopleRafal = {
       photoAlt: "Rafał Łazicki",
       facts: ["Warsaw", "Python · FastAPI · LLM", "3 products in production"],
     },
-    socials: {
-      eyebrow: "socials",
-      title: "Find me here.",
-      items: socialItems,
+    socials: { items: socialItems },
+    booking: {
+      cta: "Book a call",
+      href: calendlyUrl,
+      note: "30 minutes on Calendly. No strings, no slides.",
     },
     timeline: {
       eyebrow: "path",

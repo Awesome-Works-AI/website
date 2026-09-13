@@ -1,0 +1,26 @@
+---
+// Booking block: one button to Calendly and a single line under it. Kept
+// deliberately empty around the button so the call-to-action reads as its
+// own beat between the timeline and the contact form.
+import { getPeopleRafal } from "@/data/people-rafal";
+import type { Locale } from "@/i18n/utils";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const b = getPeopleRafal(locale).booking;
+---
+
+<section id="umow" class="scroll-mt-16 border-b-[3px] border-ink bg-cobalt px-6 py-24 text-center md:py-32">
+  <a
+    href={b.href}
+    target="_blank"
+    rel="noopener"
+    class="inline-block border-[3px] border-ink bg-white px-10 py-5 font-display text-xl uppercase tracking-tight text-ink shadow-[6px_6px_0_0_#131320] transition-transform hover:-translate-y-0.5 active:translate-x-[3px] active:translate-y-[3px] active:shadow-none md:px-14 md:py-6 md:text-2xl"
+  >
+    {b.cta}
+  </a>
+  <p class="mx-auto mt-6 max-w-[40ch] text-sm font-medium text-white md:text-base">{b.note}</p>
+</section>
