@@ -1,9 +1,9 @@
 ---
-// Career timeline: a loose axis only — one vertical 3px ink line with square
-// markers, newest stage first (the current one, marked cobalt, sits at the
-// top). Every entry = years, company, role; no project detail here (that
-// lives in projects.astro). Facts come from the CV (data/people-rafal.ts,
-// stored oldest → newest).
+// Career axis: one continuous vertical line with a tick for every year from
+// the first entry (2018) up to the current year, newest at the top. Entries
+// hang off the year they started (several may share a year); years without
+// an entry stay as bare ticks so the axis reads as time, not as a list.
+// Facts come from the CV (data/people-rafal.ts, stored oldest → newest).
 import { getPeopleRafal } from "@/data/people-rafal";
 import type { Locale } from "@/i18n/utils";
 
@@ -13,13 +13,11 @@ interface Props {
 
 const { locale } = Astro.props;
 const t = getPeopleRafal(locale).timeline;
-const items = [...t.items].reverse();
 
-const years = (from: string, to: string) => {
-  if (!to) return `${from} → ${t.presentLabel}`;
-  if (to === from) return from;
-  return `${from}–${to}`;
-};
+const firstYear = Math.min(...t.items.map((i) => Number(i.from)));
+const lastYear = Math.max(new Date().getFullYear(), ...t.items.map((i) => Number(i.from)));
+const years = Array.from({ length: lastYear - firstYear + 1 }, (_, k) => lastYear - k);
+const byYear = (year: number) => t.items.filter((i) => Number(i.from) === year).reverse();
 ---
 
 <section id="droga" class="scroll-mt-16 border-b-[3px] border-ink bg-white py-20 md:py-24">
@@ -32,28 +30,47 @@ const years = (from: string, to: string) => {
 
     <ol class="relative mt-14 ml-2 border-l-[3px] border-ink md:ml-0">
       {
-        items.map((item, idx) => (
-          <li
-            class:list={[
-              "relative pl-8 md:grid md:grid-cols-[11rem_1fr] md:items-baseline md:gap-10 md:pl-12",
-              idx < items.length - 1 ? "pb-9 md:pb-10" : "pb-2",
-            ]}
-          >
-            {/* Square marker sitting on the axis; the first (current) one is cobalt. */}
-            <span
-              aria-hidden="true"
+        years.map((year, idx) => {
+          const entries = byYear(year);
+          const current = idx === 0;
+          return (
+            <li
               class:list={[
-                "absolute -left-[12px] top-1 h-[21px] w-[21px] border-[3px] border-ink",
-                idx === 0 ? "bg-cobalt" : "bg-white",
+                "relative pl-8 md:grid md:grid-cols-[11rem_1fr] md:items-baseline md:gap-10 md:pl-12",
+                idx < years.length - 1 ? (entries.length ? "pb-8 md:pb-9" : "pb-6 md:pb-7") : "pb-2",
               ]}
-            />
-            <p class="font-display text-xl leading-none text-ink md:text-2xl">{years(item.from, item.to)}</p>
-            <div class="mt-2 md:mt-0">
-              <h3 class="font-display text-lg uppercase tracking-tight text-ink">{item.company}</h3>
-              <p class="mt-1 text-sm font-bold uppercase tracking-wide text-cobalt">{item.role}</p>
-            </div>
-          </li>
-        ))
+            >
+              {/* Tick on the axis: square when something starts this year, small dot otherwise; the current year is cobalt. */}
+              <span
+                aria-hidden="true"
+                class:list={[
+                  "absolute border-[3px] border-ink",
+                  entries.length ? "-left-[12px] top-1 h-[21px] w-[21px]" : "-left-[8px] top-[7px] h-[13px] w-[13px]",
+                  current ? "bg-cobalt" : "bg-white",
+                ]}
+              />
+              <p
+                class:list={[
+                  "font-display leading-none",
+                  entries.length ? "text-xl text-ink md:text-2xl" : "text-base text-ink/60 md:text-lg",
+                ]}
+              >
+                {year}
+                {current && <span class="ml-2 text-sm uppercase tracking-wide text-cobalt">· {t.presentLabel}</span>}
+              </p>
+              {entries.length > 0 && (
+                <div class="mt-2 flex flex-col gap-5 md:mt-0">
+                  {entries.map((item) => (
+                    <div>
+                      <h3 class="font-display text-lg uppercase tracking-tight text-ink">{item.company}</h3>
+                      <p class="mt-1 text-sm font-bold uppercase tracking-wide text-cobalt">{item.role}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </li>
+          );
+        })
       }
     </ol>
   </div>
