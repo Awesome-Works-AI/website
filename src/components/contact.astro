@@ -41,6 +41,7 @@ const privacyHref = privacyPath(locale);
 const formI18n = {
   submit: c.form.submit,
   submitLoading: c.form.submitLoading,
+  submitDone: c.form.submitDone,
   errors: c.form.errors,
 };
 
@@ -201,6 +202,7 @@ const label = "block text-sm font-bold text-ink";
     const i18n = JSON.parse(form.querySelector("[data-contact-i18n]")?.textContent ?? "{}") as {
       submit: string;
       submitLoading: string;
+      submitDone: string;
       errors: Record<ErrorKey, string>;
     };
 
@@ -242,6 +244,7 @@ const label = "block text-sm font-bold text-ink";
 
       error?.classList.add("hidden");
       setBusy(true);
+      let sent = false;
       const controller = new AbortController();
       const timeout = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
       try {
@@ -261,9 +264,14 @@ const label = "block text-sm font-bold text-ink";
           signal: controller.signal,
         });
         if (res.status === 202) {
+          sent = true;
           form.querySelectorAll<HTMLElement>("input, textarea, button").forEach((el) => {
             (el as HTMLInputElement).disabled = true;
           });
+          // Button flips to a clear "sent" state: no spinner, done label, stays disabled.
+          dot?.classList.add("hidden");
+          icon?.classList.remove("hidden");
+          if (label) label.textContent = i18n.submitDone;
           success?.classList.remove("hidden");
           success?.scrollIntoView({ block: "nearest", behavior: "smooth" });
           return;
@@ -275,7 +283,7 @@ const label = "block text-sm font-bold text-ink";
         showError("generic");
       } finally {
         clearTimeout(timeout);
-        if (!(button?.disabled && success && !success.classList.contains("hidden"))) setBusy(false);
+        if (!sent) setBusy(false);
       }
     });
   });
