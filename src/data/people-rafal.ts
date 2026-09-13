@@ -103,8 +103,14 @@ const peopleRafal = {
         {
           from: "2026",
           to: "",
-          company: "Awesome Works AI",
-          role: "Lead AI Engineer · CallWise i odbiera.ai",
+          company: "CallWise",
+          role: "Founder · AI Call Scoring",
+        },
+        {
+          from: "2026",
+          to: "",
+          company: "odbiera.ai",
+          role: "Founder · recepcjonistka głosowa AI",
         },
         {
           from: "2026",
@@ -221,8 +227,14 @@ const peopleRafal = {
         {
           from: "2026",
           to: "",
-          company: "Awesome Works AI",
-          role: "Lead AI Engineer · CallWise and odbiera.ai",
+          company: "CallWise",
+          role: "Founder · AI Call Scoring",
+        },
+        {
+          from: "2026",
+          to: "",
+          company: "odbiera.ai",
+          role: "Founder · AI voice receptionist",
         },
         {
           from: "2026",
