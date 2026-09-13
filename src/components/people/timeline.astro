@@ -1,8 +1,8 @@
 ---
-// Career axis: one continuous vertical line with a tick for every year from
-// the first entry (2018) up to the current year, newest at the top. Entries
-// hang off the year they started (several may share a year); years without
-// an entry stay as bare ticks so the axis reads as time, not as a list.
+// Career axis: a horizontal line from the first year (2018) to today with a
+// tick per year — it only says "doing this since 2018". Below it the stages
+// (company + role) float as a loose cloud of framed tags: not pinned to any
+// year, staggered and slightly tilted so they read as scattered, not listed.
 // Facts come from the CV (data/people-rafal.ts, stored oldest → newest).
 import { getPeopleRafal } from "@/data/people-rafal";
 import type { Locale } from "@/i18n/utils";
@@ -16,62 +16,63 @@ const t = getPeopleRafal(locale).timeline;
 
 const firstYear = Math.min(...t.items.map((i) => Number(i.from)));
 const lastYear = Math.max(new Date().getFullYear(), ...t.items.map((i) => Number(i.from)));
-const years = Array.from({ length: lastYear - firstYear + 1 }, (_, k) => lastYear - k);
-const byYear = (year: number) => t.items.filter((i) => Number(i.from) === year).reverse();
+const years = Array.from({ length: lastYear - firstYear + 1 }, (_, k) => firstYear + k);
+const stages = [...t.items].reverse();
+
+// Deterministic scatter: tilt and vertical nudge cycle through these patterns.
+const tilt = ["-rotate-2", "rotate-1", "rotate-2", "-rotate-1", "rotate-1", "-rotate-2", "rotate-2", "-rotate-1"];
+const nudge = ["md:mt-0", "md:mt-10", "md:mt-4", "md:mt-14", "md:mt-2", "md:mt-12", "md:mt-6", "md:mt-8"];
 ---
 
 <section id="droga" class="scroll-mt-16 border-b-[3px] border-ink bg-white py-20 md:py-24">
   <div class="mx-auto max-w-6xl px-6">
     <div>
       <p class="text-xs font-bold uppercase tracking-[0.18em] text-cobalt">{t.eyebrow}</p>
-      <h2 class="mt-4 font-display text-3xl uppercase tracking-tight text-ink md:text-4xl">{t.title}</h2>
+      <h2 class="mt-4 max-w-[22ch] font-display text-3xl uppercase tracking-tight text-ink [text-wrap:balance] md:text-4xl">{t.title}</h2>
       <p class="mt-4 max-w-[60ch] text-base leading-relaxed text-ink md:text-lg">{t.subtitle}</p>
     </div>
 
-    <ol class="relative mt-14 ml-2 border-l-[3px] border-ink md:ml-0">
+    {/* Axis: 3px rule, a square tick per year; first and last carry a label on every screen, the rest only from md. */}
+    <ol class="relative mt-16 flex justify-between border-t-[3px] border-ink" aria-label={`${firstYear} – ${t.presentLabel}`}>
       {
         years.map((year, idx) => {
-          const entries = byYear(year);
-          const current = idx === 0;
+          const edge = idx === 0 || idx === years.length - 1;
+          const last = idx === years.length - 1;
           return (
-            <li
-              class:list={[
-                "relative pl-8 md:grid md:grid-cols-[11rem_1fr] md:items-baseline md:gap-10 md:pl-12",
-                idx < years.length - 1 ? (entries.length ? "pb-8 md:pb-9" : "pb-6 md:pb-7") : "pb-2",
-              ]}
-            >
-              {/* Tick on the axis: square when something starts this year, small dot otherwise; the current year is cobalt. */}
+            <li class="relative flex flex-col items-center">
               <span
                 aria-hidden="true"
                 class:list={[
-                  "absolute border-[3px] border-ink",
-                  entries.length ? "-left-[12px] top-1 h-[21px] w-[21px]" : "-left-[8px] top-[7px] h-[13px] w-[13px]",
-                  current ? "bg-cobalt" : "bg-white",
+                  "-mt-[12px] block border-[3px] border-ink",
+                  edge ? "h-[21px] w-[21px]" : "h-[13px] w-[13px] mt-[-8px]",
+                  last ? "bg-cobalt" : "bg-white",
                 ]}
               />
-              <p
+              <span
                 class:list={[
-                  "font-display leading-none",
-                  entries.length ? "text-xl text-ink md:text-2xl" : "text-base text-ink/60 md:text-lg",
+                  "mt-2 font-display leading-none",
+                  edge ? "text-lg text-ink md:text-xl" : "hidden text-sm text-ink/60 md:block",
                 ]}
               >
                 {year}
-                {current && <span class="ml-2 text-sm uppercase tracking-wide text-cobalt">· {t.presentLabel}</span>}
-              </p>
-              {entries.length > 0 && (
-                <div class="mt-2 flex flex-col gap-5 md:mt-0">
-                  {entries.map((item) => (
-                    <div>
-                      <h3 class="font-display text-lg uppercase tracking-tight text-ink">{item.company}</h3>
-                      <p class="mt-1 text-sm font-bold uppercase tracking-wide text-cobalt">{item.role}</p>
-                    </div>
-                  ))}
-                </div>
-              )}
+                {last && <span class="ml-1 text-xs uppercase tracking-wide text-cobalt">· {t.presentLabel}</span>}
+              </span>
             </li>
           );
         })
       }
     </ol>
+
+    {/* Loose cloud of stages — no dates. */}
+    <ul class="mt-16 flex flex-wrap items-start justify-center gap-x-6 gap-y-6 md:mt-20 md:gap-x-10">
+      {
+        stages.map((item, idx) => (
+          <li class:list={["border-[3px] border-ink bg-white px-5 py-4 shadow-[6px_6px_0_0_#131320]", tilt[idx % tilt.length], nudge[idx % nudge.length]]}>
+            <h3 class="font-display text-lg uppercase tracking-tight text-ink">{item.company}</h3>
+            <p class="mt-1 text-xs font-bold uppercase tracking-wide text-cobalt">{item.role}</p>
+          </li>
+        ))
+      }
+    </ul>
   </div>
 </section>
