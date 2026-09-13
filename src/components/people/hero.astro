@@ -2,7 +2,7 @@
 // Person hero (brutal block): one full-viewport stage. Name, title, bio and
 // both CTAs on the left; the portrait hangs free on the right as a framed,
 // slightly tilted print with a hard ink shadow — the whole photo stays
-// visible (natural 3:4 ratio, never cropped). Closed by the ink fact strip.
+// visible (square, never cropped). Closed by the ink fact strip.
 import Icon from "@/components/icon.astro";
 import { getPeopleRafal } from "@/data/people-rafal";
 import type { Locale } from "@/i18n/utils";
@@ -48,9 +48,11 @@ const h = getPeopleRafal(locale).hero;
     <figure class="w-52 shrink-0 -rotate-2 sm:w-64 lg:w-[21rem] xl:w-[23rem]">
       <img
         src={h.photo}
+        srcset={`${h.photoSmall} 560w, ${h.photo} 1000w`}
+        sizes="(min-width: 1280px) 23rem, (min-width: 1024px) 21rem, (min-width: 640px) 16rem, 13rem"
         alt={h.photoAlt}
-        width="1246"
-        height="1662"
+        width="1000"
+        height="1000"
         class="block h-auto w-full border-[3px] border-ink bg-white shadow-[12px_12px_0_0_#131320]"
         loading="eager"
         decoding="async"
