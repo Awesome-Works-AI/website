@@ -1,10 +1,9 @@
 ---
-// Voice agents scene: the headset mascot in full contrast next to a call
-// card. The conversation is pure VOICE — each turn is a waveform capsule
-// (no text bubbles, this must not read as chat): caller turns on paper,
-// agent turns on cobalt. Turns land one by one on scrub; the last agent
-// turn pulses live. Header carries the call status and a mini equalizer.
-import Icon from "@/components/icon.astro";
+// Voice agents scene: the headset mascot next to a free-standing call
+// waveform — no window, no chat. Two channels (caller ink, agent cobalt)
+// speak in alternating segments; a playhead sweeps the recording on
+// scrub while the timer counts up and the un-played part stays dimmed.
+// With JS off the waveform renders fully played (timer at the end).
 import RobotMascot from "@/components/scenes/robot-mascot.astro";
 import SceneShell from "@/components/scenes/scene-shell.astro";
 import type { CompanyHomeContent } from "@/data/company-home";
@@ -16,79 +15,93 @@ interface Props {
 }
 
 const { item, copy, ofLabel } = Astro.props;
-const headerBars = [14, 22, 10, 24, 16, 26, 12, 20, 9];
 
-// Purely decorative "speech" patterns (bar heights in px) — lengths differ
-// so the exchange reads naturally: question, longer answer, short reply,
-// closing confirmation. The last agent turn animates as currently speaking.
-const wave = (seed: number, n: number) =>
-  Array.from({ length: n }, (_, k) => 6 + Math.round(8.5 * (1 + Math.sin(seed + k * 1.7)) * 0.9));
-
-const turns = [
-  { who: "caller" as const, bars: wave(1, 20) },
-  { who: "bot" as const, bars: wave(4, 30) },
-  { who: "caller" as const, bars: wave(8, 9) },
-  { who: "bot" as const, bars: wave(12, 24), live: true },
+// Decorative call envelope: who talks when (fractions of the recording).
+const N = 56;
+const callerTalk = [
+  [0, 0.16],
+  [0.4, 0.5],
+  [0.74, 0.8],
 ];
+const agentTalk = [
+  [0.18, 0.38],
+  [0.52, 0.72],
+  [0.82, 1],
+];
+const bars = (talk: number[][], seed: number) =>
+  Array.from({ length: N }, (_, k) => {
+    const p = k / (N - 1);
+    const talking = talk.some(([a, b]) => p >= a && p <= b);
+    return talking ? 9 + Math.round(9 * (1 + Math.sin(seed + k * 1.9))) : 3;
+  });
+
+const channels = [
+  { label: copy.callerLabel, color: "text-ink/75", bars: bars(callerTalk, 2) },
+  { label: copy.botLabel, color: "text-cobalt", bars: bars(agentTalk, 5) },
+];
+
+const stamps = ["0:00", "0:12", "0:24", "0:36"];
 ---
 
 <SceneShell scene="voice" index={2} item={item} ofLabel={ofLabel} visual="left" ground="white">
-  <div class="flex flex-col items-center gap-6 lg:flex-row lg:items-center lg:gap-0">
+  <div class="flex flex-col items-center gap-10 lg:flex-row lg:gap-12">
     <div data-fx="robot" class="flex-none">
-      <RobotMascot headset class="h-64 w-auto md:h-80 lg:h-[26rem]" />
+      <RobotMascot headset class="h-60 w-auto md:h-72 lg:h-[24rem]" />
     </div>
 
-    {/* Call card */}
-    <div
-      data-fx="card"
-      class="w-full max-w-[24rem] border-[3px] border-ink bg-white shadow-[8px_8px_0_var(--color-ink)] lg:-ml-8"
-    >
-      <div class="flex items-center gap-3 border-b-[3px] border-ink px-4 py-3">
-        <span class="grid h-10 w-10 flex-none place-items-center bg-cobalt text-white">
-          <Icon name="phone" class="h-5 w-5" />
-        </span>
-        <div class="grid min-w-0 flex-1">
-          <p data-fx="status-in" class="col-start-1 row-start-1 truncate text-sm font-bold text-ink opacity-0">
+    {/* The recording: status row, two waveform channels, time axis */}
+    <div data-fx="wave" class="w-full min-w-0 flex-1" role="img" aria-label={item.imageAlt}>
+      <div class="mb-5 flex items-baseline justify-between gap-4">
+        <div class="grid min-w-0">
+          <p data-fx="status-in" class="col-start-1 row-start-1 flex items-center gap-2 truncate text-sm font-bold text-ink opacity-0">
+            <span class="vc-dot bg-ink" aria-hidden="true"></span>
             {copy.incoming}
           </p>
-          <p data-fx="status-on" class="col-start-1 row-start-1 truncate text-sm font-bold text-cobalt">
+          <p data-fx="status-on" class="col-start-1 row-start-1 flex items-center gap-2 truncate text-sm font-bold text-cobalt">
+            <span class="vc-dot bg-cobalt" aria-hidden="true"></span>
             {copy.answered}
           </p>
         </div>
-        <div class="flex h-7 flex-none items-center gap-[3px]" aria-hidden="true">
-          {headerBars.map((h, k) => <span class="wf-bar" style={`height:${h}px; --i:${k};`} />)}
+        <p data-fx="timer" class="font-display text-2xl tabular-nums text-ink md:text-3xl">0:36</p>
+      </div>
+
+      <div data-fx="wave-box" class="relative">
+        <div class="flex flex-col gap-6">
+          {
+            channels.map((ch) => (
+              <div>
+                <p class="mb-1.5 text-[10px] font-bold uppercase tracking-[0.16em] text-ink/45">{ch.label}</p>
+                <div class:list={["flex h-10 items-center justify-between", ch.color]}>
+                  {ch.bars.map((h) => (
+                    <span class="vn-bar" style={`height:${h}px;`} />
+                  ))}
+                </div>
+              </div>
+            ))
+          }
+        </div>
+
+        {/* Un-played part sits dimmed behind this veil; the playhead sweeps on scrub. */}
+        <div
+          data-fx="wave-dim"
+          class="pointer-events-none absolute inset-y-0 right-0 bg-white/75"
+          style="left: 100%;"
+          aria-hidden="true"
+        >
+        </div>
+        <div
+          data-fx="playhead"
+          class="pointer-events-none absolute inset-y-[-6px] w-[3px] -translate-x-1/2 bg-ink"
+          style="left: 100%;"
+          aria-hidden="true"
+        >
+          <span class="absolute left-1/2 top-[-5px] h-[11px] w-[11px] -translate-x-1/2 bg-ink"></span>
         </div>
       </div>
 
-      {/* Voice turns — waveform capsules, no text */}
-      <ul class="flex flex-col gap-3.5 p-4" role="img" aria-label={item.imageAlt}>
-        {
-          turns.map((turn) => (
-            <li
-              data-fx="line"
-              class:list={[
-                "flex max-w-[88%] flex-col gap-1",
-                turn.who === "bot" ? "items-end self-end" : "items-start self-start",
-              ]}
-            >
-              <span class="text-[10px] font-bold uppercase tracking-[0.14em] text-ink/45">
-                {turn.who === "bot" ? copy.botLabel : copy.callerLabel}
-              </span>
-              <span
-                class:list={[
-                  "flex h-10 items-center gap-[3px] px-3.5",
-                  turn.who === "bot" ? "bg-cobalt text-white" : "bg-offwhite text-ink/80",
-                  turn.live && "vn-live",
-                ]}
-              >
-                {turn.bars.map((h, k) => (
-                  <span class="vn-bar" style={`height:${h}px; --i:${k};`} />
-                ))}
-              </span>
-            </li>
-          ))
-        }
-      </ul>
+      <div class="mt-3 flex justify-between border-t-[3px] border-ink pt-2" aria-hidden="true">
+        {stamps.map((s) => <span class="text-xs font-bold tabular-nums text-ink/50">{s}</span>)}
+      </div>
     </div>
   </div>
 </SceneShell>

@@ -95,16 +95,32 @@ const of = i.scenes.ofLabel;
     voice(tl, scene) {
       head(tl, scene);
       tl.from(fx1(scene, "robot"), { x: -80, opacity: 0, duration: 0.5, ease: "power2.out" }, 0.1);
-      tl.from(fx1(scene, "card"), { y: 64, opacity: 0, duration: 0.45, ease: "power2.out" }, 0.4);
+      tl.from(fx1(scene, "wave"), { y: 50, opacity: 0, duration: 0.45, ease: "power2.out" }, 0.35);
       const statusIn = fx1(scene, "status-in");
       const statusOn = fx1(scene, "status-on");
       if (statusIn && statusOn) {
         gsap.set(statusOn, { opacity: 0 });
-        tl.to(statusIn, { opacity: 1, duration: 0.15 }, 0.55)
-          .to(statusIn, { opacity: 0, duration: 0.1 }, 0.95)
-          .to(statusOn, { opacity: 1, duration: 0.15 }, 1.0);
+        tl.to(statusIn, { opacity: 1, duration: 0.12 }, 0.5)
+          .to(statusIn, { opacity: 0, duration: 0.08 }, 0.82)
+          .to(statusOn, { opacity: 1, duration: 0.12 }, 0.86);
       }
-      tl.from(fx(scene, "line"), { y: 26, opacity: 0, duration: 0.35, stagger: 0.24, ease: "power2.out" }, 1.05);
+      // Playback: the playhead sweeps the recording, the dim veil retreats
+      // with it and the timer counts the call up (0:00 → 0:36).
+      const playhead = fx1(scene, "playhead");
+      const dim = fx1(scene, "wave-dim");
+      const timer = fx1(scene, "timer");
+      const sweep = 1.15;
+      if (playhead) tl.fromTo(playhead, { left: "0%" }, { left: "100%", duration: sweep, ease: "none" }, 0.9);
+      if (dim) tl.fromTo(dim, { left: "0%" }, { left: "100%", duration: sweep, ease: "none" }, 0.9);
+      if (timer) {
+        const proxy = { t: 0 };
+        tl.to(proxy, {
+          t: 36,
+          duration: sweep,
+          ease: "none",
+          onUpdate: () => (timer.textContent = `0:${String(Math.floor(proxy.t)).padStart(2, "0")}`),
+        }, 0.9);
+      }
     },
 
     chat(tl, scene) {

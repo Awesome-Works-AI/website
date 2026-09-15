@@ -371,35 +371,24 @@ summary::-webkit-details-marker {
   50% { transform: rotate(-56deg); }
 }
 
-/* Voice scene: live waveform bars. The header equalizer pulses from the
- * center; conversation turns are static waveform capsules except the one
- * marked .vn-live — the agent currently speaking. */
-.wf-bar {
-  width: 4px;
-  background: var(--color-cobalt);
-  transform-origin: center;
-  animation: wf-dance 0.9s ease-in-out calc(var(--i, 0) * -0.11s) infinite alternate paused;
-}
-
+/* Voice scene: waveform channel bars (static heights; the playhead, veil
+ * and timer are scroll-driven) and the blinking live dot in the status. */
 .vn-bar {
   width: 3px;
   flex: none;
   background: currentColor;
-  transform-origin: center;
 }
 
-.vn-live .vn-bar {
-  animation: wf-dance 0.8s ease-in-out calc(var(--i, 0) * -0.09s) infinite alternate paused;
+.vc-dot {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  flex: none;
+  animation: blink-square 1.2s steps(1) infinite paused;
 }
 
-.scene-live .wf-bar,
-.scene-live .vn-live .vn-bar {
+.scene-live .vc-dot {
   animation-play-state: running;
-}
-
-@keyframes wf-dance {
-  from { transform: scaleY(0.22); }
-  to { transform: scaleY(1); }
 }
 
 /* Automation scene: data dots flowing along the SVG connectors. Hidden
@@ -454,8 +443,7 @@ summary::-webkit-details-marker {
   .rm-antenna,
   .rm-arm-wave,
   .rm-arm-point,
-  .wf-bar,
-  .vn-bar,
+  .vc-dot,
   .flow-dot,
   .intro-rise,
   .scroll-cue {
