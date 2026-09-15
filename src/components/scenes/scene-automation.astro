@@ -1,0 +1,95 @@
+---
+// AI automations scene: an SVG pipeline — mail/CRM/documents feed the AI
+// node (mini mascot head) which produces the report. The scrub timeline
+// pops the nodes and draws the connectors; cobalt data dots then flow
+// along the paths as a CSS loop (offset-path, gated by .scene-live).
+import SceneShell from "@/components/scenes/scene-shell.astro";
+import type { CompanyHomeContent } from "@/data/company-home";
+
+interface Props {
+  item: CompanyHomeContent["services"]["items"][number];
+  labels: CompanyHomeContent["scenes"]["automation"]["nodes"];
+  ofLabel: string;
+}
+
+const { item, labels, ofLabel } = Astro.props;
+
+// Connector paths shared by the drawn lines and the flowing dots.
+const paths = {
+  mail: "M170 73 H236 Q252 73 252 89 V199 Q252 215 268 215 H298",
+  crm: "M170 215 H298",
+  docs: "M170 357 H236 Q252 357 252 341 V231 Q252 215 268 215 H298",
+  report: "M432 215 H518",
+};
+---
+
+<SceneShell scene="automation" index={1} item={item} ofLabel={ofLabel} visual="right">
+  <svg viewBox="0 0 640 430" class="mx-auto w-full max-w-[40rem]" role="img" aria-label={item.imageAlt}>
+    {/* Connectors (drawn on scrub) */}
+    {
+      Object.values(paths).map((d) => (
+        <path d={d} class="stroke-ink" stroke-width="4" fill="none" data-draw />
+      ))
+    }
+
+    {/* Source nodes */}
+    <g data-fx="node">
+      <rect x="10" y="30" width="160" height="86" rx="10" class="fill-white stroke-ink" stroke-width="4" />
+      <rect x="30" y="57" width="30" height="24" rx="4" class="stroke-ink" stroke-width="3.5" fill="none" />
+      <path d="M30 60 L45 71 L60 60" class="stroke-ink" stroke-width="3.5" fill="none" />
+      <text x="76" y="80" class="fill-ink text-[16px] font-bold uppercase tracking-wide">{labels.mail}</text>
+    </g>
+    <g data-fx="node">
+      <rect x="10" y="172" width="160" height="86" rx="10" class="fill-white stroke-ink" stroke-width="4" />
+      <circle cx="38" cy="206" r="7" class="stroke-ink" stroke-width="3.5" fill="none" />
+      <circle cx="58" cy="228" r="7" class="stroke-ink" stroke-width="3.5" fill="none" />
+      <path d="M43 211 L53 223" class="stroke-ink" stroke-width="3.5" />
+      <text x="76" y="222" class="fill-ink text-[16px] font-bold uppercase tracking-wide">{labels.crm}</text>
+    </g>
+    <g data-fx="node">
+      <rect x="10" y="314" width="160" height="86" rx="10" class="fill-white stroke-ink" stroke-width="4" />
+      <rect x="26" y="336" width="30" height="40" rx="4" class="stroke-ink" stroke-width="3.5" fill="none" />
+      <path d="M33 348 H49 M33 356 H49 M33 364 H43" class="stroke-ink" stroke-width="3" />
+      <text x="66" y="363" class="fill-ink text-[13px] font-bold uppercase tracking-wide">{labels.docs}</text>
+    </g>
+
+    {/* AI node: cobalt block with the mascot's face */}
+    <g data-fx="node">
+      <rect x="300" y="150" width="132" height="130" rx="18" class="fill-cobalt" />
+      <rect x="326" y="176" width="80" height="58" rx="26" class="fill-white" />
+      <rect x="337" y="187" width="58" height="36" rx="18" class="fill-ink" />
+      <path d="M347 209 Q353 201 359 209" class="stroke-white" stroke-width="4" stroke-linecap="round" fill="none" />
+      <path d="M373 209 Q379 201 385 209" class="stroke-white" stroke-width="4" stroke-linecap="round" fill="none" />
+      <line x1="366" y1="176" x2="366" y2="164" class="stroke-white" stroke-width="4" stroke-linecap="round" />
+      <circle cx="366" cy="160" r="5" class="fill-white" />
+      <text x="366" y="262" text-anchor="middle" class="fill-white text-[18px] font-bold uppercase tracking-wide">
+        {labels.ai}
+      </text>
+    </g>
+
+    {/* Report node */}
+    <g data-fx="report">
+      <rect x="520" y="125" width="110" height="180" rx="10" class="fill-white stroke-ink" stroke-width="4" />
+      <path d="M538 150 H612 M538 164 H600" class="stroke-ink" stroke-width="3" opacity="0.35" />
+      <rect x="540" y="216" width="14" height="36" class="fill-cobalt" />
+      <rect x="562" y="200" width="14" height="52" class="fill-cobalt" />
+      <rect x="584" y="184" width="14" height="68" class="fill-cobalt" />
+      <text x="575" y="284" text-anchor="middle" class="fill-ink text-[15px] font-bold uppercase tracking-wide">
+        {labels.report}
+      </text>
+    </g>
+
+    {/* Flowing data dots (CSS loop; hidden when offset-path is unsupported) */}
+    {
+      Object.values(paths).map((d) =>
+        [0, 1].map((k) => (
+          <circle
+            r="7"
+            class="flow-dot fill-cobalt"
+            style={`offset-path: path('${d}'); animation-delay: ${(k * -1.5).toFixed(1)}s;`}
+          />
+        )),
+      )
+    }
+  </svg>
+</SceneShell>

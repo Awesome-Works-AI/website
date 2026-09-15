@@ -1,0 +1,69 @@
+---
+// Voice agents scene: the headset mascot in full contrast next to a call
+// card — live waveform in the header, the conversation appears line by
+// line on scrub. The waveform and the mascot idle loops run as CSS
+// animations gated by .scene-live.
+import Icon from "@/components/icon.astro";
+import RobotMascot from "@/components/scenes/robot-mascot.astro";
+import SceneShell from "@/components/scenes/scene-shell.astro";
+import type { CompanyHomeContent } from "@/data/company-home";
+
+interface Props {
+  item: CompanyHomeContent["services"]["items"][number];
+  copy: CompanyHomeContent["scenes"]["voice"];
+  ofLabel: string;
+}
+
+const { item, copy, ofLabel } = Astro.props;
+const bars = [14, 22, 10, 24, 16, 26, 12, 20, 9];
+---
+
+<SceneShell scene="voice" index={2} item={item} ofLabel={ofLabel} visual="left" ground="white">
+  <div class="flex flex-col items-center gap-6 lg:flex-row lg:items-center lg:gap-0">
+    <div data-fx="robot" class="flex-none">
+      <RobotMascot headset class="h-64 w-auto md:h-80 lg:h-[26rem]" />
+    </div>
+
+    {/* Call card */}
+    <div
+      data-fx="card"
+      class="w-full max-w-[24rem] border-[3px] border-ink bg-white shadow-[8px_8px_0_var(--color-ink)] lg:-ml-8"
+    >
+      <div class="flex items-center gap-3 border-b-[3px] border-ink px-4 py-3">
+        <span class="grid h-10 w-10 flex-none place-items-center bg-cobalt text-white">
+          <Icon name="phone" class="h-5 w-5" />
+        </span>
+        <div class="grid min-w-0 flex-1">
+          <p data-fx="status-in" class="col-start-1 row-start-1 truncate text-sm font-bold text-ink opacity-0">
+            {copy.incoming}
+          </p>
+          <p data-fx="status-on" class="col-start-1 row-start-1 truncate text-sm font-bold text-cobalt">
+            {copy.answered}
+          </p>
+        </div>
+        <div class="flex h-7 flex-none items-end gap-[3px]" aria-hidden="true">
+          {bars.map((h, k) => <span class="wf-bar" style={`height:${h}px; --i:${k};`} />)}
+        </div>
+      </div>
+
+      <ul class="flex flex-col gap-3 p-4" aria-label={item.imageAlt}>
+        {
+          copy.dialog.map((line) => (
+            <li
+              data-fx="line"
+              class:list={[
+                "max-w-[88%] px-4 py-2.5 text-[15px] font-medium leading-snug",
+                line.who === "bot"
+                  ? "self-end bg-cobalt text-white"
+                  : "self-start bg-offwhite text-ink",
+              ]}
+            >
+              <span class="sr-only">{line.who === "bot" ? copy.botLabel : copy.callerLabel}: </span>
+              {line.text}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</SceneShell>

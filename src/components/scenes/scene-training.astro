@@ -1,0 +1,44 @@
+---
+// AI training scene: a workshop slide whose agenda points check themselves
+// off on scrub, with the mascot presenting (pointing arm) beside it.
+import RobotMascot from "@/components/scenes/robot-mascot.astro";
+import SceneShell from "@/components/scenes/scene-shell.astro";
+import type { CompanyHomeContent } from "@/data/company-home";
+
+interface Props {
+  item: CompanyHomeContent["services"]["items"][number];
+  copy: CompanyHomeContent["scenes"]["training"];
+  ofLabel: string;
+}
+
+const { item, copy, ofLabel } = Astro.props;
+---
+
+<SceneShell scene="training" index={5} item={item} ofLabel={ofLabel} visual="right" ground="white">
+  <div class="flex items-center justify-center lg:justify-end lg:pr-4">
+    <div
+      data-fx="slide"
+      class="w-full max-w-[24rem] border-[3px] border-ink bg-white shadow-[8px_8px_0_var(--color-ink)]"
+    >
+      <div class="border-b-[3px] border-ink bg-cobalt px-5 py-3">
+        <p class="font-display text-sm uppercase tracking-wide text-white">{copy.slideTitle}</p>
+      </div>
+      <ul class="flex flex-col gap-5 p-6" aria-label={item.imageAlt}>
+        {
+          copy.bullets.map((bullet) => (
+            <li class="flex items-center gap-3.5" data-fx="bullet">
+              <span class="grid h-6 w-6 flex-none place-items-center border-[3px] border-ink bg-white">
+                <span class="h-3 w-3 bg-cobalt" data-fx="check" />
+              </span>
+              <p class="text-[15px] font-bold leading-snug text-ink">{bullet}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div data-fx="robot" class="ml-4 hidden flex-none lg:block">
+      <RobotMascot pose="point" class="h-[19rem] w-auto xl:h-[21rem]" />
+    </div>
+  </div>
+</SceneShell>

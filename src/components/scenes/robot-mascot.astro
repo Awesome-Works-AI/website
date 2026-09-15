@@ -1,0 +1,107 @@
+---
+// The brand mascot redrawn as layered vector art (same flat language as the
+// service illustrations: white bodies, ink outlines, one cobalt accent).
+// Groups carry rm-* classes so globals.css can run the idle loops (blink,
+// antenna sway, waving) — gated by .scene-live on the scene wrapper.
+interface Props {
+  /** Optional arm: a greeting wave (right) or pointing at the visual (left). */
+  pose?: "wave" | "point";
+  /** Call-center earcups + mic for the voice scene. */
+  headset?: boolean;
+  /** Head only — chat avatar size. */
+  headOnly?: boolean;
+  class?: string;
+}
+
+const { pose, headset = false, headOnly = false, class: className = "" } = Astro.props;
+const viewBox = headOnly ? "24 0 292 240" : "0 0 356 400";
+---
+
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox={viewBox}
+  fill="none"
+  class={className}
+  aria-hidden="true"
+>
+  {/* Arms live behind the torso */}
+  {
+    !headOnly && pose === "wave" && (
+      <g class="rm-arm-wave">
+        <rect x="240" y="276" width="86" height="32" rx="16" class="fill-white stroke-ink" stroke-width="9" />
+        <circle cx="336" cy="292" r="19" class="fill-white stroke-ink" stroke-width="9" />
+      </g>
+    )
+  }
+  {
+    !headOnly && pose === "point" && (
+      <g class="rm-arm-point">
+        <rect x="42" y="276" width="70" height="32" rx="16" class="fill-white stroke-ink" stroke-width="9" />
+        <circle cx="40" cy="292" r="20" class="fill-white stroke-ink" stroke-width="9" />
+        <rect x="6" y="283" width="36" height="18" rx="9" class="fill-white stroke-ink" stroke-width="8" />
+      </g>
+    )
+  }
+
+  {/* Neck + torso + badge */}
+  {
+    !headOnly && (
+      <g>
+        <rect x="152" y="212" width="36" height="34" rx="8" class="fill-white stroke-ink" stroke-width="8" />
+        <rect x="92" y="236" width="156" height="142" rx="46" class="fill-white stroke-ink" stroke-width="10" />
+        <g transform="rotate(-8 170 305)">
+          <rect x="141" y="276" width="58" height="58" rx="8" class="fill-cobalt" />
+          <path
+            d="M158 322 L182 298 M166 298 H182 V314"
+            class="stroke-white"
+            stroke-width="7"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </g>
+      </g>
+    )
+  }
+
+  {/* Antenna */}
+  <g class="rm-antenna">
+    <line x1="170" y1="62" x2="170" y2="26" class="stroke-ink" stroke-width="9" stroke-linecap="round" />
+    <circle cx="170" cy="19" r="15" class="fill-cobalt" />
+  </g>
+
+  {/* Headset earcups sit behind the skull */}
+  {
+    headset && (
+      <g>
+        <rect x="28" y="116" width="38" height="80" rx="19" class="fill-cobalt stroke-ink" stroke-width="9" />
+        <rect x="274" y="116" width="38" height="80" rx="19" class="fill-cobalt stroke-ink" stroke-width="9" />
+      </g>
+    )
+  }
+
+  {/* Skull + visor + happy eyes */}
+  <rect x="58" y="58" width="224" height="164" rx="76" class="fill-white stroke-ink" stroke-width="10" />
+  <rect x="88" y="88" width="164" height="100" rx="50" class="fill-ink" />
+  <path
+    class="rm-eye stroke-white"
+    d="M116 148 Q133 126 150 148"
+    stroke-width="9"
+    stroke-linecap="round"
+  />
+  <path
+    class="rm-eye stroke-white"
+    d="M190 148 Q207 126 224 148"
+    stroke-width="9"
+    stroke-linecap="round"
+  />
+
+  {/* Headset mic on top of the skull */}
+  {
+    headset && (
+      <g>
+        <path d="M64 186 Q100 224 140 214" class="stroke-ink" stroke-width="8" stroke-linecap="round" />
+        <circle cx="146" cy="213" r="8" class="fill-cobalt" />
+      </g>
+    )
+  }
+</svg>

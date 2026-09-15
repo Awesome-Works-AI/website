@@ -1,0 +1,68 @@
+---
+// Chat agents scene: a hardcoded conversation window. On scrub the messages
+// land one by one with typing dots in between; bot replies typewrite
+// themselves (character reveal driven by the same timeline). With JS off
+// the full conversation is simply visible.
+import Icon from "@/components/icon.astro";
+import RobotMascot from "@/components/scenes/robot-mascot.astro";
+import SceneShell from "@/components/scenes/scene-shell.astro";
+import type { CompanyHomeContent } from "@/data/company-home";
+
+interface Props {
+  item: CompanyHomeContent["services"]["items"][number];
+  copy: CompanyHomeContent["scenes"]["chat"];
+  ofLabel: string;
+}
+
+const { item, copy, ofLabel } = Astro.props;
+---
+
+<SceneShell scene="chat" index={3} item={item} ofLabel={ofLabel} visual="right">
+  <div data-fx="panel" class="mx-auto w-full max-w-[26rem]">
+    <div class="border-[3px] border-ink bg-white shadow-[8px_8px_0_var(--color-ink)]">
+      {/* Header */}
+      <div class="flex items-center gap-3 border-b-[3px] border-ink px-4 py-3">
+        <RobotMascot headOnly class="h-9 w-auto flex-none" />
+        <div class="min-w-0">
+          <p class="truncate text-sm font-bold text-ink">{copy.header}</p>
+          <p class="flex items-center gap-1.5 text-xs font-medium text-ink/60">
+            <span class="status-dot"></span>
+            {copy.online}
+          </p>
+        </div>
+      </div>
+
+      {/* Conversation */}
+      <div class="flex min-h-[21rem] flex-col justify-end gap-3 px-4 py-5" aria-label={item.imageAlt}>
+        {
+          copy.messages.map((msg) => (
+            <>
+              {msg.who === "bot" && (
+                <div class="cw-typing opacity-0" data-chat-step data-typing aria-hidden="true">
+                  <span />
+                  <span />
+                  <span />
+                </div>
+              )}
+              <p
+                data-chat-step
+                data-typewrite={msg.who === "bot" ? "" : undefined}
+                class:list={[msg.who === "bot" ? "cw-msg-bot" : "cw-msg-user"]}
+              >
+                {msg.who === "bot" ? <span data-type-target>{msg.text}</span> : msg.text}
+              </p>
+            </>
+          ))
+        }
+      </div>
+
+      {/* Decorative input bar */}
+      <div class="flex items-center justify-between gap-3 border-t-[3px] border-ink px-4 py-3" aria-hidden="true">
+        <span class="truncate text-sm font-medium text-ink/40">{copy.inputPlaceholder}</span>
+        <span class="grid h-9 w-9 flex-none place-items-center bg-cobalt text-white">
+          <Icon name="send" class="h-4 w-4" />
+        </span>
+      </div>
+    </div>
+  </div>
+</SceneShell>

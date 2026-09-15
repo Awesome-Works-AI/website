@@ -1,0 +1,53 @@
+---
+// Opening scene: centered headline + CTA with the waving mascot in full
+// contrast (Apple-style stack opener). Entrance is pure CSS (plays once,
+// no scroll dependency); the trust strip closes the viewport.
+import Icon from "@/components/icon.astro";
+import RobotMascot from "@/components/scenes/robot-mascot.astro";
+import { getCompanyHome } from "@/data/company-home";
+import type { Locale } from "@/i18n/utils";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const i = getCompanyHome(locale);
+---
+
+<section data-scene="intro" class="relative flex min-h-[100svh] flex-col bg-offwhite">
+  <div
+    class="flex flex-1 flex-col items-center justify-center gap-6 px-6 pb-8 pt-[86px] text-center md:gap-8"
+  >
+    <h1
+      class="intro-rise max-w-[16ch] font-display text-5xl uppercase leading-[0.98] tracking-tight text-ink [text-wrap:balance] md:text-7xl lg:text-[clamp(4.6rem,7vw,6.4rem)]"
+    >
+      {i.hero.title}
+    </h1>
+    <p class="intro-rise max-w-[52ch] text-lg font-medium leading-normal text-ink [animation-delay:120ms] md:text-xl">
+      {i.hero.subtitle}
+    </p>
+    <a href="#kontakt" class="btn-primary intro-rise [animation-delay:240ms]">
+      {i.hero.primaryCta}
+      <Icon name="arrow-right" class="h-4 w-4" />
+    </a>
+    <RobotMascot pose="wave" class="intro-rise h-44 w-auto [animation-delay:360ms] md:h-52 lg:h-60" />
+  </div>
+
+  {/* Scroll cue */}
+  <div class="flex flex-col items-center gap-1 pb-5 text-ink/50" aria-hidden="true">
+    <span class="text-[11px] font-bold uppercase tracking-[0.18em]">{i.scenes.scrollCue}</span>
+    <Icon name="chevron-down" class="scroll-cue h-5 w-5" />
+  </div>
+
+  {/* Trust strip: real facts only, full-bleed ink band */}
+  <ul class="flex flex-col border-t-[3px] border-ink bg-ink py-3 sm:flex-row sm:justify-center sm:py-0">
+    {
+      i.hero.trust.map((fact) => (
+        <li class="px-6 py-1 text-xs font-bold uppercase tracking-[0.1em] text-offwhite sm:py-4 lg:px-10">
+          {fact}
+        </li>
+      ))
+    }
+  </ul>
+</section>

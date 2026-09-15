@@ -103,6 +103,48 @@ const companyHome = {
         },
       ],
     },
+    scenes: {
+      scrollCue: "Przewiń",
+      ofLabel: "/ 05",
+      voice: {
+        incoming: "Połączenie przychodzące…",
+        answered: "Rozmowa trwa",
+        callerLabel: "Klient",
+        botLabel: "Agent",
+        dialog: [
+          { who: "caller", text: "Dzień dobry, chciałbym umówić wizytę na jutro." },
+          { who: "bot", text: "Jasne! Jutro mam wolne 11:00 albo 14:30. Która godzina pasuje?" },
+          { who: "caller", text: "Poproszę 14:30." },
+          { who: "bot", text: "Zapisane. Wysyłam SMS z potwierdzeniem." },
+        ],
+      },
+      chat: {
+        header: "Asystent na twojej stronie",
+        online: "online",
+        inputPlaceholder: "Napisz wiadomość…",
+        messages: [
+          { who: "user", text: "Dowozicie na terenie Warszawy?" },
+          { who: "bot", text: "Tak, od poniedziałku do soboty. Zamówienia złożone do 14:00 dowozimy tego samego dnia." },
+          { who: "user", text: "A mogę zmienić adres po złożeniu zamówienia?" },
+          { who: "bot", text: "Tak, do momentu wysyłki. Podeślij mi numer zamówienia, zajmę się tym." },
+        ],
+      },
+      automation: {
+        nodes: { mail: "Maile", crm: "CRM", docs: "Dokumenty", ai: "AI", report: "Raport" },
+      },
+      data: {
+        panelTitle: "Raport dobowy",
+        chips: ["Transkrypcje", "Oceny", "Trendy", "Raporty"],
+      },
+      training: {
+        slideTitle: "Warsztat: AI w twoim zespole",
+        bullets: [
+          "Narzędzia AI w codziennej pracy",
+          "Agenty w praktyce, na waszych przykładach",
+          "Bezpieczna praca z danymi",
+        ],
+      },
+    },
     craft: {
       title: "Wykonujemy dedykowane oprogramowanie.",
       text: "Aplikacje i systemy z AI, od projektu po wdrożenie i utrzymanie. Dostajesz software dopasowany do procesu, nie proces dopasowany do softwaru.",
@@ -382,6 +424,48 @@ const companyHome = {
           proofHref: "",
         },
       ],
+    },
+    scenes: {
+      scrollCue: "Scroll",
+      ofLabel: "/ 05",
+      voice: {
+        incoming: "Incoming call…",
+        answered: "Call in progress",
+        callerLabel: "Caller",
+        botLabel: "Agent",
+        dialog: [
+          { who: "caller", text: "Hi, I'd like to book an appointment for tomorrow." },
+          { who: "bot", text: "Sure! Tomorrow I have 11:00 or 2:30 PM free. Which works for you?" },
+          { who: "caller", text: "2:30 PM, please." },
+          { who: "bot", text: "Booked. I'm sending an SMS confirmation." },
+        ],
+      },
+      chat: {
+        header: "The assistant on your website",
+        online: "online",
+        inputPlaceholder: "Type a message…",
+        messages: [
+          { who: "user", text: "Do you deliver within Warsaw?" },
+          { who: "bot", text: "Yes, Monday through Saturday. Orders placed before 2 PM are delivered the same day." },
+          { who: "user", text: "Can I change the address after placing an order?" },
+          { who: "bot", text: "Yes, any time before dispatch. Send me the order number and I'll handle it." },
+        ],
+      },
+      automation: {
+        nodes: { mail: "Email", crm: "CRM", docs: "Documents", ai: "AI", report: "Report" },
+      },
+      data: {
+        panelTitle: "Daily report",
+        chips: ["Transcripts", "Scores", "Trends", "Reports"],
+      },
+      training: {
+        slideTitle: "Workshop: AI in your team",
+        bullets: [
+          "AI tools in day-to-day work",
+          "Agents in practice, on your own examples",
+          "Working safely with data",
+        ],
+      },
     },
     craft: {
       title: "We build custom software.",

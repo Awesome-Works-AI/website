@@ -316,6 +316,138 @@ summary::-webkit-details-marker {
   }
 }
 
+/* ============================================================
+ * Hero scenes — idle loops for the mascot and scene visuals.
+ * Loops run only while the scene is on screen: hero-scenes.astro
+ * toggles .scene-live via IntersectionObserver, which flips
+ * animation-play-state (negative delays keep paused frames varied).
+ * Scroll-driven reveals live in GSAP, not here.
+ * ============================================================ */
+
+/* Mascot: blink, antenna sway, waving arm. */
+.rm-eye {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: rm-blink 4.6s infinite paused;
+}
+
+.rm-antenna {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: rm-sway 3.4s ease-in-out infinite paused;
+}
+
+.rm-arm-wave {
+  transform-box: fill-box;
+  transform-origin: 8% 55%;
+  transform: rotate(-42deg);
+  animation: rm-wave 1.7s ease-in-out infinite paused;
+}
+
+.rm-arm-point {
+  transform-box: fill-box;
+  transform-origin: 92% 55%;
+  transform: rotate(-4deg);
+}
+
+.scene-live .rm-eye,
+.scene-live .rm-antenna,
+.scene-live .rm-arm-wave {
+  animation-play-state: running;
+}
+
+@keyframes rm-blink {
+  0%, 93%, 100% { transform: scaleY(1); }
+  95%, 98% { transform: scaleY(0.12); }
+}
+
+@keyframes rm-sway {
+  0%, 100% { transform: rotate(-7deg); }
+  50% { transform: rotate(7deg); }
+}
+
+@keyframes rm-wave {
+  0%, 100% { transform: rotate(-32deg); }
+  50% { transform: rotate(-56deg); }
+}
+
+/* Voice scene: live waveform bars. */
+.wf-bar {
+  width: 4px;
+  background: var(--color-cobalt);
+  transform-origin: bottom;
+  animation: wf-dance 0.9s ease-in-out calc(var(--i, 0) * -0.11s) infinite alternate paused;
+}
+
+.scene-live .wf-bar {
+  animation-play-state: running;
+}
+
+@keyframes wf-dance {
+  from { transform: scaleY(0.22); }
+  to { transform: scaleY(1); }
+}
+
+/* Automation scene: data dots flowing along the SVG connectors. Hidden
+ * entirely where offset-path can't place them (they'd pile up at 0,0). */
+.flow-dot {
+  display: none;
+}
+
+@supports (offset-path: path("M0 0 H10")) {
+  .flow-dot {
+    display: block;
+    animation: flow-move 3s linear infinite paused;
+  }
+
+  .scene-live .flow-dot {
+    animation-play-state: running;
+  }
+}
+
+@keyframes flow-move {
+  from { offset-distance: 0%; }
+  to { offset-distance: 100%; }
+}
+
+/* Intro entrance (pure CSS, plays once) + scroll cue bob. */
+.intro-rise {
+  animation: intro-rise 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+@keyframes intro-rise {
+  from {
+    opacity: 0;
+    transform: translateY(26px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.scroll-cue {
+  animation: cue-bob 1.8s ease-in-out infinite;
+}
+
+@keyframes cue-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(6px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rm-eye,
+  .rm-antenna,
+  .rm-arm-wave,
+  .rm-arm-point,
+  .wf-bar,
+  .flow-dot,
+  .intro-rise,
+  .scroll-cue {
+    animation: none !important;
+  }
+}
+
 /* No rubber-band overscroll at the page edges — with the pinned hero the
  * top bounce reads as a glitch in the index mechanic. */
 html,

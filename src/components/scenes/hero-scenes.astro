@@ -1,0 +1,194 @@
+---
+// The hero as a stack of full-viewport scenes (Apple-style): intro + one
+// scene per service, each pinned by CSS sticky while a GSAP ScrollTrigger
+// scrub timeline plays it (desktop). Mobile plays the same timelines once
+// on entry, no pinning. Reduced motion / no JS: every scene renders
+// complete and static — initial hidden states exist only inside GSAP.
+// This IS the services surface (#uslugi); there is no separate section.
+import SceneAutomation from "@/components/scenes/scene-automation.astro";
+import SceneChat from "@/components/scenes/scene-chat.astro";
+import SceneData from "@/components/scenes/scene-data.astro";
+import SceneIntro from "@/components/scenes/scene-intro.astro";
+import SceneTraining from "@/components/scenes/scene-training.astro";
+import SceneVoice from "@/components/scenes/scene-voice.astro";
+import { getCompanyHome } from "@/data/company-home";
+import type { Locale } from "@/i18n/utils";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const i = getCompanyHome(locale);
+const [automation, voice, chat, data, training] = i.services.items;
+const of = i.scenes.ofLabel;
+---
+
+<SceneIntro locale={locale} />
+
+<div id="uslugi" class="scroll-mt-[51px]">
+  <SceneAutomation item={automation} labels={i.scenes.automation.nodes} ofLabel={of} />
+  <SceneVoice item={voice} copy={i.scenes.voice} ofLabel={of} />
+  <SceneChat item={chat} copy={i.scenes.chat} ofLabel={of} />
+  <SceneData item={data} copy={i.scenes.data} ofLabel={of} />
+  <SceneTraining item={training} copy={i.scenes.training} ofLabel={of} />
+</div>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const scenes = [...document.querySelectorAll<HTMLElement>("[data-scene]")];
+
+  // CSS idle loops (blink, waveform, flow dots…) run only while their scene
+  // is on screen: .scene-live gates animation-play-state in globals.css.
+  const io = new IntersectionObserver(
+    (entries) => entries.forEach((e) => e.target.classList.toggle("scene-live", e.isIntersecting)),
+    { threshold: 0.2 },
+  );
+  scenes.forEach((s) => io.observe(s));
+
+  const fx = (scene: HTMLElement, name: string) => scene.querySelectorAll<HTMLElement>(`[data-fx="${name}"]`);
+  const fx1 = (scene: HTMLElement, name: string) => scene.querySelector<HTMLElement>(`[data-fx="${name}"]`);
+
+  // Service head block: number, title, copy, proof rise in with a stagger.
+  const head = (tl: gsap.core.Timeline, scene: HTMLElement) => {
+    tl.from(
+      scene.querySelectorAll('[data-fx="num"], [data-fx="title"], [data-fx="text"], [data-fx="proof"]'),
+      { y: 44, opacity: 0, duration: 0.45, stagger: 0.09, ease: "power2.out" },
+      0,
+    );
+  };
+
+  // SVG paths marked data-draw draw themselves via dashoffset.
+  const draw = (tl: gsap.core.Timeline, scene: HTMLElement, at: number) => {
+    scene.querySelectorAll<SVGPathElement>("[data-draw]").forEach((p, k) => {
+      const len = p.getTotalLength();
+      gsap.set(p, { strokeDasharray: len, strokeDashoffset: len });
+      tl.to(p, { strokeDashoffset: 0, duration: 0.5, ease: "none" }, at + k * 0.08);
+    });
+  };
+
+  const builders: Record<string, (tl: gsap.core.Timeline, scene: HTMLElement) => void> = {
+    automation(tl, scene) {
+      head(tl, scene);
+      tl.from(fx(scene, "node"), {
+        scale: 0.55,
+        opacity: 0,
+        transformOrigin: "50% 50%",
+        duration: 0.35,
+        stagger: 0.12,
+        ease: "back.out(1.6)",
+      }, 0.2);
+      draw(tl, scene, 0.75);
+      tl.from(fx1(scene, "report"), {
+        scale: 0.55,
+        opacity: 0,
+        transformOrigin: "50% 50%",
+        duration: 0.4,
+        ease: "back.out(1.6)",
+      }, 1.3);
+    },
+
+    voice(tl, scene) {
+      head(tl, scene);
+      tl.from(fx1(scene, "robot"), { x: -80, opacity: 0, duration: 0.5, ease: "power2.out" }, 0.1);
+      tl.from(fx1(scene, "card"), { y: 64, opacity: 0, duration: 0.45, ease: "power2.out" }, 0.4);
+      const statusIn = fx1(scene, "status-in");
+      const statusOn = fx1(scene, "status-on");
+      if (statusIn && statusOn) {
+        gsap.set(statusOn, { opacity: 0 });
+        tl.to(statusIn, { opacity: 1, duration: 0.15 }, 0.55)
+          .to(statusIn, { opacity: 0, duration: 0.1 }, 0.95)
+          .to(statusOn, { opacity: 1, duration: 0.15 }, 1.0);
+      }
+      tl.from(fx(scene, "line"), { y: 26, opacity: 0, duration: 0.35, stagger: 0.24, ease: "power2.out" }, 1.05);
+    },
+
+    chat(tl, scene) {
+      head(tl, scene);
+      tl.from(fx1(scene, "panel"), { y: 64, opacity: 0, duration: 0.5, ease: "power2.out" }, 0.1);
+      let t = 0.6;
+      scene.querySelectorAll<HTMLElement>("[data-chat-step]").forEach((el) => {
+        if (el.hasAttribute("data-typing")) {
+          tl.to(el, { opacity: 1, duration: 0.12 }, t);
+          tl.to(el, { opacity: 0, duration: 0.08 }, t + 0.34);
+          t += 0.44;
+        } else if (el.hasAttribute("data-typewrite")) {
+          const target = el.querySelector<HTMLElement>("[data-type-target]");
+          const full = target ? (target.dataset.full ??= target.textContent ?? "") : "";
+          tl.from(el, { y: 18, opacity: 0, duration: 0.2, ease: "power2.out" }, t);
+          if (target) {
+            const proxy = { n: 0 };
+            tl.to(proxy, {
+              n: full.length,
+              duration: 0.55,
+              ease: "none",
+              onUpdate: () => (target.textContent = full.slice(0, Math.round(proxy.n))),
+            }, t + 0.1);
+          }
+          t += 0.75;
+        } else {
+          tl.from(el, { y: 18, opacity: 0, duration: 0.25, ease: "power2.out" }, t);
+          t += 0.4;
+        }
+      });
+    },
+
+    data(tl, scene) {
+      head(tl, scene);
+      tl.from(fx1(scene, "panel"), { y: 64, opacity: 0, duration: 0.5, ease: "power2.out" }, 0.1);
+      draw(tl, scene, 0.55);
+      tl.from(fx1(scene, "dot"), { scale: 0, transformOrigin: "50% 50%", duration: 0.2, ease: "back.out(2)" }, 1.05);
+      tl.from(fx(scene, "bar"), { scaleY: 0, duration: 0.4, stagger: 0.07, ease: "power2.out" }, 0.8);
+      tl.from(fx(scene, "chip"), { y: 18, opacity: 0, duration: 0.3, stagger: 0.08, ease: "power2.out" }, 1.3);
+    },
+
+    training(tl, scene) {
+      head(tl, scene);
+      tl.from(fx1(scene, "slide"), { y: 64, opacity: 0, duration: 0.5, ease: "power2.out" }, 0.1);
+      tl.from(fx1(scene, "robot"), { x: 80, opacity: 0, duration: 0.5, ease: "power2.out" }, 0.3);
+      fx(scene, "bullet").forEach((bullet, k) => {
+        const at = 0.7 + k * 0.35;
+        tl.from(bullet, { x: -20, opacity: 0, duration: 0.3, ease: "power2.out" }, at);
+        const check = bullet.querySelector('[data-fx="check"]');
+        if (check) tl.from(check, { scale: 0, duration: 0.25, ease: "back.out(2.5)" }, at + 0.15);
+      });
+    },
+  };
+
+  const mm = gsap.matchMedia();
+
+  // Desktop: sticky pin + scrub (the scroll position drives the timeline,
+  // back and forth). Reduced motion: no timelines at all — scenes render
+  // in their final state because nothing is hidden outside GSAP.
+  mm.add("(min-width: 1024px) and (prefers-reduced-motion: no-preference)", () => {
+    scenes.forEach((scene) => {
+      const build = builders[scene.dataset.scene ?? ""];
+      if (!build) return;
+      const tl = gsap.timeline({
+        scrollTrigger: { trigger: scene, start: "top top", end: "bottom bottom", scrub: 0.7 },
+      });
+      build(tl, scene);
+    });
+  });
+
+  // Mobile / tablet: the same timelines play once when the scene enters,
+  // sped up — a fast thumb-scroll should never outrun a scene.
+  mm.add("(max-width: 1023px) and (prefers-reduced-motion: no-preference)", () => {
+    scenes.forEach((scene) => {
+      const build = builders[scene.dataset.scene ?? ""];
+      if (!build) return;
+      const tl = gsap.timeline({
+        scrollTrigger: { trigger: scene, start: "top 70%", once: true },
+      });
+      build(tl, scene);
+      tl.timeScale(1.7);
+    });
+  });
+
+  // Fonts and images shift layout after init — recompute trigger positions.
+  window.addEventListener("load", () => ScrollTrigger.refresh());
+</script>
