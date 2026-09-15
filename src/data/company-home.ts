@@ -111,12 +111,6 @@ const companyHome = {
         answered: "Rozmowa trwa",
         callerLabel: "Klient",
         botLabel: "Agent",
-        dialog: [
-          { who: "caller", text: "Dzień dobry, chciałbym umówić wizytę na jutro." },
-          { who: "bot", text: "Jasne! Jutro mam wolne 11:00 albo 14:30. Która godzina pasuje?" },
-          { who: "caller", text: "Poproszę 14:30." },
-          { who: "bot", text: "Zapisane. Wysyłam SMS z potwierdzeniem." },
-        ],
       },
       chat: {
         header: "Asystent na twojej stronie",
@@ -433,12 +427,6 @@ const companyHome = {
         answered: "Call in progress",
         callerLabel: "Caller",
         botLabel: "Agent",
-        dialog: [
-          { who: "caller", text: "Hi, I'd like to book an appointment for tomorrow." },
-          { who: "bot", text: "Sure! Tomorrow I have 11:00 or 2:30 PM free. Which works for you?" },
-          { who: "caller", text: "2:30 PM, please." },
-          { who: "bot", text: "Booked. I'm sending an SMS confirmation." },
-        ],
       },
       chat: {
         header: "The assistant on your website",

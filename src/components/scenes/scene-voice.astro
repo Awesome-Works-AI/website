@@ -1,8 +1,9 @@
 ---
 // Voice agents scene: the headset mascot in full contrast next to a call
-// card — live waveform in the header, the conversation appears line by
-// line on scrub. The waveform and the mascot idle loops run as CSS
-// animations gated by .scene-live.
+// card. The conversation is pure VOICE — each turn is a waveform capsule
+// (no text bubbles, this must not read as chat): caller turns on paper,
+// agent turns on cobalt. Turns land one by one on scrub; the last agent
+// turn pulses live. Header carries the call status and a mini equalizer.
 import Icon from "@/components/icon.astro";
 import RobotMascot from "@/components/scenes/robot-mascot.astro";
 import SceneShell from "@/components/scenes/scene-shell.astro";
@@ -15,7 +16,20 @@ interface Props {
 }
 
 const { item, copy, ofLabel } = Astro.props;
-const bars = [14, 22, 10, 24, 16, 26, 12, 20, 9];
+const headerBars = [14, 22, 10, 24, 16, 26, 12, 20, 9];
+
+// Purely decorative "speech" patterns (bar heights in px) — lengths differ
+// so the exchange reads naturally: question, longer answer, short reply,
+// closing confirmation. The last agent turn animates as currently speaking.
+const wave = (seed: number, n: number) =>
+  Array.from({ length: n }, (_, k) => 6 + Math.round(8.5 * (1 + Math.sin(seed + k * 1.7)) * 0.9));
+
+const turns = [
+  { who: "caller" as const, bars: wave(1, 20) },
+  { who: "bot" as const, bars: wave(4, 30) },
+  { who: "caller" as const, bars: wave(8, 9) },
+  { who: "bot" as const, bars: wave(12, 24), live: true },
+];
 ---
 
 <SceneShell scene="voice" index={2} item={item} ofLabel={ofLabel} visual="left" ground="white">
@@ -41,25 +55,36 @@ const bars = [14, 22, 10, 24, 16, 26, 12, 20, 9];
             {copy.answered}
           </p>
         </div>
-        <div class="flex h-7 flex-none items-end gap-[3px]" aria-hidden="true">
-          {bars.map((h, k) => <span class="wf-bar" style={`height:${h}px; --i:${k};`} />)}
+        <div class="flex h-7 flex-none items-center gap-[3px]" aria-hidden="true">
+          {headerBars.map((h, k) => <span class="wf-bar" style={`height:${h}px; --i:${k};`} />)}
         </div>
       </div>
 
-      <ul class="flex flex-col gap-3 p-4" aria-label={item.imageAlt}>
+      {/* Voice turns — waveform capsules, no text */}
+      <ul class="flex flex-col gap-3.5 p-4" role="img" aria-label={item.imageAlt}>
         {
-          copy.dialog.map((line) => (
+          turns.map((turn) => (
             <li
               data-fx="line"
               class:list={[
-                "max-w-[88%] px-4 py-2.5 text-[15px] font-medium leading-snug",
-                line.who === "bot"
-                  ? "self-end bg-cobalt text-white"
-                  : "self-start bg-offwhite text-ink",
+                "flex max-w-[88%] flex-col gap-1",
+                turn.who === "bot" ? "items-end self-end" : "items-start self-start",
               ]}
             >
-              <span class="sr-only">{line.who === "bot" ? copy.botLabel : copy.callerLabel}: </span>
-              {line.text}
+              <span class="text-[10px] font-bold uppercase tracking-[0.14em] text-ink/45">
+                {turn.who === "bot" ? copy.botLabel : copy.callerLabel}
+              </span>
+              <span
+                class:list={[
+                  "flex h-10 items-center gap-[3px] px-3.5",
+                  turn.who === "bot" ? "bg-cobalt text-white" : "bg-offwhite text-ink/80",
+                  turn.live && "vn-live",
+                ]}
+              >
+                {turn.bars.map((h, k) => (
+                  <span class="vn-bar" style={`height:${h}px; --i:${k};`} />
+                ))}
+              </span>
             </li>
           ))
         }
