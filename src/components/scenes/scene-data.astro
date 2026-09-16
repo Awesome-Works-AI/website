@@ -1,0 +1,82 @@
+---
+// Data analysis scene: a white dashboard card with a cobalt offset shadow,
+// the pointing mascot beside it. The trend line draws itself on scrub,
+// bars grow with a stagger, insight chips land last. No numbers anywhere:
+// real facts only, the charts stay abstract.
+import RobotMascot from "@/components/scenes/robot-mascot.astro";
+import SceneShell from "@/components/scenes/scene-shell.astro";
+import type { CompanyHomeContent } from "@/data/company-home";
+
+interface Props {
+  item: CompanyHomeContent["services"]["items"][number];
+  copy: CompanyHomeContent["scenes"]["data"];
+  ofLabel: string;
+}
+
+const { item, copy, ofLabel } = Astro.props;
+const bars = [34, 52, 40, 66, 48, 84, 100];
+---
+
+<SceneShell scene="data" index={4} item={item} ofLabel={ofLabel} visual="left" ground="white">
+  <div class="flex items-end justify-center">
+  <div
+    data-fx="panel"
+    class="w-full min-w-0 max-w-[32rem] border-[3px] border-ink bg-white shadow-[8px_8px_0_var(--color-cobalt)]"
+  >
+    <div class="flex items-center justify-between border-b-[3px] border-ink px-5 py-3">
+      <p class="font-display text-sm uppercase tracking-wide text-ink">{copy.panelTitle}</p>
+      <span class="status-dot" aria-hidden="true"></span>
+    </div>
+
+    <div class="flex flex-col gap-6 p-5 md:p-6" role="img" aria-label={item.imageAlt}>
+      {/* Trend line */}
+      <svg viewBox="0 0 420 170" class="w-full" aria-hidden="true">
+        {[34, 68, 102, 136].map((y) => (
+          <line x1="0" y1={y} x2="420" y2={y} class="stroke-ink" stroke-width="1" opacity="0.14" />
+        ))}
+        <path
+          d="M8 138 C 60 132, 84 108, 122 112 S 190 84, 232 88 S 316 46, 356 40 L 408 22"
+          class="stroke-cobalt"
+          stroke-width="5"
+          stroke-linecap="round"
+          fill="none"
+          data-draw
+        />
+        <circle cx="408" cy="22" r="7" class="fill-ink" data-fx="dot" />
+      </svg>
+
+      {/* Bars */}
+      <div class="flex h-24 items-end gap-2.5" aria-hidden="true">
+        {
+          bars.map((h, k) => (
+            <div
+              data-fx="bar"
+              class:list={["flex-1 origin-bottom", k === bars.length - 1 ? "bg-cobalt" : "bg-ink/20"]}
+              style={`height:${h}%`}
+            />
+          ))
+        }
+      </div>
+
+      {/* Insight chips */}
+      <div class="flex flex-wrap gap-2">
+        {
+          copy.chips.map((chip) => (
+            <span
+              data-fx="chip"
+              class="border-[2px] border-ink/60 px-3 py-1 text-xs font-bold uppercase tracking-wide text-ink"
+            >
+              {chip}
+            </span>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+
+  {/* The analyst pointing at the charts — clear of the card's offset shadow */}
+  <div data-fx="robot" class="ml-5 hidden flex-none lg:block">
+    <RobotMascot pose="point" class="h-56 w-auto xl:h-64" />
+  </div>
+  </div>
+</SceneShell>

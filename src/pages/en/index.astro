@@ -3,7 +3,7 @@ import Contact from "@/components/contact.astro";
 import Faq from "@/components/faq.astro";
 import Footer from "@/components/footer.astro";
 import Craft from "@/components/craft.astro";
-import Hero from "@/components/hero.astro";
+import HeroScenes from "@/components/scenes/hero-scenes.astro";
 import Nav from "@/components/nav.astro";
 import Process from "@/components/process.astro";
 import Products from "@/components/products.astro";
@@ -15,8 +15,7 @@ import Base from "@/layouts/base.astro";
 const locale = "en";
 const home = getCompanyHome(locale);
 
-// Reviews render only with live Google data (no placeholders by design);
-// the #opinie nav anchor appears together with the section.
+// Reviews render only with live Google data (no placeholders by design).
 const placeInfo = await fetchGoogleReviews();
 const hasReviews = (placeInfo?.reviews.length ?? 0) > 0;
 ---
@@ -28,9 +27,9 @@ const hasReviews = (placeInfo?.reviews.length ?? 0) > 0;
   locale={locale}
   includeFaqSchema={true}
 >
-  <Nav locale={locale} showReviews={hasReviews} />
+  <Nav locale={locale} minimal />
   <main>
-    <Hero locale={locale} />
+    <HeroScenes locale={locale} />
     <Craft locale={locale} />
     <Products locale={locale} />
     <Process locale={locale} />

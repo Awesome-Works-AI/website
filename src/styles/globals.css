@@ -316,6 +316,238 @@ summary::-webkit-details-marker {
   }
 }
 
+/* ============================================================
+ * Hero scenes — idle loops for the mascot and scene visuals.
+ * Loops run only while the scene is on screen: hero-scenes.astro
+ * toggles .scene-live via IntersectionObserver, which flips
+ * animation-play-state (negative delays keep paused frames varied).
+ * Scroll-driven reveals live in GSAP, not here.
+ * ============================================================ */
+
+/* Mascot: blink, antenna sway, waving arm. */
+.rm-eye {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+/* Eyes and the >_ window share one clock: both animations are ASSIGNED
+ * (not just unpaused) by .scene-live, so they restart together on every
+ * scene entry and the prompt can never overlap the visible eyes. */
+.scene-live .rm-eye {
+  animation:
+    rm-blink 4.6s infinite,
+    rm-eyes-swap 9s steps(1) infinite;
+}
+
+.rm-antenna {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: rm-sway 3.4s ease-in-out infinite paused;
+}
+
+.rm-arm-wave {
+  transform-box: fill-box;
+  transform-origin: 8% 55%;
+  transform: rotate(-42deg);
+  animation: rm-wave 1.7s ease-in-out infinite paused;
+}
+
+.rm-arm-point {
+  transform-box: fill-box;
+  transform-origin: 92% 55%;
+  transform: rotate(-4deg);
+}
+
+.scene-live .rm-antenna,
+.scene-live .rm-arm-wave {
+  animation-play-state: running;
+}
+
+@keyframes rm-blink {
+  0%, 93%, 100% { transform: scaleY(1); }
+  95%, 98% { transform: scaleY(0.12); }
+}
+
+@keyframes rm-sway {
+  0%, 100% { transform: rotate(-7deg); }
+  50% { transform: rotate(7deg); }
+}
+
+@keyframes rm-wave {
+  0%, 100% { transform: rotate(-32deg); }
+  50% { transform: rotate(-56deg); }
+}
+
+/* Terminal easter egg: every 9s the eyes flip into a ">_" prompt for ~1.2s,
+ * caret blinking — the eyes group hides in the same window. Both timelines
+ * share the 9s clock so they never overlap. */
+.rm-term {
+  visibility: hidden;
+}
+
+.scene-live .rm-term {
+  animation: rm-term-show 9s steps(1) infinite;
+}
+
+.scene-live .rm-caret {
+  animation: rm-caret-blink 0.6s steps(1) infinite;
+}
+
+@keyframes rm-term-show {
+  0%, 84% { visibility: hidden; }
+  85%, 98% { visibility: visible; }
+  99%, 100% { visibility: hidden; }
+}
+
+@keyframes rm-eyes-swap {
+  0%, 84% { visibility: visible; }
+  85%, 98% { visibility: hidden; }
+  99%, 100% { visibility: visible; }
+}
+
+@keyframes rm-caret-blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+/* Point robot: the exclamation sparks by the head pulse in a stagger and
+ * the whole pointer arm taps towards the slide (pivot at the wrist). */
+.rm-spark {
+  transform-box: fill-box;
+  transform-origin: 20% 90%;
+  animation: rm-spark-pulse 2.4s ease-in-out calc(var(--i, 0) * 0.3s) infinite paused;
+}
+
+.scene-live .rm-spark {
+  animation-play-state: running;
+}
+
+@keyframes rm-spark-pulse {
+  0%, 100% { opacity: 0.3; transform: scale(0.85); }
+  18% { opacity: 1; transform: scale(1.12); }
+  40% { opacity: 1; transform: scale(1); }
+}
+
+/* The pointer arm is baked into the master outline, so it must not move
+ * on its own; instead the whole robot nods — every layer together, so no
+ * seam can open, and the long pointer visibly sweeps. */
+.rm-nod {
+  transform-origin: 50% 92%;
+  animation: rm-nod 3.8s ease-in-out infinite paused;
+}
+
+.scene-live .rm-nod {
+  animation-play-state: running;
+}
+
+@keyframes rm-nod {
+  0%, 100% { transform: rotate(0deg); }
+  30% { transform: rotate(-1.6deg); }
+  62% { transform: rotate(0.7deg); }
+}
+
+/* Voice scene: waveform channel bars (static heights; the playhead, veil
+ * and timer are scroll-driven) and the blinking live dot in the status. */
+.vn-bar {
+  width: 3px;
+  flex: none;
+  background: currentColor;
+}
+
+.vc-dot {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  flex: none;
+  animation: blink-square 1.2s steps(1) infinite paused;
+}
+
+.scene-live .vc-dot {
+  animation-play-state: running;
+}
+
+/* Automation scene: the AI hub's idle pulse ring. */
+.ai-pulse {
+  transform-box: fill-box;
+  transform-origin: center;
+  opacity: 0;
+  animation: ai-pulse 2.4s ease-out infinite paused;
+}
+
+.scene-live .ai-pulse {
+  animation-play-state: running;
+}
+
+@keyframes ai-pulse {
+  0% { transform: scale(0.86); opacity: 0.7; }
+  70% { transform: scale(1.12); opacity: 0; }
+  100% { transform: scale(1.12); opacity: 0; }
+}
+
+/* Automation scene: data dots flowing along the SVG connectors. Hidden
+ * entirely where offset-path can't place them (they'd pile up at 0,0). */
+.flow-dot {
+  display: none;
+}
+
+@supports (offset-path: path("M0 0 H10")) {
+  .flow-dot {
+    display: block;
+    animation: flow-move 3s linear infinite paused;
+  }
+
+  .scene-live .flow-dot {
+    animation-play-state: running;
+  }
+}
+
+@keyframes flow-move {
+  from { offset-distance: 0%; }
+  to { offset-distance: 100%; }
+}
+
+/* Intro entrance (pure CSS, plays once) + scroll cue bob. */
+.intro-rise {
+  animation: intro-rise 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+@keyframes intro-rise {
+  from {
+    opacity: 0;
+    transform: translateY(26px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.scroll-cue {
+  animation: cue-bob 1.8s ease-in-out infinite;
+}
+
+@keyframes cue-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(6px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rm-eye,
+  .rm-antenna,
+  .rm-arm-wave,
+  .rm-arm-point,
+  .rm-nod,
+  .rm-term,
+  .rm-caret,
+  .rm-spark,
+  .vc-dot,
+  .flow-dot,
+  .intro-rise,
+  .scroll-cue {
+    animation: none !important;
+  }
+}
+
 /* No rubber-band overscroll at the page edges — with the pinned hero the
  * top bounce reads as a glitch in the index mechanic. */
 html,

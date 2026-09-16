@@ -1,0 +1,35 @@
+---
+// The brand mascot as faithful vector traces of the service illustrations
+// (public/services/*.webp), cut into animatable layers. This component only
+// routes the pose props to the traced variant; the SVGs live in robots/*.
+// Groups carry rm-* classes so globals.css can run the idle loops (blink,
+// antenna sway, waving) — gated by .scene-live on the scene wrapper.
+import RobotHead from "@/components/scenes/robots/robot-head.astro";
+import RobotHeadset from "@/components/scenes/robots/robot-headset.astro";
+import RobotPoint from "@/components/scenes/robots/robot-point.astro";
+import RobotWave from "@/components/scenes/robots/robot-wave.astro";
+
+interface Props {
+  /** Optional arm: a greeting wave (right) or pointing at the visual (left). */
+  pose?: "wave" | "point";
+  /** Call-center earcups + mic for the voice scene. */
+  headset?: boolean;
+  /** Head only — chat avatar size. */
+  headOnly?: boolean;
+  class?: string;
+}
+
+const { pose, headset = false, headOnly = false, class: className = "" } = Astro.props;
+---
+
+{
+  headOnly ? (
+    <RobotHead class={className} />
+  ) : headset ? (
+    <RobotHeadset class={className} />
+  ) : pose === "point" ? (
+    <RobotPoint class={className} />
+  ) : (
+    <RobotWave class={className} wave={pose === "wave"} />
+  )
+}
