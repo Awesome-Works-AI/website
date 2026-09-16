@@ -328,9 +328,15 @@ summary::-webkit-details-marker {
 .rm-eye {
   transform-box: fill-box;
   transform-origin: center;
+}
+
+/* Eyes and the >_ window share one clock: both animations are ASSIGNED
+ * (not just unpaused) by .scene-live, so they restart together on every
+ * scene entry and the prompt can never overlap the visible eyes. */
+.scene-live .rm-eye {
   animation:
-    rm-blink 4.6s infinite paused,
-    rm-eyes-swap 9s steps(1) infinite paused;
+    rm-blink 4.6s infinite,
+    rm-eyes-swap 9s steps(1) infinite;
 }
 
 .rm-antenna {
@@ -352,7 +358,6 @@ summary::-webkit-details-marker {
   transform: rotate(-4deg);
 }
 
-.scene-live .rm-eye,
 .scene-live .rm-antenna,
 .scene-live .rm-arm-wave {
   animation-play-state: running;
