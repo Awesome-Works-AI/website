@@ -74,6 +74,7 @@ const of = i.scenes.ofLabel;
   const builders: Record<string, (tl: gsap.core.Timeline, scene: HTMLElement) => void> = {
     automation(tl, scene) {
       head(tl, scene);
+      tl.from(fx1(scene, "robot"), { x: -60, opacity: 0, duration: 0.45, ease: "power2.out" }, 0.15);
       tl.from(fx(scene, "node"), {
         scale: 0.55,
         opacity: 0,
@@ -126,6 +127,7 @@ const of = i.scenes.ofLabel;
     chat(tl, scene) {
       head(tl, scene);
       tl.from(fx1(scene, "panel"), { y: 64, opacity: 0, duration: 0.5, ease: "power2.out" }, 0.1);
+      tl.from(fx1(scene, "robot"), { x: -50, y: 20, opacity: 0, duration: 0.4, ease: "power2.out" }, 0.45);
       let t = 0.6;
       scene.querySelectorAll<HTMLElement>("[data-chat-step]").forEach((el) => {
         if (el.hasAttribute("data-typing")) {
@@ -156,6 +158,7 @@ const of = i.scenes.ofLabel;
     data(tl, scene) {
       head(tl, scene);
       tl.from(fx1(scene, "panel"), { y: 64, opacity: 0, duration: 0.5, ease: "power2.out" }, 0.1);
+      tl.from(fx1(scene, "robot"), { x: 60, opacity: 0, duration: 0.45, ease: "power2.out" }, 0.55);
       draw(tl, scene, 0.55);
       tl.from(fx1(scene, "dot"), { scale: 0, transformOrigin: "50% 50%", duration: 0.2, ease: "back.out(2)" }, 1.05);
       tl.from(fx(scene, "bar"), { scaleY: 0, duration: 0.4, stagger: 0.07, ease: "power2.out" }, 0.8);

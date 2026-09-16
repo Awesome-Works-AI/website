@@ -3,6 +3,7 @@
 // cobalt accents). The trend line draws itself on scrub, bars grow with a
 // stagger, insight chips land last. No numbers anywhere: real facts only,
 // the charts stay abstract.
+import RobotMascot from "@/components/scenes/robot-mascot.astro";
 import SceneShell from "@/components/scenes/scene-shell.astro";
 import type { CompanyHomeContent } from "@/data/company-home";
 
@@ -17,9 +18,10 @@ const bars = [34, 52, 40, 66, 48, 84, 100];
 ---
 
 <SceneShell scene="data" index={4} item={item} ofLabel={ofLabel} visual="left" ground="ink">
+  <div class="flex items-end justify-center">
   <div
     data-fx="panel"
-    class="mx-auto w-full max-w-[34rem] border-[3px] border-offwhite bg-ink shadow-[8px_8px_0_var(--color-cobalt)]"
+    class="w-full min-w-0 max-w-[32rem] border-[3px] border-offwhite bg-ink shadow-[8px_8px_0_var(--color-cobalt)]"
   >
     <div class="flex items-center justify-between border-b-[3px] border-offwhite px-5 py-3">
       <p class="font-display text-sm uppercase tracking-wide text-offwhite">{copy.panelTitle}</p>
@@ -70,5 +72,11 @@ const bars = [34, 52, 40, 66, 48, 84, 100];
         }
       </div>
     </div>
+  </div>
+
+  {/* The analyst pointing at the charts (white silhouette carries it on ink) */}
+  <div data-fx="robot" class="-ml-5 hidden flex-none lg:block">
+    <RobotMascot pose="point" class="h-56 w-auto xl:h-64" />
+  </div>
   </div>
 </SceneShell>

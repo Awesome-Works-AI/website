@@ -18,7 +18,12 @@ const { item, copy, ofLabel } = Astro.props;
 ---
 
 <SceneShell scene="chat" index={3} item={item} ofLabel={ofLabel} visual="right">
-  <div data-fx="panel" class="mx-auto w-full max-w-[26rem]">
+  <div class="flex items-end justify-center">
+    {/* The mascot peeking from behind the chat window */}
+    <div data-fx="robot" class="-mr-7 mb-6 hidden flex-none lg:block">
+      <RobotMascot class="h-56 w-auto xl:h-64" />
+    </div>
+  <div data-fx="panel" class="relative z-10 w-full max-w-[26rem]">
     <div class="border-[3px] border-ink bg-white shadow-[8px_8px_0_var(--color-ink)]">
       {/* Header */}
       <div class="flex items-center gap-3 border-b-[3px] border-ink px-4 py-3">
@@ -64,5 +69,6 @@ const { item, copy, ofLabel } = Astro.props;
         </span>
       </div>
     </div>
+  </div>
   </div>
 </SceneShell>
