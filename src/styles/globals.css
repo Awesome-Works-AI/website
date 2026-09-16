@@ -428,17 +428,22 @@ summary::-webkit-details-marker {
   40% { opacity: 1; transform: scale(1); }
 }
 
-.scene-live .rm-arm-point.rm-t {
-  transform-box: fill-box;
-  transform-origin: 97% 58%;
-  animation: rm-point-tap 3.4s ease-in-out infinite;
+/* The pointer arm is baked into the master outline, so it must not move
+ * on its own; instead the whole robot nods — every layer together, so no
+ * seam can open, and the long pointer visibly sweeps. */
+.rm-nod {
+  transform-origin: 50% 92%;
+  animation: rm-nod 3.8s ease-in-out infinite paused;
 }
 
-@keyframes rm-point-tap {
-  0%, 45%, 100% { transform: rotate(0deg); }
-  60% { transform: rotate(-3deg); }
-  75% { transform: rotate(-0.5deg); }
-  85% { transform: rotate(-2deg); }
+.scene-live .rm-nod {
+  animation-play-state: running;
+}
+
+@keyframes rm-nod {
+  0%, 100% { transform: rotate(0deg); }
+  30% { transform: rotate(-1.6deg); }
+  62% { transform: rotate(0.7deg); }
 }
 
 /* Voice scene: waveform channel bars (static heights; the playhead, veil
@@ -531,6 +536,7 @@ summary::-webkit-details-marker {
   .rm-antenna,
   .rm-arm-wave,
   .rm-arm-point,
+  .rm-nod,
   .rm-term,
   .rm-caret,
   .rm-spark,
