@@ -171,8 +171,8 @@ const companyHome = {
           name: "CourseAI",
           description:
             "Kurs online AI codingu. Uczymy budować oprogramowanie z agentami AI na realnych projektach, nie na slajdach.",
-          href: "https://course.awesomeworks.ai/",
-          linkLabel: "course.awesomeworks.ai",
+          href: "https://rlazicki.com/",
+          linkLabel: "rlazicki.com",
         },
       ],
     },
@@ -487,8 +487,8 @@ const companyHome = {
           name: "CourseAI",
           description:
             "An online AI-coding course. We teach building software with AI agents on real projects, not slides.",
-          href: "https://course.awesomeworks.ai/en/",
-          linkLabel: "course.awesomeworks.ai",
+          href: "https://rlazicki.com/en/",
+          linkLabel: "rlazicki.com",
         },
       ],
     },
